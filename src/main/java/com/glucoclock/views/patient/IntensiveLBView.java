@@ -21,26 +21,28 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
-@PageTitle("Upload Simple Logbook")
-@Route(value = "simple_lb", layout = MainLayout.class)
+
+@PageTitle("Upload Intensive Logbook")
+@Route(value = "intensive_lb", layout = MainLayout.class)
 @Uses(Icon.class)
-public class SimpleLBView extends Div {
-    private H3 title = new H3("Simple Logbook");
+public class IntensiveLBView extends Div{
+
+    private H3 title = new H3("Intensive Logbook");
     private TextField gluc = new TextField("Blood Glucose");
     private TextField carbs = new TextField("Carbohydrate Intake");
-    private ComboBox<String> prepost = new ComboBox<>("Pre/Post");
-    private ComboBox<String> meal = new ComboBox<>("Meal");
+    private TextField carbBo = new TextField("Carb Bolus");
+    private TextField highBS = new TextField("High BS Bolus");
+    private TextField basal = new TextField("Basal Rate");
+    private TextField ketones = new TextField("Ketones");
+    private ComboBox<String> prepost = new ComboBox<>("Time");
+    private ComboBox<String> meal = new ComboBox<>("AM/PM");
     private Button upload = new Button("Upload");
     private Button test1 = new Button("Test"); //Menubar test button
     private Button test2 = new Button("Test");
 
-
-
-    public SimpleLBView(){
-
+    public IntensiveLBView(){
         add(menuBar());
         add(createFields());
-
     }
 
     private Component menuBar(){
@@ -57,10 +59,10 @@ public class SimpleLBView extends Div {
 
     private Component createFields() {
         //Time picker
-        prepost.setWidth("35%");
-        prepost.setItems("Pre","Post");
-        meal.setWidth("65%");
-        meal.setItems("Breakfast","Lunch","Dinner");
+        prepost.setWidth("50%");
+        prepost.setItems("00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00");
+        meal.setWidth("50%");
+        meal.setItems("AM","PM");
         HorizontalLayout time = new HorizontalLayout();
         time.setVerticalComponentAlignment(FlexComponent.Alignment.START,prepost,meal);
         time.setMargin(true);
@@ -68,17 +70,17 @@ public class SimpleLBView extends Div {
         //The rest
         gluc.setWidth("39%");
         carbs.setWidth("39%");
+        carbBo.setWidth("39%");
+        highBS.setWidth("39%");
+        basal.setWidth("39%");
+        ketones.setWidth("39%");
         upload.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         upload.setWidth("25%");
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
-        layout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER,title,time,gluc,carbs,upload);
-        layout.add(title,time,gluc,carbs,upload);
+        layout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER,title,time,gluc,carbs,carbBo,highBS,basal,ketones,upload);
+        layout.add(title,time,gluc,carbs,carbBo,highBS,basal,ketones,upload);
         return layout;
     }
-
-
-
-
-
 }
+
