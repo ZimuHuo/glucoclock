@@ -1,5 +1,6 @@
 package com.glucoclock.views;
 
+import com.glucoclock.views.patient.IntensiveLogBookView;
 import com.glucoclock.views.patient.SimpleLBView;
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
 import com.glucoclock.views.templates.sugarfree.personform.PersonFormView;
@@ -116,6 +117,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Simple Logbook", "la la-file", SimpleLBView.class), //
 
+                new MenuItemInfo("Intensive Logbook", "la la-file", IntensiveLogBookView.class)
         };
         List<RouterLink> links = new ArrayList<>();
         for (MenuItemInfo menuItemInfo : menuItems) {
