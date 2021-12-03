@@ -35,9 +35,8 @@ public class SimpleLBView extends Div {
 
     public SimpleLBView(){
 
-
-        Image logo = new Image("images/logo_menubar.png","logo");
-        logo.setWidth("15%");
+        Image logo = new Image("images/menubar.png","logo");
+        logo.setWidth("100%");
 
         add(logo);
         add(createFields());
