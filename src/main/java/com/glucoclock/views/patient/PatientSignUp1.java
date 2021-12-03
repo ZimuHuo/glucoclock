@@ -27,14 +27,9 @@ import java.time.ZoneId;
 public class PatientSignUp1 extends HorizontalLayout {
     TextField firstName;
     TextField lastName;
-    RadioButtonGroup<String> sex;
     EmailField emailField;
-    TextField homeAddress;
-    TextField postcode;
-    TextField contactNumber;
     PasswordField password;
     PasswordField confirmPassword;
-    DatePicker datePicker;
 
 
 
@@ -45,11 +40,8 @@ public class PatientSignUp1 extends HorizontalLayout {
         var formLayout = new FormLayout();
         formLayout.add(
                 firstName, lastName,
-                sex,
-                datePicker,
+
                 emailField,
-                homeAddress, postcode,
-                contactNumber,
                 password, confirmPassword
         );
         formLayout.setResponsiveSteps(
@@ -59,11 +51,9 @@ public class PatientSignUp1 extends HorizontalLayout {
                 new FormLayout.ResponsiveStep("320px", 2)
 
         );
-        formLayout.setColspan(sex, 2);
-        formLayout.setColspan(datePicker, 1);
+        formLayout.setColspan(firstName,1);
+        formLayout.setColspan(lastName, 1);
         formLayout.setColspan(emailField, 2);
-        formLayout.setColspan(homeAddress, 2);
-        formLayout.setColspan(contactNumber, 1);
         formLayout.setColspan(password, 1);
         formLayout.setColspan(confirmPassword, 1);
 
@@ -72,7 +62,7 @@ public class PatientSignUp1 extends HorizontalLayout {
         submitButton.getElement().getStyle().set("margin-left", "auto");
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Personal information"));
+        verticalLayout.add(new H1("Set up your account"));
         verticalLayout.add(formLayout);
         verticalLayout.add(submitButton);
         verticalLayout.setMaxWidth("600px");
@@ -84,35 +74,28 @@ public class PatientSignUp1 extends HorizontalLayout {
 
     private void init() {
         this.firstName = new TextField("First name");
+        firstName.setClearButtonVisible(true);
+
         this.lastName = new TextField("Last name");
-        this.sex = new RadioButtonGroup<>();
-        sexSetUp();
-        this.datePicker = new DatePicker("Date of birth");
-        datePickerSetUp();
+        lastName.setClearButtonVisible(true);
+
         this.emailField = new EmailField("Email Address");
         emailFieldSetUp();
-        this.homeAddress = new TextField("HomeAddress");
-        this.postcode = new TextField("Post code");
-        this.contactNumber = new TextField("Contact Number");
-        contactNumberSetUp();
+
         this.password = new PasswordField("Password");
         passwordSetUp();
+
         this.confirmPassword = new PasswordField("Confirm password");
     }
 
-    private void sexSetUp() {
-        sex.setLabel("Gender");
-        sex.setItems("Male","Female","Others","Prefer not to say");
-    }
-
-    private void contactNumberSetUp() {
-        contactNumber.setLabel("Phone number");
-        contactNumber.setHelperText("Include country and area prefixes");
-    }
 
     private void passwordSetUp() {
         password.setLabel("Password");
-        password.setRevealButtonVisible(false);
+        password.setClearButtonVisible(true);
+    }
+
+    private void confirmPasswordSetUp() {
+        confirmPassword.setClearButtonVisible(true);
     }
 
     private void emailFieldSetUp() {
@@ -124,12 +107,4 @@ public class PatientSignUp1 extends HorizontalLayout {
         emailField.setPattern("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
     }
 
-    private void datePickerSetUp() {
-        LocalDate now = LocalDate.now(ZoneId.systemDefault()).minusYears(7);
-        datePicker.setMax(now.minusYears(7));
-        datePicker.setMin(now.minusYears(120));
-        datePicker.setErrorMessage("Try another value");
-        datePicker.setHelperText("Format: DD.MM.YYYY");
-        datePicker.setPlaceholder("DD.MM.YYYY");
-    }
 }
