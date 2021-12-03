@@ -21,26 +21,25 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
-@PageTitle("Upload Simple Logbook")
-@Route(value = "simple_lb", layout = MainLayout.class)
+
+@PageTitle("Upload Comprehensive Logbook")
+@Route(value = "compre_lb", layout = MainLayout.class)
 @Uses(Icon.class)
-public class SimpleLBView extends Div {
-    private H3 title = new H3("Simple Logbook");
+public class CompreLBView extends Div{
+
+    private H3 title = new H3("Comprehensive Logbook");
     private TextField gluc = new TextField("Blood Glucose");
     private TextField carbs = new TextField("Carbohydrate Intake");
+    private TextField insulin = new TextField("Insulin Dose");
     private ComboBox<String> prepost = new ComboBox<>("Pre/Post");
     private ComboBox<String> meal = new ComboBox<>("Meal");
     private Button upload = new Button("Upload");
     private Button test1 = new Button("Test"); //Menubar test button
     private Button test2 = new Button("Test");
 
-
-
-    public SimpleLBView(){
-
+    public CompreLBView(){
         add(menuBar());
         add(createFields());
-
     }
 
     private Component menuBar(){
@@ -68,17 +67,14 @@ public class SimpleLBView extends Div {
         //The rest
         gluc.setWidth("39%");
         carbs.setWidth("39%");
+        insulin.setWidth("39%");
         upload.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         upload.setWidth("25%");
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
-        layout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER,title,time,gluc,carbs,upload);
-        layout.add(title,time,gluc,carbs,upload);
+        layout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER,title,time,gluc,carbs,insulin,upload);
+        layout.add(title,time,gluc,carbs,insulin,upload);
         return layout;
     }
-
-
-
-
-
 }
+
