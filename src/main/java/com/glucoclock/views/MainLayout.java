@@ -2,6 +2,7 @@ package com.glucoclock.views;
 
 import com.glucoclock.views.patient.PatientSetting1;
 import com.glucoclock.views.patient.PatientSignUp1;
+import com.glucoclock.views.patient.PatientSignUp2;
 import com.glucoclock.views.patient.PatientSignUp3;
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
 import com.glucoclock.views.templates.sugarfree.personform.PersonFormView;
@@ -118,6 +119,8 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("Person Form", "la la-user", PersonFormView.class), //
 
                 new MenuItemInfo("Patient sign up page 1", "la la-user", PatientSignUp1.class),
+
+                new MenuItemInfo("Patient sign up page 2", "la la-user", PatientSignUp2.class),
 
                 new MenuItemInfo("Patient sign up page 3", "la la-user", PatientSignUp3.class),
 
