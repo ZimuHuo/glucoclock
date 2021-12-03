@@ -59,9 +59,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
     public PatientSetting1() {
         init();
-
         FormLayout formLayout = new FormLayout();
-
         formLayout.add(
                 firstName, lastName,
                 datePicker, genderSelect,

@@ -1,5 +1,4 @@
 package com.glucoclock.views.patient;
-
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -20,20 +19,27 @@ import com.vaadin.flow.theme.Theme;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-
+/*
+for(Component c : myLayout) {
+    if(c instanceof Field) {
+        Field f = (Field) c;
+        doSomethingWith(f.getValue());
+    }
+}
+ */
 
 @PageTitle("Personal information")
 @Route(value = "PatientSignUp2",layout = MainLayout.class)
 public class PatientSignUp2 extends HorizontalLayout {
-    RadioButtonGroup<String> sex;
-    TextField apartmentAddress;
-    TextField streetAddress;
-    TextField postcode;
-    TextField contactNumber;
-    DatePicker datePicker;
-    FormLayout formLayout1;
-    FormLayout formLayout2;
-    FormLayout formLayout3;
+    private RadioButtonGroup<String> sex;
+    private TextField apartmentAddress;
+    private TextField streetAddress;
+    private TextField postcode;
+    private TextField contactNumber;
+    private DatePicker datePicker;
+    private FormLayout formLayout1;
+    private FormLayout formLayout2;
+    private FormLayout formLayout3;
 
 
 
@@ -42,16 +48,23 @@ public class PatientSignUp2 extends HorizontalLayout {
         formlayout1SetUp();
         formlayout2SetUp();
         formlayout3SetUp();
+        Button previousButton = new Button("Previous");
+        previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        previousButton.getElement().getStyle().set("margin-right", "auto");
         Button submitButton = new Button("Next");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.getElement().getStyle().set("margin-left", "auto");
+        submitButton.getElement().getStyle().set("margin-left","auto");
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
         verticalLayout.add(new H1("Personal information"));
         verticalLayout.add(formLayout1);
         verticalLayout.add(formLayout2);
         verticalLayout.add(formLayout3);
-        verticalLayout.add(submitButton);
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.setWidth(verticalLayout.getWidth());
+        horizontalLayout.add(previousButton);
+        horizontalLayout.add(submitButton);
+        verticalLayout.add(horizontalLayout);
         verticalLayout.setMaxWidth("600px");
         verticalLayout.setPadding(false);
         this.add(verticalLayout);
@@ -92,7 +105,6 @@ public class PatientSignUp2 extends HorizontalLayout {
         formLayout1.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("320px", 2)
-
         );
         formLayout1.setColspan(sex, 2);
         formLayout1.setColspan(datePicker, 1);
@@ -113,12 +125,12 @@ public class PatientSignUp2 extends HorizontalLayout {
         streetAddress.setClearButtonVisible(true);
         postcode.setClearButtonVisible(true);
         contactNumber.setClearButtonVisible(true);
-        sex.setRequired(true);
-        datePicker.setRequired(true);
-        apartmentAddress.setRequired(true);
-        streetAddress.setRequired(true);
-        postcode.setRequired(true);
-        contactNumber.setRequired(true);
+//        sex.setRequired(true);
+//        datePicker.setRequired(true);
+//        apartmentAddress.setRequired(true);
+//        streetAddress.setRequired(true);
+//        postcode.setRequired(true);
+//        contactNumber.setRequired(true);
     }
 
     private void sexSetUp() {
