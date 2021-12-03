@@ -31,17 +31,28 @@ public class SimpleLBView extends Div {
     private ComboBox<String> prepost = new ComboBox<>("Pre/Post");
     private ComboBox<String> meal = new ComboBox<>("Meal");
     private Button upload = new Button("Upload");
+    private Button test1 = new Button("Test"); //Menubar test button
+    private Button test2 = new Button("Test");
+
 
 
     public SimpleLBView(){
 
-        Image logo = new Image("images/menubar.png","logo");
-        logo.setWidth("100%");
-
-        add(logo);
+        add(menuBar());
         add(createFields());
 
+    }
 
+    private Component menuBar(){
+        this.setHeight("12.2%");
+        this.getStyle().set( "background-image" , "url('images/menubar.png')");
+        test1.setWidth("8%");
+        test2.setWidth("8%");
+        HorizontalLayout menuButtons = new HorizontalLayout(test1,test2);
+        VerticalLayout rightC = new VerticalLayout();
+        rightC.setHorizontalComponentAlignment(FlexComponent.Alignment.END,menuButtons);
+        rightC.add(menuButtons);
+        return rightC;
     }
 
     private Component createFields() {
