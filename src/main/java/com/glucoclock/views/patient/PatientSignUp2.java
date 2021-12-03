@@ -28,7 +28,7 @@ for(Component c : myLayout) {
 }
  */
 
-@PageTitle("Personal information")
+@PageTitle("Sign up your patient account")
 @Route(value = "PatientSignUp2",layout = MainLayout.class)
 public class PatientSignUp2 extends HorizontalLayout {
     private RadioButtonGroup<String> sex;
@@ -51,9 +51,11 @@ public class PatientSignUp2 extends HorizontalLayout {
         Button previousButton = new Button("Previous");
         previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         previousButton.getElement().getStyle().set("margin-right", "auto");
+
         Button submitButton = new Button("Next");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left","auto");
+
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
         verticalLayout.add(new H1("Personal information"));
