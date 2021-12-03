@@ -51,11 +51,9 @@ public class PatientSignUp2 extends HorizontalLayout {
         Button previousButton = new Button("Previous");
         previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         previousButton.getElement().getStyle().set("margin-right", "auto");
-
         Button submitButton = new Button("Next");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left","auto");
-
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
         verticalLayout.add(new H1("Personal information"));
@@ -144,8 +142,6 @@ public class PatientSignUp2 extends HorizontalLayout {
         contactNumber.setLabel("Phone number");
         contactNumber.setHelperText("Include country and area prefixes");
     }
-
-
     private void datePickerSetUp() {
         LocalDate now = LocalDate.now(ZoneId.systemDefault()).minusYears(7);
         datePicker.setMax(now.minusYears(7));
@@ -154,4 +150,6 @@ public class PatientSignUp2 extends HorizontalLayout {
         datePicker.setHelperText("Format: DD.MM.YYYY");
         datePicker.setPlaceholder("DD.MM.YYYY");
     }
+
+
 }
