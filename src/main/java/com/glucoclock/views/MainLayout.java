@@ -1,8 +1,8 @@
 package com.glucoclock.views;
 
-import com.glucoclock.views.about.AboutView;
-import com.glucoclock.views.personform.PersonFormView;
-import com.glucoclock.views.sugarfree.SugarFreeView;
+import com.glucoclock.views.templates.sugarfree.about.AboutView;
+import com.glucoclock.views.templates.sugarfree.personform.PersonFormView;
+import com.glucoclock.views.templates.sugarfree.SugarFreeView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;

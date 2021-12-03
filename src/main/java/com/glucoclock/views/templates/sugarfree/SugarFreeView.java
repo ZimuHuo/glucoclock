@@ -1,4 +1,4 @@
-package com.glucoclock.views.sugarfree;
+package com.glucoclock.views.templates.sugarfree;
 
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;

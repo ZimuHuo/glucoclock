@@ -1,4 +1,4 @@
-package com.glucoclock.views.personform;
+package com.glucoclock.views.templates.sugarfree.personform;
 
 import com.glucoclock.data.entity.SamplePerson;
 import com.glucoclock.data.service.SamplePersonService;
