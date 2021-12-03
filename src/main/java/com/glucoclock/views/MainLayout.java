@@ -2,7 +2,6 @@ package com.glucoclock.views;
 
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
 import com.glucoclock.views.templates.sugarfree.personform.PersonFormView;
-import com.glucoclock.views.templates.sugarfree.SugarFreeView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -108,7 +107,7 @@ public class MainLayout extends AppLayout {
 
     private List<RouterLink> createLinks() {
         MenuItemInfo[] menuItems = new MenuItemInfo[]{ //
-                new MenuItemInfo("sugarFree", "la la-globe", SugarFreeView.class), //
+                new MenuItemInfo("Home", "la la-globe", HomeView.class), //
 
                 new MenuItemInfo("About", "la la-file", AboutView.class), //
 
