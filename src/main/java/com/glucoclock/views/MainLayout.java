@@ -114,7 +114,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Person Form", "la la-user", PersonFormView.class), //
 
-                new MenuItemInfo("Simple Logbook", "la la-user", SimpleLBView.class), //
+                new MenuItemInfo("Simple Logbook", "la la-file", SimpleLBView.class), //
 
         };
         List<RouterLink> links = new ArrayList<>();

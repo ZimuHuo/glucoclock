@@ -3,6 +3,8 @@ package com.glucoclock.views.patient;
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -28,6 +30,7 @@ public class SimpleLBView extends Div {
     private TextField carbs = new TextField("Carbohydrate Intake");
     private ComboBox<String> prepost = new ComboBox<>("Pre/Post");
     private ComboBox<String> meal = new ComboBox<>("Meal");
+    private Button upload = new Button("Upload");
 
 
     public SimpleLBView(){
@@ -55,10 +58,12 @@ public class SimpleLBView extends Div {
         //The rest
         gluc.setWidth("39%");
         carbs.setWidth("39%");
+        upload.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        upload.setWidth("25%");
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
-        layout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER,time,gluc,carbs);
-        layout.add(title,time,gluc,carbs);
+        layout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER,title,time,gluc,carbs,upload);
+        layout.add(title,time,gluc,carbs,upload);
         return layout;
     }
 
