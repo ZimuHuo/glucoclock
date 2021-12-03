@@ -1,5 +1,6 @@
 package com.glucoclock.views;
 
+import com.glucoclock.views.patient.DownloadPage;
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
 import com.glucoclock.views.templates.sugarfree.personform.PersonFormView;
 import com.glucoclock.views.templates.sugarfree.SugarFreeView;
@@ -113,6 +114,9 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("About", "la la-file", AboutView.class), //
 
                 new MenuItemInfo("Person Form", "la la-user", PersonFormView.class), //
+
+                new MenuItemInfo("Download","", DownloadPage.class),
+
 
         };
         List<RouterLink> links = new ArrayList<>();
