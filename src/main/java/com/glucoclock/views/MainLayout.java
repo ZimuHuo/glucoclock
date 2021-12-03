@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * The main view is a top-level placeholder for other views.
  */
-@PWA(name = "Glucoclock", shortName = "Glucoclock", enableInstallPrompt = false)
+@PWA(name = "Gluco'clock", shortName = "Gluco'clock", enableInstallPrompt = false)
 @Theme(themeFolder = "glucoclock")
 @PageTitle("Main")
 public class MainLayout extends AppLayout {
@@ -79,7 +79,7 @@ public class MainLayout extends AppLayout {
     }
 
     private Component createDrawerContent() {
-        H2 appName = new H2("Glucoclock");
+        H2 appName = new H2("Gluco'clock");
         appName.addClassNames("flex", "items-center", "h-xl", "m-0", "px-m", "text-m");
 
         com.vaadin.flow.component.html.Section section = new com.vaadin.flow.component.html.Section(appName,
