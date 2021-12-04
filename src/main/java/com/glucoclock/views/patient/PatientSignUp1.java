@@ -22,8 +22,6 @@ import com.vaadin.flow.theme.Theme;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-
-
 @PageTitle("Sign up your patient account")
 @Route(value = "PatientSignUp1",layout = MainLayout.class)
 public class PatientSignUp1 extends HorizontalLayout {
@@ -32,17 +30,34 @@ public class PatientSignUp1 extends HorizontalLayout {
     EmailField emailField;
     PasswordField password;
     PasswordField confirmPassword;
-
-
+    FormLayout formLayout;
+    Button submitButton;
 
     public PatientSignUp1() {
         init();
+        formLayoutSetUp();
+        submitButtonSetUp();
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
+        verticalLayout.add(new H1("Set up your account"));
+        verticalLayout.add(formLayout);
+        verticalLayout.add(submitButton);
+        verticalLayout.setMaxWidth("600px");
+        verticalLayout.setPadding(false);
+        add(verticalLayout);
+        this.setJustifyContentMode(JustifyContentMode.CENTER);
+    }
 
+    private void submitButtonSetUp() {
+        this.submitButton = new Button("Next");
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.getElement().getStyle().set("margin-left", "auto");
+    }
 
-        var formLayout = new FormLayout();
+    private void formLayoutSetUp() {
+        this.formLayout = new FormLayout();
         formLayout.add(
                 firstName, lastName,
-
                 emailField,
                 password, confirmPassword
         );
@@ -51,7 +66,6 @@ public class PatientSignUp1 extends HorizontalLayout {
                 new FormLayout.ResponsiveStep("0", 1),
                 // Use two columns, if the layout's width exceeds 320px
                 new FormLayout.ResponsiveStep("320px", 2)
-
         );
         formLayout.setColspan(firstName,1);
         formLayout.setColspan(lastName, 1);
