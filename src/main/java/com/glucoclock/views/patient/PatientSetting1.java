@@ -7,24 +7,24 @@ import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
+import org.atmosphere.interceptor.AtmosphereResourceStateRecovery;
 
-import java.awt.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
+import java.util.Set;
 
+
+//REMINDER:
+//The function of cancel button is currently bugged.
+//Need to fix it when programming backend and databases.
 
 @PageTitle("Patient Settings")
 @Route(value = "PatientSetting1",layout = MainLayout.class)
@@ -42,12 +42,12 @@ public class PatientSetting1 extends HorizontalLayout {
     LocalDate Birth = LocalDate.of(2001,6,13);
     String Gender = "Male";
     String Diabetes = "Type I";
-    ArrayList<String> insulin = new ArrayList<>();
-    ArrayList<String> injection = new ArrayList<>();
+    Set<String> insulin;
+    Set<String> injection;
     //    --------------------------------------------
 
 
-//    All Componente on the page
+//    All Components on the page
     TextField firstName;
     TextField lastName;
     DatePicker datePicker;
@@ -61,7 +61,8 @@ public class PatientSetting1 extends HorizontalLayout {
     CheckboxGroup<String> injectionSelect;
     Button changeSetting, save, cancel, changePassword;
 
-    VerticalLayout Mid = new VerticalLayout();
+    VerticalLayout MainLayout = new VerticalLayout();
+    HorizontalLayout Buttons = new HorizontalLayout();
 
 
 //  Setting the layout of the page
@@ -89,17 +90,20 @@ public class PatientSetting1 extends HorizontalLayout {
         formLayout.setColspan(contactNumber,1 );
         formLayout.setColspan(genderSelect,1 );
 
+        Buttons.setWidth(MainLayout.getWidth());
+        Buttons.add(changePassword, changeSetting, save, cancel);
 
-        Mid.add(
+
+        MainLayout.add(
                 formLayout,
                 postcode,
                 diabetesSelect,
                 insulinSelect,
                 injectionSelect,
-                changeSetting
+                Buttons
         );
-        Mid.setMaxWidth("600px");
-        Mid.setPadding(false);
+        MainLayout.setMaxWidth("600px");
+        MainLayout.setPadding(false);
 
         setJustifyContentMode(JustifyContentMode.CENTER);
 
@@ -109,7 +113,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
     private void init() {
 //      Initialize the components
-        add(Mid);
+        add(MainLayout);
         firstNameSetUp();
         lastNameSetUp();
         datePickerSetUp();
@@ -124,6 +128,7 @@ public class PatientSetting1 extends HorizontalLayout {
         changeSettingSetUp();
         saveSetUp();
         cancelSetUp();
+        changePasswordSetUp();
     }
 
 
@@ -226,16 +231,19 @@ public class PatientSetting1 extends HorizontalLayout {
         changeSetting.getElement().getStyle().set("margin-left", "auto");
         changeSetting.addClickListener(e -> {
             allSetReadOnly(false);
-            Mid.remove(changeSetting);
-            Mid.add(save, cancel);
+            changeSetting.setVisible(false);
+            changePassword.setVisible(false);
+            save.setVisible(true);
+            cancel.setVisible(true);
         });
 
     }
 
     private void saveSetUp() {
         save = new Button("Save");
+        save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        save.getElement().getStyle().set("margin-left", "auto");
+        save.getElement().getStyle().set("margin-left", "1em");
         save.addClickListener(e -> {
             FName = firstName.getValue();
             LName = lastName.getValue();
@@ -246,20 +254,24 @@ public class PatientSetting1 extends HorizontalLayout {
             Birth = datePicker.getValue();
             Gender = genderSelect.getValue();
             Diabetes = diabetesSelect.getValue();
+            insulin = insulinSelect.getValue();
+            injection = injectionSelect.getValue();
 
             allSetReadOnly(true);
 
+            changeSetting.setVisible(true);
+            changePassword.setVisible(true);
+            save.setVisible(false);
+            cancel.setVisible(false);
 
-            Mid.remove(save, cancel);
-            Mid.add(changeSetting);
             Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
         });
     }
 
     private void cancelSetUp() {
         cancel = new Button("Cancel");
-        cancel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        cancel.getElement().getStyle().set("margin-left", "auto");
+        cancel.setVisible(false);
+        cancel.getElement().getStyle().set("margin-right", "0");
         cancel.addClickListener(e -> {
             firstName.setValue(FName);
             lastName.setValue(LName);
@@ -270,14 +282,22 @@ public class PatientSetting1 extends HorizontalLayout {
             contactNumber.setValue(Phone);
             genderSelect.setLabel(Gender);
             diabetesSelect.setLabel(Diabetes);
-            insulinSelect.select("Rapid-acting insulin","Short-acting insulin","Intermediate-acting insulin");
-            injectionSelect.select("Injection pen");
+            insulinSelect.select(insulin);
+            injectionSelect.select(injection);
 
-            Mid.remove(save, cancel);
-            Mid.add(changeSetting);
+            changeSetting.setVisible(true);
+            changePassword.setVisible(true);
+            save.setVisible(false);
+            cancel.setVisible(false);
             allSetReadOnly(true);
             Notification.show("Changes cancelled",2000, Notification.Position.TOP_CENTER);
         });
+    }
+
+    private void changePasswordSetUp() {
+        changePassword = new Button("Change Password");
+        changePassword.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        save.getElement().getStyle().set("margin-right", "auto");
     }
 
 

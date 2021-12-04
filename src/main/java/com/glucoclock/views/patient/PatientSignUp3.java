@@ -8,6 +8,8 @@ import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -39,7 +41,7 @@ public class PatientSignUp3 extends HorizontalLayout {
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left", "auto");
 
-        Button previousButton = new Button("Previous");
+        Button previousButton = new Button("Previous", new Icon(VaadinIcon.ARROW_LEFT));
         previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         previousButton.getElement().getStyle().set("margin-right", "auto");
 
