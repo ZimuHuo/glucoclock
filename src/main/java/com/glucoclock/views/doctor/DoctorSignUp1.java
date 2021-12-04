@@ -1,4 +1,4 @@
-package com.glucoclock.views.patient;
+package com.glucoclock.views.doctor;
 
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
