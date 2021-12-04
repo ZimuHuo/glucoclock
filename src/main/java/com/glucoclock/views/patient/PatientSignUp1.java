@@ -20,8 +20,6 @@ import com.vaadin.flow.theme.Theme;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-
-
 @PageTitle("Sign up your patient account")
 @Route(value = "PatientSignUp1",layout = MainLayout.class)
 public class PatientSignUp1 extends HorizontalLayout {
@@ -32,8 +30,6 @@ public class PatientSignUp1 extends HorizontalLayout {
     PasswordField confirmPassword;
     FormLayout formLayout;
     Button submitButton;
-
-
 
     public PatientSignUp1() {
         init();
@@ -68,7 +64,6 @@ public class PatientSignUp1 extends HorizontalLayout {
                 new FormLayout.ResponsiveStep("0", 1),
                 // Use two columns, if the layout's width exceeds 320px
                 new FormLayout.ResponsiveStep("320px", 2)
-
         );
         formLayout.setColspan(firstName,1);
         formLayout.setColspan(lastName, 1);
