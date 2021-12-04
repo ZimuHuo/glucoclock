@@ -46,6 +46,8 @@ public class PatientSetting1 extends HorizontalLayout {
     ArrayList<String> injection = new ArrayList<>();
     //    --------------------------------------------
 
+
+//    All Componente on the page
     TextField firstName;
     TextField lastName;
     DatePicker datePicker;
@@ -62,10 +64,10 @@ public class PatientSetting1 extends HorizontalLayout {
     VerticalLayout Mid = new VerticalLayout();
 
 
-
-
+//  Setting the layout of the page
     public PatientSetting1() {
         init();
+
         FormLayout formLayout = new FormLayout();
         formLayout.add(
                 firstName, lastName,
@@ -96,7 +98,6 @@ public class PatientSetting1 extends HorizontalLayout {
                 injectionSelect,
                 changeSetting
         );
-
         Mid.setMaxWidth("600px");
         Mid.setPadding(false);
 
@@ -126,6 +127,7 @@ public class PatientSetting1 extends HorizontalLayout {
     }
 
 
+//    Following functions are used to set up the components
     private void firstNameSetUp() {
         firstName = new TextField("First name");
         firstName.setValue(FName);
@@ -278,6 +280,8 @@ public class PatientSetting1 extends HorizontalLayout {
         });
     }
 
+
+//    Set all the components on the page to be read-only or not
     private void allSetReadOnly(boolean Boolean) {
         firstName.setReadOnly(Boolean);
         lastName.setReadOnly(Boolean);
