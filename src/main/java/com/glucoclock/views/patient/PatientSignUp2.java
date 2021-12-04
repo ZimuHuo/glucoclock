@@ -8,13 +8,9 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.select.Select;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -40,6 +36,10 @@ public class PatientSignUp2 extends HorizontalLayout {
     private FormLayout formLayout1;
     private FormLayout formLayout2;
     private FormLayout formLayout3;
+    private Button previousButton;
+    private Button submitButton;
+    private VerticalLayout verticalLayout;
+    private HorizontalLayout horizontalLayout;
 
 
 
@@ -48,27 +48,43 @@ public class PatientSignUp2 extends HorizontalLayout {
         formlayout1SetUp();
         formlayout2SetUp();
         formlayout3SetUp();
-        Button previousButton = new Button("Previous");
-        previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        previousButton.getElement().getStyle().set("margin-right", "auto");
-        Button submitButton = new Button("Next");
-        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.getElement().getStyle().set("margin-left","auto");
-        VerticalLayout verticalLayout = new VerticalLayout();
+        previousButtonSetUp();
+        submitButtonSetUp();
+        verticalLayoutSetUp();
+        horizontalLayoutSetUp();
+        this.add(verticalLayout);
+        this.setJustifyContentMode(JustifyContentMode.CENTER);
+    }
+
+    private void horizontalLayoutSetUp() {
+        this.horizontalLayout = new HorizontalLayout();
+        horizontalLayout.setWidth(verticalLayout.getWidth());
+        horizontalLayout.add(previousButton);
+        horizontalLayout.add(submitButton);
+    }
+
+    private void verticalLayoutSetUp() {
+        this.verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
         verticalLayout.add(new H1("Personal information"));
         verticalLayout.add(formLayout1);
         verticalLayout.add(formLayout2);
         verticalLayout.add(formLayout3);
-        HorizontalLayout horizontalLayout = new HorizontalLayout();
-        horizontalLayout.setWidth(verticalLayout.getWidth());
-        horizontalLayout.add(previousButton);
-        horizontalLayout.add(submitButton);
         verticalLayout.add(horizontalLayout);
         verticalLayout.setMaxWidth("600px");
         verticalLayout.setPadding(false);
-        this.add(verticalLayout);
-        this.setJustifyContentMode(JustifyContentMode.CENTER);
+    }
+
+    private void submitButtonSetUp() {
+        this.submitButton = new Button("Next");
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.getElement().getStyle().set("margin-left","auto");
+    }
+
+    private void previousButtonSetUp() {
+        this.previousButton = new Button("Previous");
+        previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        previousButton.getElement().getStyle().set("margin-right", "auto");
     }
 
     private void formlayout3SetUp() {
@@ -125,12 +141,12 @@ public class PatientSignUp2 extends HorizontalLayout {
         streetAddress.setClearButtonVisible(true);
         postcode.setClearButtonVisible(true);
         contactNumber.setClearButtonVisible(true);
-//        sex.setRequired(true);
-//        datePicker.setRequired(true);
-//        apartmentAddress.setRequired(true);
-//        streetAddress.setRequired(true);
-//        postcode.setRequired(true);
-//        contactNumber.setRequired(true);
+        sex.setRequired(true);
+        datePicker.setRequired(true);
+        apartmentAddress.setRequired(true);
+        streetAddress.setRequired(true);
+        postcode.setRequired(true);
+        contactNumber.setRequired(true);
     }
 
     private void sexSetUp() {

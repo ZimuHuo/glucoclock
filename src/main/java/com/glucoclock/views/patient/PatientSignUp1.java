@@ -3,47 +3,45 @@ package com.glucoclock.views.patient;
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
 
 @PageTitle("Sign up your patient account")
 @Route(value = "PatientSignUp1",layout = MainLayout.class)
 public class PatientSignUp1 extends HorizontalLayout {
-    TextField firstName;
-    TextField lastName;
-    EmailField emailField;
-    PasswordField password;
-    PasswordField confirmPassword;
-    FormLayout formLayout;
-    Button submitButton;
+    private TextField firstName;
+    private TextField lastName;
+    private EmailField emailField;
+    private PasswordField password;
+    private PasswordField confirmPassword;
+    private FormLayout formLayout;
+    private Button submitButton;
+    private VerticalLayout verticalLayout;
 
     public PatientSignUp1() {
         init();
         formLayoutSetUp();
         submitButtonSetUp();
-        VerticalLayout verticalLayout = new VerticalLayout();
+        veticalLayoutSetUp();
+        this.add(verticalLayout);
+        this.setJustifyContentMode(JustifyContentMode.CENTER);
+    }
+
+    private void veticalLayoutSetUp() {
+        this.verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
         verticalLayout.add(new H1("Set up your account"));
         verticalLayout.add(formLayout);
         verticalLayout.add(submitButton);
         verticalLayout.setMaxWidth("600px");
         verticalLayout.setPadding(false);
-        add(verticalLayout);
-        this.setJustifyContentMode(JustifyContentMode.CENTER);
     }
 
     private void submitButtonSetUp() {
@@ -75,16 +73,12 @@ public class PatientSignUp1 extends HorizontalLayout {
     private void init() {
         this.firstName = new TextField("First name");
         firstName.setClearButtonVisible(true);
-
         this.lastName = new TextField("Last name");
         lastName.setClearButtonVisible(true);
-
         this.emailField = new EmailField("Email Address");
         emailFieldSetUp();
-
         this.password = new PasswordField("Password");
         passwordSetUp();
-
         this.confirmPassword = new PasswordField("Confirm password");
     }
 
@@ -92,6 +86,7 @@ public class PatientSignUp1 extends HorizontalLayout {
     private void passwordSetUp() {
         password.setLabel("Password");
         password.setClearButtonVisible(true);
+        confirmPasswordSetUp();
     }
 
     private void confirmPasswordSetUp() {
