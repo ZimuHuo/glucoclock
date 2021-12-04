@@ -1,6 +1,8 @@
 package com.glucoclock.views;
 
+import com.glucoclock.views.patient.HistoryView;
 import com.glucoclock.views.patient.DownloadPage;
+import com.glucoclock.views.patient.LogbookView;
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
 import com.glucoclock.views.templates.sugarfree.personform.PersonFormView;
 import com.glucoclock.views.templates.sugarfree.SugarFreeView;
@@ -20,6 +22,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
+import org.apache.juli.logging.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,6 +120,10 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("Person Form", "la la-user", PersonFormView.class), //
 
                 new MenuItemInfo("Download","", DownloadPage.class),
+
+                new MenuItemInfo("View History","", HistoryView.class),
+
+                new MenuItemInfo("LogBook","",LogbookView.class),
 
 
         };
