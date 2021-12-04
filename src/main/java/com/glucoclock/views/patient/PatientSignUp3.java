@@ -5,68 +5,72 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
-import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.select.Select;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.PasswordField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-
-
 
 @PageTitle("Sign up your patient account")
 @Route(value = "PatientSignUp3",layout = MainLayout.class)
 public class PatientSignUp3 extends HorizontalLayout {
 
-    Select<String> diabetesSelect;
-    CheckboxGroup<String> insulinSelect;
-    CheckboxGroup<String> injectionSelect;
+    private Select<String> diabetesSelect;
+    private CheckboxGroup<String> insulinSelect;
+    private CheckboxGroup<String> injectionSelect;
+    private Button submitButton;
+    private Button previousButton;
+    private VerticalLayout verticalLayout;
+    private HorizontalLayout horizontalLayout;
 
     public PatientSignUp3() {
         init();
+        submitButtonSetUp();
+        previousButtonSetUp();
+        verticalLayoutSetUp();
+        horizontalLayoutSetUp();
+        verticalLayoutAddComponent();
+        this.add(verticalLayout);
+        this.setJustifyContentMode(JustifyContentMode.CENTER);
+    }
 
-        Button submitButton = new Button("Submit");
-        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.getElement().getStyle().set("margin-left", "auto");
-
-        Button previousButton = new Button("Previous", new Icon(VaadinIcon.ARROW_LEFT));
-        previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        previousButton.getElement().getStyle().set("margin-right", "auto");
-
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Info about your diabetes"));
-
-        HorizontalLayout buttons = new HorizontalLayout();
-        buttons.setWidth(verticalLayout.getWidth());
-        buttons.add(previousButton);
-        buttons.add(submitButton);
-
+    private void verticalLayoutAddComponent() {
         verticalLayout.add(
                 diabetesSelect,
                 insulinSelect,
                 injectionSelect,
-                buttons
+                horizontalLayout
                 );
-
-
         verticalLayout.setMaxWidth("600px");
         verticalLayout.setPadding(false);
-        add(verticalLayout);
+    }
 
-        this.setJustifyContentMode(JustifyContentMode.CENTER);
+    private void horizontalLayoutSetUp() {
+        this.horizontalLayout = new HorizontalLayout();
+        horizontalLayout.setWidth(verticalLayout.getWidth());
+        horizontalLayout.add(previousButton);
+        horizontalLayout.add(submitButton);
+    }
+
+    private void verticalLayoutSetUp() {
+        this.verticalLayout = new VerticalLayout();
+        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
+        verticalLayout.add(new H1("Info about your diabetes"));
+    }
+
+    private void previousButtonSetUp() {
+        this.previousButton = new Button("Previous");
+        previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        previousButton.getElement().getStyle().set("margin-right", "auto");
+    }
+
+    private void submitButtonSetUp() {
+        this.submitButton = new Button("Submit");
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.getElement().getStyle().set("margin-left", "auto");
     }
 
     private void init() {
@@ -74,8 +78,6 @@ public class PatientSignUp3 extends HorizontalLayout {
         insulinSelectSetUp();
         injectionSelectSetUp();
     }
-
-
 
     private void diabetesSelectSetUp() {
         diabetesSelect = new Select<>("Type I","Type II");
