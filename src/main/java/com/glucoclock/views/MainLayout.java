@@ -3,6 +3,7 @@ package com.glucoclock.views;
 import com.glucoclock.views.patient.HistoryView;
 import com.glucoclock.views.patient.DownloadPage;
 import com.glucoclock.views.patient.LogbookView;
+import com.glucoclock.views.researcher.ResearcherStart;
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
 import com.glucoclock.views.templates.sugarfree.personform.PersonFormView;
 import com.glucoclock.views.templates.sugarfree.SugarFreeView;
@@ -120,10 +121,9 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("Person Form", "la la-user", PersonFormView.class), //
 
                 new MenuItemInfo("Download","", DownloadPage.class),
-
                 new MenuItemInfo("View History","", HistoryView.class),
-
                 new MenuItemInfo("LogBook","",LogbookView.class),
+                new MenuItemInfo("Researcher Start","", ResearcherStart.class),
 
 
         };
