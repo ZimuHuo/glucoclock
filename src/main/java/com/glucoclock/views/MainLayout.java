@@ -1,7 +1,6 @@
 package com.glucoclock.views;
 
-import com.glucoclock.views.patient.IntensiveLogBookView;
-import com.glucoclock.views.patient.SimpleLBView;
+import com.glucoclock.views.patient.*;
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
 import com.glucoclock.views.templates.sugarfree.personform.PersonFormView;
 import com.vaadin.flow.component.Component;
@@ -116,6 +115,12 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("Person Form", "la la-user", PersonFormView.class), //
 
                 new MenuItemInfo("Simple Logbook", "la la-file", SimpleLBView.class), //
+
+                new MenuItemInfo("Comp", "la la-file", CompreLBView.class),
+
+                new MenuItemInfo("Simple Logbook", "la la-file", SimpleLogBookView.class),
+
+                new MenuItemInfo("Comprehensive Logbook", "la la-file", ComprehensiveLogBookView.class),
 
                 new MenuItemInfo("Intensive Logbook", "la la-file", IntensiveLogBookView.class)
         };

@@ -8,6 +8,8 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -52,11 +54,8 @@ public class IntensiveLogBookView extends HorizontalLayout {
                 ketones
         );
         formLayout.setResponsiveSteps(
-                // Use one column by default
                 new FormLayout.ResponsiveStep("0", 1),
-                // Use two columns, if the layout's width exceeds 320px
                 new FormLayout.ResponsiveStep("320px", 2)
-
         );
 
         formLayout.setColspan(timePicker, 1);
@@ -70,8 +69,8 @@ public class IntensiveLogBookView extends HorizontalLayout {
         Button submitButton = new Button("Save");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Intensive Logbook"));
+        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER,submitButton);
+        verticalLayout.add(new H3("Intensive Logbook"));
         verticalLayout.add(formLayout);
         verticalLayout.add(submitButton);
         verticalLayout.setMaxWidth("600px");
@@ -99,7 +98,9 @@ public class IntensiveLogBookView extends HorizontalLayout {
         if(now.getMinute()<=30){
             hour = now.getHour();
         }else{
-            hour = now.getHour()+1;
+            if(now.getHour()<23){
+                hour = now.getHour()+1;
+            }
         }
         timePicker.setValue(LocalTime.of(hour, 0));
     }
