@@ -24,6 +24,9 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
 
 @PageTitle("Patient Settings")
@@ -272,7 +275,6 @@ public class PatientSetting1 extends HorizontalLayout {
             diabetesSelect.setLabel(Diabetes);
             insulinSelect.select("Rapid-acting insulin","Short-acting insulin","Intermediate-acting insulin");
             injectionSelect.select("Injection pen");
-
             Mid.remove(save, cancel);
             Mid.add(changeSetting);
             allSetReadOnly(true);

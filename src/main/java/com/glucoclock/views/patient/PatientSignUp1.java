@@ -30,17 +30,36 @@ public class PatientSignUp1 extends HorizontalLayout {
     EmailField emailField;
     PasswordField password;
     PasswordField confirmPassword;
+    FormLayout formLayout;
+    Button submitButton;
 
 
 
     public PatientSignUp1() {
         init();
+        formLayoutSetUp();
+        submitButtonSetUp();
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
+        verticalLayout.add(new H1("Set up your account"));
+        verticalLayout.add(formLayout);
+        verticalLayout.add(submitButton);
+        verticalLayout.setMaxWidth("600px");
+        verticalLayout.setPadding(false);
+        add(verticalLayout);
+        this.setJustifyContentMode(JustifyContentMode.CENTER);
+    }
 
+    private void submitButtonSetUp() {
+        this.submitButton = new Button("Next");
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.getElement().getStyle().set("margin-left", "auto");
+    }
 
-        var formLayout = new FormLayout();
+    private void formLayoutSetUp() {
+        this.formLayout = new FormLayout();
         formLayout.add(
                 firstName, lastName,
-
                 emailField,
                 password, confirmPassword
         );
@@ -56,20 +75,6 @@ public class PatientSignUp1 extends HorizontalLayout {
         formLayout.setColspan(emailField, 2);
         formLayout.setColspan(password, 1);
         formLayout.setColspan(confirmPassword, 1);
-
-        Button submitButton = new Button("Next");
-        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.getElement().getStyle().set("margin-left", "auto");
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Set up your account"));
-        verticalLayout.add(formLayout);
-        verticalLayout.add(submitButton);
-        verticalLayout.setMaxWidth("600px");
-        verticalLayout.setPadding(false);
-        add(verticalLayout);
-
-        this.setJustifyContentMode(JustifyContentMode.CENTER);
     }
 
     private void init() {
