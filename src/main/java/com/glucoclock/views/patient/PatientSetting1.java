@@ -8,6 +8,7 @@ import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -28,7 +29,8 @@ import java.util.ArrayList;
 @PageTitle("Patient Settings")
 @Route(value = "PatientSetting1",layout = MainLayout.class)
 public class PatientSetting1 extends HorizontalLayout {
-    //     These are temporary variables
+
+    //     These are sample variables
     //     Should be got from database
     //    --------------------------------------------
     String FName = "Zhao";
@@ -55,6 +57,7 @@ public class PatientSetting1 extends HorizontalLayout {
     Select<String> diabetesSelect;
     CheckboxGroup<String> insulinSelect;
     CheckboxGroup<String> injectionSelect;
+    Button changeSetting, save, cancel, changePassword;
 
     VerticalLayout Mid = new VerticalLayout();
 
@@ -84,12 +87,14 @@ public class PatientSetting1 extends HorizontalLayout {
         formLayout.setColspan(contactNumber,1 );
         formLayout.setColspan(genderSelect,1 );
 
+
         Mid.add(
                 formLayout,
                 postcode,
                 diabetesSelect,
                 insulinSelect,
-                injectionSelect
+                injectionSelect,
+                changeSetting
         );
 
         Mid.setMaxWidth("600px");
@@ -115,6 +120,9 @@ public class PatientSetting1 extends HorizontalLayout {
         diabetesSelectSetUp();
         insulinSelectSetUp();
         injectionSelectSetUp();
+        changeSettingSetUp();
+        saveSetUp();
+        cancelSetUp();
     }
 
 
@@ -208,5 +216,79 @@ public class PatientSetting1 extends HorizontalLayout {
         injectionSelect.setItems("Syringe", "Injection pen", "Insulin pump");
         injectionSelect.select("Injection pen");
         injectionSelect.setReadOnly(true);
+    }
+
+    private void changeSettingSetUp() {
+        changeSetting = new Button("Change Info");
+        changeSetting.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        changeSetting.getElement().getStyle().set("margin-left", "auto");
+        changeSetting.addClickListener(e -> {
+            allSetReadOnly(false);
+            Mid.remove(changeSetting);
+            Mid.add(save, cancel);
+        });
+
+    }
+
+    private void saveSetUp() {
+        save = new Button("Save");
+        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        save.getElement().getStyle().set("margin-left", "auto");
+        save.addClickListener(e -> {
+            FName = firstName.getValue();
+            LName = lastName.getValue();
+            Email = emailField.getValue();
+            Home = homeAddress.getValue();
+            PostCode = postcode.getValue();
+            Phone = contactNumber.getValue();
+            Birth = datePicker.getValue();
+            Gender = genderSelect.getValue();
+            Diabetes = diabetesSelect.getValue();
+
+            allSetReadOnly(true);
+
+
+            Mid.remove(save, cancel);
+            Mid.add(changeSetting);
+            Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
+        });
+    }
+
+    private void cancelSetUp() {
+        cancel = new Button("Cancel");
+        cancel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        cancel.getElement().getStyle().set("margin-left", "auto");
+        cancel.addClickListener(e -> {
+            firstName.setValue(FName);
+            lastName.setValue(LName);
+            datePicker.setValue(Birth);
+            emailField.setValue(Email);
+            homeAddress.setValue(Home);
+            postcode.setValue(PostCode);
+            contactNumber.setValue(Phone);
+            genderSelect.setLabel(Gender);
+            diabetesSelect.setLabel(Diabetes);
+            insulinSelect.select("Rapid-acting insulin","Short-acting insulin","Intermediate-acting insulin");
+            injectionSelect.select("Injection pen");
+
+            Mid.remove(save, cancel);
+            Mid.add(changeSetting);
+            allSetReadOnly(true);
+            Notification.show("Changes cancelled",2000, Notification.Position.TOP_CENTER);
+        });
+    }
+
+    private void allSetReadOnly(boolean Boolean) {
+        firstName.setReadOnly(Boolean);
+        lastName.setReadOnly(Boolean);
+        datePicker.setReadOnly(Boolean);
+        emailField.setReadOnly(Boolean);
+        homeAddress.setReadOnly(Boolean);
+        postcode.setReadOnly(Boolean);
+        contactNumber.setReadOnly(Boolean);
+        genderSelect.setReadOnly(Boolean);
+        diabetesSelect.setReadOnly(Boolean);
+        insulinSelect.setReadOnly(Boolean);
+        injectionSelect.setReadOnly(Boolean);
     }
 }
