@@ -55,26 +55,27 @@ public class IntensiveLogBookView extends HorizontalLayout {
         );
         formLayout.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
-                new FormLayout.ResponsiveStep("320px", 2)
+                new FormLayout.ResponsiveStep("320px", 1)
         );
 
         formLayout.setColspan(timePicker, 1);
-        formLayout.setColspan(bloodGlucose,2 );
-        formLayout.setColspan(carbohydrateIntake,2 );
-        formLayout.setColspan(carbBolus,2 );
-        formLayout.setColspan(highBsBolus,2 );
-        formLayout.setColspan(basalRate,2 );
-        formLayout.setColspan(basalRate,2 );
-        formLayout.setColspan(ketones,2);
-        Button submitButton = new Button("Save");
+        formLayout.setColspan(bloodGlucose,1 );
+        formLayout.setColspan(carbohydrateIntake,1 );
+        formLayout.setColspan(carbBolus,1 );
+        formLayout.setColspan(highBsBolus,1 );
+        formLayout.setColspan(basalRate,1 );
+        formLayout.setColspan(basalRate,1 );
+        formLayout.setColspan(ketones,1);
+        Button submitButton = new Button("Upload");
+        submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER,submitButton);
         verticalLayout.add(new H3("Intensive Logbook"));
         verticalLayout.add(formLayout);
         verticalLayout.add(submitButton);
-        verticalLayout.setMaxWidth("600px");
-        verticalLayout.setPadding(false);
+        verticalLayout.setMaxWidth("40%");
+        verticalLayout.setMargin(true);
         this.add(verticalLayout);
         this.setJustifyContentMode(JustifyContentMode.CENTER);
     }

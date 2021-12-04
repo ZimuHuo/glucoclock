@@ -39,15 +39,16 @@ public class ComprehensiveLogBookView extends HorizontalLayout {
         formLayout.setColspan(bloodGlucose, 2);
         formLayout.setColspan(carbohydrate,2 );
         formLayout.setColspan(insulinDose,2 );
-        Button submitButton = new Button("Save");
+        Button submitButton = new Button("Upload");
+        submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.add(new H3("Simple Logbook"));
+        verticalLayout.add(new H3("Comprehensive Logbook"));
         verticalLayout.add(formLayout);
         verticalLayout.add(submitButton);
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER,submitButton);
-        verticalLayout.setMaxWidth("600px");
-        verticalLayout.setPadding(false);
+        verticalLayout.setMaxWidth("40%");
+        verticalLayout.setMargin(true);
         this.add(verticalLayout);
         this.setJustifyContentMode(JustifyContentMode.CENTER);
 

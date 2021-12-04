@@ -1,12 +1,14 @@
 package com.glucoclock.views.patient;
 
 import com.glucoclock.views.MainLayout;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -21,6 +23,9 @@ public class SimpleLogBookView extends HorizontalLayout {
     private TextField bloodGlucose;
     private TextField carbohydrate;
 
+    private Button test1 = new Button("Test"); //Menubar test button
+    private Button test2 = new Button("Test");
+
     public SimpleLogBookView(){
         init();
         var formLayout = new FormLayout();
@@ -33,18 +38,18 @@ public class SimpleLogBookView extends HorizontalLayout {
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("320px", 2)
         );
-
         formLayout.setColspan(bloodGlucose, 2);
         formLayout.setColspan(carbohydrate,2 );
-        Button submitButton = new Button("Save");
+        Button submitButton = new Button("Upload");
+        submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(new H3("Simple Logbook"));
         verticalLayout.add(formLayout);
         verticalLayout.add(submitButton);
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER,submitButton);
-        verticalLayout.setMaxWidth("600px");
-        verticalLayout.setPadding(false);
+        verticalLayout.setMaxWidth("40%");
+        verticalLayout.setMargin(true);
         this.add(verticalLayout);
         this.setJustifyContentMode(JustifyContentMode.CENTER);
 
@@ -62,5 +67,17 @@ public class SimpleLogBookView extends HorizontalLayout {
 
         prepost.setItems("Pre","Post");
         meal.setItems("Breakfast","Lunch","Dinner");
+    }
+
+    private Component menuBar(){
+        this.setHeight("12.2%");
+        this.getStyle().set( "background-image" , "url('images/menubar.png')");
+        test1.setWidth("8%");
+        test2.setWidth("8%");
+        HorizontalLayout menuButtons = new HorizontalLayout(test1,test2);
+        VerticalLayout rightC = new VerticalLayout();
+        rightC.setHorizontalComponentAlignment(FlexComponent.Alignment.END,menuButtons);
+        rightC.add(menuButtons);
+        return rightC;
     }
 }
