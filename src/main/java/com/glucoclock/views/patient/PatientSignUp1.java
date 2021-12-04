@@ -5,6 +5,8 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -68,6 +70,21 @@ public class PatientSignUp1 extends HorizontalLayout {
         formLayout.setColspan(emailField, 2);
         formLayout.setColspan(password, 1);
         formLayout.setColspan(confirmPassword, 1);
+
+        Button submitButton = new Button("Next", new Icon(VaadinIcon.ARROW_RIGHT));
+        submitButton.setIconAfterText(true);
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.getElement().getStyle().set("margin-left", "auto");
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
+        verticalLayout.add(new H1("Set up your account"));
+        verticalLayout.add(formLayout);
+        verticalLayout.add(submitButton);
+        verticalLayout.setMaxWidth("600px");
+        verticalLayout.setPadding(false);
+        add(verticalLayout);
+
+        this.setJustifyContentMode(JustifyContentMode.CENTER);
     }
 
     private void init() {
