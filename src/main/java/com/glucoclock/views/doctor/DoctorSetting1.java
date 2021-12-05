@@ -1,10 +1,8 @@
-package com.glucoclock.views.patient;
+package com.glucoclock.views.doctor;
 
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.CheckboxGroup;
-import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.notification.Notification;
@@ -15,26 +13,16 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
 
+@PageTitle("Doctor Settings")
+@Route(value = "DoctorSetting1",layout = MainLayout.class)
 
-//REMINDER:
-//The function of cancel button is currently bugged.
-//Need to fix it when programming backend and databases.
+public class DoctorSetting1 extends HorizontalLayout {
 
-@PageTitle("Patient Settings")
-@Route(value = "PatientSetting1",layout = MainLayout.class)
-public class PatientSetting1 extends HorizontalLayout {
-
-
-//     These are sample variables
+    //     These are sample variables
     //     Should be got from database
     //    --------------------------------------------
     String FName = "Zhao";
@@ -45,37 +33,25 @@ public class PatientSetting1 extends HorizontalLayout {
     String Phone = "44 07421471833";
     LocalDate Birth = LocalDate.of(2001,6,13);
     String Gender = "Male";
-    String Diabetes = "Type I";
-    Set<String> insulin;
-    Set<String> injection;
     //    --------------------------------------------
 
-//    All Components on the page
-    TextField firstName;
-    TextField lastName;
-    DatePicker datePicker;
+    //    All Components on the page
+    TextField firstName, lastName, homeAddress, postcode, contactNumber;
+    DatePicker birthSelect;
     EmailField emailField;
-    TextField homeAddress;
-    TextField postcode;
-    TextField contactNumber;
     Select<String> genderSelect;
-    Select<String> diabetesSelect;
-    CheckboxGroup<String> insulinSelect;
-    CheckboxGroup<String> injectionSelect;
     Button changeSetting, save, cancel, changePassword;
+    VerticalLayout mainLayout;
+    HorizontalLayout buttons;
 
-    VerticalLayout MainLayout = new VerticalLayout();
-    HorizontalLayout Buttons = new HorizontalLayout();
-
-
-//  Setting the layout of the page
-    public PatientSetting1() {
+    public DoctorSetting1() {
         init();
+        setJustifyContentMode(JustifyContentMode.CENTER);
 
         FormLayout formLayout = new FormLayout();
         formLayout.add(
                 firstName, lastName,
-                datePicker, genderSelect,
+                birthSelect, genderSelect,
                 emailField, contactNumber,
                 homeAddress
         );
@@ -87,70 +63,67 @@ public class PatientSetting1 extends HorizontalLayout {
         );
         formLayout.setColspan(firstName,1);
         formLayout.setColspan(lastName,1);
-        formLayout.setColspan(datePicker,1 );
+        formLayout.setColspan(birthSelect,1 );
         formLayout.setColspan(emailField,1 );
         formLayout.setColspan(homeAddress,2 );
         formLayout.setColspan(contactNumber,1 );
         formLayout.setColspan(genderSelect,1 );
 
-        Buttons.setWidth(MainLayout.getWidth());
-        Buttons.add(changePassword, changeSetting, save, cancel);
+        buttons.add(changePassword, changeSetting, save, cancel);
 
-
-        MainLayout.add(
+        mainLayout.add(
                 formLayout,
                 postcode,
-                diabetesSelect,
-                insulinSelect,
-                injectionSelect,
-                Buttons
+                buttons
         );
-        MainLayout.setMaxWidth("600px");
-        MainLayout.setPadding(false);
 
-        setJustifyContentMode(JustifyContentMode.CENTER);
-
-    };
-
-
-
-    private void init() {
-//      Initialize the components
-        add(MainLayout);
-        firstNameSetUp();
-        lastNameSetUp();
-        datePickerSetUp();
-        emailFieldSetUp();
-        homeAddressSetUp();
-        postcodeSetUp();
-        contactNumberSetUp();
-        genderSelectSetUp();
-        diabetesSelectSetUp();
-        insulinSelectSetUp();
-        injectionSelectSetUp();
-        changeSettingSetUp();
-        saveSetUp();
-        cancelSetUp();
-        changePasswordSetUp();
+        add(mainLayout);
     }
 
 
-//    Following functions are used to set up the components
-    private void firstNameSetUp() {
+//    initialize all components
+    private void init() {
+        mainLayoutInit();
+        buttonsInit();
+        firstNameInit();
+        lastNameInit();
+        birthSelectInit();
+        emailFieldInit();
+        homeAddressInit();
+        postcodeInit();
+        contactNumberInit();
+        genderSelectInit();
+        changeSettingInit();
+        saveInit();
+        cancelInit();
+        changePasswordInit();
+    }
+
+//    Each of following methods initialize one component
+    private void mainLayoutInit() {
+        mainLayout = new VerticalLayout();
+        mainLayout.setMaxWidth("600px");
+    }
+
+    private void buttonsInit() {
+        buttons = new HorizontalLayout();
+        buttons.setWidth(mainLayout.getWidth());
+    }
+
+    private void firstNameInit() {
         firstName = new TextField("First name");
         firstName.setValue(FName);
         firstName.setClearButtonVisible(true);
         firstName.setReadOnly(true);
     }
 
-    private void lastNameSetUp() {
+    private void lastNameInit() {
         lastName = new TextField("Last name");
         lastName.setValue(LName);
         lastName.setClearButtonVisible(true);
         lastName.setReadOnly(true);
     }
-
-    private void contactNumberSetUp() {
+    private void contactNumberInit() {
         contactNumber = new TextField();
         contactNumber.setLabel("Phone number");
         contactNumber.setHelperText("Include country and area prefixes");
@@ -159,7 +132,7 @@ public class PatientSetting1 extends HorizontalLayout {
         contactNumber.setReadOnly(true);
     }
 
-    private void emailFieldSetUp() {
+    private void emailFieldInit() {
         emailField = new EmailField();
         emailField.setLabel("Email address");
         emailField.getElement().setAttribute("name", "email");
@@ -171,64 +144,40 @@ public class PatientSetting1 extends HorizontalLayout {
         emailField.setReadOnly(true);
     }
 
-    private void datePickerSetUp() {
-        datePicker = new DatePicker("Date of birth");
+    private void birthSelectInit() {
+        birthSelect = new DatePicker("Date of birth");
         LocalDate now = LocalDate.now(ZoneId.systemDefault()).minusYears(7);
-        datePicker.setMax(now);
-        datePicker.setMin(now.minusYears(120));
-        datePicker.setHelperText("You must be a minimum of 7 years old");
-        datePicker.setHelperText("Format: DD.MM.YYYY");
-        datePicker.setPlaceholder("DD.MM.YYYY");
-        datePicker.setValue(Birth);
-        datePicker.setReadOnly(true);
+        birthSelect.setMax(now);
+        birthSelect.setMin(now.minusYears(120));
+        birthSelect.setHelperText("You must be a minimum of 7 years old");
+        birthSelect.setHelperText("Format: DD.MM.YYYY");
+        birthSelect.setPlaceholder("DD.MM.YYYY");
+        birthSelect.setValue(Birth);
+        birthSelect.setReadOnly(true);
     }
 
-    private void homeAddressSetUp() {
+    private void homeAddressInit() {
         homeAddress = new TextField("Home address");
         homeAddress.setValue(Home);
         homeAddress.setClearButtonVisible(true);
         homeAddress.setReadOnly(true);
     }
 
-    private void postcodeSetUp() {
+    private void postcodeInit() {
         postcode = new TextField("Postcode");
         postcode.setValue(PostCode);
         postcode.setClearButtonVisible(true);
         postcode.setReadOnly(true);
     }
 
-    private void genderSelectSetUp() {
+    private void genderSelectInit() {
         genderSelect = new Select<>("Male","Female","Others","Prefer not to say");
         genderSelect.setValue(Gender);
         genderSelect.setLabel("Gender");
         genderSelect.setReadOnly(true);
     }
 
-    private void diabetesSelectSetUp() {
-        diabetesSelect = new Select<>("Type I","Type II");
-        diabetesSelect.setValue(Diabetes);
-        diabetesSelect.setLabel("Type of diabetes");
-        diabetesSelect.setReadOnly(true);
-    }
-
-    private void insulinSelectSetUp() {
-        insulinSelect = new CheckboxGroup<>();
-        insulinSelect.setLabel("Insulin type");
-        insulinSelect.setItems("Rapid-acting insulin","Short-acting insulin","Intermediate-acting insulin","Long-acting insulin");
-        insulinSelect.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
-        insulinSelect.select("Rapid-acting insulin","Short-acting insulin","Intermediate-acting insulin");
-        insulinSelect.setReadOnly(true);
-    }
-
-    private void injectionSelectSetUp() {
-        injectionSelect = new CheckboxGroup<>();
-        injectionSelect.setLabel("Injection method");
-        injectionSelect.setItems("Syringe", "Injection pen", "Insulin pump");
-        injectionSelect.select("Injection pen");
-        injectionSelect.setReadOnly(true);
-    }
-
-    private void changeSettingSetUp() {
+    private void changeSettingInit() {
         changeSetting = new Button("Change Info");
         changeSetting.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         changeSetting.getElement().getStyle().set("margin-left", "auto");
@@ -242,11 +191,11 @@ public class PatientSetting1 extends HorizontalLayout {
 
     }
 
-    private void saveSetUp() {
+    private void saveInit() {
         save = new Button("Save");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        save.getElement().getStyle().set("margin-left", "1em");
+        save.getElement().getStyle().set("margin-right", "auto");
         save.addClickListener(e -> {
             FName = firstName.getValue();
             LName = lastName.getValue();
@@ -254,11 +203,8 @@ public class PatientSetting1 extends HorizontalLayout {
             Home = homeAddress.getValue();
             PostCode = postcode.getValue();
             Phone = contactNumber.getValue();
-            Birth = datePicker.getValue();
+            Birth = birthSelect.getValue();
             Gender = genderSelect.getValue();
-            Diabetes = diabetesSelect.getValue();
-            insulin = insulinSelect.getValue();
-            injection = injectionSelect.getValue();
 
             allSetReadOnly(true);
 
@@ -271,22 +217,19 @@ public class PatientSetting1 extends HorizontalLayout {
         });
     }
 
-    private void cancelSetUp() {
+    private void cancelInit() {
         cancel = new Button("Cancel");
         cancel.setVisible(false);
-        cancel.getElement().getStyle().set("margin-right", "0");
+        cancel.getElement().getStyle().set("margin-left", "auto");
         cancel.addClickListener(e -> {
             firstName.setValue(FName);
             lastName.setValue(LName);
-            datePicker.setValue(Birth);
+            birthSelect.setValue(Birth);
             emailField.setValue(Email);
             homeAddress.setValue(Home);
             postcode.setValue(PostCode);
             contactNumber.setValue(Phone);
             genderSelect.setLabel(Gender);
-            diabetesSelect.setLabel(Diabetes);
-            insulinSelect.select(insulin);
-            injectionSelect.select(injection);
 
             changeSetting.setVisible(true);
             changePassword.setVisible(true);
@@ -297,25 +240,22 @@ public class PatientSetting1 extends HorizontalLayout {
         });
     }
 
-    private void changePasswordSetUp() {
+    private void changePasswordInit() {
         changePassword = new Button("Change Password");
         changePassword.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.getElement().getStyle().set("margin-right", "auto");
     }
 
 
-//    Set all the components on the page to be read-only or not
+    //    Set all the components on the page to be read-only or not
     private void allSetReadOnly(boolean Boolean) {
         firstName.setReadOnly(Boolean);
         lastName.setReadOnly(Boolean);
-        datePicker.setReadOnly(Boolean);
+        birthSelect.setReadOnly(Boolean);
         emailField.setReadOnly(Boolean);
         homeAddress.setReadOnly(Boolean);
         postcode.setReadOnly(Boolean);
         contactNumber.setReadOnly(Boolean);
         genderSelect.setReadOnly(Boolean);
-        diabetesSelect.setReadOnly(Boolean);
-        insulinSelect.setReadOnly(Boolean);
-        injectionSelect.setReadOnly(Boolean);
     }
 }
