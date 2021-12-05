@@ -190,7 +190,7 @@ public class PatientSetting1 extends HorizontalLayout {
             conn.close();
             return buffer;
         } catch (SQLException e) {
-            System.out.println("SQL" +e.getErrorCode());
+            System.out.println("SQL" +e.getErrorCode()+"  "+e.getSQLState()+"    "+e.getCause()+"  " +e.getMessage());
         }  catch (URISyntaxException e) {
             System.out.println("UI");
         }
