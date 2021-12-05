@@ -1,6 +1,5 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.database.Database;
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -141,22 +140,50 @@ public class PatientSetting1 extends HorizontalLayout {
     private void firstNameSetUp(){
         firstName = new TextField("First name");
 
-        try {
-            FName= (String) Database.getObject("select * from patients_db where id=1" ,"FName");
-            firstName.setValue(FName);
-            firstName.setClearButtonVisible(true);
-            firstName.setReadOnly(true);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        FName= getFName();
 
+
+        firstName.setValue(FName);
+        firstName.setClearButtonVisible(true);
+        firstName.setReadOnly(true);
     }
 
     private static Connection getConnection() throws URISyntaxException, SQLException {
         String dbUrl = System.getenv("JDBC_DATABASE_URL");
         return DriverManager.getConnection(dbUrl);
+    }
+
+    private String getFName()  {
+        try {
+            Connection conn = getConnection();
+            Statement s = conn.createStatement();
+//            String sqlStr = "create table patients_db (\n" +
+//                    " id SERIAL PRIMARY KEY,\n" +
+//                    " FName varchar(128) NOT NULL" +
+//                    ");\n";
+//            s.executeQuery(sqlStr);
+
+//            String sqlStr2 = "Insert Into patients_db (FName) values ('MYname');";
+//            s.executeQuery(sqlStr2);
+
+            String sqlStr3 = " select * from patients_db";
+            ResultSet rset = s.executeQuery(sqlStr3);
+
+            if(rset.next()){
+                String buffer = rset.getString("FName");
+                return buffer;
+            }
+            //rset.close();
+//            s.close();
+//            conn.close();
+//
+
+        } catch (SQLException e) {
+            System.out.println("SQL" +e.getErrorCode()+"  "+e.getSQLState()+"    "+e.getCause()+"  " +e.getMessage());
+        }  catch (URISyntaxException e) {
+            System.out.println("UI");
+        }
+        return "notworkingout";
     }
 
 
