@@ -34,7 +34,7 @@ public class PatientSignUp1 extends HorizontalLayout {
     FormLayout formLayout;
     Button submitButton;
 
-    public PatientSignUp1() {
+    public PatientSignUp1() throws SQLException {
         init();
         formLayoutSetUp();
         submitButtonSetUp();
@@ -62,7 +62,7 @@ public class PatientSignUp1 extends HorizontalLayout {
             System.out.println("Driver error"+e.getMessage());
         }
 
-        Connection conn= null;
+        Connection conn= DriverManager.getConnection(dbUrl);
         try {
             conn = DriverManager.getConnection(dbUrl);
         } catch (SQLException e) {
@@ -90,10 +90,7 @@ public class PatientSignUp1 extends HorizontalLayout {
                     " FName varchar(128) NOT NULL,\n" +
                     ");\n";
             s.executeQuery(sqlStr);
-            String sqlStr2 = "insert into patients_db (\n" +
-                    "FName) \n" +
-                    "values ('Zimu' \n" +
-                    ");\n";
+            String sqlStr2 = "INSERT INTO patients_db (Fname) values ('Zimu');";
             s.executeQuery(sqlStr2);
             String sqlStr3 = " select * from patients_db";
             ResultSet rset=s.executeQuery(sqlStr3);
