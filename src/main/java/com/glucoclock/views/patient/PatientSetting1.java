@@ -141,22 +141,22 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
     public void test(){
-        cleartable.addClickListener(e -> {
-            try {
-
-               // Database.updateTable("DROP TABLE IF EXISTS patients_db");
+//        cleartable.addClickListener(e -> {
+//            try {
+//
+//               // Database.updateTable("DROP TABLE IF EXISTS patients_db");
 //                String sqlStr = "create table patients_db (\n" +
 //                        " id SERIAL PRIMARY KEY,\n" +
 //                        " LName varchar(128) NOT NULL" +
 //                        ");\n";
 //                Database.createTable(sqlStr);
-                Database.insertPatient("insert into patients_db (LName) values ('ZImu')");
-            } catch (URISyntaxException ex) {
-                ex.printStackTrace();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        });
+//                Database.insertPatient("insert into patients_db (LName) values ('ZImu')");
+//            } catch (URISyntaxException ex) {
+//                ex.printStackTrace();
+//            } catch (SQLException ex) {
+//                ex.printStackTrace();
+//            }
+//        });
         save.addClickListener(e -> {
             try {
                 Database.updatePatientInfo("1","LName",lastName.getValue());
@@ -199,31 +199,32 @@ public class PatientSetting1 extends HorizontalLayout {
     private void firstNameSetUp(){
         firstName = new TextField("First name");
 
-        try {
-            FName= (String) Database.getObject("select * from patients_db where id=1" ,"FName");
-            if (FName==null){
-                FName = "123";
-            }
-            firstName.setValue(FName);
-            firstName.setClearButtonVisible(true);
-            firstName.setReadOnly(true);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        firstName.setValue(FName);
+        firstName.setClearButtonVisible(true);
+        firstName.setReadOnly(true);
 
     }
 
 
     private void lastNameSetUp() {
         lastName = new TextField("Last name");
+        try {
+            FName = (String) Database.getObject("select * from patients_db where id=1", "FName");
+            if (FName == null) {
+                FName = "123";
+            }
+
+        }catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         lastName.setValue(LName);
         lastName.setClearButtonVisible(true);
         lastName.setReadOnly(true);
     }
 
-    private void contactNumberSetUp() {
+        private void contactNumberSetUp() {
         contactNumber = new TextField();
         contactNumber.setLabel("Phone number");
         contactNumber.setHelperText("Include country and area prefixes");
