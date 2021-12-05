@@ -1,6 +1,7 @@
 package com.glucoclock.views.doctor;
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.patient.PatientSignUp2;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -56,6 +57,11 @@ public class DoctorSignUp1 extends HorizontalLayout {
         submitButton.setIconAfterText(true);
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left", "auto");
+        submitButton.addClickListener(e ->
+                submitButton.getUI().ifPresent(ui ->
+                        ui.navigate(DoctorSignUp2.class)
+                )
+        );
     }
 
     private void formLayoutSetUp() {

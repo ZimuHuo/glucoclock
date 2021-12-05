@@ -17,6 +17,7 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteParameters;
 import com.vaadin.flow.theme.Theme;
 
 import java.sql.*;
@@ -46,13 +47,6 @@ public class PatientSignUp1 extends HorizontalLayout {
         verticalLayout.setMaxWidth("600px");
         verticalLayout.setPadding(false);
 
-
-
-
-
-
-
-
         add(verticalLayout);
         this.setJustifyContentMode(JustifyContentMode.CENTER);
     }
@@ -62,6 +56,11 @@ public class PatientSignUp1 extends HorizontalLayout {
         submitButton.setIconAfterText(true);
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left", "auto");
+        submitButton.addClickListener(e ->
+            submitButton.getUI().ifPresent(ui ->
+                    ui.navigate(PatientSignUp2.class)
+            )
+        );
     }
 
     private void formLayoutSetUp() {

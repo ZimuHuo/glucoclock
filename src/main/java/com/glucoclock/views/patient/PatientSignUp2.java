@@ -42,6 +42,7 @@ public class PatientSignUp2 extends HorizontalLayout {
     private FormLayout formLayout1;
     private FormLayout formLayout2;
     private FormLayout formLayout3;
+    private Button submitButton, previousButton;
 
 
 
@@ -50,13 +51,7 @@ public class PatientSignUp2 extends HorizontalLayout {
         formlayout1SetUp();
         formlayout2SetUp();
         formlayout3SetUp();
-        Button previousButton = new Button("Previous", new Icon(VaadinIcon.ARROW_LEFT));
-        previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        previousButton.getElement().getStyle().set("margin-right", "auto");
-        Button submitButton = new Button("Next", new Icon(VaadinIcon.ARROW_RIGHT));
-        submitButton.setIconAfterText(true);
-        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.getElement().getStyle().set("margin-left","auto");
+
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
         verticalLayout.add(new H1("Personal information"));
@@ -128,6 +123,9 @@ public class PatientSignUp2 extends HorizontalLayout {
         streetAddress.setClearButtonVisible(true);
         postcode.setClearButtonVisible(true);
         contactNumber.setClearButtonVisible(true);
+
+        submitButtonInit();
+        previousButtonInit();
 //        sex.setRequired(true);
 //        datePicker.setRequired(true);
 //        apartmentAddress.setRequired(true);
@@ -154,5 +152,27 @@ public class PatientSignUp2 extends HorizontalLayout {
         datePicker.setPlaceholder("DD.MM.YYYY");
     }
 
+    private void submitButtonInit() {
+        submitButton = new Button("Next", new Icon(VaadinIcon.ARROW_RIGHT));
+        submitButton.setIconAfterText(true);
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.getElement().getStyle().set("margin-left","auto");
+        submitButton.addClickListener(e ->
+                submitButton.getUI().ifPresent(ui ->
+                        ui.navigate(PatientSignUp3.class)
+                )
+        );
+    }
+
+    private void previousButtonInit() {
+        previousButton = new Button("Previous", new Icon(VaadinIcon.ARROW_LEFT));
+        previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        previousButton.getElement().getStyle().set("margin-right", "auto");
+        previousButton.addClickListener(e ->
+                previousButton.getUI().ifPresent(ui ->
+                        ui.navigate(PatientSignUp1.class)
+                )
+        );
+    }
 
 }

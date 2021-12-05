@@ -33,17 +33,10 @@ public class PatientSignUp3 extends HorizontalLayout {
     Select<String> diabetesSelect;
     CheckboxGroup<String> insulinSelect;
     CheckboxGroup<String> injectionSelect;
+    Button submitButton, previousButton;
 
     public PatientSignUp3() {
         init();
-
-        Button submitButton = new Button("Submit");
-        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.getElement().getStyle().set("margin-left", "auto");
-
-        Button previousButton = new Button("Previous", new Icon(VaadinIcon.ARROW_LEFT));
-        previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        previousButton.getElement().getStyle().set("margin-right", "auto");
 
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
@@ -59,7 +52,7 @@ public class PatientSignUp3 extends HorizontalLayout {
                 insulinSelect,
                 injectionSelect,
                 buttons
-                );
+        );
 
 
         verticalLayout.setMaxWidth("600px");
@@ -73,12 +66,13 @@ public class PatientSignUp3 extends HorizontalLayout {
         diabetesSelectSetUp();
         insulinSelectSetUp();
         injectionSelectSetUp();
+        previousButtonInit();
+        submitButtonInit();
     }
 
 
-
     private void diabetesSelectSetUp() {
-        diabetesSelect = new Select<>("Type I","Type II");
+        diabetesSelect = new Select<>("Type I", "Type II");
         diabetesSelect.setLabel("Type of diabetes");
     }
 
@@ -93,5 +87,22 @@ public class PatientSignUp3 extends HorizontalLayout {
         injectionSelect = new CheckboxGroup<>();
         injectionSelect.setLabel("Injection method");
         injectionSelect.setItems("Syringe", "Injection pen", "Insulin pump");
+    }
+
+    private void submitButtonInit() {
+        submitButton = new Button("Submit");
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.getElement().getStyle().set("margin-left", "auto");
+    }
+
+    private void previousButtonInit() {
+        previousButton = new Button("Previous", new Icon(VaadinIcon.ARROW_LEFT));
+        previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        previousButton.getElement().getStyle().set("margin-right", "auto");
+        previousButton.addClickListener(e ->
+                previousButton.getUI().ifPresent(ui ->
+                        ui.navigate(PatientSignUp2.class)
+                )
+        );
     }
 }

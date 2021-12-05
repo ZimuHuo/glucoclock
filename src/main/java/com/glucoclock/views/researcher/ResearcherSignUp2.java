@@ -1,6 +1,7 @@
 package com.glucoclock.views.researcher;
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.doctor.DoctorSignUp1;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -43,12 +44,20 @@ public class ResearcherSignUp2 extends HorizontalLayout {
         formlayout1SetUp();
         formlayout2SetUp();
         formlayout3SetUp();
+
         Button previousButton = new Button("Previous", new Icon(VaadinIcon.ARROW_LEFT));
         previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         previousButton.getElement().getStyle().set("margin-right", "auto");
+        previousButton.addClickListener(e ->
+                previousButton.getUI().ifPresent(ui ->
+                        ui.navigate(ResearcherSignUp.class)
+                )
+        );
+
         Button submitButton = new Button("Submit");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left","auto");
+
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
         verticalLayout.add(new H1("Personal information"));
