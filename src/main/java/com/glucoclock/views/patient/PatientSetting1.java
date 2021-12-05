@@ -201,7 +201,10 @@ public class PatientSetting1 extends HorizontalLayout {
         firstName = new TextField("First name");
 
         try {
-            FName= (String) Database.getObject("select * from patients_db where id=4" ,"FName");
+            FName= (String) Database.getObject("select * from patients_db where id=1" ,"FName");
+            if (FName==null){
+                FName = "123";
+            }
             firstName.setValue(FName);
             firstName.setClearButtonVisible(true);
             firstName.setReadOnly(true);
