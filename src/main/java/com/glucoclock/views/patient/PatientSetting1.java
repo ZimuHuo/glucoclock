@@ -176,11 +176,11 @@ public class PatientSetting1 extends HorizontalLayout {
             s.executeQuery(sqlStr);
 
 
-            String sqlStr2 = "INSERT INTO patients_db (FName) values ('MYname');";
+            String sqlStr2 = "Insert Into patients_db (FName) values ('MYname');";
             s.executeQuery(sqlStr2);
 
 
-            String sqlStr3 = " select * from patients_db ";
+            String sqlStr3 = " select * from patients_db where id=1 ";
             ResultSet rset = s.executeQuery(sqlStr3);
             String buffer = rset.getString("FName");
 
