@@ -143,12 +143,12 @@ public class PatientSetting1 extends HorizontalLayout {
         cleartable.addClickListener(e -> {
             try {
 
-                //Database.updateTable("DROP TABLE IF EXISTS patients_db");
-//                String sqlStr = "create table patients_db (\n" +
-//                        " id SERIAL PRIMARY KEY,\n" +
-//                        " LName varchar(128) NOT NULL" +
-//                        ");\n";
-//                Database.createTable(sqlStr);
+                Database.updateTable("DROP TABLE IF EXISTS patients_db");
+                String sqlStr = "create table patients_db (\n" +
+                        " id SERIAL PRIMARY KEY,\n" +
+                        " LName varchar(128) NOT NULL" +
+                        ");\n";
+                Database.createTable(sqlStr);
                 Database.insertPatient("insert into patients_db (LName) values ('ZImu')");
             } catch (URISyntaxException ex) {
                 ex.printStackTrace();
