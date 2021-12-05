@@ -16,6 +16,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -146,11 +147,17 @@ public class PatientSetting1 extends HorizontalLayout {
         firstName.setReadOnly(true);
     }
 
+    private static Connection getConnection() throws URISyntaxException, SQLException {
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        return DriverManager.getConnection(dbUrl);
+    }
+
     private String getFName()  {
         try {
-            String dbUrl = System.getenv("JDBC_DATABASE_URL");
-            Class.forName("org.postgresql.Driver");
-            Connection conn = DriverManager.getConnection(dbUrl);
+//            String dbUrl = System.getenv("JDBC_DATABASE_URL");
+//            Class.forName("org.postgresql.Driver");
+            //Connection conn = DriverManager.getConnection(dbUrl);
+            Connection conn = getConnection();
             Statement s = conn.createStatement();
 
 
@@ -176,11 +183,12 @@ public class PatientSetting1 extends HorizontalLayout {
             return buffer;
         } catch (SQLException e) {
             System.out.println("SQL");
-        } catch (ClassNotFoundException e) {
-            System.out.println("not found");
+        }  catch (URISyntaxException e) {
+            System.out.println("UI");
         }
         return "notworkingout";
     }
+
 
     private void lastNameSetUp() {
         lastName = new TextField("Last name");
