@@ -123,7 +123,6 @@ public class PatientSetting1 extends HorizontalLayout {
         try {
             Class.forName("org.postgresql.Driver");
             Connection conn = DriverManager.getConnection(dbUrl);
-            conn = DriverManager.getConnection(dbUrl);
 
             Statement s=conn.createStatement();
             String sqlStr = "create table patients_db (\n" +
