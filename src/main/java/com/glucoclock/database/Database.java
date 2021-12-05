@@ -61,6 +61,12 @@ public class Database {
         s.executeQuery(sqlStr1);
     }
 
+    public static void insertPatient(String sqlStr1)throws URISyntaxException, SQLException {
+        Connection conn = getConnection();
+        Statement s = conn.createStatement();
+        s.executeQuery(sqlStr1);
+    }
+
 
 
 
