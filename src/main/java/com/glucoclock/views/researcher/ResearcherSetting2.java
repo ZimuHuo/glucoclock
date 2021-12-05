@@ -1,6 +1,7 @@
 package com.glucoclock.views.researcher;
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.doctor.DoctorSetting1;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -75,11 +76,21 @@ public class ResearcherSetting2 extends HorizontalLayout{
         confirmButton = new Button("Confirm");
         confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         confirmButton.getElement().getStyle().set("margin-left", "auto");
+        confirmButton.addClickListener(e ->
+                confirmButton.getUI().ifPresent(ui ->
+                        ui.navigate(ResearcherSetting1.class)
+                )
+        );
     }
 
     private void cancelButtonInit() {
         cancelButton = new Button("Cancel");
         cancelButton.getElement().getStyle().set("margin-right", "auto");
+        cancelButton.addClickListener(e ->
+                cancelButton.getUI().ifPresent(ui ->
+                        ui.navigate(ResearcherSetting1.class)
+                )
+        );
     }
 }
 

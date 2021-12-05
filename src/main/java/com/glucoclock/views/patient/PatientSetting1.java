@@ -2,6 +2,7 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.Database;
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.doctor.DoctorSetting2;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -373,6 +374,11 @@ public class PatientSetting1 extends HorizontalLayout {
         changePassword = new Button("Change Password");
         changePassword.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.getElement().getStyle().set("margin-right", "auto");
+        changePassword.addClickListener(e ->
+                changePassword.getUI().ifPresent(ui ->
+                        ui.navigate(PatientSetting2.class)
+                )
+        );
     }
 
 

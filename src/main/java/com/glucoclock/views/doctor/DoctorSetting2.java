@@ -75,11 +75,21 @@ public class DoctorSetting2 extends HorizontalLayout{
         confirmButton = new Button("Confirm");
         confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         confirmButton.getElement().getStyle().set("margin-left", "auto");
+        confirmButton.addClickListener(e ->
+                confirmButton.getUI().ifPresent(ui ->
+                        ui.navigate(DoctorSetting1.class)
+                )
+        );
     }
 
     private void cancelButtonInit() {
         cancelButton = new Button("Cancel");
         cancelButton.getElement().getStyle().set("margin-right", "auto");
+        cancelButton.addClickListener(e ->
+                cancelButton.getUI().ifPresent(ui ->
+                        ui.navigate(DoctorSetting1.class)
+                )
+        );
     }
 }
 

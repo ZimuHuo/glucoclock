@@ -244,6 +244,11 @@ public class DoctorSetting1 extends HorizontalLayout {
         changePassword = new Button("Change Password");
         changePassword.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.getElement().getStyle().set("margin-right", "auto");
+        changePassword.addClickListener(e ->
+                changePassword.getUI().ifPresent(ui ->
+                        ui.navigate(DoctorSetting2.class)
+                )
+        );
     }
 
 

@@ -1,5 +1,6 @@
 package com.glucoclock.views.researcher;
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.doctor.DoctorSetting2;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -246,6 +247,11 @@ public class ResearcherSetting1 extends HorizontalLayout {
         changePassword = new Button("Change Password");
         changePassword.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.getElement().getStyle().set("margin-right", "auto");
+        changePassword.addClickListener(e ->
+                changePassword.getUI().ifPresent(ui ->
+                        ui.navigate(ResearcherSetting2.class)
+                )
+        );
     }
 
     private void institutionSelectInit() {
