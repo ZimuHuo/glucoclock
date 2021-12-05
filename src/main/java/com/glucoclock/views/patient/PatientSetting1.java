@@ -77,42 +77,6 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
 
-    public void test(){
-        cleartable.addClickListener(e -> {
-            try {
-                Database.updateTable("DROP TABLE IF EXIST patients_db");
-
-                String sqlStr = "create table patients_db (\n" +
-                        " id SERIAL PRIMARY KEY,\n" +
-                        " FName varchar(128) NOT NULL,\n" +
-                        " LName varchar(128) NOT NULL" +
-                        ");\n";
-                Database.createTable(sqlStr);
-                Database.updatePatientInfo("1","FName", "Zimu");
-                Database.updatePatientInfo("1","LName", "Huo");
-            } catch (URISyntaxException ex) {
-                ex.printStackTrace();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        });
-        save.addClickListener(e -> {
-            try {
-                Database.updatePatientInfo("1","FName", firstName.getValue());
-                Database.updatePatientInfo("1","LName",lastName.getValue());
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            } catch (URISyntaxException ex) {
-                ex.printStackTrace();
-            }
-
-
-        });
-    }
-
-
-
-
 
 
 
@@ -173,6 +137,43 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
     };
+
+
+    public void test(){
+        cleartable.addClickListener(e -> {
+            try {
+                Database.updateTable("DROP TABLE IF EXIST patients_db");
+
+                String sqlStr = "create table patients_db (\n" +
+                        " id SERIAL PRIMARY KEY,\n" +
+                        " FName varchar(128) NOT NULL,\n" +
+                        " LName varchar(128) NOT NULL" +
+                        ");\n";
+                Database.createTable(sqlStr);
+                Database.updatePatientInfo("1","FName", "Zimu");
+                Database.updatePatientInfo("1","LName", "Huo");
+            } catch (URISyntaxException ex) {
+                ex.printStackTrace();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        });
+        save.addClickListener(e -> {
+            try {
+                Database.updatePatientInfo("1","FName", firstName.getValue());
+                Database.updatePatientInfo("1","LName",lastName.getValue());
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            } catch (URISyntaxException ex) {
+                ex.printStackTrace();
+            }
+
+
+        });
+    }
+
+
+
 
     private void init() {
 //      Initialize the components
