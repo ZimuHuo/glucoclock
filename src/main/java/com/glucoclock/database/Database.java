@@ -25,6 +25,7 @@ public class Database {
     public static Object getObject(String sqlStr1, String sqlStr2) throws SQLException, URISyntaxException {
         Connection conn = getConnection();
         Statement s = conn.createStatement();
+        s.executeQuery("Insert into patients_db (FName) values ('Zimu');");
         ResultSet resultSet = s.executeQuery(sqlStr1);
 
         Object data = null;
