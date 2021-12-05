@@ -17,6 +17,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class PatientSetting1 extends HorizontalLayout {
 //     These are sample variables
     //     Should be got from database
     //    --------------------------------------------
-    String FName = "Z";
+    String FName;
     String LName = "G";
     String Email = "324123@ic.ac.uk";
     String Home = "e";
@@ -71,7 +72,7 @@ public class PatientSetting1 extends HorizontalLayout {
 //  Setting the layout of the page
     public PatientSetting1() {
         init();
-
+        init_DB();
         FormLayout formLayout = new FormLayout();
         formLayout.add(
                 firstName, lastName,
@@ -111,8 +112,43 @@ public class PatientSetting1 extends HorizontalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
 
     };
+    private void init_DB(){
+        String dbUrl =System.getenv("JDBC_DATABASE_URL");
+        try {
 
+            Class.forName("org.postgresql.Driver");
+        } catch (Exception e) {
+            System.out.println("Driver error"+e.getMessage());
+        }
 
+        Connection conn= null;
+        try {
+            conn = DriverManager.getConnection(dbUrl);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            Statement s=conn.createStatement();
+            String sqlStr = "create table patients_db (\n" +
+                    " id SERIAL PRIMARY KEY,\n" +
+                    " FName varchar(128) NOT NULL,\n" +
+                    ");\n";
+            ResultSet rset=s.executeQuery(sqlStr);
+            String sqlStr2 = "insert into patients_db (\n" +
+                    "FName) \n" +
+                    "values ('Zimu' \n" +
+                    ");\n";
+            ResultSet rset2=s.executeQuery(sqlStr2);
+            FName = rset2.getString("FName");
+            rset.close();
+            rset2.close();
+            s.close();
+            conn.close();
+        }
+        catch (Exception e){
+        }
+
+    }
 
     private void init() {
 //      Initialize the components
