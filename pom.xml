@@ -66,6 +66,13 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.3.1</version>
+        </dependency>
+
         <dependency>
             <groupId>com.vaadin</groupId>
             <!-- Replace artifactId with vaadin-core to use only free components -->
@@ -290,6 +297,11 @@
                     <!--                    </plugin>-->
                 </plugins>
             </build>
+
+        </profile>
+        <profile>
+            <id>production</id>
+            <!-- Omitted -->
 
         </profile>
         <profile>
