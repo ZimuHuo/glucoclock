@@ -146,11 +146,10 @@ public class PatientSetting1 extends HorizontalLayout {
                 Database.updateTable("DROP TABLE IF EXISTS patients_db");
                 String sqlStr = "create table patients_db (\n" +
                         " id SERIAL PRIMARY KEY,\n" +
-                        " FName varchar(128) NOT NULL,\n" +
                         " LName varchar(128) NOT NULL" +
                         ");\n";
                 Database.createTable(sqlStr);
-                Database.insertPatient("insert into patients_db (FName,LName) values ('ZImu','Huo')");
+                Database.insertPatient("insert into patients_db (LName) values ('ZImu')");
             } catch (URISyntaxException ex) {
                 ex.printStackTrace();
             } catch (SQLException ex) {
@@ -159,7 +158,6 @@ public class PatientSetting1 extends HorizontalLayout {
         });
         save.addClickListener(e -> {
             try {
-                Database.updatePatientInfo("1","FName", firstName.getValue());
                 Database.updatePatientInfo("1","LName",lastName.getValue());
             } catch (SQLException ex) {
                 ex.printStackTrace();
