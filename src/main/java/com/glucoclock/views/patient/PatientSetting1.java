@@ -168,12 +168,12 @@ public class PatientSetting1 extends HorizontalLayout {
             Connection conn = getConnection();
             Statement s = conn.createStatement();
 
-
-            String sqlStr = "create table patients_db (\n" +
-                    " id SERIAL PRIMARY KEY,\n" +
-                    " FName varchar(128) NOT NULL" +
-                    ");\n";
-            s.executeQuery(sqlStr);
+//
+//            String sqlStr = "create table patients_db (\n" +
+//                    " id SERIAL PRIMARY KEY,\n" +
+//                    " FName varchar(128) NOT NULL" +
+//                    ");\n";
+//            s.executeQuery(sqlStr);
 
 
             String sqlStr2 = "Insert Into patients_db (FName) values ('MYname');";
@@ -182,7 +182,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
             String sqlStr3 = " select * from patients_db where id=1 ";
             ResultSet rset = s.executeQuery(sqlStr3);
-            String buffer = rset.getString("FName");
+            String buffer = rset.toString();
 
 
             rset.close();
