@@ -137,8 +137,8 @@ public class PatientSetting1 extends HorizontalLayout {
 //    Following functions are used to set up the components
     private void firstNameSetUp(){
         firstName = new TextField("First name");
-        FName = "ZIMU";
-        //FName= getFName();
+
+        FName= getFName();
 
 
         firstName.setValue(FName);
