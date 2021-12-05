@@ -74,6 +74,16 @@ public class PatientSignUp1 extends HorizontalLayout {
             e.printStackTrace();
         }
         try {
+            conn = DriverManager.getConnection(dbUrl);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            conn = DriverManager.getConnection(dbUrl);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
             Statement s=conn.createStatement();
             String sqlStr = "create table patients_db (\n" +
                     " id SERIAL PRIMARY KEY,\n" +
@@ -87,7 +97,7 @@ public class PatientSignUp1 extends HorizontalLayout {
             s.executeQuery(sqlStr2);
             String sqlStr3 = " select * from patients_db";
             ResultSet rset=s.executeQuery(sqlStr3);
-            firstName.setValue("12313");
+            firstName.setValue(rset.getString("FName"));
 
             rset.close();
             s.close();
