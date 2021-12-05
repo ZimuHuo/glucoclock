@@ -149,7 +149,7 @@ public class PatientSetting1 extends HorizontalLayout {
                         " LName varchar(128) NOT NULL" +
                         ");\n";
                 Database.createTable(sqlStr);
-                Database.insertPatient("Insert into patients_db (FName,LName) values ('ZImu','Huo')");
+                Database.insertPatient("insert into patients_db (FName,LName) values ('ZImu','Huo')");
             } catch (URISyntaxException ex) {
                 ex.printStackTrace();
             } catch (SQLException ex) {
