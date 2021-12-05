@@ -25,12 +25,12 @@ public class DoctorSetting1 extends HorizontalLayout {
     //     These are sample variables
     //     Should be got from database
     //    --------------------------------------------
-    String FName = "Zhao";
-    String LName = "Gao";
-    String Email = "zg919@ic.ac.uk";
-    String Home = "Flat8, 95 Queens Gate";
-    String PostCode = "SW7 5AB";
-    String Phone = "44 07421471833";
+    String FName = "Zh";
+    String LName = "o";
+    String Email = "zg@ic.ac.uk";
+    String Home = "F, 9 Queens Gate";
+    String PostCode = "SW7 AB";
+    String Phone = "44 071471833";
     LocalDate Birth = LocalDate.of(2001,6,13);
     String Gender = "Male";
     //    --------------------------------------------
