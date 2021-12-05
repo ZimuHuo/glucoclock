@@ -6,6 +6,8 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -47,7 +49,8 @@ public class PatientSignUp1 extends HorizontalLayout {
     }
 
     private void submitButtonSetUp() {
-        this.submitButton = new Button("Next");
+        this.submitButton = new Button("Next", new Icon(VaadinIcon.ARROW_RIGHT));
+        submitButton.setIconAfterText(true);
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left", "auto");
     }
@@ -86,6 +89,7 @@ public class PatientSignUp1 extends HorizontalLayout {
         passwordSetUp();
 
         this.confirmPassword = new PasswordField("Confirm password");
+        confirmPasswordSetUp();
     }
 
 
