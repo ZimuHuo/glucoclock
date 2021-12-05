@@ -182,7 +182,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
             String sqlStr3 = " select * from patients_db";
             ResultSet rset = s.executeQuery(sqlStr3);
-            String buffer = rset.toString();
+            String buffer = (String) rset.getObject("FName");
 
 
             rset.close();
