@@ -183,13 +183,15 @@ public class PatientSetting1 extends HorizontalLayout {
             String sqlStr3 = " select * from patients_db";
             ResultSet rset = s.executeQuery(sqlStr3);
 
-            rset.close();
-            s.close();
-            conn.close();
+
             if(rset.next()){
                 String buffer = rset.getString("FName");
                 return buffer;
             }
+            //rset.close();
+//            s.close();
+//            conn.close();
+//
 
         } catch (SQLException e) {
             System.out.println("SQL" +e.getErrorCode()+"  "+e.getSQLState()+"    "+e.getCause()+"  " +e.getMessage());
