@@ -2,7 +2,10 @@ package com.glucoclock.views;
 
 import com.glucoclock.views.doctor.DoctorSetting1;
 import com.glucoclock.views.doctor.DoctorSetting2;
+import com.glucoclock.views.doctor.DoctorSignUp1;
 import com.glucoclock.views.patient.*;
+import com.glucoclock.views.researcher.ResearcherSetting1;
+import com.glucoclock.views.researcher.ResearcherSetting2;
 import com.glucoclock.views.researcher.ResearcherSignUp;
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
 import com.glucoclock.views.templates.sugarfree.personform.PersonFormView;
@@ -128,11 +131,17 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Patient Setting2", "la la-user", PatientSetting2.class),
 
+                new MenuItemInfo("Doctor sign up", "la la-user", DoctorSignUp1.class),
+
                 new MenuItemInfo("Doctor Setting1", "la la-user", DoctorSetting1.class),
 
                 new MenuItemInfo("Doctor Setting2", "la la-user", DoctorSetting2.class),
 
-                new MenuItemInfo("Researcher", "la la-user", ResearcherSignUp.class)
+                new MenuItemInfo("Researcher", "la la-user", ResearcherSignUp.class),
+
+                new MenuItemInfo("Researcher Setting1", "la la-user", ResearcherSetting1.class),
+
+                new MenuItemInfo("Researcher Setting2", "la la-user", ResearcherSetting2.class),
         };
         List<RouterLink> links = new ArrayList<>();
         for (MenuItemInfo menuItemInfo : menuItems) {
