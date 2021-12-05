@@ -46,7 +46,7 @@ public class Database {
         return getObject(sqlStr,sqlStr2);
     }
     public static void updatePatientInfo(String id, String col, String updatedinfo)throws SQLException, URISyntaxException {
-        String sqlStr = "update patients set" + col + "='" +updatedinfo+"' where" +"id="+id;
+        String sqlStr = "update patients_db set " + col + " = '" +updatedinfo+" ' where" +" id="+id;
         updateTable(sqlStr);
     }
 
@@ -56,6 +56,12 @@ public class Database {
         s.executeQuery(sqlStr1);
     }
     public static void createTable(String sqlStr1) throws URISyntaxException, SQLException {
+        Connection conn = getConnection();
+        Statement s = conn.createStatement();
+        ResultSet resultSet = s.executeQuery(sqlStr1);
+    }
+
+    public static void insertPatient(String sqlStr1)throws URISyntaxException, SQLException {
         Connection conn = getConnection();
         Statement s = conn.createStatement();
         s.executeQuery(sqlStr1);
