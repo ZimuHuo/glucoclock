@@ -26,7 +26,6 @@ public class Database {
         Connection conn = getConnection();
         Statement s = conn.createStatement();
         ResultSet resultSet = s.executeQuery(sqlStr1);
-
         Object data = null;
         if (resultSet.next()) {
             data = resultSet.getObject(sqlStr2);
@@ -35,6 +34,5 @@ public class Database {
         }
         return data;
     }
-
 
 }

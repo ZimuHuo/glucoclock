@@ -154,11 +154,6 @@ public class PatientSetting1 extends HorizontalLayout {
 
     }
 
-    private static Connection getConnection() throws URISyntaxException, SQLException {
-        String dbUrl = System.getenv("JDBC_DATABASE_URL");
-        return DriverManager.getConnection(dbUrl);
-    }
-
 
     private void lastNameSetUp() {
         lastName = new TextField("Last name");
