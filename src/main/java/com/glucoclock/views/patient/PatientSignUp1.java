@@ -90,11 +90,6 @@ public class PatientSignUp1 extends HorizontalLayout {
 
 
 
-        firstName.setValue("ZIMUHIWHEIWHEW");
-
-
-
-
 
 
 
