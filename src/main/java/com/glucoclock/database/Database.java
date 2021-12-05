@@ -46,7 +46,7 @@ public class Database {
         return getObject(sqlStr,sqlStr2);
     }
     public static void updatePatientInfo(String id, String col, String updatedinfo)throws SQLException, URISyntaxException {
-        String sqlStr = "update patients set" + col + "='" +updatedinfo+"' where" +"id="+id;
+        String sqlStr = "update patients set " + col + " = '" +updatedinfo+" ' where" +" id="+id;
         updateTable(sqlStr);
     }
 
