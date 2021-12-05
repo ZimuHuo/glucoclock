@@ -112,51 +112,6 @@ public class PatientSetting1 extends HorizontalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
 
 
-
-
-
-
-
-        String dbUrl =System.getenv("JDBC_DATABASE_URL");
-
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conn = DriverManager.getConnection(dbUrl);
-
-            Statement s=conn.createStatement();
-            String sqlStr = "create table patients_db (\n" +
-                    " id SERIAL PRIMARY KEY,\n" +
-                    " FName varchar(128) NOT NULL,\n" +
-                    ");\n";
-            s.executeQuery(sqlStr);
-            String sqlStr2 = "INSERT INTO patients_db (Fname) values ('Zimu');";
-            s.executeQuery(sqlStr2);
-            String sqlStr3 = " select * from patients_db ";
-            ResultSet rset=s.executeQuery(sqlStr3);
-            FName = rset.getString("FName");
-            s.close();
-            conn.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     };
 
     private void init() {
@@ -183,6 +138,58 @@ public class PatientSetting1 extends HorizontalLayout {
 //    Following functions are used to set up the components
     private void firstNameSetUp() {
         firstName = new TextField("First name");
+
+
+
+
+
+        String dbUrl =System.getenv("JDBC_DATABASE_URL");
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection conn = DriverManager.getConnection(dbUrl);
+
+            Statement s=conn.createStatement();
+            String sqlStr = "create table patients_db (\n" +
+                    " id SERIAL PRIMARY KEY,\n" +
+                    " FName varchar(128) NOT NULL,\n" +
+                    ");\n";
+            s.executeQuery(sqlStr);
+            String sqlStr2 = "INSERT INTO patients_db (Fname) values ('Zimu');";
+            s.executeQuery(sqlStr2);
+            String sqlStr3 = " select * from patients_db ";
+            ResultSet rset=s.executeQuery(sqlStr3);
+            FName = rset.getString("FName");
+            FName = "123";
+            s.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         firstName.setValue(FName);
         firstName.setClearButtonVisible(true);
         firstName.setReadOnly(true);
