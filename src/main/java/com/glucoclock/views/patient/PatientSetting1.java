@@ -15,14 +15,10 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Set;
 
 
@@ -118,13 +114,8 @@ public class PatientSetting1 extends HorizontalLayout {
 //      Initialize the components
         add(MainLayout);
 
-        try {
-            firstNameSetUp();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        firstNameSetUp();
+
 
         lastNameSetUp();
         datePickerSetUp();
@@ -144,7 +135,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
 //    Following functions are used to set up the components
-    private void firstNameSetUp() throws SQLException, ClassNotFoundException {
+    private void firstNameSetUp(){
         firstName = new TextField("First name");
 
         String buffer = getFName();
@@ -156,25 +147,33 @@ public class PatientSetting1 extends HorizontalLayout {
         firstName.setReadOnly(true);
     }
 
-    private String getFName() throws ClassNotFoundException, SQLException {
-        String dbUrl =System.getenv("JDBC_DATABASE_URL");
-        Class.forName("org.postgresql.Driver");
-        Connection conn = DriverManager.getConnection(dbUrl);
+    private String getFName()  {
+        try {
+            String dbUrl = System.getenv("JDBC_DATABASE_URL");
+            Class.forName("org.postgresql.Driver");
+            Connection conn = DriverManager.getConnection(dbUrl);
 
-        Statement s=conn.createStatement();
-        String sqlStr = "create table patients_db (\n" +
-                " id SERIAL PRIMARY KEY,\n" +
-                " FName varchar(128) NOT NULL,\n" +
-                ");\n";
-        s.executeQuery(sqlStr);
-        String sqlStr2 = "INSERT INTO patients_db (Fname) values ('Zimu');";
-        s.executeQuery(sqlStr2);
-        String sqlStr3 = " select * from patients_db ";
-        ResultSet rset=s.executeQuery(sqlStr3);
-        String buffer = rset.getString("FName");
-        s.close();
-        conn.close();
-        return buffer;
+            Statement s = conn.createStatement();
+            String sqlStr = "create table patients_db (\n" +
+                    " id SERIAL PRIMARY KEY,\n" +
+                    " FName varchar(128) NOT NULL,\n" +
+                    ");\n";
+            s.executeQuery(sqlStr);
+            String sqlStr2 = "INSERT INTO patients_db (Fname) values ('Zimu');";
+            s.executeQuery(sqlStr2);
+            String sqlStr3 = " select * from patients_db ";
+            ResultSet rset = s.executeQuery(sqlStr3);
+            String buffer = rset.getString("FName");
+            s.close();
+            conn.close();
+            return buffer;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return "not working out";
     }
 
     private void lastNameSetUp() {
