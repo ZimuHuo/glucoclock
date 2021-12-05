@@ -1,1 +1,1 @@
-web: java -jar target/glucoclock-2.0-SNAPSHOT.jar $PORT
+web: java -jar target/glucoclock-1.0-SNAPSHOT.jar $PORT
