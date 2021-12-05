@@ -89,6 +89,7 @@ public class PatientSignUp1 extends HorizontalLayout {
         passwordSetUp();
 
         this.confirmPassword = new PasswordField("Confirm password");
+        confirmPasswordSetUp();
     }
 
 

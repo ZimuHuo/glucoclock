@@ -124,6 +124,8 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Patient Setting1", "la la-user", PatientSetting1.class),
 
+                new MenuItemInfo("Patient Setting2", "la la-user", PatientSetting2.class),
+
                 new MenuItemInfo("Researcher", "la la-user", ResearcherSignUp.class)
         };
         List<RouterLink> links = new ArrayList<>();
