@@ -293,11 +293,7 @@
             </build>
 
         </profile>
-        <profile>
-            <id>production</id>
-            <!-- Omitted -->
 
-        </profile>
         <profile>
             <id>npm</id>
             <build>
