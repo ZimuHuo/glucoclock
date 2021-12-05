@@ -72,7 +72,72 @@ public class PatientSetting1 extends HorizontalLayout {
 //  Setting the layout of the page
     public PatientSetting1() {
         init();
-        init_DB();
+
+
+
+
+
+
+
+
+
+
+
+
+
+        String dbUrl =System.getenv("JDBC_DATABASE_URL");
+        try {
+
+            Class.forName("org.postgresql.Driver");
+        } catch (Exception e) {
+            System.out.println("Driver error"+e.getMessage());
+        }
+
+        Connection conn= null;
+        try {
+            conn = DriverManager.getConnection(dbUrl);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            Statement s=conn.createStatement();
+            String sqlStr = "create table patients_db (\n" +
+                    " id SERIAL PRIMARY KEY,\n" +
+                    " FName varchar(128) NOT NULL,\n" +
+                    ");\n";
+            s.executeQuery(sqlStr);
+            String sqlStr2 = "insert into patients_db (\n" +
+                    "FName) \n" +
+                    "values ('Zimu' \n" +
+                    ");\n";
+            s.executeQuery(sqlStr2);
+            String sqlStr3 = " select * from patients_db";
+            ResultSet rset=s.executeQuery(sqlStr3);
+            FName = rset.getString("FName");
+
+            rset.close();
+            s.close();
+            conn.close();
+        }
+        catch (Exception e){
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         FormLayout formLayout = new FormLayout();
         formLayout.add(
                 firstName, lastName,
@@ -112,43 +177,6 @@ public class PatientSetting1 extends HorizontalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
 
     };
-    private void init_DB(){
-        String dbUrl =System.getenv("JDBC_DATABASE_URL");
-        try {
-
-            Class.forName("org.postgresql.Driver");
-        } catch (Exception e) {
-            System.out.println("Driver error"+e.getMessage());
-        }
-
-        Connection conn= null;
-        try {
-            conn = DriverManager.getConnection(dbUrl);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            Statement s=conn.createStatement();
-            String sqlStr = "create table patients_db (\n" +
-                    " id SERIAL PRIMARY KEY,\n" +
-                    " FName varchar(128) NOT NULL,\n" +
-                    ");\n";
-            ResultSet rset=s.executeQuery(sqlStr);
-            String sqlStr2 = "insert into patients_db (\n" +
-                    "FName) \n" +
-                    "values ('Zimu' \n" +
-                    ");\n";
-            ResultSet rset2=s.executeQuery(sqlStr2);
-            FName = rset2.getString("FName");
-            rset.close();
-            rset2.close();
-            s.close();
-            conn.close();
-        }
-        catch (Exception e){
-        }
-
-    }
 
     private void init() {
 //      Initialize the components
