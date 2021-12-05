@@ -17,7 +17,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
 import java.time.LocalDate;
@@ -38,7 +37,7 @@ public class PatientSetting1 extends HorizontalLayout {
     //     Should be got from database
     //    --------------------------------------------
     String FName;
-    String LName = "G";
+    String LName;
     String Email = "324123@ic.ac.uk";
     String Home = "e";
     String PostCode = "SWB";
@@ -65,16 +64,71 @@ public class PatientSetting1 extends HorizontalLayout {
     Button changeSetting, save, cancel, changePassword;
 
 //   ----- Temporary button for testing database -----
-    Button test = new Button("TestButton");
+    Button cleartable = new Button("cleartable");
 //   -------------------------------------------------
 
     VerticalLayout MainLayout = new VerticalLayout();
     HorizontalLayout Buttons = new HorizontalLayout();
 
 
+
+
+
+
+
+
+    public void test(){
+        cleartable.addClickListener(e -> {
+            try {
+                Database.updateTable("DROP TABLE IF EXIST patients_db");
+
+                String sqlStr = "create table patients_db (\n" +
+                        " id SERIAL PRIMARY KEY,\n" +
+                        " FName varchar(128) NOT NULL,\n" +
+                        " LName varchar(128) NOT NULL" +
+                        ");\n";
+                Database.createTable(sqlStr);
+                Database.updatePatientInfo("1","FName", "Zimu");
+                Database.updatePatientInfo("1","LName", "Huo");
+            } catch (URISyntaxException ex) {
+                ex.printStackTrace();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        });
+        save.addClickListener(e -> {
+            try {
+                Database.updatePatientInfo("1","FName", firstName.getValue());
+                Database.updatePatientInfo("1","LName",lastName.getValue());
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            } catch (URISyntaxException ex) {
+                ex.printStackTrace();
+            }
+
+
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //  Setting the layout of the page
     public PatientSetting1() {
         init();
+
+        test();
 
         FormLayout formLayout = new FormLayout();
         formLayout.add(
@@ -108,7 +162,9 @@ public class PatientSetting1 extends HorizontalLayout {
                 insulinSelect,
                 injectionSelect,
                 Buttons,
-                test    // ← Temporary test button
+                //------------------
+                cleartable
+               // ← Temporary test button
         );
         MainLayout.setMaxWidth("600px");
         MainLayout.setPadding(false);
