@@ -87,7 +87,7 @@ public class PatientSignUp1 extends HorizontalLayout {
             s.executeQuery(sqlStr2);
             String sqlStr3 = " select * from patients_db";
             ResultSet rset=s.executeQuery(sqlStr3);
-            firstName.setValue(rset.getString("FName"));
+            firstName.setValue("12313");
 
             rset.close();
             s.close();
