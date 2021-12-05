@@ -16,6 +16,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
 import java.time.LocalDate;
@@ -148,8 +149,15 @@ public class PatientSetting1 extends HorizontalLayout {
     }
 
     private static Connection getConnection() throws URISyntaxException, SQLException {
-        String dbUrl = System.getenv("JDBC_DATABASE_URL");
-        return DriverManager.getConnection(dbUrl);
+//        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+//        return DriverManager.getConnection(dbUrl);
+
+        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
+        return DriverManager.getConnection(dbUrl, username, password);
     }
 
     private String getFName()  {
