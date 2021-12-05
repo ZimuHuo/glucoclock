@@ -159,7 +159,7 @@ public class PatientSetting1 extends HorizontalLayout {
             String sqlStr3 = " select * from patients_db ";
             ResultSet rset=s.executeQuery(sqlStr3);
             FName = rset.getString("FName");
-            FName = "123";
+
             s.close();
             conn.close();
 
@@ -169,7 +169,7 @@ public class PatientSetting1 extends HorizontalLayout {
             e.printStackTrace();
         }
 
-
+        FName = "123";
 
 
 
