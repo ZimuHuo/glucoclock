@@ -64,6 +64,10 @@ public class PatientSetting1 extends HorizontalLayout {
     CheckboxGroup<String> injectionSelect;
     Button changeSetting, save, cancel, changePassword;
 
+//   ----- Temporary button for testing database -----
+    Button test = new Button("TestButton");
+//   -------------------------------------------------
+
     VerticalLayout MainLayout = new VerticalLayout();
     HorizontalLayout Buttons = new HorizontalLayout();
 
@@ -103,7 +107,8 @@ public class PatientSetting1 extends HorizontalLayout {
                 diabetesSelect,
                 insulinSelect,
                 injectionSelect,
-                Buttons
+                Buttons,
+                test    // ← Temporary test button
         );
         MainLayout.setMaxWidth("600px");
         MainLayout.setPadding(false);
