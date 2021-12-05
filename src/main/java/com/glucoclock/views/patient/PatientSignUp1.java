@@ -34,7 +34,7 @@ public class PatientSignUp1 extends HorizontalLayout {
     FormLayout formLayout;
     Button submitButton;
 
-    public PatientSignUp1() throws SQLException {
+    public PatientSignUp1() {
         init();
         formLayoutSetUp();
         submitButtonSetUp();
@@ -45,53 +45,6 @@ public class PatientSignUp1 extends HorizontalLayout {
         verticalLayout.add(submitButton);
         verticalLayout.setMaxWidth("600px");
         verticalLayout.setPadding(false);
-
-
-
-
-
-
-
-
-
-        String dbUrl =System.getenv("JDBC_DATABASE_URL");
-        try {
-
-            Class.forName("org.postgresql.Driver");
-        } catch (Exception e) {
-            System.out.println("Driver error"+e.getMessage());
-        }
-
-        Connection conn= DriverManager.getConnection(dbUrl);
-        try {
-            conn = DriverManager.getConnection(dbUrl);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            Statement s=conn.createStatement();
-            String sqlStr = "create table patients_db (\n" +
-                    " id SERIAL PRIMARY KEY,\n" +
-                    " FName varchar(128) NOT NULL,\n" +
-                    ");\n";
-            s.executeQuery(sqlStr);
-            String sqlStr2 = "INSERT INTO patients_db (Fname) values ('Zimu');";
-            s.executeQuery(sqlStr2);
-            String sqlStr3 = " select * from patients_db ";
-            ResultSet rset=s.executeQuery(sqlStr3);
-            firstName.setValue(rset.getString("FName"));
-
-            rset.close();
-            s.close();
-            conn.close();
-        }
-        catch (Exception e){
-        }
-
-
-
-
-
 
 
 
