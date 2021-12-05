@@ -117,6 +117,7 @@ public class PatientSetting1 extends HorizontalLayout {
     private void init() {
 //      Initialize the components
         add(MainLayout);
+
         try {
             firstNameSetUp();
         } catch (SQLException e) {
@@ -124,6 +125,7 @@ public class PatientSetting1 extends HorizontalLayout {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
         lastNameSetUp();
         datePickerSetUp();
         emailFieldSetUp();
@@ -145,48 +147,34 @@ public class PatientSetting1 extends HorizontalLayout {
     private void firstNameSetUp() throws SQLException, ClassNotFoundException {
         firstName = new TextField("First name");
 
-
-
-        String dbUrl =System.getenv("JDBC_DATABASE_URL");
-            Class.forName("org.postgresql.Driver");
-            Connection conn = DriverManager.getConnection(dbUrl);
-
-            Statement s=conn.createStatement();
-            String sqlStr = "create table patients_db (\n" +
-                    " id SERIAL PRIMARY KEY,\n" +
-                    " FName varchar(128) NOT NULL,\n" +
-                    ");\n";
-            s.executeQuery(sqlStr);
-            String sqlStr2 = "INSERT INTO patients_db (Fname) values ('Zimu');";
-            s.executeQuery(sqlStr2);
-            String sqlStr3 = " select * from patients_db ";
-            ResultSet rset=s.executeQuery(sqlStr3);
-            String buffer = rset.getString("FName");
-            s.close();
-            conn.close();
+        String buffer = getFName();
         FName = buffer;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         firstName.setValue(FName);
         firstName.setClearButtonVisible(true);
         firstName.setReadOnly(true);
+    }
+
+    private String getFName() throws ClassNotFoundException, SQLException {
+        String dbUrl =System.getenv("JDBC_DATABASE_URL");
+        Class.forName("org.postgresql.Driver");
+        Connection conn = DriverManager.getConnection(dbUrl);
+
+        Statement s=conn.createStatement();
+        String sqlStr = "create table patients_db (\n" +
+                " id SERIAL PRIMARY KEY,\n" +
+                " FName varchar(128) NOT NULL,\n" +
+                ");\n";
+        s.executeQuery(sqlStr);
+        String sqlStr2 = "INSERT INTO patients_db (Fname) values ('Zimu');";
+        s.executeQuery(sqlStr2);
+        String sqlStr3 = " select * from patients_db ";
+        ResultSet rset=s.executeQuery(sqlStr3);
+        String buffer = rset.getString("FName");
+        s.close();
+        conn.close();
+        return buffer;
     }
 
     private void lastNameSetUp() {
