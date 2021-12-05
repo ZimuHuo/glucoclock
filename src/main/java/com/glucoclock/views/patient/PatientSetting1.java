@@ -171,7 +171,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
             String sqlStr = "create table patients_db (\n" +
                     " id SERIAL PRIMARY KEY,\n" +
-                    " FName varchar(128) NOT NULL,\n" +
+                    " FName varchar(128) NOT NULL" +
                     ");\n";
             s.executeQuery(sqlStr);
 
