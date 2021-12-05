@@ -142,7 +142,7 @@ public class PatientSetting1 extends HorizontalLayout {
     public void test(){
         cleartable.addClickListener(e -> {
             try {
-                Database.updateTable("DROP TABLE IF EXIST patients_db");
+                Database.updateTable("DROP TABLE IF EXISTS patients_db");
 
                 String sqlStr = "create table patients_db (\n" +
                         " id SERIAL PRIMARY KEY,\n" +
@@ -167,8 +167,6 @@ public class PatientSetting1 extends HorizontalLayout {
             } catch (URISyntaxException ex) {
                 ex.printStackTrace();
             }
-
-
         });
     }
 
