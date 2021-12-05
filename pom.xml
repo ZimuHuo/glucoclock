@@ -244,6 +244,12 @@
                     </plugin>
                 </plugins>
             </build>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                </dependency>
+            </dependencies>
         </profile>
 
         <profile>
@@ -318,16 +324,7 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <id>production</id>
-            <!-- Omitted -->
-            <dependencies>
-                <dependency>
-                    <groupId>org.postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
+
 
     </profiles>
 </project>
