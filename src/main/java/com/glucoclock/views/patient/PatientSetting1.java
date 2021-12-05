@@ -161,7 +161,7 @@ public class PatientSetting1 extends HorizontalLayout {
             s.executeQuery(sqlStr);
 
 
-            String sqlStr2 = "INSERT INTO patients_db (FName) values ('Zimu');";
+            String sqlStr2 = "INSERT INTO patients_db (FName) values ('MYname');";
             s.executeQuery(sqlStr2);
 
 
