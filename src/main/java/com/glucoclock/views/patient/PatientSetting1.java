@@ -187,7 +187,7 @@ public class PatientSetting1 extends HorizontalLayout {
             s.close();
             conn.close();
             if(rset.next()){
-                String buffer = (String) rset.getObject("FName");
+                String buffer = rset.getString("FName");
                 return buffer;
             }
 
