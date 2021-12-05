@@ -137,9 +137,8 @@ public class PatientSetting1 extends HorizontalLayout {
 //    Following functions are used to set up the components
     private void firstNameSetUp(){
         firstName = new TextField("First name");
-
-        String buffer = getFName();
-        FName = buffer;
+        FName = "ZIMU";
+        //FName= getFName();
 
 
         firstName.setValue(FName);
@@ -173,7 +172,7 @@ public class PatientSetting1 extends HorizontalLayout {
             e.printStackTrace();
         }
 
-        return "not working out";
+        return "notworkingout";
     }
 
     private void lastNameSetUp() {
