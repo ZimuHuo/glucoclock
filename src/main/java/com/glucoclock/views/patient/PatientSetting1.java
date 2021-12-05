@@ -143,31 +143,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
 
-        String dbUrl =System.getenv("JDBC_DATABASE_URL");
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conn = DriverManager.getConnection(dbUrl);
 
-            Statement s=conn.createStatement();
-            String sqlStr = "create table patients_db (\n" +
-                    " id SERIAL PRIMARY KEY,\n" +
-                    " FName varchar(128) NOT NULL,\n" +
-                    ");\n";
-            s.executeQuery(sqlStr);
-            String sqlStr2 = "INSERT INTO patients_db (Fname) values ('Zimu');";
-            s.executeQuery(sqlStr2);
-            String sqlStr3 = " select * from patients_db ";
-            ResultSet rset=s.executeQuery(sqlStr3);
-            FName = rset.getString("FName");
-
-            s.close();
-            conn.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
         FName = "123";
 
