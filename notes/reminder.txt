@@ -1,0 +1,4 @@
+i dont think you can store Arraylist? store it as boolean?
+time consumption on creating the table and destroy
+on average 20 sec to update ? we need a transitional uploading UI
+we need an Admin accout?
