@@ -1,3 +1,8 @@
+### finally finished server and database connection, it works like a charm :D 
+
+
+
+
 
 # Glucoclock
 
