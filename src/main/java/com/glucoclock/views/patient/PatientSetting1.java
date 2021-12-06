@@ -8,6 +8,7 @@ import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -119,6 +120,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
         MainLayout.add(
+                new H1("Personal information"),
                 formLayout,
                 postcode,
                 diabetesSelect,
