@@ -146,6 +146,15 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("Researcher Setting1", "la la-user", ResearcherSetting1.class),
 
                 new MenuItemInfo("Researcher Setting2", "la la-user", ResearcherSetting2.class),
+
+                new MenuItemInfo("Simple Logbook", "la la-file", SimpleLogBookView.class),
+
+                new MenuItemInfo("Comprehensive Logbook", "la la-file", ComprehensiveLogBookView.class),
+
+                new MenuItemInfo("Intensive Logbook", "la la-file", IntensiveLogBookView.class),
+
+
+
         };
         List<RouterLink> links = new ArrayList<>();
         for (MenuItemInfo menuItemInfo : menuItems) {
