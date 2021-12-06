@@ -25,25 +25,41 @@ public class PatientSignUp1 extends HorizontalLayout {
     PasswordField confirmPassword;
     FormLayout formLayout;
     Button submitButton;
+    VerticalLayout mainLayout;
 
     public PatientSignUp1() {
         init();
-        formLayoutSetUp();
-        submitButtonSetUp();
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Set up your account"));
-        verticalLayout.add(formLayout);
-        verticalLayout.add(submitButton);
-        verticalLayout.setMaxWidth("600px");
-        verticalLayout.setPadding(false);
-
-        add(verticalLayout);
         this.setJustifyContentMode(JustifyContentMode.CENTER);
+
+        mainLayout.add(new H1("Set up your account"));
+        mainLayout.add(formLayout);
+        mainLayout.add(submitButton);
+
+        add(mainLayout);
+    }
+
+
+
+    private void init() {
+        mainLayoutSetUp();
+        firstNameSetUp();
+        lastNameSetUp();
+        emailFieldSetUp();
+        passwordSetUp();
+        confirmPasswordSetUp();
+        submitButtonSetUp();
+        formLayoutSetUp();
+    }
+
+    private void mainLayoutSetUp() {
+        mainLayout = new VerticalLayout();
+        mainLayout.setHorizontalComponentAlignment(Alignment.CENTER);
+        mainLayout.setMaxWidth("600px");
+        mainLayout.setPadding(false);
     }
 
     private void submitButtonSetUp() {
-        this.submitButton = new Button("Next", new Icon(VaadinIcon.ARROW_RIGHT));
+        submitButton = new Button("Next", new Icon(VaadinIcon.ARROW_RIGHT));
         submitButton.setIconAfterText(true);
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left", "auto");
@@ -55,7 +71,7 @@ public class PatientSignUp1 extends HorizontalLayout {
     }
 
     private void formLayoutSetUp() {
-        this.formLayout = new FormLayout();
+        formLayout = new FormLayout();
         formLayout.add(
                 firstName, lastName,
                 emailField,
@@ -74,35 +90,28 @@ public class PatientSignUp1 extends HorizontalLayout {
         formLayout.setColspan(confirmPassword, 1);
     }
 
-    private void init() {
-        this.firstName = new TextField("First name");
+    private void firstNameSetUp() {
+        firstName = new TextField("First name");
         firstName.setClearButtonVisible(true);
-
-        this.lastName = new TextField("Last name");
-        lastName.setClearButtonVisible(true);
-
-        this.emailField = new EmailField("Email Address");
-        emailFieldSetUp();
-
-        this.password = new PasswordField("Password");
-        passwordSetUp();
-
-        this.confirmPassword = new PasswordField("Confirm password");
-        confirmPasswordSetUp();
     }
 
+    private void lastNameSetUp() {
+        lastName = new TextField("Last name");
+        lastName.setClearButtonVisible(true);
+    }
 
     private void passwordSetUp() {
-        password.setLabel("Password");
+        password = new PasswordField("Password");
         password.setClearButtonVisible(true);
     }
 
     private void confirmPasswordSetUp() {
+        confirmPassword = new PasswordField("Confirm password");
         confirmPassword.setClearButtonVisible(true);
     }
 
     private void emailFieldSetUp() {
-        emailField.setLabel("Email address");
+        emailField = new EmailField("Email Address");
         emailField.getElement().setAttribute("name", "email");
         emailField.setPlaceholder("username@example.com");
         emailField.setErrorMessage("Please enter a valid example.com email address");

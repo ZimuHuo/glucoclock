@@ -172,8 +172,6 @@ public class PatientSetting1 extends HorizontalLayout {
         add(MainLayout);
 
         firstNameSetUp();
-
-
         lastNameSetUp();
         datePickerSetUp();
         emailFieldSetUp();
