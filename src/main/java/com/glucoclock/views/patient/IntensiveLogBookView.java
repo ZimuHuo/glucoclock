@@ -1,14 +1,23 @@
 package com.glucoclock.views.patient;
 
 import com.glucoclock.views.MainLayout;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.contextmenu.HasMenuItems;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.menubar.MenuBarVariant;
+import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -22,6 +31,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 
+import java.awt.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjuster;
@@ -31,18 +41,20 @@ import java.util.Locale;
 
 @PageTitle("Intensive LogBook View")
 @Route(value = "IntensiveLogBookView",layout = MainLayout.class)
-public class IntensiveLogBookView extends HorizontalLayout {
-    TimePicker timePicker;
-    TextField bloodGlucose;
-    TextField carbohydrateIntake;
-    TextField carbBolus;
-    TextField highBsBolus;
-    TextField basalRate;
-    TextField ketones;
-    int hour;
+public class IntensiveLogBookView extends Div {
+    private TimePicker timePicker;
+    private TextField bloodGlucose;
+    private TextField carbohydrateIntake;
+    private TextField carbBolus;
+    private TextField highBsBolus;
+    private TextField basalRate;
+    private TextField ketones;
+    private int hour;
+    private H3 title = new H3("Add Intensive Logbook Entry");
 
     public IntensiveLogBookView() {
         init();
+        add(menuBar());
         var formLayout = new FormLayout();
         formLayout.add(
                 timePicker,
@@ -70,14 +82,16 @@ public class IntensiveLogBookView extends HorizontalLayout {
         submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER,submitButton);
-        verticalLayout.add(new H3("Intensive Logbook"));
+        verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER,title,submitButton);
+        verticalLayout.add(title);
         verticalLayout.add(formLayout);
         verticalLayout.add(submitButton);
         verticalLayout.setMaxWidth("40%");
         verticalLayout.setMargin(true);
-        this.add(verticalLayout);
-        this.setJustifyContentMode(JustifyContentMode.CENTER);
+        var horizontalLayout = new HorizontalLayout();
+        horizontalLayout.add(verticalLayout);
+        horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        add(horizontalLayout);
     }
 
     private void init() {
@@ -123,5 +137,22 @@ public class IntensiveLogBookView extends HorizontalLayout {
         basalRate.setClearButtonVisible(true);
         ketones.setClearButtonVisible(true);
     }
+
+    private Component menuBar(){
+        Button test1 = new Button("Test"); //Menubar test button
+        Button test2 = new Button("Test");
+        this.setHeight("11.2%");
+        this.getStyle().set( "background-image" , "url('images/menubar.png')")
+                .set("margin", "0")
+                .set("position", "absolute");
+        test1.setWidth("8%");
+        test2.setWidth("8%");
+        HorizontalLayout menuButtons = new HorizontalLayout(test1,test2);
+        VerticalLayout rightC = new VerticalLayout();
+        rightC.setHorizontalComponentAlignment(FlexComponent.Alignment.END,menuButtons);
+        rightC.add(menuButtons);
+        return rightC;
+    }
+
 }
 

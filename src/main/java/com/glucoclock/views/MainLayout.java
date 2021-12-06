@@ -122,7 +122,9 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Comprehensive Logbook", "la la-file", ComprehensiveLogBookView.class),
 
-                new MenuItemInfo("Intensive Logbook", "la la-file", IntensiveLogBookView.class)
+                new MenuItemInfo("Intensive Logbook", "la la-file", IntensiveLogBookView.class),
+
+
         };
         List<RouterLink> links = new ArrayList<>();
         for (MenuItemInfo menuItemInfo : menuItems) {
