@@ -2,7 +2,6 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.Database;
 import com.glucoclock.views.MainLayout;
-import com.glucoclock.views.doctor.DoctorSetting2;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -17,7 +16,6 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-
 import java.net.URISyntaxException;
 import java.sql.*;
 import java.time.LocalDate;
@@ -135,9 +133,7 @@ public class PatientSetting1 extends HorizontalLayout {
         MainLayout.setPadding(false);
 
         setJustifyContentMode(JustifyContentMode.CENTER);
-
-
-    };
+    }
 
 
     public void test(){

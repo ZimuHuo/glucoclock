@@ -3,26 +3,17 @@ package com.glucoclock.views.patient;
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteParameters;
-import com.vaadin.flow.theme.Theme;
-
-import java.sql.*;
-import java.time.LocalDate;
-import java.time.ZoneId;
 
 @PageTitle("Sign up your patient account")
 @Route(value = "PatientSignUp1",layout = MainLayout.class)

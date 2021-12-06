@@ -2,7 +2,6 @@ package com.glucoclock.views.patient;
 
 
 import com.glucoclock.views.MainLayout;
-import com.glucoclock.views.doctor.DoctorSetting1;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
