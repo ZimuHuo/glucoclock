@@ -30,35 +30,18 @@ import java.time.ZoneId;
 @Route(value = "PatientSignUp3",layout = MainLayout.class)
 public class PatientSignUp3 extends HorizontalLayout {
 
-    Select<String> diabetesSelect;
-    CheckboxGroup<String> insulinSelect;
-    CheckboxGroup<String> injectionSelect;
-    Button submitButton, previousButton;
+    private Select<String> diabetesSelect;
+    private CheckboxGroup<String> insulinSelect;
+    private CheckboxGroup<String> injectionSelect;
+    private Button submitButton, previousButton;
+    private VerticalLayout verticalLayout;
+    private HorizontalLayout horizontalLayout;
 
     public PatientSignUp3() {
         init();
-
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Info about your diabetes"));
-
-        HorizontalLayout buttons = new HorizontalLayout();
-        buttons.setWidth(verticalLayout.getWidth());
-        buttons.add(previousButton);
-        buttons.add(submitButton);
-
-        verticalLayout.add(
-                diabetesSelect,
-                insulinSelect,
-                injectionSelect,
-                buttons
-        );
-
-
-        verticalLayout.setMaxWidth("600px");
-        verticalLayout.setPadding(false);
-        add(verticalLayout);
-
+        horizontalLayoutSetUp();
+        verticalLayoutSetUp();
+        this.add(verticalLayout);
         this.setJustifyContentMode(JustifyContentMode.CENTER);
     }
 
@@ -69,6 +52,29 @@ public class PatientSignUp3 extends HorizontalLayout {
         previousButtonInit();
         submitButtonInit();
     }
+
+    private void horizontalLayoutSetUp() {
+        this.horizontalLayout = new HorizontalLayout();
+        horizontalLayout.add(previousButton);
+        horizontalLayout.add(submitButton);
+    }
+
+    private void verticalLayoutSetUp() {
+        this.verticalLayout = new VerticalLayout();
+        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
+        verticalLayout.add(new H1("Info about your diabetes"));
+        verticalLayout.add(
+                diabetesSelect,
+                insulinSelect,
+                injectionSelect,
+                horizontalLayout
+        );
+        verticalLayout.setMaxWidth("600px");
+        verticalLayout.setPadding(false);
+        horizontalLayout.setWidth(verticalLayout.getWidth());
+    }
+
+
 
 
     private void diabetesSelectSetUp() {

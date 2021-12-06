@@ -26,10 +26,30 @@ public class ResearcherSignUp extends HorizontalLayout {
     Select<String> institution;
     PasswordField password;
     PasswordField confirmPassword;
+    FormLayout formLayout;
+    Button submitButton;
+    VerticalLayout verticalLayout;
 
     public ResearcherSignUp() {
         init();
-        var formLayout = new FormLayout();
+        formlayoutSetUp();
+        verticalLayoutSetUp();
+        this.add(verticalLayout);
+        this.setJustifyContentMode(JustifyContentMode.CENTER);
+    }
+
+    private void verticalLayoutSetUp() {
+        this.verticalLayout = new VerticalLayout();
+        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
+        verticalLayout.add(new H1("Set up your account"));
+        verticalLayout.add(formLayout);
+        verticalLayout.add(submitButton);
+        verticalLayout.setMaxWidth("600px");
+        verticalLayout.setPadding(false);
+    }
+
+    private void formlayoutSetUp() {
+        this.formLayout = new FormLayout();
         formLayout.add(
                 firstName, lastName,
                 emailField,
@@ -49,7 +69,7 @@ public class ResearcherSignUp extends HorizontalLayout {
         formLayout.setColspan(password, 1);
         formLayout.setColspan(confirmPassword, 1);
 
-        Button submitButton = new Button("Next", new Icon(VaadinIcon.ARROW_RIGHT));
+        this.submitButton = new Button("Next", new Icon(VaadinIcon.ARROW_RIGHT));
         submitButton.setIconAfterText(true);
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left", "auto");
@@ -58,18 +78,6 @@ public class ResearcherSignUp extends HorizontalLayout {
                         ui.navigate(ResearcherSignUp2.class)
                 )
         );
-
-
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Set up your account"));
-        verticalLayout.add(formLayout);
-        verticalLayout.add(submitButton);
-        verticalLayout.setMaxWidth("600px");
-        verticalLayout.setPadding(false);
-        add(verticalLayout);
-
-        this.setJustifyContentMode(JustifyContentMode.CENTER);
     }
 
     private void init() {
@@ -87,6 +95,7 @@ public class ResearcherSignUp extends HorizontalLayout {
         this.password = new PasswordField("Password");
         passwordSetUp();
 
+        this.confirmPassword = new PasswordField("Confirm Password");
         confirmPasswordSetUp();
     }
 
