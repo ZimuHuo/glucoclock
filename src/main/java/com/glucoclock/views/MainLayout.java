@@ -11,7 +11,6 @@ import com.glucoclock.views.researcher.ResearcherSignUp;
 import com.glucoclock.views.researcher.ResearcherSignUp2;
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
 import com.glucoclock.views.templates.sugarfree.personform.PersonFormView;
-import com.glucoclock.views.templates.sugarfree.SugarFreeView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -89,7 +88,7 @@ public class MainLayout extends AppLayout {
     }
 
     private Component createDrawerContent() {
-        H2 appName = new H2("Glucoclock");
+        H2 appName = new H2("Gluco'clock");
         appName.addClassNames("flex", "items-center", "h-xl", "m-0", "px-m", "text-m");
 
         com.vaadin.flow.component.html.Section section = new com.vaadin.flow.component.html.Section(appName,
@@ -117,12 +116,11 @@ public class MainLayout extends AppLayout {
 
     private List<RouterLink> createLinks() {
         MenuItemInfo[] menuItems = new MenuItemInfo[]{ //
-                new MenuItemInfo("sugarFree", "la la-globe", SugarFreeView.class), //
+                new MenuItemInfo("Home", "la la-globe", HomeView.class), //
 
                 new MenuItemInfo("About", "la la-file", AboutView.class), //
 
                 new MenuItemInfo("Person Form", "la la-user", PersonFormView.class), //
-
                 new MenuItemInfo("Patient sign up page 1", "la la-user", PatientSignUp1.class),
 
                 new MenuItemInfo("Patient sign up page 2", "la la-user", PatientSignUp2.class),
