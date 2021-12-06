@@ -1,30 +1,20 @@
 package com.glucoclock.views.researcher;
 
 import com.glucoclock.views.MainLayout;
-import com.glucoclock.views.doctor.DoctorSignUp2;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.CheckboxGroup;
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-
 
 
 @PageTitle("Sign up your researcher account")
@@ -89,7 +79,7 @@ public class ResearcherSignUp extends HorizontalLayout {
         this.lastName = new TextField("Last name");
         lastName.setClearButtonVisible(true);
 
-        this.institution = new Select("Imperial College London");
+        this.institution = new Select<>("Imperial College London");
         institution.setLabel("Institution");
         this.emailField = new EmailField("Email Address");
         emailFieldSetUp();
@@ -97,7 +87,7 @@ public class ResearcherSignUp extends HorizontalLayout {
         this.password = new PasswordField("Password");
         passwordSetUp();
 
-        this.confirmPassword = new PasswordField("Confirm password");
+        confirmPasswordSetUp();
     }
 
 

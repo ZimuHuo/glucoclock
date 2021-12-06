@@ -1,6 +1,5 @@
 package com.glucoclock.views.researcher;
 import com.glucoclock.views.MainLayout;
-import com.glucoclock.views.doctor.DoctorSetting2;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -255,7 +254,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
     }
 
     private void institutionSelectInit() {
-        institutionSelect = new Select<String>("Imperial College London");
+        institutionSelect = new Select<>("Imperial College London");
         institutionSelect.setValue(Institution);
         institutionSelect.setEnabled(false);
         institutionSelect.setLabel("Institution");
