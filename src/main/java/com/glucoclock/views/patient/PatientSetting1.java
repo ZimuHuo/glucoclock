@@ -213,7 +213,6 @@ public class PatientSetting1 extends HorizontalLayout {
             if (FName == null) {
                 FName = "123";
             }
-
         }catch (SQLException throwables) {
                 throwables.printStackTrace();
             } catch (URISyntaxException e) {
