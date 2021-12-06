@@ -31,6 +31,10 @@ public class ResearcherSignUp2 extends HorizontalLayout {
     private FormLayout formLayout1;
     private FormLayout formLayout2;
     private FormLayout formLayout3;
+    Button previousButton;
+    Button submitButton;
+    VerticalLayout verticalLayout;
+    HorizontalLayout horizontalLayout;
 
 
 
@@ -39,8 +43,41 @@ public class ResearcherSignUp2 extends HorizontalLayout {
         formlayout1SetUp();
         formlayout2SetUp();
         formlayout3SetUp();
+        previousButtonSetUp();
+        submitButtonSetUp();
+        verticalLayoutSetUp();
+        horizontalLayoutSetUp();
+        this.add(verticalLayout);
+        this.setJustifyContentMode(JustifyContentMode.CENTER);
+    }
 
-        Button previousButton = new Button("Previous", new Icon(VaadinIcon.ARROW_LEFT));
+    private void horizontalLayoutSetUp() {
+        this.horizontalLayout = new HorizontalLayout();
+        horizontalLayout.setWidth(verticalLayout.getWidth());
+        horizontalLayout.add(previousButton);
+        horizontalLayout.add(submitButton);
+        verticalLayout.add(horizontalLayout);
+        verticalLayout.setMaxWidth("600px");
+        verticalLayout.setPadding(false);
+    }
+
+    private void verticalLayoutSetUp() {
+        this.verticalLayout = new VerticalLayout();
+        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
+        verticalLayout.add(new H1("Personal information"));
+        verticalLayout.add(formLayout1);
+        verticalLayout.add(formLayout2);
+        verticalLayout.add(formLayout3);
+    }
+
+    private void submitButtonSetUp() {
+        this.submitButton = new Button("Submit");
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.getElement().getStyle().set("margin-left","auto");
+    }
+
+    private void previousButtonSetUp() {
+        this.previousButton = new Button("Previous", new Icon(VaadinIcon.ARROW_LEFT));
         previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         previousButton.getElement().getStyle().set("margin-right", "auto");
         previousButton.addClickListener(e ->
@@ -48,26 +85,6 @@ public class ResearcherSignUp2 extends HorizontalLayout {
                         ui.navigate(ResearcherSignUp.class)
                 )
         );
-
-        Button submitButton = new Button("Submit");
-        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.getElement().getStyle().set("margin-left","auto");
-
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Personal information"));
-        verticalLayout.add(formLayout1);
-        verticalLayout.add(formLayout2);
-        verticalLayout.add(formLayout3);
-        HorizontalLayout horizontalLayout = new HorizontalLayout();
-        horizontalLayout.setWidth(verticalLayout.getWidth());
-        horizontalLayout.add(previousButton);
-        horizontalLayout.add(submitButton);
-        verticalLayout.add(horizontalLayout);
-        verticalLayout.setMaxWidth("600px");
-        verticalLayout.setPadding(false);
-        this.add(verticalLayout);
-        this.setJustifyContentMode(JustifyContentMode.CENTER);
     }
 
     private void formlayout3SetUp() {
