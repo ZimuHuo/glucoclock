@@ -6,6 +6,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -17,43 +18,22 @@ import com.vaadin.flow.router.Route;
 
 @PageTitle("Simple LogBook View")
 @Route(value = "SimpleLogBookView",layout = MainLayout.class)
-public class SimpleLogBookView extends HorizontalLayout {
+public class SimpleLogBookView extends Div {
+    private H3 title = new H3("Add Simple Logbook Entry");
     private ComboBox<String> prepost;
     private ComboBox<String> meal;
     private TextField bloodGlucose;
     private TextField carbohydrate;
+    private Button submitButton = new Button("Upload");
 
     private Button test1 = new Button("Test"); //Menubar test button
     private Button test2 = new Button("Test");
 
+
     public SimpleLogBookView(){
         init();
-        var formLayout = new FormLayout();
-        formLayout.add(
-                prepost, meal,
-                bloodGlucose,
-                carbohydrate
-        );
-        formLayout.setResponsiveSteps(
-                new FormLayout.ResponsiveStep("0", 1),
-                new FormLayout.ResponsiveStep("320px", 2)
-        );
-        formLayout.setColspan(bloodGlucose, 2);
-        formLayout.setColspan(carbohydrate,2 );
-        Button submitButton = new Button("Upload");
-        submitButton.setWidth("30%");
-        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.add(new H3("Simple Logbook"));
-        verticalLayout.add(formLayout);
-        verticalLayout.add(submitButton);
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER,submitButton);
-        verticalLayout.setMaxWidth("40%");
-        verticalLayout.setMargin(true);
-        this.add(verticalLayout);
-        this.setJustifyContentMode(JustifyContentMode.CENTER);
-
-
+        add(menuBar());
+        add(createFields());
     }
 
     private void init() {
@@ -69,6 +49,7 @@ public class SimpleLogBookView extends HorizontalLayout {
         meal.setItems("Breakfast","Lunch","Dinner");
     }
 
+
     private Component menuBar(){
         this.setHeight("12.2%");
         this.getStyle().set( "background-image" , "url('images/menubar.png')");
@@ -79,5 +60,34 @@ public class SimpleLogBookView extends HorizontalLayout {
         rightC.setHorizontalComponentAlignment(FlexComponent.Alignment.END,menuButtons);
         rightC.add(menuButtons);
         return rightC;
+    }
+
+    private Component createFields(){
+        var formLayout = new FormLayout();
+        formLayout.add(
+                prepost, meal,
+                bloodGlucose,
+                carbohydrate
+        );
+        formLayout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep("320px", 2)
+        );
+        formLayout.setColspan(bloodGlucose, 2);
+        formLayout.setColspan(carbohydrate,2 );
+        submitButton.setWidth("30%");
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.add(title);
+        verticalLayout.add(formLayout);
+        verticalLayout.add(submitButton);
+        verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER,title,submitButton);
+        verticalLayout.setMaxWidth("40%");
+        verticalLayout.setMargin(true);
+        var horizontalLayout = new HorizontalLayout();
+        horizontalLayout.add(verticalLayout);
+        horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        return horizontalLayout;
+
     }
 }
