@@ -209,10 +209,8 @@ public class PatientSetting1 extends HorizontalLayout {
             if (FName == null) {
                 FName = "123";
             }
-        }catch (SQLException throwables) {
+        }catch (SQLException | URISyntaxException throwables) {
                 throwables.printStackTrace();
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
             }
         lastName.setValue(LName);
         lastName.setClearButtonVisible(true);
