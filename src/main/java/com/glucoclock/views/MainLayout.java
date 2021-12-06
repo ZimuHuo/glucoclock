@@ -114,9 +114,6 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Person Form", "la la-user", PersonFormView.class), //
 
-                new MenuItemInfo("Simple Logbook", "la la-file", SimpleLBView.class), //
-
-                new MenuItemInfo("Comp", "la la-file", CompreLBView.class),
 
                 new MenuItemInfo("Simple Logbook", "la la-file", SimpleLogBookView.class),
 
