@@ -2,3 +2,21 @@ i dont think you can store Arraylist? store it as boolean?
 time consumption on creating the table and destroy
 on average 20 sec to update ? we need a transitional uploading UI
 we need an Admin account?
+plug in issue
+Runs the integration tests (*IT) after the server is started -->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-failsafe-plugin</artifactId>-->
+<!--                        <version>2.19.1</version>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <goals>-->
+<!--                                    <goal>integration-test</goal>-->
+<!--                                    <goal>verify</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                        <configuration>-->
+<!--                            <trimStackTrace>false</trimStackTrace>-->
+<!--                        </configuration>-->
+<!--                    </plugin>-->
