@@ -31,43 +31,55 @@ public class DoctorSignUp2 extends HorizontalLayout {
     private FormLayout formLayout1;
     private FormLayout formLayout2;
     private FormLayout formLayout3;
+    private VerticalLayout mainLayout;
+    Button previousButton, submitButton;
+    HorizontalLayout Buttons;
 
 
 
     public DoctorSignUp2() {
         init();
+
+        mainLayout.add(new H1("Personal information"));
+        mainLayout.add(formLayout1);
+        mainLayout.add(formLayout2);
+        mainLayout.add(formLayout3);
+        mainLayout.add(Buttons);
+
+        this.add(mainLayout);
+        this.setJustifyContentMode(JustifyContentMode.CENTER);
+    }
+
+
+
+    private void init() {
+        mainLayoutSetUp();
+        previousButtonSetUp();
+        submitButtonSetUp();
+        sexSetUp();
+        datePickerSetUp();
+        apartmentAddressSetUp();
+        streetAddressSetUp();
+        postcodeSetUp();
+        contactNumberSetUp();
         formlayout1SetUp();
         formlayout2SetUp();
         formlayout3SetUp();
+        ButtonsSetUp();
+    }
 
-        Button previousButton = new Button("Previous", new Icon(VaadinIcon.ARROW_LEFT));
-        previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        previousButton.getElement().getStyle().set("margin-right", "auto");
-        previousButton.addClickListener(e ->
-                previousButton.getUI().ifPresent(ui ->
-                        ui.navigate(DoctorSignUp1.class)
-                )
-        );
+    private void ButtonsSetUp() {
+        Buttons = new HorizontalLayout();
+        Buttons.setWidth(mainLayout.getWidth());
+        Buttons.add(previousButton);
+        Buttons.add(submitButton);
+    }
 
-        Button submitButton = new Button("Submit");
-        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.getElement().getStyle().set("margin-left","auto");
-
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Personal information"));
-        verticalLayout.add(formLayout1);
-        verticalLayout.add(formLayout2);
-        verticalLayout.add(formLayout3);
-        HorizontalLayout horizontalLayout = new HorizontalLayout();
-        horizontalLayout.setWidth(verticalLayout.getWidth());
-        horizontalLayout.add(previousButton);
-        horizontalLayout.add(submitButton);
-        verticalLayout.add(horizontalLayout);
-        verticalLayout.setMaxWidth("600px");
-        verticalLayout.setPadding(false);
-        this.add(verticalLayout);
-        this.setJustifyContentMode(JustifyContentMode.CENTER);
+    private void mainLayoutSetUp() {
+        mainLayout = new VerticalLayout();
+        mainLayout.setHorizontalComponentAlignment(Alignment.CENTER);
+        mainLayout.setMaxWidth("600px");
+        mainLayout.setPadding(false);
     }
 
     private void formlayout3SetUp() {
@@ -109,33 +121,53 @@ public class DoctorSignUp2 extends HorizontalLayout {
         formLayout1.setColspan(datePicker, 1);
     }
 
-    private void init() {
-        this.sex = new RadioButtonGroup<>();
-        sexSetUp();
-        this.datePicker = new DatePicker("Date of birth");
-        datePickerSetUp();
-        this.apartmentAddress = new TextField("Apartment address");
-        this.streetAddress = new TextField("Street address");
-        this.postcode = new TextField("Post code");
-        this.contactNumber = new TextField("Contact Number");
-        contactNumberSetUp();
-        datePicker.setClearButtonVisible(true);
-        apartmentAddress.setClearButtonVisible(true);
-        streetAddress.setClearButtonVisible(true);
+    private void submitButtonSetUp() {
+        submitButton = new Button("Submit");
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.getElement().getStyle().set("margin-left","auto");
+    }
+
+    private void previousButtonSetUp() {
+        previousButton = new Button("Previous", new Icon(VaadinIcon.ARROW_LEFT));
+        previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        previousButton.getElement().getStyle().set("margin-right", "auto");
+        previousButton.addClickListener(e ->
+                previousButton.getUI().ifPresent(ui ->
+                        ui.navigate(DoctorSignUp1.class)
+                )
+        );
+    }
+
+    private void postcodeSetUp() {
+        postcode = new TextField("Post code");
         postcode.setClearButtonVisible(true);
-        contactNumber.setClearButtonVisible(true);
+    }
+
+    private void streetAddressSetUp() {
+        streetAddress = new TextField("Street address");
+        streetAddress.setClearButtonVisible(true);
+    }
+
+    private void apartmentAddressSetUp() {
+        apartmentAddress = new TextField("Apartment address");
+        apartmentAddress.setClearButtonVisible(true);
     }
 
     private void sexSetUp() {
+        sex = new RadioButtonGroup<>();
         sex.setLabel("Gender");
         sex.setItems("Male","Female","Others","Prefer not to say");
     }
 
     private void contactNumberSetUp() {
-        contactNumber.setLabel("Phone number");
+        contactNumber = new TextField("Contact Number");
+        contactNumber.setClearButtonVisible(true);
         contactNumber.setHelperText("Include country and area prefixes");
     }
+
     private void datePickerSetUp() {
+        datePicker = new DatePicker("Date of birth");
+        datePicker.setClearButtonVisible(true);
         LocalDate now = LocalDate.now(ZoneId.systemDefault()).minusYears(7);
         datePicker.setMax(now.minusYears(7));
         datePicker.setMin(now.minusYears(120));
@@ -143,6 +175,4 @@ public class DoctorSignUp2 extends HorizontalLayout {
         datePicker.setHelperText("Format: DD.MM.YYYY");
         datePicker.setPlaceholder("DD.MM.YYYY");
     }
-
-
 }

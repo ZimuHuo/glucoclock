@@ -26,21 +26,17 @@ public class DoctorSignUp1 extends HorizontalLayout {
     PasswordField confirmPassword;
     FormLayout formLayout;
     Button submitButton;
+    VerticalLayout mainLayout;
 
     public DoctorSignUp1() {
         init();
-        formLayoutSetUp();
-        submitButtonSetUp();
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Set up your account"));
-        verticalLayout.add(formLayout);
-        verticalLayout.add(submitButton);
-        verticalLayout.setMaxWidth("600px");
-        verticalLayout.setPadding(false);
-
-        add(verticalLayout);
         this.setJustifyContentMode(JustifyContentMode.CENTER);
+
+        mainLayout.add(new H1("Set up your account"));
+        mainLayout.add(formLayout);
+        mainLayout.add(submitButton);
+
+        add(mainLayout);
     }
 
     private void submitButtonSetUp() {
@@ -76,33 +72,46 @@ public class DoctorSignUp1 extends HorizontalLayout {
     }
 
     private void init() {
-        this.firstName = new TextField("First name");
-        firstName.setClearButtonVisible(true);
-
-        this.lastName = new TextField("Last name");
-        lastName.setClearButtonVisible(true);
-
-        this.emailField = new EmailField("Email Address");
+        mainLayoutSetUp();
+        firstNameSetUp();
+        lastNameSetUp();
         emailFieldSetUp();
-
-        this.password = new PasswordField("Password");
         passwordSetUp();
-
-        this.confirmPassword = new PasswordField("Confirm password");
         confirmPasswordSetUp();
+        submitButtonSetUp();
+        formLayoutSetUp();
     }
 
+    private void lastNameSetUp() {
+        lastName = new TextField("Last name");
+        lastName.setClearButtonVisible(true);
+    }
+
+    private void firstNameSetUp() {
+        firstName = new TextField("First name");
+        firstName.setClearButtonVisible(true);
+    }
+
+    private void mainLayoutSetUp() {
+        mainLayout = new VerticalLayout();
+        mainLayout.setHorizontalComponentAlignment(Alignment.CENTER);
+        mainLayout.setMaxWidth("600px");
+        mainLayout.setPadding(false);
+    }
 
     private void passwordSetUp() {
+        password = new PasswordField("Password");
         password.setLabel("Password");
         password.setClearButtonVisible(true);
     }
 
     private void confirmPasswordSetUp() {
+        confirmPassword = new PasswordField("Confirm password");
         confirmPassword.setClearButtonVisible(true);
     }
 
     private void emailFieldSetUp() {
+        emailField = new EmailField("Email Address");
         emailField.setLabel("Email address");
         emailField.getElement().setAttribute("name", "email");
         emailField.setPlaceholder("username@example.com");
