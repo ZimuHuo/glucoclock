@@ -1,16 +1,32 @@
 package com.glucoclock.database.model;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import java.time.LocalDate;
+
 public class PatientUI  {
  
 		
 	private String firstName;
-     private String lastName;
-     protected PatientUI() {
+    private String lastName;
+    private String Email;
+    private String PostCode;
+
+
+
+
+
+
+
+    protected PatientUI() {
 	}
  
-	public PatientUI(String firstName, String lastName) {
+	public PatientUI(String firstName, String lastName,String Email, String PostCode) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+        this.Email = Email;
+        this.PostCode = PostCode;
 	}
  
 	 public String getFirstName() {
@@ -25,8 +41,24 @@ public class PatientUI  {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-	
-	public String toString() {
+
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public String getPostCode() {
+        return PostCode;
+    }
+
+    public void setPostCode(String postCode) {
+        PostCode = postCode;
+    }
+
+    public String toString() {
 		return String.format("Patient[firstName='%s', lastName='%s']", firstName, lastName);
 	}
 }

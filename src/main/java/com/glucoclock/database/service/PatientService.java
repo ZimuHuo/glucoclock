@@ -28,20 +28,14 @@ public class PatientService  {
 
     public String bulkcreate(){
         // save a single Patient
-        repository.save(new Patient("Zimu", "Huo"));
-
-        // save a list of Patients
-        repository.saveAll(Arrays.asList(new Patient("Gao", "zhao")
-                , new Patient("Z1", "H1")
-                , new Patient("Z2", "H2")
-                , new Patient("z3", "h3")));
-
-        return "Patients are created";
+        repository.save(new Patient("ZImu","Huo","ZImuhuo@outlook.com","SW& $AX"));
+        repository.save(new Patient("ZImu2","Huo2","ZImuhuo@outlook.com2","SW& $AX2"));
+        return "Patient created";
     }
 
     public String create(PatientUI Patient){
         // save a single Patient
-        repository.save(new Patient(Patient.getFirstName(), Patient.getLastName()));
+        repository.save(new Patient(Patient.getFirstName(), Patient.getLastName(),Patient.getEmail(),Patient.getPostCode()));
 
         return "Patient is created";
     }
@@ -52,7 +46,7 @@ public class PatientService  {
         List<PatientUI> PatientUI = new ArrayList<>();
 
         for (Patient Patient : Patients) {
-            PatientUI.add(new PatientUI(Patient.getFirstName(),Patient.getLastName()));
+            PatientUI.add(new PatientUI(Patient.getFirstName(),Patient.getLastName(),Patient.getEmail(),Patient.getPostCode()));
         }
 
         return PatientUI;
@@ -72,9 +66,19 @@ public class PatientService  {
         List<PatientUI> PatientUI = new ArrayList<>();
 
         for (Patient Patient : Patients) {
-            PatientUI.add(new PatientUI(Patient.getFirstName(),Patient.getLastName()));
+            PatientUI.add(new PatientUI(Patient.getFirstName(),Patient.getLastName(),Patient.getEmail(),Patient.getPostCode()));
         }
-
         return PatientUI;
     }
+    public PatientRepository getRepository(){
+        return repository;
+    }
+   public void updatePatientLastName(long id, String LName) {
+    Patient patient = repository.getPatientById(id);
+    patient.setLastName(LName);
+    repository.save(patient);
+}
+
+
+
 }

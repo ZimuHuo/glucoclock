@@ -2,6 +2,7 @@ package com.glucoclock.views.patient;
 
 
 
+import com.glucoclock.database.model.Patient;
 import com.glucoclock.database.service.PatientService;
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
@@ -37,17 +38,22 @@ public class PatientSetting1 extends HorizontalLayout {
     //     These are sample variables
     //     Should be got from database
     //    --------------------------------------------
-    String FName = "H";
-    String LName = "Z";
-    String Email = "324123@ic.ac.uk";
+    String FName;
+    String LName;
+    String Email;
     String Home = "e";
-    String PostCode = "SWB";
+    String PostCode;
     String Phone = "44 0421833";
     LocalDate Birth = LocalDate.of(2001,6,13);
     String Gender = "Male";
     String Diabetes = "Type I";
     Set<String> insulin;
     Set<String> injection;
+
+
+
+
+
     //    --------------------------------------------
 
 //    All Components on the page
@@ -85,8 +91,52 @@ public class PatientSetting1 extends HorizontalLayout {
 
 //  Setting the layout of the page
     public PatientSetting1(PatientService patientService) {
-        init();
+
+
+
+
+
+
+
+
+
+
+        //-----------------------------------------
+
         this.patientService = patientService;
+        long id = 1;
+        Patient patient = patientService.getRepository().getPatientById(id);
+        FName = patient.getFirstName();
+        LName = patient.getLastName();
+        Email = patient.getEmail();
+        PostCode = patient.getPostCode();
+
+
+
+
+
+
+
+        //-----------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+        init();
+
+
+
+
+
+
 
         FormLayout formLayout = new FormLayout();
         formLayout.add(
@@ -137,6 +187,9 @@ public class PatientSetting1 extends HorizontalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
 
 
+
+
+
     }
 
 
@@ -164,13 +217,15 @@ public class PatientSetting1 extends HorizontalLayout {
         saveSetUp();
         cancelSetUp();
         changePasswordSetUp();
+
+
+
     }
 
 
 //    Following functions are used to set up the components
     private void firstNameSetUp(){
         firstName = new TextField("First name");
-
         firstName.setValue(FName);
         firstName.setClearButtonVisible(true);
         firstName.setReadOnly(true);
@@ -294,13 +349,16 @@ public class PatientSetting1 extends HorizontalLayout {
             Diabetes = diabetesSelect.getValue();
             insulin = insulinSelect.getValue();
             injection = injectionSelect.getValue();
-
             allSetReadOnly(true);
-
             changeSetting.setVisible(true);
             changePassword.setVisible(true);
             save.setVisible(false);
             cancel.setVisible(false);
+
+
+
+            long id = 1;
+            patientService.updatePatientLastName(id,lastName.getValue());
 
             Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
         });
