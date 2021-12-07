@@ -10,7 +10,7 @@ import com.glucoclock.views.researcher.ResearcherSetting2;
 import com.glucoclock.views.researcher.ResearcherSignUp;
 import com.glucoclock.views.researcher.ResearcherSignUp2;
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
-import com.glucoclock.views.templates.sugarfree.personform.PersonFormView;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -88,7 +88,7 @@ public class MainLayout extends AppLayout {
     }
 
     private Component createDrawerContent() {
-        H2 appName = new H2("Gluco'clock");
+        H2 appName = new H2("Glucoclock");
         appName.addClassNames("flex", "items-center", "h-xl", "m-0", "px-m", "text-m");
 
         com.vaadin.flow.component.html.Section section = new com.vaadin.flow.component.html.Section(appName,
@@ -120,7 +120,8 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("About", "la la-file", AboutView.class), //
 
-                new MenuItemInfo("Person Form", "la la-user", PersonFormView.class), //
+
+
                 new MenuItemInfo("Patient sign up page 1", "la la-user", PatientSignUp1.class),
 
                 new MenuItemInfo("Patient sign up page 2", "la la-user", PatientSignUp2.class),
@@ -146,15 +147,6 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("Researcher Setting1", "la la-user", ResearcherSetting1.class),
 
                 new MenuItemInfo("Researcher Setting2", "la la-user", ResearcherSetting2.class),
-
-                new MenuItemInfo("Simple Logbook", "la la-file", SimpleLogBookView.class),
-
-                new MenuItemInfo("Comprehensive Logbook", "la la-file", ComprehensiveLogBookView.class),
-
-                new MenuItemInfo("Intensive Logbook", "la la-file", IntensiveLogBookView.class),
-
-
-
         };
         List<RouterLink> links = new ArrayList<>();
         for (MenuItemInfo menuItemInfo : menuItems) {

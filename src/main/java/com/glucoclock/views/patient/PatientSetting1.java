@@ -1,6 +1,8 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.database.Database;
+
+
+import com.glucoclock.database.service.PatientService;
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -17,8 +19,7 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import java.net.URISyntaxException;
-import java.sql.*;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Set;
@@ -33,7 +34,7 @@ import java.util.Set;
 public class PatientSetting1 extends HorizontalLayout {
 
 
-//     These are sample variables
+    //     These are sample variables
     //     Should be got from database
     //    --------------------------------------------
     String FName = "H";
@@ -64,18 +65,12 @@ public class PatientSetting1 extends HorizontalLayout {
     Button changeSetting, save, cancel, changePassword;
 
 //   ----- Temporary button for testing database -----
-    Button cleartable = new Button("cleartable");
 //   -------------------------------------------------
 
     VerticalLayout MainLayout = new VerticalLayout();
     HorizontalLayout Buttons = new HorizontalLayout();
 
-
-
-
-
-
-
+    private final PatientService patientService;
 
 
 
@@ -89,10 +84,9 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
 //  Setting the layout of the page
-    public PatientSetting1() {
+    public PatientSetting1(PatientService patientService) {
         init();
-
-        test();
+        this.patientService = patientService;
 
         FormLayout formLayout = new FormLayout();
         formLayout.add(
@@ -119,6 +113,14 @@ public class PatientSetting1 extends HorizontalLayout {
         Buttons.add(changePassword, changeSetting, save, cancel);
 
 
+        Button button = new Button("Check this");
+
+
+        button.addClickListener(e ->{
+
+            patientService.bulkcreate();
+                }
+        );
         MainLayout.add(
                 new H1("Personal information"),
                 formLayout,
@@ -127,44 +129,18 @@ public class PatientSetting1 extends HorizontalLayout {
                 insulinSelect,
                 injectionSelect,
                 Buttons,
-                //------------------
-                cleartable
-               // ← Temporary test button
+                button
         );
         MainLayout.setMaxWidth("600px");
         MainLayout.setPadding(false);
 
         setJustifyContentMode(JustifyContentMode.CENTER);
+
+
     }
 
 
-    public void test(){
-//        cleartable.addClickListener(e -> {
-//            try {
-//
-//               // Database.updateTable("DROP TABLE IF EXISTS patients_db");
-//                String sqlStr = "create table patients_db (\n" +
-//                        " id SERIAL PRIMARY KEY,\n" +
-//                        " LName varchar(128) NOT NULL" +
-//                        ");\n";
-//                Database.createTable(sqlStr);
-//                Database.insertPatient("insert into patients_db (LName) values ('ZImu')");
-//            } catch (URISyntaxException ex) {
-//                ex.printStackTrace();
-//            } catch (SQLException ex) {
-//                ex.printStackTrace();
-//            }
-//        });
-        save.addClickListener(e -> {
-            try {
-                Database.updatePatientInfo("1","LName",lastName.getValue());
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            } catch (URISyntaxException ex) {
-                ex.printStackTrace();
-            }
-        });
-    }
+
 
 
 
@@ -204,14 +180,6 @@ public class PatientSetting1 extends HorizontalLayout {
 
     private void lastNameSetUp() {
         lastName = new TextField("Last name");
-        try {
-            FName = (String) Database.getObject("select * from patients_db where id=1", "FName");
-            if (FName == null) {
-                FName = "123";
-            }
-        }catch (SQLException | URISyntaxException throwables) {
-                throwables.printStackTrace();
-            }
         lastName.setValue(LName);
         lastName.setClearButtonVisible(true);
         lastName.setReadOnly(true);
