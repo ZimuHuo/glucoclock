@@ -3,12 +3,12 @@ package com.glucoclock.database.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Set;
 
 @Entity
 @Table(name = "Patient_db")
 public class Patient implements Serializable {
- 
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +25,8 @@ public class Patient implements Serializable {
 
 	@Column(name = "PostCode")
 	private String postCode;
+
+
 //
 //	@Column(name = "Phone")
 //	private String Phone;

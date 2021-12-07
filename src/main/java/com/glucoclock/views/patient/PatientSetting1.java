@@ -52,8 +52,6 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
 
-
-
     //    --------------------------------------------
 
 //    All Components on the page
@@ -118,11 +116,6 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
         //-----------------------------------------
-
-
-
-
-
 
 
 
@@ -359,6 +352,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
             long id = 1;
             patientService.updatePatientLastName(id,lastName.getValue());
+
 
             Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
         });
