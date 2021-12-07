@@ -70,15 +70,33 @@ public class PatientService  {
         }
         return PatientUI;
     }
+
     public PatientRepository getRepository(){
         return repository;
     }
-   public void updatePatientLastName(long id, String LName) {
-    Patient patient = repository.getPatientById(id);
-    patient.setLastName(LName);
-    repository.save(patient);
-}
 
+    public void updatePatientLastName(long id, String LName) {
+        Patient patient = repository.getPatientById(id);
+        patient.setLastName(LName);
+        repository.save(patient);
+   }
+
+   public void updatePatientFirstName(long id, String FName){
+        Patient patient = repository.getPatientById(id);
+        patient.setFirstName(FName);
+        repository.save(patient);
+   }
+    public void updatePatientEmail(long id, String email){
+        Patient patient = repository.getPatientById(id);
+        patient.setEmail(email);
+        repository.save(patient);
+    }
+
+    public void updatePatientPostCode(long id, String postCode){
+        Patient patient = repository.getPatientById(id);
+        patient.setPostCode(postCode);
+        repository.save(patient);
+    }
 
 
 }

@@ -28,8 +28,7 @@ public class PatientUI  {
         this.Email = Email;
         this.PostCode = PostCode;
 	}
- 
-	 public String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
     public void setFirstName(String firstName) {
