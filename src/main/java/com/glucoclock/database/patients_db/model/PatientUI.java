@@ -1,8 +1,8 @@
 package com.glucoclock.database.patients_db.model;
 
 public class PatientUI  {
- 
-		
+
+
 	private String firstName;
     private String lastName;
     private String Email;
@@ -16,7 +16,7 @@ public class PatientUI  {
 
     protected PatientUI() {
 	}
- 
+
 	public PatientUI(String firstName, String lastName,String Email, String PostCode) {
 		this.firstName = firstName;
 		this.lastName = lastName;
