@@ -2,7 +2,6 @@ package com.glucoclock.views.patient;
 
 
 import com.glucoclock.data.entity.PersonData;
-import com.glucoclock.data.entity.SamplePerson;
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
