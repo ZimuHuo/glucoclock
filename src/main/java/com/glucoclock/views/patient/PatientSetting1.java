@@ -2,8 +2,8 @@ package com.glucoclock.views.patient;
 
 
 
-import com.glucoclock.database.model.Patient;
-import com.glucoclock.database.service.PatientService;
+import com.glucoclock.database.patients_db.model.Patient;
+import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -102,6 +102,7 @@ public class PatientSetting1 extends HorizontalLayout {
         //-----------------------------------------
 
         this.patientService = patientService;
+        patientService.bulkcreate();
         long id = 1;
         Patient patient = patientService.getRepository().getPatientById(id);
         FName = patient.getFirstName();

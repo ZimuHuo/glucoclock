@@ -1,24 +1,13 @@
-package com.glucoclock.database.service;
+package com.glucoclock.database.patients_db.service;
 
-import com.glucoclock.database.model.Patient;
-import com.glucoclock.database.model.PatientUI;
-import com.glucoclock.database.repository.PatientRepository;
+import com.glucoclock.database.patients_db.model.Patient;
+import com.glucoclock.database.patients_db.model.PatientUI;
+import com.glucoclock.database.patients_db.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
-
-import com.glucoclock.database.repository.PatientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import com.glucoclock.database.model.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service

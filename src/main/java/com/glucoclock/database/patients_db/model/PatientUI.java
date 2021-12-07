@@ -1,9 +1,4 @@
-package com.glucoclock.database.model;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import java.time.LocalDate;
+package com.glucoclock.database.patients_db.model;
 
 public class PatientUI  {
  

@@ -1,6 +1,6 @@
-package com.glucoclock.database.repository;
+package com.glucoclock.database.patients_db.repository;
 
-import com.glucoclock.database.model.*;
+import com.glucoclock.database.patients_db.model.Patient;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

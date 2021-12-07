@@ -1,10 +1,7 @@
-package com.glucoclock.database.model;
+package com.glucoclock.database.patients_db.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Set;
 
 @Entity
 @Table(name = "Patient_db")
