@@ -27,33 +27,38 @@ public class MenuBar extends AppLayout {
     public MenuBar(){
         VerticalLayout vl = new VerticalLayout();
         HorizontalLayout hl = new HorizontalLayout();
+        HorizontalLayout hlo = new HorizontalLayout();
+        VerticalLayout vlo = new VerticalLayout();
         HorizontalLayout hl2 = new HorizontalLayout();
-        cog.setSize("40px");
-        cal.setSize("40px");
+        cog.setSize("45px");
+        cal.setSize("45px");
 
-        history.setWidth("60px");
-        history.setHeight("60px");
+        history.setWidth("65px");
+        history.setHeight("65px");
 
-        settings.setWidth("60px");
-        settings.setHeight("60px");
+        settings.setWidth("65px");
+        settings.setHeight("65px");
 
-        logo.setHeight("60px");
+        logo.setHeight("65px");
         home.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         hl.add(history,settings);
         hl.setPadding(false);
         hl.setSpacing(false);
 
+        hlo.add(home);
+        vlo.add(hlo);
+        vlo.setHorizontalComponentAlignment(FlexComponent.Alignment.START,home);
 
         vl.add(hl);
         vl.setHorizontalComponentAlignment(FlexComponent.Alignment.END,hl);
         vl.setPadding(false);
-        hl2.add(home,vl);
+        hl2.add(vlo,vl);
 //        vl.add(home);
 //        vl.setHorizontalComponentAlignment(FlexComponent.Alignment.START,home);
 
 
-        hl2.getStyle().set("height","63px")
+        hl2.getStyle().set("height","70px")
                 .set("width","100%")
                 .set( "background-image" , "url('images/bgBar.png')")
                 .set("margin", "0");
