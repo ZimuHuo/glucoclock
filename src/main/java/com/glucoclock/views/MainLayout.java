@@ -3,11 +3,10 @@ package com.glucoclock.views;
 import com.glucoclock.views.patient.HistoryView;
 import com.glucoclock.views.patient.DownloadPage;
 import com.glucoclock.views.patient.LogbookView;
-import com.glucoclock.views.researcher.ResearcherStart;
+import com.glucoclock.views.researcher.*;
 import com.glucoclock.views.doctor.DoctorSetting1;
 import com.glucoclock.views.doctor.DoctorSetting2;
 import com.glucoclock.views.patient.*;
-import com.glucoclock.views.researcher.ResearcherSignUp;
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
 
 import com.vaadin.flow.component.Component;
@@ -119,7 +118,6 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("About", "la la-file", AboutView.class), //
 
-                new MenuItemInfo("Person Form", "la la-user", PersonFormView.class), //
                 new MenuItemInfo("Patient sign up page 1", "la la-user", PatientSignUp1.class),
 
                 new MenuItemInfo("Patient sign up page 2", "la la-user", PatientSignUp2.class),
@@ -134,7 +132,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Doctor Setting2", "la la-user", DoctorSetting2.class),
 
-                new MenuItemInfo("Researcher", "la la-user", ResearcherSignUp.class)
+                new MenuItemInfo("Researcher", "la la-user", ResearcherSignUp.class),
                 new MenuItemInfo("ResearcherSignUp1", "la la-user", ResearcherSignUp.class),
 
                 new MenuItemInfo("ResearcherSignUp2", "la la-user", ResearcherSignUp2.class),
