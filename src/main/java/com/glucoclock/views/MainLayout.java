@@ -10,7 +10,6 @@ import com.glucoclock.views.patient.*;
 import com.glucoclock.views.researcher.ResearcherSignUp;
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
 import com.glucoclock.views.templates.sugarfree.personform.PersonFormView;
-import com.glucoclock.views.templates.sugarfree.SugarFreeView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -118,7 +117,7 @@ public class MainLayout extends AppLayout {
 
     private List<RouterLink> createLinks() {
         MenuItemInfo[] menuItems = new MenuItemInfo[]{ //
-                new MenuItemInfo("sugarFree", "la la-globe", SugarFreeView.class), //
+                new MenuItemInfo("sugarFree", "la la-globe", HomeView.class), //
 
                 new MenuItemInfo("About", "la la-file", AboutView.class), //
 
@@ -129,7 +128,10 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("LogBook","",LogbookView.class),
                 new MenuItemInfo("Researcher Start","", ResearcherStart.class),
 
-
+                new MenuItemInfo("Download","", DownloadPage.class),
+                new MenuItemInfo("View History","", HistoryView.class),
+                new MenuItemInfo("LogBook","",LogbookView.class),
+                new MenuItemInfo("Researcher Start","", ResearcherStart.class),
                 new MenuItemInfo("Patient sign up page 1", "la la-user", PatientSignUp1.class),
 
                 new MenuItemInfo("Patient sign up page 2", "la la-user", PatientSignUp2.class),
