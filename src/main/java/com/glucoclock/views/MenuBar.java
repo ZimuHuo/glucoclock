@@ -17,8 +17,10 @@ import com.vaadin.flow.component.tabs.Tabs;
 public class MenuBar extends AppLayout {
     private Icon cog = new Icon(VaadinIcon.COG_O);
     private Icon cal = new Icon(VaadinIcon.CALENDAR_CLOCK);
+    private Icon signout = new Icon(VaadinIcon.SIGN_OUT);
     private Button history = new Button(cal);
     private Button settings = new Button(cog);
+    private Button logout = new Button(signout);
     private Image logo = new Image("/images/logo_dark.png","logo");
     private Button home = new Button(logo);
 
@@ -32,6 +34,8 @@ public class MenuBar extends AppLayout {
         HorizontalLayout hl2 = new HorizontalLayout();
         cog.setSize("45px");
         cal.setSize("45px");
+        signout.setSize("45px");
+
 
         history.setWidth("65px");
         history.setHeight("65px");
@@ -39,10 +43,13 @@ public class MenuBar extends AppLayout {
         settings.setWidth("65px");
         settings.setHeight("65px");
 
+        logout.setWidth("65px");
+        logout.setHeight("65px");
+
         logo.setHeight("65px");
         home.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        hl.add(history,settings);
+        hl.add(history,settings,logout);
         hl.setPadding(false);
         hl.setSpacing(false);
 
