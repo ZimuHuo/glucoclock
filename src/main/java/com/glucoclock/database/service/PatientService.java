@@ -70,10 +70,11 @@ public class PatientService  {
         }
         return PatientUI;
     }
+
     public PatientRepository getRepository(){
         return repository;
     }
-   public void updatePatientLastName(long id, String LName) {
+    public void updatePatientLastName(long id, String LName) {
     Patient patient = repository.getPatientById(id);
     patient.setLastName(LName);
     repository.save(patient);
