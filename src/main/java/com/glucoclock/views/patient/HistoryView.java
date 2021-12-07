@@ -110,8 +110,8 @@ public class HistoryView extends VerticalLayout {
             addData.setCompleteLogBook(false);
             //set default data- no data, no logbook
             for(PersonData testingdata:x) {
-                System.out.println("input: "+testingdata.getDatadate());
-                System.out.println("compare w/: "+date.toString());
+                //System.out.println("input: "+testingdata.getDatadate());
+                //System.out.println("compare w/: "+date.toString());
                 if (testingdata.getDatadate().isEqual(today.minusDays(day))) {
                     System.out.println("True");
                     addData.setLogBookType(testingdata.getLogBookType());
