@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class PersonData extends AbstractEntity {
     private LocalDate Datadate;
     private String LogBookType;
-    private Boolean CompleteLogBook=false;
+    private String CompleteLogBook="-";
 
 
     public void setDatadate(LocalDate Datadate){
@@ -23,7 +23,8 @@ public class PersonData extends AbstractEntity {
         this.LogBookType=LogBokType;
     }
     public void setCompleteLogBook(Boolean CompleteLogBook){
-        this.CompleteLogBook=CompleteLogBook;
+        if (CompleteLogBook==true)
+        this.CompleteLogBook="Yes";
     }
     public String getLogBookType(){
         return LogBookType;
@@ -31,11 +32,13 @@ public class PersonData extends AbstractEntity {
     public LocalDate getDatadate(){
         return Datadate;
     }
+    public Boolean getBooleanCompleteLogBook(){
+        Boolean returnvalue=false;
+        if(CompleteLogBook=="Yes") returnvalue=true;
+        return returnvalue;
+    }
     public String getCompleteLogBook(){
-        String returnString;
-        if(CompleteLogBook==true) returnString="YES";
-        else returnString="-";
-        return returnString;
+        return CompleteLogBook;
     }
 
 }

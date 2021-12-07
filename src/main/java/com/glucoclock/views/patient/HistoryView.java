@@ -18,6 +18,8 @@ import com.vaadin.flow.router.Route;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @PageTitle("View History")
@@ -33,8 +35,9 @@ public class HistoryView extends VerticalLayout {
     public HistoryView(){
         setSizeFull();
         configSearch();
-        configureHV();
         setupShownData();
+        configureHV();
+
         identifyclick();
 
         //layout
@@ -62,15 +65,7 @@ public class HistoryView extends VerticalLayout {
     }
 
     private void configureHV() {
-        //testing data
-        PersonData x1=new PersonData();
-        x1.setCompleteLogBook(true);
-        x1.setDatadate(today);
-        x1.setLogBookType("Simple");
-        PersonData x2=new PersonData();
-        x2.setCompleteLogBook(false);
-        x2.setDatadate(today.plusDays(2));
-        x2.setLogBookType("Intensive");
+
 
         //add column data of PersonData class
         Historylist.setSizeFull();
@@ -80,37 +75,53 @@ public class HistoryView extends VerticalLayout {
 
 
         //testing data
-        Historylist.setItems(x1,x2);
+        //Historylist.setItems(x1,x2);
+        //Historylist.setItems(x2);
 
         Historylist.setItems(HistoryDataShown);
+
+
 
         Historylist.getColumns().forEach(col->col.setAutoWidth(true));
     }
 
     private void setupShownData(){
-        //ArrayList<PersonData> DatabaseInput
+        //testing data
+        ArrayList<PersonData>x=new ArrayList<>();
+        PersonData x1=new PersonData();
+        x1.setCompleteLogBook(true);
+        x1.setDatadate(today);
+        x1.setLogBookType("Simple");
+        PersonData x2=new PersonData();
+        x2.setCompleteLogBook(true);
+        x2.setDatadate(today.minusDays(2));
+        x2.setLogBookType("Intensive");
+        x.add(x1);
+        x.add(x2);
+        System.out.println(x1.getDatadate());
+        System.out.println(x2.getDatadate());
+        //testing data
         //compare with database, if there is data occur at that day, add the data in the HistoryDataShown list
-        PersonData addData1=new PersonData();
-        PersonData addData2=new PersonData();
         LocalDate date=today;
-        addData1.setDatadate(today);
-        addData1.setLogBookType("-");
-        addData1.setCompleteLogBook(false);
-        HistoryDataShown.add(addData1);
-        addData1.setDatadate(today.minusDays(1));
-        addData1.setLogBookType("-");
-        addData1.setCompleteLogBook(true);
-        HistoryDataShown.add(addData1);
 
-
-       /* for(int day=0;day<5;day++){
+        for(int day=0;day<30;day++){
+            PersonData addData=new PersonData();
+            addData.setLogBookType("-");
+            addData.setCompleteLogBook(false);
+            //set default data- no data, no logbook
+            for(PersonData testingdata:x) {
+                System.out.println("input: "+testingdata.getDatadate());
+                System.out.println("compare w/: "+date.toString());
+                if (testingdata.getDatadate().isEqual(today.minusDays(day))) {
+                    System.out.println("True");
+                    addData.setLogBookType(testingdata.getLogBookType());
+                    addData.setCompleteLogBook(testingdata.getBooleanCompleteLogBook());
+                }
+            }
             addData.setDatadate(date);
-            HistoryDataShown.add(day,addData);
-            if(day==3) addData.setCompleteLogBook(true);
-            //date=date.minusDays(1);
-
-        }*/
-
+            HistoryDataShown.add(addData);
+            date=date.minusDays(1);
+        }
     }
 
 

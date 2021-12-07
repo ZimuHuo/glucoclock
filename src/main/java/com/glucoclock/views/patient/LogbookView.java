@@ -125,8 +125,8 @@ public class LogbookView extends VerticalLayout {
 
     private void IntensiveLogBookView() {
         for(IntensiveLogExample intensive:Intensive){
-            Span BloodGlucose = new Span("Blood Glucose : "+intensive.getBloodGlucose().toString()+" unit");
-            Span CarbonIntake = new Span("Carbon Intake : "+intensive.getCarbonIntake().toString()+" unit");
+            Span BloodGlucose = new Span("Blood Glucose : "+intensive.getBloodGlucose().toString()+" mmol/L");
+            Span CarbonIntake = new Span("Carb Intake : "+intensive.getCarbonIntake().toString()+" g");
             Span CarbBolus = new Span("Carb Bolus : "+intensive.getCarbBolus().toString()+" unit");
             Span HighBSBolus = new Span("High BS Bolus : "+intensive.getHighBSBolus().toString()+" unit");
             Span BasalRange = new Span("Basal Range : "+intensive.getBasalRage().toString()+" unit");
