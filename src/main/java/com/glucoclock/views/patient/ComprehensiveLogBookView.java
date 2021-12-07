@@ -31,7 +31,7 @@ public class ComprehensiveLogBookView extends Div {
 
     public ComprehensiveLogBookView(){
         init();
-        add(menuBar());
+        //add(menuBar());
         var formLayout = new FormLayout();
         formLayout.add(
                 prepost, meal,
@@ -77,7 +77,7 @@ public class ComprehensiveLogBookView extends Div {
         meal.setItems("Breakfast","Lunch","Dinner");
     }
     private Component menuBar(){
-        this.setHeight("12.2%");
+        this.setHeight("81px");
         this.getStyle().set( "background-image" , "url('images/menubar.png')");
         test1.setWidth("8%");
         test2.setWidth("8%");

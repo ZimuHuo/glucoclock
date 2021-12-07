@@ -1,6 +1,7 @@
 package com.glucoclock.views.patient;
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -28,11 +29,13 @@ public class SimpleLogBookView extends Div {
 
     private Button test1 = new Button("Test"); //Menubar test button
     private Button test2 = new Button("Test");
+    private MenuBar menu = new MenuBar();
 
 
     public SimpleLogBookView(){
         init();
-        add(menuBar());
+        add(menu);
+        //add(menuBar());
         add(createFields());
     }
 
@@ -51,7 +54,7 @@ public class SimpleLogBookView extends Div {
 
 
     private Component menuBar(){
-        this.setHeight("12.2%");
+        this.setHeight("81px");
         this.getStyle().set( "background-image" , "url('images/menubar.png')");
         test1.setWidth("8%");
         test2.setWidth("8%");
