@@ -53,6 +53,6 @@ public class PatientUI  {
     }
 
     public String toString() {
-		return String.format("Patient[firstName='%s', lastName='%s']", firstName, lastName);
-	}
+        return String.format("Patient[firstName='%s', lastName='%s']", firstName, lastName);
+    }
 }
