@@ -33,8 +33,11 @@ public class MenuBar extends AppLayout {
         VerticalLayout vlo = new VerticalLayout();
         HorizontalLayout hl2 = new HorizontalLayout();
         cog.setSize("45px");
+        cog.setColor("white");
         cal.setSize("45px");
+        cal.setColor("white");
         signout.setSize("45px");
+        signout.setColor("white");
 
 
         history.setWidth("65px");
