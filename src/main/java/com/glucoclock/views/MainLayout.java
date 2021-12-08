@@ -126,6 +126,10 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("About", "la la-file", AboutView.class), //
 
+                new MenuItemInfo("SignUp", "la la-file", SignUp.class),
+
+                new MenuItemInfo("Patient Start", "la la-file", PatientStart.class),
+
                 new MenuItemInfo("Patient sign up page 1", "la la-user", PatientSignUp1.class),
 
                 new MenuItemInfo("Patient sign up page 2", "la la-user", PatientSignUp2.class),
@@ -168,7 +172,9 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Researcher Start","", ResearcherStart.class),
 
-                new MenuItemInfo("Questionnaire","", QuestionnaireView.class)
+                new MenuItemInfo("Questionnaire","", QuestionnaireView.class),
+
+                new MenuItemInfo("Comformation Page","",ConfirmationPage.class),
         };
         List<RouterLink> links = new ArrayList<>();
         for (MenuItemInfo menuItemInfo : menuItems) {
