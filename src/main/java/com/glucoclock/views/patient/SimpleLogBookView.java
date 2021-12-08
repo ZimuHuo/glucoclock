@@ -21,14 +21,11 @@ import com.vaadin.flow.router.Route;
 @Route(value = "SimpleLogBookView",layout = MainLayout.class)
 public class SimpleLogBookView extends Div {
     private H3 title = new H3("Add Simple Logbook Entry");
-    private ComboBox<String> prepost;
-    private ComboBox<String> meal;
-    private TextField bloodGlucose;
-    private TextField carbohydrate;
-    private Button submitButton = new Button("Upload");
-
-    private Button test1 = new Button("Test"); //Menubar test button
-    private Button test2 = new Button("Test");
+    ComboBox<String> prepost;
+    ComboBox<String> meal;
+    TextField bloodGlucose;
+    TextField carbohydrate;
+    Button submitButton = new Button("Upload");
     private MenuBar menu = new MenuBar("NS");
 
 
@@ -52,18 +49,6 @@ public class SimpleLogBookView extends Div {
         meal.setItems("Breakfast","Lunch","Dinner");
     }
 
-
-    private Component menuBar(){
-        this.setHeight("81px");
-        this.getStyle().set( "background-image" , "url('images/menubar.png')");
-        test1.setWidth("8%");
-        test2.setWidth("8%");
-        HorizontalLayout menuButtons = new HorizontalLayout(test1,test2);
-        VerticalLayout rightC = new VerticalLayout();
-        rightC.setHorizontalComponentAlignment(FlexComponent.Alignment.END,menuButtons);
-        rightC.add(menuButtons);
-        return rightC;
-    }
 
     private Component createFields(){
         var formLayout = new FormLayout();

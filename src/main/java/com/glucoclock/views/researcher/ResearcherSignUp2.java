@@ -1,6 +1,7 @@
 package com.glucoclock.views.researcher;
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -35,10 +36,12 @@ public class ResearcherSignUp2 extends HorizontalLayout {
     Button submitButton;
     VerticalLayout verticalLayout;
     HorizontalLayout horizontalLayout;
+    private MenuBar menu = new MenuBar("NS");
 
 
 
     public ResearcherSignUp2() {
+        add(menu);
         init();
         formlayout1SetUp();
         formlayout2SetUp();

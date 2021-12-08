@@ -1,6 +1,7 @@
 package com.glucoclock.views.researcher;
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -23,8 +24,10 @@ public class ResearcherStart extends VerticalLayout {
     String F_Gender;
     String F_Insulin;
     String F_Diabetes;
+    private MenuBar menu = new MenuBar("DRStart");
 
     public ResearcherStart(){
+        add(menu);
     //Buttons and blanks
         //Gender filter
         ComboBox<String> Filter_Gender = new ComboBox<>("Gender");

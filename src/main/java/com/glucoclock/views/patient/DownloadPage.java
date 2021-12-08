@@ -2,6 +2,7 @@ package com.glucoclock.views.patient;
 
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -26,8 +27,10 @@ public class DownloadPage extends VerticalLayout {
     DatePicker PrintEndDate = new DatePicker("Select end date:");
     Button ExportPlot=new Button("Export Plot");
     Button ExportData=new Button("Export Data");
+    private MenuBar menu = new MenuBar("NS");
 
     public DownloadPage() {
+        add(menu);
         //2 calendar options preset to current time
         PrintStartDate.setLocale(finnishLocale);
         PrintStartDate.setValue(LocalDate.now(ZoneId.systemDefault()));

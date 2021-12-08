@@ -1,5 +1,6 @@
 package com.glucoclock.views.researcher;
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -44,8 +45,10 @@ public class ResearcherSetting1 extends HorizontalLayout {
     Button changeSetting, save, cancel, changePassword;
     VerticalLayout mainLayout;
     HorizontalLayout buttons;
+    private MenuBar menu = new MenuBar("NS");
 
     public ResearcherSetting1() {
+        add(menu);
         init();
         setJustifyContentMode(JustifyContentMode.CENTER);
 

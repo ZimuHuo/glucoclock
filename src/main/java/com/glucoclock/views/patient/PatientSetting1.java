@@ -5,6 +5,7 @@ package com.glucoclock.views.patient;
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -76,12 +77,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
     private final PatientService patientService;
 
-
-
-
-
-
-
+    private MenuBar menu = new MenuBar("NS");
 
 
 
@@ -89,16 +85,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
 //  Setting the layout of the page
     public PatientSetting1(PatientService patientService) {
-
-
-
-
-
-
-
-
-
-
+        add(menu);
         //-----------------------------------------
 
         this.patientService = patientService;

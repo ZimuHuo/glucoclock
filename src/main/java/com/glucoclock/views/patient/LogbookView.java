@@ -2,6 +2,7 @@ package com.glucoclock.views.patient;
 
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.html.H2;
@@ -31,11 +32,13 @@ public class LogbookView extends VerticalLayout {
     ArrayList<SimpleLogExample> SimpleData=new ArrayList<SimpleLogExample>();
     ArrayList<CompLogExample> Comprehensive=new ArrayList<CompLogExample>();
     ArrayList<IntensiveLogExample> Intensive=new ArrayList<IntensiveLogExample>();
+    private MenuBar menu = new MenuBar("NS");
 
 
 
 
     public LogbookView(){
+        add(menu);
     //Used only for testing remove when developing backends
         Button simple=new Button("Simple");
         Button comprehensive=new Button("Comprehensive");

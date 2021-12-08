@@ -1,6 +1,7 @@
 package com.glucoclock.views.patient;
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -26,8 +27,10 @@ public class PatientSignUp1 extends HorizontalLayout {
     FormLayout formLayout;
     Button submitButton;
     VerticalLayout mainLayout;
+    private MenuBar menu = new MenuBar("NS");
 
     public PatientSignUp1() {
+        add(menu);
         init();
         this.setJustifyContentMode(JustifyContentMode.CENTER);
 

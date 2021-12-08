@@ -2,9 +2,11 @@ package com.glucoclock.views.patient;
 
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -29,8 +31,10 @@ public class HistoryView extends VerticalLayout {
     private DatePicker SelectbyHand= new DatePicker("Select date");
     private Button ViewData=new Button("View");
     private HorizontalLayout SearchPanel=new HorizontalLayout();
+    private MenuBar menu = new MenuBar("NS");
 
     public HistoryView(){
+        add(menu);
         setSizeFull();
         configSearch();
         setupShownData();
