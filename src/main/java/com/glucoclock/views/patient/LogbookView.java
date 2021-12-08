@@ -1,6 +1,8 @@
 package com.glucoclock.views.patient;
 
 
+import com.glucoclock.database.comprehensiveLogBook_db.model.ComprehensiveLogBook;
+import com.glucoclock.database.comprehensiveLogBook_db.service.ComprehensiveLogBookService;
 import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
 import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
 import com.glucoclock.views.MainLayout;
@@ -32,13 +34,15 @@ public class LogbookView extends VerticalLayout {
     ArrayList<CompLogExample> Comprehensive=new ArrayList<CompLogExample>();
     ArrayList<IntensiveLogExample> Intensive=new ArrayList<IntensiveLogExample>();
     private final SimpleLogBookService SimplelogData;
+    private final ComprehensiveLogBookService ComprehensivelogData;
 
 
 
 
-    public LogbookView(SimpleLogBookService SimplelogData){
+    public LogbookView(SimpleLogBookService SimplelogData, ComprehensiveLogBookService comprehensivelogData){
 
         this.SimplelogData = SimplelogData;
+        ComprehensivelogData = comprehensivelogData;
         //Used only for testing remove when developing backends
         Button simple=new Button("Simple");
         Button comprehensive=new Button("Comprehensive");
@@ -47,13 +51,13 @@ public class LogbookView extends VerticalLayout {
         add(new HorizontalLayout(simple,comprehensive,intensive));
 
 
-        //comprehensive input
-            CompLogExample x4 = new CompLogExample(LocalDate.of(2021, 3, 8), "pre breakfast", 30, 30,40);
-            CompLogExample x5 = new CompLogExample(LocalDate.of(2021, 3, 8), "after breakfast", 40, 10,50);
-            CompLogExample x6 = new CompLogExample(LocalDate.of(2021, 3, 8), "pre lunch", 50, 20,60);
-            Comprehensive.add(x4);
-            Comprehensive.add(x5);
-            Comprehensive.add(x6);
+//        //comprehensive input
+//            CompLogExample x4 = new CompLogExample(LocalDate.of(2021, 3, 8), "pre breakfast", 30, 30,40);
+//            CompLogExample x5 = new CompLogExample(LocalDate.of(2021, 3, 8), "after breakfast", 40, 10,50);
+//            CompLogExample x6 = new CompLogExample(LocalDate.of(2021, 3, 8), "pre lunch", 50, 20,60);
+//            Comprehensive.add(x4);
+//            Comprehensive.add(x5);
+//            Comprehensive.add(x6);
 
         //intensive input
         IntensiveLogExample x7 = new IntensiveLogExample(LocalDate.of(2021, 3, 8), "9 AM", 30, 30,40,10,30,23);
@@ -93,7 +97,7 @@ public class LogbookView extends VerticalLayout {
             LogbookType="Comprehensive";
             Notification.show("Comprehensive");
             removeAll();
-            SelectDate = x4.getDate();
+            SelectDate=LocalDate.now();
             add(
                 new HorizontalLayout(simple,comprehensive,intensive),
                 new HorizontalLayout(
@@ -101,7 +105,11 @@ public class LogbookView extends VerticalLayout {
                     new Paragraph(LogbookType+"Log Book"),
                         editIcon)
                 );
-            CompLogBookView();
+//try database here***enter data
+            patientId=1L;
+            ComprehensivelogData.bulkcreate();
+
+            CompLogBookView(ComprehensivelogData);
             editIcon.addClickListener(edit->Notification.show("edit"));
         });
         //display comprehensive log book
@@ -140,11 +148,12 @@ public class LogbookView extends VerticalLayout {
 
     }
 
-    private void CompLogBookView() {
-        for(CompLogExample comprehensive:Comprehensive){
-            Span BloodGlucose = new Span("Blood Glucose : "+comprehensive.getBloodGlucose().toString()+" unit");
-            Span CarbonIntake = new Span("Carbon Intake : "+comprehensive.getCarbonIntake().toString()+" unit");
-            Span InsulinDose = new Span("Insulin Dose  : "+comprehensive.getInsulinDose().toString()+" unit");
+    private void CompLogBookView(ComprehensiveLogBookService ComprehensivelogData) {
+        List<ComprehensiveLogBook> ShowData=ComprehensivelogData.findLogByDateAndPatientid(SelectDate,patientId);
+        for(ComprehensiveLogBook comprehensive:ShowData){
+            Span BloodGlucose = new Span("Blood Glucose : "+comprehensive.getBloodglucose().toString()+" unit");
+            Span CarbonIntake = new Span("Carbon Intake : "+comprehensive.getCarbintake().toString()+" unit");
+            Span InsulinDose = new Span("Insulin Dose  : "+comprehensive.getInsulindose().toString()+" unit");
             VerticalLayout CompLog = new VerticalLayout(BloodGlucose, CarbonIntake,InsulinDose);
             Details SimpleLogBook = new Details(comprehensive.getTime(), CompLog);
             add(SimpleLogBook);

@@ -1,13 +1,13 @@
-package com.glucoclock.database.simpleLogBook_db.model;
-
+package com.glucoclock.database.comprehensiveLogBook_db.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+
 @Entity
-@Table(name = "Simplelogbook_db")
-public class SimpleLogBook implements Serializable {
+@Table(name = "Comprehensivelogbook_db")
+public class ComprehensiveLogBook implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -27,19 +27,33 @@ public class SimpleLogBook implements Serializable {
     @Column(name = "CarbIntake")
     private String carbintake;
 
+    @Column(name="InsulinDose")
+    private String insulindose;
 
 
-    public SimpleLogBook(Long PatientId, LocalDate Date, String Time, String BloodGlucose, String CarbIntake) {
+
+    public ComprehensiveLogBook(Long PatientId, LocalDate Date, String Time, String BloodGlucose, String CarbIntake, String InsulinDose) {
 
         patientid = PatientId;
         date = Date;
         bloodglucose = BloodGlucose;
         carbintake = CarbIntake;
         time=Time;
+        insulindose=InsulinDose;
     }
 
-    public SimpleLogBook() {
+    public ComprehensiveLogBook() {
 
+    }
+
+
+
+    public String getInsulindose() {
+        return insulindose;
+    }
+
+    public void setInsulindose(String insulindose) {
+        this.insulindose = insulindose;
     }
 
     public long getId() {
@@ -90,5 +104,3 @@ public class SimpleLogBook implements Serializable {
         this.carbintake = carbintake;
     }
 }
-
-

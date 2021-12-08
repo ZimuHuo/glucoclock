@@ -18,14 +18,14 @@ public class SimpleLogBookService {
     public String bulkcreate(){
         LocalDate test= LocalDate.now();
         //Simple: patient id, date, blood glucose, carb intake
-        repository.save(new SimpleLogBook(1L,test,"30","23","Pre Breakfast"));
-        repository.save(new SimpleLogBook(1L,test,"30","23","Pre Lunch"));
-        repository.save(new SimpleLogBook(1L,test,"30","23","After Lunch"));
-        repository.save(new SimpleLogBook(1L,test,"30","23","Pre Dinner"));
+        repository.save(new SimpleLogBook(1L,test,"Pre Breakfast","23","32"));
+        repository.save(new SimpleLogBook(1L,test,"Pre Lunch","23","34"));
+        repository.save(new SimpleLogBook(1L,test,"After Lunch","23","33"));
+        repository.save(new SimpleLogBook(1L,test,"Pre Dinner","23","32"));
         return "Simple Log is created";
     }
     public String create(SimpleLogBookObject SimpleLogBook){
-        repository.save(new SimpleLogBook(SimpleLogBook.getPatientId(),SimpleLogBook.getDate(),SimpleLogBook.getBloodGlucose(),SimpleLogBook.getCarbIntake(),SimpleLogBook.getTime()));
+        repository.save(new SimpleLogBook(SimpleLogBook.getPatientId(),SimpleLogBook.getDate(),SimpleLogBook.getTime(),SimpleLogBook.getBloodGlucose(),SimpleLogBook.getCarbIntake()));
         return "Simple Log is created";
     }
 
@@ -33,7 +33,7 @@ public class SimpleLogBookService {
         List<SimpleLogBook> SimpleLogBooks=repository.findAll();
         List<SimpleLogBookObject>SimpleLogBookObjects=new ArrayList<>();
         for(SimpleLogBook SimpleLog:SimpleLogBooks){
-            SimpleLogBookObjects.add(new SimpleLogBookObject(SimpleLog.getPatientid(),SimpleLog.getDate(),SimpleLog.getBloodglucose(),SimpleLog.getCarbintake(),SimpleLog.getTime()));
+            SimpleLogBookObjects.add(new SimpleLogBookObject(SimpleLog.getPatientid(),SimpleLog.getDate(),SimpleLog.getTime(),SimpleLog.getBloodglucose(),SimpleLog.getCarbintake()));
         }
         return SimpleLogBookObjects;
     }

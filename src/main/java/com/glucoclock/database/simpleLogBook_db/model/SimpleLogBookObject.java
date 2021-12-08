@@ -12,7 +12,7 @@ public class SimpleLogBookObject {
 
 
 
-    public SimpleLogBookObject(Long patient_id,LocalDate Date, String BloodGlucose, String CarbIntake, String Time) {
+    public SimpleLogBookObject(Long patient_id,LocalDate Date, String Time, String BloodGlucose, String CarbIntake) {
         this.PatientId=patient_id;
         this.Date=Date;
         this.BloodGlucose=BloodGlucose;
