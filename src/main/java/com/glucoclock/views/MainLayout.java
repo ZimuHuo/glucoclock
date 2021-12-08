@@ -6,8 +6,15 @@ import com.glucoclock.views.patient.LogbookView;
 import com.glucoclock.views.researcher.*;
 import com.glucoclock.views.doctor.DoctorSetting1;
 import com.glucoclock.views.doctor.DoctorSetting2;
+import com.glucoclock.views.doctor.DoctorSignUp1;
+import com.glucoclock.views.doctor.DoctorSignUp2;
 import com.glucoclock.views.patient.*;
+import com.glucoclock.views.researcher.ResearcherSetting1;
+import com.glucoclock.views.researcher.ResearcherSetting2;
+import com.glucoclock.views.researcher.ResearcherSignUp;
+import com.glucoclock.views.researcher.ResearcherSignUp2;
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
+
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -128,11 +135,14 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Patient Setting2", "la la-user", PatientSetting2.class),
 
+                new MenuItemInfo("Doctor sign up", "la la-user", DoctorSignUp1.class),
+
+                new MenuItemInfo("Doctor sign up 2", "la la-user", DoctorSignUp2.class),
+
                 new MenuItemInfo("Doctor Setting1", "la la-user", DoctorSetting1.class),
 
                 new MenuItemInfo("Doctor Setting2", "la la-user", DoctorSetting2.class),
 
-                new MenuItemInfo("Researcher", "la la-user", ResearcherSignUp.class),
                 new MenuItemInfo("ResearcherSignUp1", "la la-user", ResearcherSignUp.class),
 
                 new MenuItemInfo("ResearcherSignUp2", "la la-user", ResearcherSignUp2.class),
@@ -141,9 +151,20 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Researcher Setting2", "la la-user", ResearcherSetting2.class),
 
+                new MenuItemInfo("Simple Logbook", "la la-file", SimpleLogBookView.class),
+
+                new MenuItemInfo("Comprehensive Logbook", "la la-file", ComprehensiveLogBookView.class),
+
+                new MenuItemInfo("Intensive Logbook", "la la-file", IntensiveLogBookView.class),
+
+                //new MenuItemInfo("Questionnaire", "la la-file", QuestionnaireView.class),
+
                 new MenuItemInfo("Download","", DownloadPage.class),
+
                 new MenuItemInfo("View History","", HistoryView.class),
+
                 new MenuItemInfo("LogBook","",LogbookView.class),
+
                 new MenuItemInfo("Researcher Start","", ResearcherStart.class)
         };
         List<RouterLink> links = new ArrayList<>();
