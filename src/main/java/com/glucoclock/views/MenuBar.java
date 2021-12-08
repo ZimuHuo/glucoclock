@@ -1,5 +1,6 @@
 package com.glucoclock.views;
 
+import com.glucoclock.views.researcher.ResearcherStart;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
@@ -41,19 +42,51 @@ public class MenuBar extends AppLayout {
 
         history.setWidth("65px");
         history.setHeight("65px");
+        history.addClickListener(e ->
+                history.getUI().ifPresent(ui ->
+                        ui.navigate("HistoryView")
+                )
+        );
 
         settings.setWidth("65px");
         settings.setHeight("65px");
 
+
         logout.setWidth("65px");
         logout.setHeight("65px");
+        logout.addClickListener(e ->
+                logout.getUI().ifPresent(ui ->
+                        ui.navigate(HomeView.class)
+                )
+        );
 
         logo.setHeight("65px");
         home.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        if (pageType == "PStart"){hl.add(history,settings,logout);}
+        if (pageType == "PStart"){
+            hl.add(history,settings,logout);
+            settings.addClickListener(e ->
+                    settings.getUI().ifPresent(ui ->
+                            ui.navigate("PatientSetting1")
+                    )
+            );
+        }
 
-        else if (pageType == "DRStart"){hl.add(settings,logout);}
+        else if (pageType == "DStart"){
+            hl.add(settings,logout);
+            settings.addClickListener(e ->
+                    settings.getUI().ifPresent(ui ->
+                            ui.navigate("DoctorSetting1")
+                    )
+            );}
+
+        else if (pageType == "RStart"){
+            hl.add(settings,logout);
+            settings.addClickListener(e ->
+                    settings.getUI().ifPresent(ui ->
+                            ui.navigate("ResearcherSetting1")
+                    )
+                    );}
 
         hl.setPadding(false);
         hl.setSpacing(false);

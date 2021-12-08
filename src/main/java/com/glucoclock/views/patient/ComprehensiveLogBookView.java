@@ -53,6 +53,11 @@ public class ComprehensiveLogBookView extends Div {
         Button submitButton = new Button("Upload");
         submitButton.setWidth("12%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.addClickListener(e ->
+                submitButton.getUI().ifPresent(ui ->
+                        ui.navigate(ConfirmationPage.class)
+                )
+        );
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(title);
         verticalLayout.add(formLayout);

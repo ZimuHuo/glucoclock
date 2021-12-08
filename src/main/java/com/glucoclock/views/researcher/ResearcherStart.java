@@ -24,7 +24,7 @@ public class ResearcherStart extends VerticalLayout {
     String F_Gender;
     String F_Insulin;
     String F_Diabetes;
-    private MenuBar menu = new MenuBar("DRStart");
+    private MenuBar menu = new MenuBar("RStart");
 
     public ResearcherStart(){
         add(menu);

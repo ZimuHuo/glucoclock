@@ -1,13 +1,10 @@
 package com.glucoclock.views;
 
+import com.glucoclock.views.doctor.*;
 import com.glucoclock.views.patient.HistoryView;
 import com.glucoclock.views.patient.DownloadPage;
 import com.glucoclock.views.patient.LogbookView;
 import com.glucoclock.views.researcher.*;
-import com.glucoclock.views.doctor.DoctorSetting1;
-import com.glucoclock.views.doctor.DoctorSetting2;
-import com.glucoclock.views.doctor.DoctorSignUp1;
-import com.glucoclock.views.doctor.DoctorSignUp2;
 import com.glucoclock.views.patient.*;
 import com.glucoclock.views.researcher.ResearcherSetting1;
 import com.glucoclock.views.researcher.ResearcherSetting2;
@@ -139,6 +136,8 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("Patient Setting1", "la la-user", PatientSetting1.class),
 
                 new MenuItemInfo("Patient Setting2", "la la-user", PatientSetting2.class),
+
+                new MenuItemInfo("Doctor Start", "la la-file", DoctorStartView.class),
 
                 new MenuItemInfo("Doctor sign up", "la la-user", DoctorSignUp1.class),
 
