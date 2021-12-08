@@ -153,6 +153,8 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Intensive Logbook", "la la-file", IntensiveLogBookView.class),
 
+                new MenuItemInfo("Questionnaire", "la la-file", QuestionnaireView.class),
+
 
 
         };
