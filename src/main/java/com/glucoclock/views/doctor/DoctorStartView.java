@@ -46,7 +46,7 @@ public class DoctorStartView extends VerticalLayout {
     private Grid.Column<PatientInfo> emailColumn;
     private Grid.Column<PatientInfo> buttonColumn;
 
-    private MenuBar menu = new MenuBar("DRStart");
+    private MenuBar menu = new MenuBar("DStart");
 
     private HorizontalLayout hl = new HorizontalLayout();
     private H3 title = new H3("My Patients");

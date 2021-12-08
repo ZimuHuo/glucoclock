@@ -83,6 +83,11 @@ public class IntensiveLogBookView extends Div {
         Button submitButton = new Button("Upload");
         submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.addClickListener(e ->
+                submitButton.getUI().ifPresent(ui ->
+                        ui.navigate(ConfirmationPage.class)
+                )
+        );
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER,title,submitButton);
         verticalLayout.add(title);

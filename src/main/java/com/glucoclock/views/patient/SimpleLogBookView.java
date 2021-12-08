@@ -65,6 +65,11 @@ public class SimpleLogBookView extends Div {
         formLayout.setColspan(carbohydrate,2 );
         submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.addClickListener(e ->
+                submitButton.getUI().ifPresent(ui ->
+                        ui.navigate(ConfirmationPage.class)
+                )
+        );
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(title);
         verticalLayout.add(formLayout);
