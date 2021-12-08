@@ -1,10 +1,11 @@
 package com.glucoclock.views.patient;
 
 
+import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
+import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.details.Details;
-import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
@@ -12,31 +13,33 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.apache.juli.logging.Log;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @PageTitle("LogBook")
 @Route(value = "LogBook", layout = MainLayout.class)
 
 public class LogbookView extends VerticalLayout {
-    LocalDate SelectDate;
+    Long patientId;         //set to 1 for testing
+    LocalDate SelectDate;   //will get from previous page
     String LogbookType="Simple";
     Icon editIcon=new Icon(VaadinIcon.EDIT);
-    ArrayList<SimpleLogExample> SimpleData=new ArrayList<SimpleLogExample>();
+
     ArrayList<CompLogExample> Comprehensive=new ArrayList<CompLogExample>();
     ArrayList<IntensiveLogExample> Intensive=new ArrayList<IntensiveLogExample>();
+    private final SimpleLogBookService SimplelogData;
 
 
 
 
-    public LogbookView(){
-    //Used only for testing remove when developing backends
+    public LogbookView(SimpleLogBookService SimplelogData){
+
+        this.SimplelogData = SimplelogData;
+        //Used only for testing remove when developing backends
         Button simple=new Button("Simple");
         Button comprehensive=new Button("Comprehensive");
         Button intensive=new Button("Intensive");
@@ -44,14 +47,6 @@ public class LogbookView extends VerticalLayout {
         add(new HorizontalLayout(simple,comprehensive,intensive));
 
 
-        //sample input
-            SimpleLogExample x1 = new SimpleLogExample(LocalDate.of(2021, 3, 8), "pre breakfast", 30, 30);
-            SimpleLogExample x2 = new SimpleLogExample(LocalDate.of(2021, 3, 8), "after breakfast", 40, 10);
-            SimpleLogExample x3 = new SimpleLogExample(LocalDate.of(2021, 3, 8), "pre lunch", 50, 20);
-            SimpleData.add(x1);
-            SimpleData.add(x2);
-            SimpleData.add(x3);
-            SelectDate = x1.getDate();
         //comprehensive input
             CompLogExample x4 = new CompLogExample(LocalDate.of(2021, 3, 8), "pre breakfast", 30, 30,40);
             CompLogExample x5 = new CompLogExample(LocalDate.of(2021, 3, 8), "after breakfast", 40, 10,50);
@@ -59,7 +54,7 @@ public class LogbookView extends VerticalLayout {
             Comprehensive.add(x4);
             Comprehensive.add(x5);
             Comprehensive.add(x6);
-            SelectDate = x4.getDate();
+
         //intensive input
         IntensiveLogExample x7 = new IntensiveLogExample(LocalDate.of(2021, 3, 8), "9 AM", 30, 30,40,10,30,23);
         IntensiveLogExample x8 = new IntensiveLogExample(LocalDate.of(2021, 3, 8), "11 AM", 40, 10,50,54,65,23);
@@ -67,7 +62,7 @@ public class LogbookView extends VerticalLayout {
         Intensive.add(x7);
         Intensive.add(x8);
         Intensive.add(x9);
-        SelectDate = x7.getDate();
+
 
     //Don't remove this part, replace the button using input of this page
         //display simple log book
@@ -75,6 +70,7 @@ public class LogbookView extends VerticalLayout {
             LogbookType="Simple";
             Notification.show("Simple");
             removeAll();
+            SelectDate=LocalDate.now();
             add(
                 new HorizontalLayout(simple,comprehensive,intensive),
                 new HorizontalLayout(
@@ -82,7 +78,11 @@ public class LogbookView extends VerticalLayout {
                     new Paragraph(LogbookType+"Log Book"),
                         editIcon)
                 );
-            SimpleLogBookView();
+//try database here***enter data
+            patientId=1L;
+            SimplelogData.bulkcreate();
+
+            SimpleLogBookView(SimplelogData);
             editIcon.addClickListener(edit->{
                 Notification.show("edit");
             });
@@ -93,6 +93,7 @@ public class LogbookView extends VerticalLayout {
             LogbookType="Comprehensive";
             Notification.show("Comprehensive");
             removeAll();
+            SelectDate = x4.getDate();
             add(
                 new HorizontalLayout(simple,comprehensive,intensive),
                 new HorizontalLayout(
@@ -108,6 +109,7 @@ public class LogbookView extends VerticalLayout {
             LogbookType="Intensive";
             Notification.show("Intensive");
             removeAll();
+            SelectDate = x7.getDate();
             add(
             new HorizontalLayout(simple,comprehensive,intensive),
             new HorizontalLayout(
@@ -149,15 +151,14 @@ public class LogbookView extends VerticalLayout {
         }
     }
 
-    public void SimpleLogBookView(){
-        for (SimpleLogExample simpledata:SimpleData) {
-            //Icon editSimple=new Icon(VaadinIcon.EDIT);
-            Span BloodGlucose = new Span("Blood Glucose : "+simpledata.getBloodGlucose().toString()+" unit");
-            Span CarbonIntake = new Span("Carbon Intake : "+simpledata.getCarbonIntake().toString()+" unit");
+    public void SimpleLogBookView(SimpleLogBookService SimplelogData){
+        List<SimpleLogBook> ShowData= SimplelogData.findLogByDateAndPatientid(SelectDate,patientId);
+        for (SimpleLogBook simpledata:ShowData) {
+
+            Span BloodGlucose = new Span("Blood Glucose : "+simpledata.getBloodglucose().toString()+" unit");
+            Span CarbonIntake = new Span("Carbon Intake : "+simpledata.getCarbintake().toString()+" unit");
             VerticalLayout SimpleLog = new VerticalLayout(BloodGlucose, CarbonIntake);
-            //bar contain time and edit icon
-            //add edit icon
-            //HorizontalLayout simplebar=new HorizontalLayout(new Paragraph(simpledata.getTime()),editSimple);
+
             Details SimpleLogBook = new Details(new Paragraph(simpledata.getTime()), SimpleLog);
             add(SimpleLogBook);
         }

@@ -15,4 +15,5 @@ public interface PatientRepository extends CrudRepository<Patient, Long>{
 	@Override
 	<S extends Patient> S save(S s);
 
+
 }
