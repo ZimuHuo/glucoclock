@@ -13,6 +13,7 @@ import com.glucoclock.views.researcher.ResearcherSetting1;
 import com.glucoclock.views.researcher.ResearcherSetting2;
 import com.glucoclock.views.researcher.ResearcherSignUp;
 import com.glucoclock.views.researcher.ResearcherSignUp2;
+import com.glucoclock.views.patient.QuestionnaireView;
 import com.glucoclock.views.templates.sugarfree.about.AboutView;
 
 
@@ -165,7 +166,9 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("LogBook","",LogbookView.class),
 
-                new MenuItemInfo("Researcher Start","", ResearcherStart.class)
+                new MenuItemInfo("Researcher Start","", ResearcherStart.class),
+
+                new MenuItemInfo("Questionnaire","", QuestionnaireView.class)
         };
         List<RouterLink> links = new ArrayList<>();
         for (MenuItemInfo menuItemInfo : menuItems) {

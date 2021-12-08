@@ -1,5 +1,7 @@
-package com.glucoclock.views;
+package com.glucoclock.views.patient;
 
+import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
