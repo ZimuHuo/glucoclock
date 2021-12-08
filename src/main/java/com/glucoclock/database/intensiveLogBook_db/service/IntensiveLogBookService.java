@@ -23,11 +23,11 @@ public class IntensiveLogBookService {
         repository.save(new IntensiveLogBook(1L,test,"12 AM","23","34","33","rice","20min","run","no"));
         repository.save(new IntensiveLogBook(1L,test,"2 PM","23","33","21","-","12min","run","no"));
         repository.save(new IntensiveLogBook(1L,test,"5 PM","23","32","22","rice","40min","run","no"));
-        return "Comprehensive Log is created";
+        return "Intensive Log is created";
     }
     public String create(IntensiveLogBookObject IntensiveLogBook){
         repository.save(new IntensiveLogBook(IntensiveLogBook.getPatientId(),IntensiveLogBook.getDate(),IntensiveLogBook.getTime(),IntensiveLogBook.getBloodGlucose(),IntensiveLogBook.getCarbIntake(),IntensiveLogBook.getInsulinDose(),IntensiveLogBook.getFood(),IntensiveLogBook.getExerciseduration(),IntensiveLogBook.getExercisetype(),IntensiveLogBook.getUnusualevent()));
-        return "Comprehensive Log is created";
+        return "Intensive Log is created";
     }
 
     public List<IntensiveLogBookObject> findAll(){
