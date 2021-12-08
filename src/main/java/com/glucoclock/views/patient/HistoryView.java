@@ -34,7 +34,7 @@ public class HistoryView extends VerticalLayout {
     private MenuBar menu = new MenuBar("NS");
 
     public HistoryView(){
-        add(menu);
+
         setSizeFull();
         configSearch();
         setupShownData();
@@ -48,6 +48,7 @@ public class HistoryView extends VerticalLayout {
                 SearchPanel,
                 Historylist);
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+        add(menu);
 
     }
 

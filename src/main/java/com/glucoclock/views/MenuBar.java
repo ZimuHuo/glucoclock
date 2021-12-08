@@ -1,5 +1,6 @@
 package com.glucoclock.views;
 
+import com.glucoclock.views.patient.HistoryView;
 import com.glucoclock.views.researcher.ResearcherStart;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -44,7 +45,7 @@ public class MenuBar extends AppLayout {
         history.setHeight("65px");
         history.addClickListener(e ->
                 history.getUI().ifPresent(ui ->
-                        ui.navigate("HistoryView")
+                        ui.navigate(HistoryView.class)
                 )
         );
 
