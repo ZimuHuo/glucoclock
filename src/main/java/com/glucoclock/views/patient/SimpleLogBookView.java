@@ -29,7 +29,7 @@ public class SimpleLogBookView extends Div {
 
     private Button test1 = new Button("Test"); //Menubar test button
     private Button test2 = new Button("Test");
-    private MenuBar menu = new MenuBar("nonstart");
+    private MenuBar menu = new MenuBar(false);
 
 
     public SimpleLogBookView(){

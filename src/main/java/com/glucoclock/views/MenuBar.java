@@ -23,9 +23,8 @@ public class MenuBar extends AppLayout {
     private Button logout = new Button(signout);
     private Image logo = new Image("/images/logo_dark.png","logo");
     private Button home = new Button(logo);
-    //pageType could be start or nonstart
 
-    public MenuBar(String pageType){
+    public MenuBar(Boolean start){
         VerticalLayout vl = new VerticalLayout();
         HorizontalLayout hl = new HorizontalLayout();
         HorizontalLayout hlo = new HorizontalLayout();
@@ -51,7 +50,7 @@ public class MenuBar extends AppLayout {
         logo.setHeight("65px");
         home.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        if (pageType == "start"){
+        if (start == true){
             hl.add(history,settings,logout);
             hl.setPadding(false);
             hl.setSpacing(false);

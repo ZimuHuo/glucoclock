@@ -51,7 +51,7 @@ public class IntensiveLogBookView extends Div {
     private TextField ketones;
     private int hour;
     private H3 title = new H3("Add Intensive Logbook Entry");
-    private MenuBar menu = new MenuBar("start");
+    private MenuBar menu = new MenuBar(false);
 
     public IntensiveLogBookView() {
         init();
