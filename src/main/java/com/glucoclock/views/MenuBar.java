@@ -24,19 +24,20 @@ public class MenuBar extends AppLayout {
     private Image logo = new Image("/images/logo_dark.png","logo");
     private Button home = new Button(logo);
 
-    public MenuBar(Boolean start){
+    //pageType: PStart(patient start),DRStart(doctor/researcher start),NS(non-start)
+    public MenuBar(String pageType){
         VerticalLayout vl = new VerticalLayout();
         HorizontalLayout hl = new HorizontalLayout();
         HorizontalLayout hlo = new HorizontalLayout();
         VerticalLayout vlo = new VerticalLayout();
         HorizontalLayout hl2 = new HorizontalLayout();
+
         cog.setSize("45px");
         cog.setColor("white");
         cal.setSize("45px");
         cal.setColor("white");
         signout.setSize("45px");
         signout.setColor("white");
-
 
         history.setWidth("65px");
         history.setHeight("65px");
@@ -50,12 +51,12 @@ public class MenuBar extends AppLayout {
         logo.setHeight("65px");
         home.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        if (start == true){
-            hl.add(history,settings,logout);
-            hl.setPadding(false);
-            hl.setSpacing(false);
-        }
+        if (pageType == "PStart"){hl.add(history,settings,logout);}
 
+        else if (pageType == "DRStart"){hl.add(settings,logout);}
+
+        hl.setPadding(false);
+        hl.setSpacing(false);
 
         hlo.add(home);
         vlo.add(hlo);

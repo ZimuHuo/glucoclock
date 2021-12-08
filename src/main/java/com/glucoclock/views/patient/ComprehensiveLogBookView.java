@@ -1,6 +1,7 @@
 package com.glucoclock.views.patient;
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -27,11 +28,12 @@ public class ComprehensiveLogBookView extends Div {
     private Button test1 = new Button("Test"); //Menubar test button
     private Button test2 = new Button("Test");
     private H3 title = new H3("Add Comprehensive Logbook Entry");
+    private MenuBar menu = new MenuBar("NS");
 
 
     public ComprehensiveLogBookView(){
         init();
-        //add(menuBar());
+        add(menu);
         var formLayout = new FormLayout();
         formLayout.add(
                 prepost, meal,

@@ -1,6 +1,7 @@
 package com.glucoclock.views;
 
 import com.glucoclock.views.MainLayout;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Image;
@@ -22,6 +23,7 @@ public class HomeView extends VerticalLayout {
 //    private Button sayHello;
     private Button signInBut;
     private Button signUpBut;
+    //private Text welcomeTxt = new Text("-Your No.1 choice of digital diabetic logbook-");
 
     public HomeView() {
         //Logo
@@ -31,20 +33,17 @@ public class HomeView extends VerticalLayout {
         signInBut = new Button("Sign In");
         signInBut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         signInBut.setWidth("30%");
+        signInBut.setHeight("50px");
         //Sign up button
         signUpBut = new Button("Sign Up");
         signUpBut.setWidth("30%");
+        signUpBut.setHeight("50px");
 
-//        name = new TextField("Your name");
-//        sayHello = new Button("Say hello");
-//        sayHello.addClickListener(e -> {
-//            Notification.show("Hello " + name.getValue());
-//        });
 
         setMargin(true);
+        add(logo,signInBut,signUpBut);
         setHorizontalComponentAlignment(Alignment.CENTER, logo,signInBut, signUpBut);
 
-        add(logo,signInBut,signUpBut);
     }
 
 }
