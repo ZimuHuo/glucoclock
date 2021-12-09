@@ -274,7 +274,7 @@ public class PatientSetting1 extends HorizontalLayout {
     }
 
     private void diabetesSelectSetUp() {
-        diabetesSelect = new Select<>("Type I","Type II");
+        diabetesSelect = new Select<>("Type I","Type II","Gestational","Others");
         diabetesSelect.setValue(Diabetes);
         diabetesSelect.setLabel("Type of diabetes");
         diabetesSelect.setReadOnly(true);

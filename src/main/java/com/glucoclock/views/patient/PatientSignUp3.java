@@ -78,7 +78,7 @@ public class PatientSignUp3 extends HorizontalLayout {
 
 
     private void diabetesSelectSetUp() {
-        diabetesSelect = new Select<>("Type I", "Type II");
+        diabetesSelect = new Select<>("Type I", "Type II", "Gestational", "Others");
         diabetesSelect.setLabel("Type of diabetes");
     }
 
