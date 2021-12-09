@@ -11,7 +11,7 @@ import com.glucoclock.views.researcher.ResearcherSetting2;
 import com.glucoclock.views.researcher.ResearcherSignUp;
 import com.glucoclock.views.researcher.ResearcherSignUp2;
 import com.glucoclock.views.patient.QuestionnaireView;
-import com.glucoclock.views.templates.sugarfree.about.AboutView;
+
 
 
 import com.vaadin.flow.component.Component;
@@ -120,8 +120,6 @@ public class MainLayout extends AppLayout {
     private List<RouterLink> createLinks() {
         MenuItemInfo[] menuItems = new MenuItemInfo[]{ //
                 new MenuItemInfo("Home", "la la-globe", HomeView.class), //
-
-                new MenuItemInfo("About", "la la-file", AboutView.class), //
 
                 new MenuItemInfo("SignUp", "la la-file", SignUp.class),
 

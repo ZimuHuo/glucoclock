@@ -39,11 +39,11 @@ public class PatientSetting1 extends HorizontalLayout {
     //     These are sample variables
     //     Should be got from database
     //    --------------------------------------------
-    String FName;
-    String LName;
-    String Email;
+    String FName="Yifei";
+    String LName="Jin";
+    String Email="yj819@ic.ac.uk";
     String Home = "e";
-    String PostCode;
+    String PostCode="1";
     String Phone = "44 0421833";
     LocalDate Birth = LocalDate.of(2001,6,13);
     String Gender = "Male";
@@ -75,7 +75,7 @@ public class PatientSetting1 extends HorizontalLayout {
     VerticalLayout MainLayout = new VerticalLayout();
     HorizontalLayout Buttons = new HorizontalLayout();
 
-    private final PatientService patientService;
+//    private final PatientService patientService;
 
     private MenuBar menu = new MenuBar("NS");
 
@@ -88,14 +88,14 @@ public class PatientSetting1 extends HorizontalLayout {
         add(menu);
         //-----------------------------------------
 
-        this.patientService = patientService;
-        patientService.bulkcreate();
-        long id = 1;
-        Patient patient = patientService.getRepository().getPatientById(id);
-        FName = patient.getFirstName();
-        LName = patient.getLastName();
-        Email = patient.getEmail();
-        PostCode = patient.getPostCode();
+//        this.patientService = patientService;
+//        patientService.bulkcreate();
+//        long id = 1;
+//        Patient patient = patientService.getRepository().getPatientById(id);
+//        FName = patient.getFirstName();
+//        LName = patient.getLastName();
+//        Email = patient.getEmail();
+//        PostCode = patient.getPostCode();
 
 
 
@@ -339,7 +339,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
             long id = 1;
-            patientService.updatePatientLastName(id,lastName.getValue());
+            //patientService.updatePatientLastName(id,lastName.getValue());
 
 
             Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);

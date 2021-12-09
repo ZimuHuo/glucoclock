@@ -20,7 +20,7 @@ public class ComprehensiveLogBookService {
         //Simple: patient id, date, blood glucose, carb intake
         repository.save(new ComprehensiveLogBook(1L,test,"Pre Breakfast","23","32","33"));
         repository.save(new ComprehensiveLogBook(1L,test,"Pre Lunch","23","34","33"));
-        repository.save(new ComprehensiveLogBook(1L,test,"After Lunch","23","33","21"));
+        repository.save(new ComprehensiveLogBook(1L,test,"Post Lunch","23","33","21"));
         repository.save(new ComprehensiveLogBook(1L,test,"Pre Dinner","23","32","22"));
         return "Comprehensive Log is created";
     }
