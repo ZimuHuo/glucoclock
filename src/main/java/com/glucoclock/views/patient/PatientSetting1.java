@@ -175,6 +175,7 @@ public class PatientSetting1 extends HorizontalLayout {
         Gender = patient.getGender();
         Phone = patient.getPhone();
         Birth = patient.getBirthday();
+        Diabetes = patient.getDiabetesType();
 
         Gson gson = new Gson();
         insulin = gson.fromJson(patient.getInsulinType(), new TypeToken<Set<String>>(){}.getType());
@@ -339,6 +340,7 @@ public class PatientSetting1 extends HorizontalLayout {
             patientService.updatePatientBirthday(id, Birth);
             patientService.updatePatientGender(id, Gender);
             patientService.updateInsulinType(id, insulin);
+            patientService.updateDiabetesType(id, Diabetes);
 
 //            Change the accessibility and appearance when saved
             allSetReadOnly(true);
@@ -370,6 +372,7 @@ public class PatientSetting1 extends HorizontalLayout {
             insulinSelect.select(insulin);
             injectionSelect.select(injection);
 
+//            Change the accessibility and appearance when cancelled
             changeSetting.setVisible(true);
             changePassword.setVisible(true);
             save.setVisible(false);

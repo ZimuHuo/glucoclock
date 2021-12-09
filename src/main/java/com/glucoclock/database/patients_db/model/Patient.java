@@ -37,6 +37,9 @@ public class Patient implements Serializable {
 	@Column(name = "Birthday")
 	private LocalDate Birthday;
 
+	@Column(name = "DiabetesType")
+	private String DiabetesType;
+
 	@Column(name = "InsulinType")
 	private String InsulinType;
 
@@ -135,5 +138,13 @@ public class Patient implements Serializable {
 
 	public void setInsulinType(String insulinType) {
 		InsulinType = insulinType;
+	}
+
+	public String getDiabetesType() {
+		return DiabetesType;
+	}
+
+	public void setDiabetesType(String diabetesType) {
+		DiabetesType = diabetesType;
 	}
 }

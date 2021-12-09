@@ -114,6 +114,12 @@ public class PatientService  {
         repository.save(patient);
     }
 
+    public void updateDiabetesType(long id, String newDiabetesType) {
+        Patient patient = repository.getPatientById(id);
+        patient.setDiabetesType(newDiabetesType);
+        repository.save(patient);
+    }
+
     public void updateInsulinType(long id, Set<String> insulinType) {
         Patient patient = repository.getPatientById(id);
         Gson gson = new Gson();
