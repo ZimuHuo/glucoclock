@@ -22,10 +22,6 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import elemental.json.JsonString;
-import org.h2.util.json.JSONString;
-
-import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Set;
@@ -179,6 +175,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
         Gson gson = new Gson();
         insulin = gson.fromJson(patient.getInsulinType(), new TypeToken<Set<String>>(){}.getType());
+        injection = gson.fromJson(patient.getInjectionMethod(), new TypeToken<Set<String>>(){}.getType());
 
         add(MainLayout);
 
@@ -203,7 +200,7 @@ public class PatientSetting1 extends HorizontalLayout {
     }
 
 
-//    Following functions are used to set up the components
+//    Following functions are used to initialize all the components
     private void firstNameSetUp(){
         firstName = new TextField("First name");
         firstName.setValue(FName);
@@ -294,7 +291,7 @@ public class PatientSetting1 extends HorizontalLayout {
         injectionSelect = new CheckboxGroup<>();
         injectionSelect.setLabel("Injection method");
         injectionSelect.setItems("Syringe", "Injection pen", "Insulin pump");
-        injectionSelect.select("Injection pen");
+        injectionSelect.select(injection);
         injectionSelect.setReadOnly(true);
     }
 
@@ -341,6 +338,7 @@ public class PatientSetting1 extends HorizontalLayout {
             patientService.updatePatientGender(id, Gender);
             patientService.updateInsulinType(id, insulin);
             patientService.updateDiabetesType(id, Diabetes);
+            patientService.updateInjectionMethod(id, injection);
 
 //            Change the accessibility and appearance when saved
             allSetReadOnly(true);
@@ -366,10 +364,11 @@ public class PatientSetting1 extends HorizontalLayout {
             homeAddress.setValue(Home);
             postcode.setValue(PostCode);
             contactNumber.setValue(Phone);
-            genderSelect.setLabel(Gender);
-            diabetesSelect.setLabel(Diabetes);
+            genderSelect.setValue(Gender);
+            diabetesSelect.setValue(Diabetes);
             insulinSelect.deselectAll();
             insulinSelect.select(insulin);
+            injectionSelect.deselectAll();
             injectionSelect.select(injection);
 
 //            Change the accessibility and appearance when cancelled

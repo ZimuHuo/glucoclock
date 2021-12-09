@@ -43,9 +43,12 @@ public class Patient implements Serializable {
 	@Column(name = "InsulinType")
 	private String InsulinType;
 
+	@Column(name = "InjectionMethod")
+	private String InjectionMethod;
 
 
-	public Patient(String firstName, String lastName, String email, String homeAddress, String postCode, String phone, String gender, LocalDate birthday, String insulinType) {
+
+	public Patient(String firstName, String lastName, String email, String homeAddress, String postCode, String phone, String gender, LocalDate birthday,String diabetesType, String insulinType, String injectionMethod) {
 
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -55,7 +58,9 @@ public class Patient implements Serializable {
 		this.Phone = phone;
 		this.Gender = gender;
 		this.Birthday =  birthday;
+		this.DiabetesType = diabetesType;
 		this.InsulinType = insulinType;
+		this.InjectionMethod = injectionMethod;
 	}
 
 	public Patient() {
@@ -66,6 +71,7 @@ public class Patient implements Serializable {
 	public String toString() {
 		return String.format("Patient[id=%d, firstName='%s', lastName='%s']", id, firstName, lastName);
 	}
+
 
 //	getters and setters
 	public String getFirstName() {
@@ -146,5 +152,13 @@ public class Patient implements Serializable {
 
 	public void setDiabetesType(String diabetesType) {
 		DiabetesType = diabetesType;
+	}
+
+	public String getInjectionMethod() {
+		return InjectionMethod;
+	}
+
+	public void setInjectionMethod(String injectionMethod) {
+		InjectionMethod = injectionMethod;
 	}
 }
