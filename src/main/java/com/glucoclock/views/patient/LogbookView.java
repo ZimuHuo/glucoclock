@@ -44,12 +44,10 @@ public class LogbookView extends VerticalLayout {
 
 
 
-    public LogbookView(){
-        add(menu);
-    //Used only for testing remove when developing backends
-
     public LogbookView(SimpleLogBookService SimplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData){
         removeAll();
+            add(menu);
+            //Used only for testing remove when developing backends
 //try set up database
         this.SimplelogData = SimplelogData;
         ComprehensivelogData = comprehensivelogData;

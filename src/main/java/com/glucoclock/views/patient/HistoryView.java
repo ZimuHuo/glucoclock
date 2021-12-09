@@ -35,9 +35,8 @@ public class HistoryView extends VerticalLayout {
     private MenuBar menu = new MenuBar("NS");
 
     public HistoryView(LogService log_db){
-        this.log_db = log_db;
-        log_db.bulkcreate();
-    public HistoryView(){
+            this.log_db = log_db;
+            log_db.bulkcreate();
 
         setSizeFull();
         configSearch();
@@ -81,9 +80,6 @@ public class HistoryView extends VerticalLayout {
         Historylist.addColumn(PersonData::getLogBookType).setHeader("LogBook Type");
 
 
-        //testing data
-        //Historylist.setItems(x1,x2);
-        //Historylist.setItems(x2);
 
         Historylist.setItems(HistoryDataShown);
 
@@ -93,20 +89,7 @@ public class HistoryView extends VerticalLayout {
     }
 
     private void setupShownData(){
-        //testing data
-//        ArrayList<PersonData>x=new ArrayList<>();
-//        PersonData x1=new PersonData();
-//        x1.setCompleteLogBook(true);
-//        x1.setDatadate(today);
-//        x1.setLogBookType("Simple");
-//        PersonData x2=new PersonData();
-//        x2.setCompleteLogBook(true);
-//        x2.setDatadate(today.minusDays(2));
-//        x2.setLogBookType("Intensive");
-//        x.add(x1);
-//        x.add(x2);
-//        System.out.println(x1.getDatadate());
-//        System.out.println(x2.getDatadate());
+
         //testing data
         //compare with database, if there is data occur at that day, add the data in the HistoryDataShown list
         LocalDate date=today;
