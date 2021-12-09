@@ -3,6 +3,7 @@ package com.glucoclock.database.patients_db.service;
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.model.PatientObject;
 import com.glucoclock.database.patients_db.repository.PatientRepository;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PatientService  {
@@ -18,8 +20,8 @@ public class PatientService  {
 
     public String bulkcreate(){
         // save a single Patient
-        repository.save(new Patient("ZImu","Huo","ZImuhuo@outlook.com","flat1","SW& $AX","12345","Male", LocalDate.of(2001,1,1)));
-        repository.save(new Patient("ZImu2","Huo2","ZImuhuo@outlook.com2","flat2","SW& $AX2","12345","Male", LocalDate.of(2001,1,1)));
+        repository.save(new Patient("ZImu","Huo","ZImuhuo@outlook.com","flat1","SW& $AX","12345","Male", LocalDate.of(2001,1,1),"[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]"));
+        repository.save(new Patient("ZImu2","Huo2","ZImuhuo@outlook.com2","flat2","SW& $AX2","12345","Male", LocalDate.of(2001,1,1),"[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]"));
         return "Patient created";
     }
 
@@ -109,6 +111,13 @@ public class PatientService  {
     public void updatePatientBirthday(long id, LocalDate newBirthday) {
         Patient patient = repository.getPatientById(id);
         patient.setBirthday(newBirthday);
+        repository.save(patient);
+    }
+
+    public void updateInsulinType(long id, Set<String> insulinType) {
+        Patient patient = repository.getPatientById(id);
+        Gson gson = new Gson();
+        patient.setInsulinType(gson.toJson(insulinType));
         repository.save(patient);
     }
 

@@ -5,6 +5,8 @@ package com.glucoclock.views.patient;
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MainLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -20,7 +22,10 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import elemental.json.JsonString;
+import org.h2.util.json.JSONString;
 
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Set;
@@ -171,6 +176,9 @@ public class PatientSetting1 extends HorizontalLayout {
         Phone = patient.getPhone();
         Birth = patient.getBirthday();
 
+        Gson gson = new Gson();
+        insulin = gson.fromJson(patient.getInsulinType(), new TypeToken<Set<String>>(){}.getType());
+
         add(MainLayout);
 
         firstNameSetUp();
@@ -277,7 +285,7 @@ public class PatientSetting1 extends HorizontalLayout {
         insulinSelect.setLabel("Insulin type");
         insulinSelect.setItems("Rapid-acting insulin","Short-acting insulin","Intermediate-acting insulin","Long-acting insulin");
         insulinSelect.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
-        insulinSelect.select("Rapid-acting insulin","Short-acting insulin","Intermediate-acting insulin");
+        insulinSelect.select(insulin);
         insulinSelect.setReadOnly(true);
     }
 
@@ -330,6 +338,7 @@ public class PatientSetting1 extends HorizontalLayout {
             patientService.updatePatientPhone(id, Phone);
             patientService.updatePatientBirthday(id, Birth);
             patientService.updatePatientGender(id, Gender);
+            patientService.updateInsulinType(id, insulin);
 
 //            Change the accessibility and appearance when saved
             allSetReadOnly(true);
@@ -357,6 +366,7 @@ public class PatientSetting1 extends HorizontalLayout {
             contactNumber.setValue(Phone);
             genderSelect.setLabel(Gender);
             diabetesSelect.setLabel(Diabetes);
+            insulinSelect.deselectAll();
             insulinSelect.select(insulin);
             injectionSelect.select(injection);
 

@@ -1,6 +1,5 @@
 package com.glucoclock.database.patients_db.model;
 
-import org.springframework.boot.SpringApplication;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -38,9 +37,12 @@ public class Patient implements Serializable {
 	@Column(name = "Birthday")
 	private LocalDate Birthday;
 
+	@Column(name = "InsulinType")
+	private String InsulinType;
 
 
-	public Patient(String firstName, String lastName, String email, String homeAddress, String postCode, String phone, String gender, LocalDate birthday) {
+
+	public Patient(String firstName, String lastName, String email, String homeAddress, String postCode, String phone, String gender, LocalDate birthday, String insulinType) {
 
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -50,6 +52,7 @@ public class Patient implements Serializable {
 		this.Phone = phone;
 		this.Gender = gender;
 		this.Birthday =  birthday;
+		this.InsulinType = insulinType;
 	}
 
 	public Patient() {
@@ -124,5 +127,13 @@ public class Patient implements Serializable {
 
 	public void setBirthday(LocalDate birthday) {
 		Birthday = birthday;
+	}
+
+	public String getInsulinType() {
+		return InsulinType;
+	}
+
+	public void setInsulinType(String insulinType) {
+		InsulinType = insulinType;
 	}
 }
