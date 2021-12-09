@@ -1,7 +1,7 @@
 package com.glucoclock.database.comprehensiveLogBook_db.service;
 
 import com.glucoclock.database.comprehensiveLogBook_db.model.ComprehensiveLogBook;
-import com.glucoclock.database.comprehensiveLogBook_db.model.ComprehensiveLogBookObject;
+//import com.glucoclock.database.comprehensiveLogBook_db.model.ComprehensiveLogBookObject;
 import com.glucoclock.database.comprehensiveLogBook_db.repository.ComprehensiveLogBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,16 +24,16 @@ public class ComprehensiveLogBookService {
         repository.save(new ComprehensiveLogBook(1L,test,"Pre Dinner","23","32","22"));
         return "Comprehensive Log is created";
     }
-    public String create(ComprehensiveLogBookObject ComprehensiveLogBook){
-        repository.save(new ComprehensiveLogBook(ComprehensiveLogBook.getPatientId(),ComprehensiveLogBook.getDate(),ComprehensiveLogBook.getTime(),ComprehensiveLogBook.getBloodGlucose(),ComprehensiveLogBook.getCarbIntake(),ComprehensiveLogBook.getInsulinDose()));
+    public String create(ComprehensiveLogBook ComprehensiveLogBook){
+        repository.save(new ComprehensiveLogBook(ComprehensiveLogBook.getPatientid(),ComprehensiveLogBook.getDate(),ComprehensiveLogBook.getTime(),ComprehensiveLogBook.getBloodglucose(),ComprehensiveLogBook.getCarbintake(),ComprehensiveLogBook.getInsulindose()));
         return "Comprehensive Log is created";
     }
 
-    public List<ComprehensiveLogBookObject> findAll(){
+    public List<ComprehensiveLogBook> findAll(){
         List<ComprehensiveLogBook> ComprehensiveLogBooks=repository.findAll();
-        List<ComprehensiveLogBookObject>ComprehensiveLogBookObjects=new ArrayList<>();
+        List<ComprehensiveLogBook>ComprehensiveLogBookObjects=new ArrayList<>();
         for(ComprehensiveLogBook ComprehensiveLog:ComprehensiveLogBooks){
-            ComprehensiveLogBookObjects.add(new ComprehensiveLogBookObject(ComprehensiveLog.getPatientid(),ComprehensiveLog.getDate(),ComprehensiveLog.getTime(),ComprehensiveLog.getBloodglucose(),ComprehensiveLog.getCarbintake(),ComprehensiveLog.getInsulindose()));
+            ComprehensiveLogBookObjects.add(new ComprehensiveLogBook(ComprehensiveLog.getPatientid(),ComprehensiveLog.getDate(),ComprehensiveLog.getTime(),ComprehensiveLog.getBloodglucose(),ComprehensiveLog.getCarbintake(),ComprehensiveLog.getInsulindose()));
         }
         return ComprehensiveLogBookObjects;
     }

@@ -1,7 +1,7 @@
 package com.glucoclock.database.intensiveLogBook_db.service;
 
 import com.glucoclock.database.intensiveLogBook_db.model.IntensiveLogBook;
-import com.glucoclock.database.intensiveLogBook_db.model.IntensiveLogBookObject;
+//import com.glucoclock.database.intensiveLogBook_db.model.IntensiveLogBookObject;
 import com.glucoclock.database.intensiveLogBook_db.repository.IntensiveLogBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,16 +25,16 @@ public class IntensiveLogBookService {
         repository.save(new IntensiveLogBook(1L,test,"5 PM","23","32","22","rice","40min","run","no"));
         return "Intensive Log is created";
     }
-    public String create(IntensiveLogBookObject IntensiveLogBook){
-        repository.save(new IntensiveLogBook(IntensiveLogBook.getPatientId(),IntensiveLogBook.getDate(),IntensiveLogBook.getTime(),IntensiveLogBook.getBloodGlucose(),IntensiveLogBook.getCarbIntake(),IntensiveLogBook.getInsulinDose(),IntensiveLogBook.getFood(),IntensiveLogBook.getExerciseduration(),IntensiveLogBook.getExercisetype(),IntensiveLogBook.getUnusualevent()));
+    public String create(IntensiveLogBook IntensiveLogBook){
+        repository.save(new IntensiveLogBook(IntensiveLogBook.getPatientid(),IntensiveLogBook.getDate(),IntensiveLogBook.getTime(),IntensiveLogBook.getBloodglucose(),IntensiveLogBook.getCarbintake(),IntensiveLogBook.getInsulindose(),IntensiveLogBook.getFood(),IntensiveLogBook.getExerciseduration(),IntensiveLogBook.getExercisetype(),IntensiveLogBook.getUnusualevent()));
         return "Intensive Log is created";
     }
 
-    public List<IntensiveLogBookObject> findAll(){
+    public List<IntensiveLogBook> findAll(){
         List<IntensiveLogBook> IntensiveLogBooks=repository.findAll();
-        List<IntensiveLogBookObject>IntensiveLogBookObjects=new ArrayList<>();
+        List<IntensiveLogBook>IntensiveLogBookObjects=new ArrayList<>();
         for(IntensiveLogBook IntensiveLog:IntensiveLogBooks){
-            IntensiveLogBookObjects.add(new IntensiveLogBookObject(IntensiveLog.getPatientid(),IntensiveLog.getDate(),IntensiveLog.getTime(),IntensiveLog.getBloodglucose(),IntensiveLog.getCarbintake(),IntensiveLog.getInsulindose(),IntensiveLog.getFood(),IntensiveLog.getExerciseduration(),IntensiveLog.getExercisetype(),IntensiveLog.getUnusualevent()));
+            IntensiveLogBookObjects.add(new IntensiveLogBook(IntensiveLog.getPatientid(),IntensiveLog.getDate(),IntensiveLog.getTime(),IntensiveLog.getBloodglucose(),IntensiveLog.getCarbintake(),IntensiveLog.getInsulindose(),IntensiveLog.getFood(),IntensiveLog.getExerciseduration(),IntensiveLog.getExercisetype(),IntensiveLog.getUnusualevent()));
         }
         return IntensiveLogBookObjects;
     }

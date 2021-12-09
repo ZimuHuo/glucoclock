@@ -2,7 +2,7 @@ package com.glucoclock.database.log_db.service;
 
 
 import com.glucoclock.database.log_db.model.Log;
-import com.glucoclock.database.log_db.model.LogObject;
+//import com.glucoclock.database.log_db.model.LogObject;
 import com.glucoclock.database.log_db.repository.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class LogService {
         return "Log is created";
     }
 
-    public String create(LogObject logbook){
+    public String create(Log logbook){
         repository.save(new Log(logbook.getPatientid(),logbook.getDate(),logbook.getLogbooktype()));
         return "Log is created";
     }

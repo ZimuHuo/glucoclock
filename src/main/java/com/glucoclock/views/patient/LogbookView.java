@@ -28,12 +28,11 @@ import java.util.List;
 @Route(value = "LogBook", layout = MainLayout.class)
 
 public class LogbookView extends VerticalLayout {
-    Long patientId;         //set to 1 for testing
-    LocalDate SelectDate;   //will get from previous page
+    Long patientId=1L;         //set to 1 for testing
+    LocalDate SelectDate=LocalDate.now();   //will get from previous page
     String LogbookType="Simple";
     Icon editIcon=new Icon(VaadinIcon.EDIT);
 
-    ArrayList<IntensiveLogExample> Intensive=new ArrayList<IntensiveLogExample>();
     private final SimpleLogBookService SimplelogData;
     private final ComprehensiveLogBookService ComprehensivelogData;
     private final IntensiveLogBookService IntensivelogData;
@@ -42,7 +41,8 @@ public class LogbookView extends VerticalLayout {
 
 
     public LogbookView(SimpleLogBookService SimplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData){
-
+        removeAll();
+//try set up database
         this.SimplelogData = SimplelogData;
         ComprehensivelogData = comprehensivelogData;
         IntensivelogData = intensivelogData;
@@ -64,7 +64,6 @@ public class LogbookView extends VerticalLayout {
             LogbookType="Simple";
             Notification.show("Simple");
             removeAll();
-            SelectDate=LocalDate.now();
             add(
                 new HorizontalLayout(simple,comprehensive,intensive),
                 new HorizontalLayout(
@@ -72,9 +71,6 @@ public class LogbookView extends VerticalLayout {
                     new Paragraph(LogbookType+"Log Book"),
                         editIcon)
                 );
-//try database here***enter data
-            patientId=1L;
-
 
             SimpleLogBookView(SimplelogData);
             editIcon.addClickListener(edit->{
@@ -87,7 +83,6 @@ public class LogbookView extends VerticalLayout {
             LogbookType="Comprehensive";
             Notification.show("Comprehensive");
             removeAll();
-            SelectDate=LocalDate.now();
             add(
                 new HorizontalLayout(simple,comprehensive,intensive),
                 new HorizontalLayout(
@@ -95,8 +90,6 @@ public class LogbookView extends VerticalLayout {
                     new Paragraph(LogbookType+"Log Book"),
                         editIcon)
                 );
-//try database here***enter data
-            patientId=1L;
 
 
             CompLogBookView(ComprehensivelogData);
@@ -107,7 +100,6 @@ public class LogbookView extends VerticalLayout {
             LogbookType="Intensive";
             Notification.show("Intensive");
             removeAll();
-            SelectDate=LocalDate.now();
             add(
             new HorizontalLayout(simple,comprehensive,intensive),
             new HorizontalLayout(
@@ -115,8 +107,6 @@ public class LogbookView extends VerticalLayout {
                     new Paragraph(LogbookType+"Log Book"),
                     editIcon)
             );
-            //try database here***enter data
-            patientId=1L;
 
             IntensiveLogBookView(IntensivelogData);
             editIcon.addClickListener(edit->Notification.show("edit"));

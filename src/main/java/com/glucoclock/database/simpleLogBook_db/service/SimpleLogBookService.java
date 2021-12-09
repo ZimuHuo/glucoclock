@@ -1,7 +1,7 @@
 package com.glucoclock.database.simpleLogBook_db.service;
 
 import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
-import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBookObject;
+//import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBookObject;
 import com.glucoclock.database.simpleLogBook_db.repository.SimpleLogBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,16 +24,16 @@ public class SimpleLogBookService {
         repository.save(new SimpleLogBook(1L,test,"Pre Dinner","23","32"));
         return "Simple Log is created";
     }
-    public String create(SimpleLogBookObject SimpleLogBook){
-        repository.save(new SimpleLogBook(SimpleLogBook.getPatientId(),SimpleLogBook.getDate(),SimpleLogBook.getTime(),SimpleLogBook.getBloodGlucose(),SimpleLogBook.getCarbIntake()));
+    public String create(SimpleLogBook SimpleLogBook){
+        repository.save(new SimpleLogBook(SimpleLogBook.getPatientid(),SimpleLogBook.getDate(),SimpleLogBook.getTime(),SimpleLogBook.getBloodglucose(),SimpleLogBook.getCarbintake()));
         return "Simple Log is created";
     }
 
-    public List<SimpleLogBookObject> findAll(){
+    public List<SimpleLogBook> findAll(){
         List<SimpleLogBook> SimpleLogBooks=repository.findAll();
-        List<SimpleLogBookObject>SimpleLogBookObjects=new ArrayList<>();
+        List<SimpleLogBook>SimpleLogBookObjects=new ArrayList<>();
         for(SimpleLogBook SimpleLog:SimpleLogBooks){
-            SimpleLogBookObjects.add(new SimpleLogBookObject(SimpleLog.getPatientid(),SimpleLog.getDate(),SimpleLog.getTime(),SimpleLog.getBloodglucose(),SimpleLog.getCarbintake()));
+            SimpleLogBookObjects.add(new SimpleLogBook(SimpleLog.getPatientid(),SimpleLog.getDate(),SimpleLog.getTime(),SimpleLog.getBloodglucose(),SimpleLog.getCarbintake()));
         }
         return SimpleLogBookObjects;
     }
