@@ -1,7 +1,7 @@
 package com.glucoclock.database.patients_db.service;
 
 import com.glucoclock.database.patients_db.model.Patient;
-import com.glucoclock.database.patients_db.model.PatientUI;
+import com.glucoclock.database.patients_db.model.PatientObject;
 import com.glucoclock.database.patients_db.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,23 +22,23 @@ public class PatientService  {
         return "Patient created";
     }
 
-    public String create(PatientUI Patient){
+    public String create(PatientObject Patient){
         // save a single Patient
         repository.save(new Patient(Patient.getFirstName(), Patient.getLastName(),Patient.getEmail(),Patient.getPostCode()));
 
         return "Patient is created";
     }
 
-    public List<PatientUI> findAll(){
+    public List<PatientObject> findAll(){
 
         List<Patient> Patients = repository.findAll();
-        List<PatientUI> PatientUI = new ArrayList<>();
+        List<PatientObject> PatientObject = new ArrayList<>();
 
         for (Patient Patient : Patients) {
-            PatientUI.add(new PatientUI(Patient.getFirstName(),Patient.getLastName(),Patient.getEmail(),Patient.getPostCode()));
+            PatientObject.add(new PatientObject(Patient.getFirstName(),Patient.getLastName(),Patient.getEmail(),Patient.getPostCode()));
         }
 
-        return PatientUI;
+        return PatientObject;
     }
 
 
@@ -49,15 +49,15 @@ public class PatientService  {
     }
 
 
-    public List<PatientUI> fetchDataByLastName(String firstname){
+    public List<PatientObject> fetchDataByLastName(String firstname){
 
         List<Patient> Patients = repository.findByFirstName(firstname);
-        List<PatientUI> PatientUI = new ArrayList<>();
+        List<PatientObject> PatientObject = new ArrayList<>();
 
         for (Patient Patient : Patients) {
-            PatientUI.add(new PatientUI(Patient.getFirstName(),Patient.getLastName(),Patient.getEmail(),Patient.getPostCode()));
+            PatientObject.add(new PatientObject(Patient.getFirstName(),Patient.getLastName(),Patient.getEmail(),Patient.getPostCode()));
         }
-        return PatientUI;
+        return PatientObject;
     }
 
     public PatientRepository getRepository(){
@@ -86,6 +86,7 @@ public class PatientService  {
         patient.setPostCode(postCode);
         repository.save(patient);
     }
+
 
 
 }
