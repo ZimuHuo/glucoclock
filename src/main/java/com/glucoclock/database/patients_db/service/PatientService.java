@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,17 +18,17 @@ public class PatientService  {
 
     public String bulkcreate(){
         // save a single Patient
-        repository.save(new Patient("ZImu","Huo","ZImuhuo@outlook.com","SW& $AX"));
-        repository.save(new Patient("ZImu2","Huo2","ZImuhuo@outlook.com2","SW& $AX2"));
+        repository.save(new Patient("ZImu","Huo","ZImuhuo@outlook.com","flat1","SW& $AX","12345","Male", LocalDate.of(2001,1,1)));
+        repository.save(new Patient("ZImu2","Huo2","ZImuhuo@outlook.com2","flat2","SW& $AX2","12345","Male", LocalDate.of(2001,1,1)));
         return "Patient created";
     }
 
-    public String create(PatientObject Patient){
-        // save a single Patient
-        repository.save(new Patient(Patient.getFirstName(), Patient.getLastName(),Patient.getEmail(),Patient.getPostCode()));
-
-        return "Patient is created";
-    }
+//    public String create(PatientObject Patient){
+//        // save a single Patient
+//        repository.save(new Patient(Patient.getFirstName(), Patient.getLastName(),Patient.getEmail(),Patient.getPostCode()));
+//
+//        return "Patient is created";
+//    }
 
     public List<PatientObject> findAll(){
 
@@ -87,6 +88,28 @@ public class PatientService  {
         repository.save(patient);
     }
 
+    public void updatePatientAddress(long id, String newHomeAddress) {
+        Patient patient = repository.getPatientById(id);
+        patient.setHomeAddress(newHomeAddress);
+        repository.save(patient);
+    }
 
+    public void updatePatientPhone(long id, String newPhoneNum) {
+        Patient patient = repository.getPatientById(id);
+        patient.setPhone(newPhoneNum);
+        repository.save(patient);
+    }
+
+    public void updatePatientGender(long id, String newGender) {
+        Patient patient = repository.getPatientById(id);
+        patient.setGender(newGender);
+        repository.save(patient);
+    }
+
+    public void updatePatientBirthday(long id, LocalDate newBirthday) {
+        Patient patient = repository.getPatientById(id);
+        patient.setBirthday(newBirthday);
+        repository.save(patient);
+    }
 
 }

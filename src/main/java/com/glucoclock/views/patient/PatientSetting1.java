@@ -26,33 +26,26 @@ import java.time.ZoneId;
 import java.util.Set;
 
 
-//REMINDER:
-//The function of cancel button is currently bugged.
-//Need to fix it when programming backend and databases.
-
 @PageTitle("Patient Settings")
 @Route(value = "PatientSetting1",layout = MainLayout.class)
 public class PatientSetting1 extends HorizontalLayout {
 
 
-    //     These are sample variables
-    //     Should be got from database
-    //    --------------------------------------------
+    //     All variables
     String FName;
     String LName;
     String Email;
-    String Home = "e";
+    String Home;
     String PostCode;
-    String Phone = "44 0421833";
-    LocalDate Birth = LocalDate.of(2001,6,13);
-    String Gender = "Male";
-    String Diabetes = "Type I";
+    String Phone;
+    LocalDate Birth;
+    String Gender;
+    String Diabetes;
     Set<String> insulin;
     Set<String> injection;
 
 
 
-    //    --------------------------------------------
 
 //    All Components on the page
     TextField firstName;
@@ -68,8 +61,8 @@ public class PatientSetting1 extends HorizontalLayout {
     CheckboxGroup<String> injectionSelect;
     Button changeSetting, save, cancel, changePassword;
 
-//   ----- Temporary button for testing database -----
-//   -------------------------------------------------
+
+
 
     VerticalLayout MainLayout = new VerticalLayout();
     HorizontalLayout Buttons = new HorizontalLayout();
@@ -79,24 +72,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
 
-
-
-
-
-
-
-
-
-//  Setting the layout of the page
     public PatientSetting1(PatientService patientService) {
-
-
-
-
-
-
-
-
 
 
         //-----------------------------------------
@@ -105,27 +81,12 @@ public class PatientSetting1 extends HorizontalLayout {
         patientService.bulkcreate();
         long id = 1;
         Patient patient = patientService.getRepository().getPatientById(id);
-        FName = patient.getFirstName();
-        LName = patient.getLastName();
-        Email = patient.getEmail();
-        PostCode = patient.getPostCode();
-
-
-
-
-
 
 
         //-----------------------------------------
 
 
-
-
-
-
-
-        init();
-
+        init(patient);
 
 
 
@@ -157,6 +118,9 @@ public class PatientSetting1 extends HorizontalLayout {
         Buttons.add(changePassword, changeSetting, save, cancel);
 
 
+
+//        -------------Temporary button for testing------------
+
         Button button = new Button("Check this");
 
 
@@ -165,6 +129,10 @@ public class PatientSetting1 extends HorizontalLayout {
             patientService.bulkcreate();
                 }
         );
+
+//        -----------------------------------------------------
+
+
         MainLayout.add(
                 new H1("Personal information"),
                 formLayout,
@@ -173,7 +141,7 @@ public class PatientSetting1 extends HorizontalLayout {
                 insulinSelect,
                 injectionSelect,
                 Buttons,
-                button
+                button // ← button for testing
         );
         MainLayout.setMaxWidth("600px");
         MainLayout.setPadding(false);
@@ -192,8 +160,17 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
 
-    private void init() {
+    private void init(Patient patient) {
 //      Initialize the components
+        FName = patient.getFirstName();
+        LName = patient.getLastName();
+        Email = patient.getEmail();
+        PostCode = patient.getPostCode();
+        Home = patient.getHomeAddress();
+        Gender = patient.getGender();
+        Phone = patient.getPhone();
+        Birth = patient.getBirthday();
+
         add(MainLayout);
 
         firstNameSetUp();
@@ -208,7 +185,7 @@ public class PatientSetting1 extends HorizontalLayout {
         insulinSelectSetUp();
         injectionSelectSetUp();
         changeSettingSetUp();
-        saveSetUp();
+        saveSetUp(patient.getId());
         cancelSetUp();
         changePasswordSetUp();
 
@@ -326,7 +303,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
     }
 
-    private void saveSetUp() {
+    private void saveSetUp(long id) {
         save = new Button("Save");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -343,16 +320,23 @@ public class PatientSetting1 extends HorizontalLayout {
             Diabetes = diabetesSelect.getValue();
             insulin = insulinSelect.getValue();
             injection = injectionSelect.getValue();
+
+//            update any changes to the database
+            patientService.updatePatientFirstName(id,FName);
+            patientService.updatePatientLastName(id, LName);
+            patientService.updatePatientEmail(id, Email);
+            patientService.updatePatientAddress(id, Home);
+            patientService.updatePatientPostCode(id, PostCode);
+            patientService.updatePatientPhone(id, Phone);
+            patientService.updatePatientBirthday(id, Birth);
+            patientService.updatePatientGender(id, Gender);
+
+//            Change the accessibility and appearance when saved
             allSetReadOnly(true);
             changeSetting.setVisible(true);
             changePassword.setVisible(true);
             save.setVisible(false);
             cancel.setVisible(false);
-
-
-
-            long id = 1;
-            patientService.updatePatientLastName(id,lastName.getValue());
 
 
             Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
