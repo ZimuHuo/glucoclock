@@ -1,4 +1,7 @@
 package com.glucoclock.views.researcher;
+import com.glucoclock.database.researchers_db.model.Researcher;
+import com.glucoclock.database.researchers_db.model.Researcher;
+import com.glucoclock.database.researchers_db.service.ResearcherService;
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -14,6 +17,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
@@ -25,15 +29,15 @@ public class ResearcherSetting1 extends HorizontalLayout {
     //     These are sample variables
     //     Should be got from database
     //    --------------------------------------------
-    String FName = "Zh";
-    String LName = "o";
-    String Email = "zg@ic.ac.uk";
-    String Home = "F, 9 Queens Gate";
-    String PostCode = "SW7 AB";
-    String Phone = "44 071471833";
-    LocalDate Birth = LocalDate.of(2001,6,13);
-    String Gender = "Male";
-    String Institution = "Imperial College London";
+    String FName;
+    String LName;
+    String Email;
+    String Home;
+    String PostCode;
+    String Phone;
+    LocalDate Birth;
+    String Gender;
+    String Institution;
     //    --------------------------------------------
 
     //    All Components on the page
@@ -45,8 +49,20 @@ public class ResearcherSetting1 extends HorizontalLayout {
     VerticalLayout mainLayout;
     HorizontalLayout buttons;
 
-    public ResearcherSetting1() {
-        init();
+    ResearcherService researcherService;
+
+    public ResearcherSetting1(ResearcherService researcherService) {
+        //-----------------------------------------
+
+        this.researcherService = researcherService;
+        researcherService.bulkcreate();
+        long id = 1;
+        Researcher researcher = researcherService.getRepository().getResearcherById(id);
+
+
+        //-----------------------------------------
+        
+        init(researcher);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         FormLayout formLayout = new FormLayout();
@@ -85,7 +101,17 @@ public class ResearcherSetting1 extends HorizontalLayout {
 
 
     //    initialize all components
-    private void init() {
+    private void init(Researcher researcher) {
+        FName = researcher.getFirstName();
+        LName = researcher.getLastName();
+        Email = researcher.getEmail();
+        PostCode = researcher.getPostCode();
+        Home = researcher.getHomeAddress();
+        Gender = researcher.getGender();
+        Phone = researcher.getPhone();
+        Birth = researcher.getBirthday();
+        Institution = researcher.getInstitution();
+        
         mainLayoutInit();
         buttonsInit();
         firstNameInit();
@@ -97,7 +123,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
         contactNumberInit();
         genderSelectInit();
         changeSettingInit();
-        saveInit();
+        saveInit(researcher.getId());
         cancelInit();
         changePasswordInit();
         institutionSelectInit();
@@ -195,11 +221,11 @@ public class ResearcherSetting1 extends HorizontalLayout {
 
     }
 
-    private void saveInit() {
+    private void saveInit(long id) {
         save = new Button("Save");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        save.getElement().getStyle().set("margin-right", "auto");
+        save.getElement().getStyle().set("margin-left", "1em");
         save.addClickListener(e -> {
             FName = firstName.getValue();
             LName = lastName.getValue();
@@ -209,9 +235,21 @@ public class ResearcherSetting1 extends HorizontalLayout {
             Phone = contactNumber.getValue();
             Birth = birthSelect.getValue();
             Gender = genderSelect.getValue();
+            Institution = institutionSelect.getValue();
 
+//            update any changes to the database
+            researcherService.updateResearcherFirstName(id,FName);
+            researcherService.updateResearcherLastName(id, LName);
+            researcherService.updateResearcherEmail(id, Email);
+            researcherService.updateResearcherAddress(id, Home);
+            researcherService.updateResearcherPostCode(id, PostCode);
+            researcherService.updateResearcherPhone(id, Phone);
+            researcherService.updateResearcherBirthday(id, Birth);
+            researcherService.updateResearcherGender(id, Gender);
+            researcherService.updateResearcherInstitution(id, Institution);
+
+//            Change the accessibility and appearance when saved
             allSetReadOnly(true);
-
             changeSetting.setVisible(true);
             changePassword.setVisible(true);
             save.setVisible(false);
