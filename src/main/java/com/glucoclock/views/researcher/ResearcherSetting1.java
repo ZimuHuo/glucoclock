@@ -203,7 +203,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
     private void genderSelectInit() {
         genderSelect = new Select<>("Male","Female","Others","Prefer not to say");
         genderSelect.setValue(Gender);
-        genderSelect.setLabel("Gender");
+        genderSelect.setValue("Gender");
         genderSelect.setReadOnly(true);
     }
 
@@ -271,7 +271,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
             homeAddress.setValue(Home);
             postcode.setValue(PostCode);
             contactNumber.setValue(Phone);
-            genderSelect.setLabel(Gender);
+            genderSelect.setValue(Gender);
 
             changeSetting.setVisible(true);
             changePassword.setVisible(true);
