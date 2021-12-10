@@ -137,7 +137,6 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
         MainLayout.add(
-                toHome,
                 new H1("Personal information"),
                 formLayout,
                 postcode,
@@ -145,6 +144,7 @@ public class PatientSetting1 extends HorizontalLayout {
                 insulinSelect,
                 injectionSelect,
                 Buttons,
+                toHome,
                 button // ← button for testing
         );
         MainLayout.setMaxWidth("600px");
@@ -397,8 +397,8 @@ public class PatientSetting1 extends HorizontalLayout {
     }
 
     private void toHomeSetUp() {
-        toHome = new Button(new Icon(VaadinIcon.ARROW_BACKWARD));
-        toHome.getElement().getStyle().set("margin-top", "2em");
+        toHome = new Button("OK");
+        toHome.getElement().getStyle().set("margin-left", "auto");
         toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         toHome.addClickListener(e -> {
             toHome.getUI().ifPresent(ui ->
@@ -421,5 +421,6 @@ public class PatientSetting1 extends HorizontalLayout {
         diabetesSelect.setReadOnly(Boolean);
         insulinSelect.setReadOnly(Boolean);
         injectionSelect.setReadOnly(Boolean);
+        toHome.setEnabled(Boolean);
     }
 }

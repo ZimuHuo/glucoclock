@@ -3,6 +3,7 @@ import com.glucoclock.database.researchers_db.model.Researcher;
 import com.glucoclock.database.researchers_db.model.Researcher;
 import com.glucoclock.database.researchers_db.service.ResearcherService;
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.patient.PatientStart;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -45,7 +46,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
     DatePicker birthSelect;
     EmailField emailField;
     Select<String> genderSelect, institutionSelect;
-    Button changeSetting, save, cancel, changePassword;
+    Button changeSetting, save, cancel, changePassword, toHome;
     VerticalLayout mainLayout;
     HorizontalLayout buttons;
 
@@ -93,7 +94,8 @@ public class ResearcherSetting1 extends HorizontalLayout {
                 new H1("Personal Information"),
                 formLayout,
                 postcode,
-                buttons
+                buttons,
+                toHome
         );
 
         add(mainLayout);
@@ -127,6 +129,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
         cancelInit();
         changePasswordInit();
         institutionSelectInit();
+        toHomeSetUp();
     }
 
     //    Each of following methods initialize one component
@@ -300,6 +303,17 @@ public class ResearcherSetting1 extends HorizontalLayout {
         institutionSelect.setLabel("Institution");
     }
 
+    private void toHomeSetUp() {
+        toHome = new Button("OK");
+        toHome.getElement().getStyle().set("margin-left", "auto");
+        toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        toHome.addClickListener(e -> {
+            toHome.getUI().ifPresent(ui ->
+                    ui.navigate(PatientStart.class)
+            );
+        });
+    }
+
 
     //    Set all the components on the page to be read-only or not
     private void allSetReadOnly(boolean Boolean) {
@@ -311,5 +325,6 @@ public class ResearcherSetting1 extends HorizontalLayout {
         postcode.setReadOnly(Boolean);
         contactNumber.setReadOnly(Boolean);
         genderSelect.setReadOnly(Boolean);
+        toHome.setEnabled(Boolean);
     }
 }

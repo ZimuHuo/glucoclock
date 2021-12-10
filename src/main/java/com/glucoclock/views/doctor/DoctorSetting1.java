@@ -3,6 +3,7 @@ package com.glucoclock.views.doctor;
 import com.glucoclock.database.doctors_db.model.Doctor;
 import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.patient.PatientStart;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -41,7 +42,7 @@ public class DoctorSetting1 extends HorizontalLayout {
     DatePicker birthSelect;
     EmailField emailField;
     Select<String> genderSelect;
-    Button changeSetting, save, cancel, changePassword;
+    Button changeSetting, save, cancel, changePassword, toHome;
     VerticalLayout mainLayout;
     HorizontalLayout buttons;
 
@@ -91,7 +92,8 @@ public class DoctorSetting1 extends HorizontalLayout {
                 new H1("Personal Information"),
                 formLayout,
                 postcode,
-                buttons
+                buttons,
+                toHome
         );
 
         add(mainLayout);
@@ -123,6 +125,7 @@ public class DoctorSetting1 extends HorizontalLayout {
         saveInit(doctor.getId());
         cancelInit();
         changePasswordInit();
+        toHomeSetUp();
     }
 
 //    Each of following methods initialize one component
@@ -286,6 +289,17 @@ public class DoctorSetting1 extends HorizontalLayout {
                         ui.navigate(DoctorSetting2.class)
                 )
         );
+    }
+
+    private void toHomeSetUp() {
+        toHome = new Button("OK");
+        toHome.getElement().getStyle().set("margin-left", "auto");
+        toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        toHome.addClickListener(e -> {
+            toHome.getUI().ifPresent(ui ->
+                    ui.navigate(PatientStart.class)
+            );
+        });
     }
 
 
