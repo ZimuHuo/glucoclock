@@ -20,7 +20,7 @@ public class SimpleLogBookService {
         //Simple: patient id, date, blood glucose, carb intake
         repository.save(new SimpleLogBook(1L,test,"Pre Breakfast","23","32"));
         repository.save(new SimpleLogBook(1L,test,"Pre Lunch","23","34"));
-        repository.save(new SimpleLogBook(1L,test,"After Lunch","23","33"));
+        repository.save(new SimpleLogBook(1L,test,"Post Lunch","23","33"));
         repository.save(new SimpleLogBook(1L,test,"Pre Dinner","23","32"));
         return "Simple Log is created";
     }

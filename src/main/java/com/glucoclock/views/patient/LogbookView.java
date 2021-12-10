@@ -8,6 +8,7 @@ import com.glucoclock.database.intensiveLogBook_db.service.IntensiveLogBookServi
 import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
 import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.html.Paragraph;
@@ -32,6 +33,10 @@ public class LogbookView extends VerticalLayout {
     LocalDate SelectDate=LocalDate.now();   //will get from previous page
     String LogbookType="Simple";
     Icon editIcon=new Icon(VaadinIcon.EDIT);
+    ArrayList<SimpleLogExample> SimpleData=new ArrayList<SimpleLogExample>();
+    ArrayList<CompLogExample> Comprehensive=new ArrayList<CompLogExample>();
+    ArrayList<IntensiveLogExample> Intensive=new ArrayList<IntensiveLogExample>();
+    private MenuBar menu = new MenuBar("PNS");
 
     private final SimpleLogBookService SimplelogData;
     private final ComprehensiveLogBookService ComprehensivelogData;
@@ -39,9 +44,10 @@ public class LogbookView extends VerticalLayout {
 
 
 
-
     public LogbookView(SimpleLogBookService SimplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData){
         removeAll();
+            add(menu);
+            //Used only for testing remove when developing backends
 //try set up database
         this.SimplelogData = SimplelogData;
         ComprehensivelogData = comprehensivelogData;

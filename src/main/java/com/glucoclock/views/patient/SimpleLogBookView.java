@@ -1,6 +1,7 @@
 package com.glucoclock.views.patient;
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -20,19 +21,18 @@ import com.vaadin.flow.router.Route;
 @Route(value = "SimpleLogBookView",layout = MainLayout.class)
 public class SimpleLogBookView extends Div {
     private H3 title = new H3("Add Simple Logbook Entry");
-    private ComboBox<String> prepost;
-    private ComboBox<String> meal;
-    private TextField bloodGlucose;
-    private TextField carbohydrate;
-    private Button submitButton = new Button("Upload");
-
-    private Button test1 = new Button("Test"); //Menubar test button
-    private Button test2 = new Button("Test");
+    ComboBox<String> prepost;
+    ComboBox<String> meal;
+    TextField bloodGlucose;
+    TextField carbohydrate;
+    Button submitButton = new Button("Upload");
+    private MenuBar menu = new MenuBar("PNS");
 
 
     public SimpleLogBookView(){
         init();
-        add(menuBar());
+        add(menu);
+        //add(menuBar());
         add(createFields());
     }
 
@@ -50,18 +50,6 @@ public class SimpleLogBookView extends Div {
     }
 
 
-    private Component menuBar(){
-        this.setHeight("12.2%");
-        this.getStyle().set( "background-image" , "url('images/menubar.png')");
-        test1.setWidth("8%");
-        test2.setWidth("8%");
-        HorizontalLayout menuButtons = new HorizontalLayout(test1,test2);
-        VerticalLayout rightC = new VerticalLayout();
-        rightC.setHorizontalComponentAlignment(FlexComponent.Alignment.END,menuButtons);
-        rightC.add(menuButtons);
-        return rightC;
-    }
-
     private Component createFields(){
         var formLayout = new FormLayout();
         formLayout.add(
@@ -77,6 +65,11 @@ public class SimpleLogBookView extends Div {
         formLayout.setColspan(carbohydrate,2 );
         submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.addClickListener(e ->
+                submitButton.getUI().ifPresent(ui ->
+                        ui.navigate(ConfirmationPage.class)
+                )
+        );
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(title);
         verticalLayout.add(formLayout);

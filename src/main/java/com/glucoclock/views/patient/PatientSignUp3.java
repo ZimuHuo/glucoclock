@@ -1,6 +1,7 @@
 package com.glucoclock.views.patient;
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -36,8 +37,10 @@ public class PatientSignUp3 extends HorizontalLayout {
     private Button submitButton, previousButton;
     private VerticalLayout verticalLayout;
     private HorizontalLayout horizontalLayout;
+    private MenuBar menu = new MenuBar("NS");
 
     public PatientSignUp3() {
+        add(menu);
         init();
         horizontalLayoutSetUp();
         verticalLayoutSetUp();
@@ -99,6 +102,11 @@ public class PatientSignUp3 extends HorizontalLayout {
         submitButton = new Button("Submit");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left", "auto");
+        submitButton.addClickListener(e ->
+                submitButton.getUI().ifPresent(ui ->
+                        ui.navigate("PatientStart")
+                )
+        );
     }
 
     private void previousButtonInit() {

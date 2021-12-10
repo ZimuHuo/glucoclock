@@ -1,6 +1,7 @@
 package com.glucoclock.views.patient;
 
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -15,7 +16,6 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -51,10 +51,12 @@ public class IntensiveLogBookView extends Div {
     private TextField ketones;
     private int hour;
     private H3 title = new H3("Add Intensive Logbook Entry");
+    private MenuBar menu = new MenuBar("PNS");
 
     public IntensiveLogBookView() {
         init();
-        add(menuBar());
+        add(menu);
+        //add(menuBar());
         var formLayout = new FormLayout();
         formLayout.add(
                 timePicker,
@@ -81,6 +83,11 @@ public class IntensiveLogBookView extends Div {
         Button submitButton = new Button("Upload");
         submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.addClickListener(e ->
+                submitButton.getUI().ifPresent(ui ->
+                        ui.navigate(ConfirmationPage.class)
+                )
+        );
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER,title,submitButton);
         verticalLayout.add(title);
@@ -141,7 +148,7 @@ public class IntensiveLogBookView extends Div {
     private Component menuBar(){
         Button test1 = new Button("Test"); //Menubar test button
         Button test2 = new Button("Test");
-        this.setHeight("11.2%");
+        this.setHeight("81px");
         this.getStyle().set( "background-image" , "url('images/menubar.png')")
                 .set("margin", "0")
                 .set("position", "absolute");
