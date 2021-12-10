@@ -14,6 +14,8 @@ import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -60,7 +62,7 @@ public class PatientSetting1 extends HorizontalLayout {
     Select<String> diabetesSelect;
     CheckboxGroup<String> insulinSelect;
     CheckboxGroup<String> injectionSelect;
-    Button changeSetting, save, cancel, changePassword;
+    Button changeSetting, save, cancel, changePassword, toHome;
 
 
 
@@ -135,6 +137,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
         MainLayout.add(
+                toHome,
                 new H1("Personal information"),
                 formLayout,
                 postcode,
@@ -194,6 +197,7 @@ public class PatientSetting1 extends HorizontalLayout {
         saveSetUp(patient.getId());
         cancelSetUp();
         changePasswordSetUp();
+        toHomeSetUp();
 
 
 
@@ -390,6 +394,17 @@ public class PatientSetting1 extends HorizontalLayout {
                         ui.navigate(PatientSetting2.class)
                 )
         );
+    }
+
+    private void toHomeSetUp() {
+        toHome = new Button(new Icon(VaadinIcon.ARROW_BACKWARD));
+        toHome.getElement().getStyle().set("margin-top", "2em");
+        toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        toHome.addClickListener(e -> {
+            toHome.getUI().ifPresent(ui ->
+                    ui.navigate(PatientStart.class)
+            );
+        });
     }
 
 
