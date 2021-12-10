@@ -28,7 +28,7 @@ public class QuestionnaireView extends Div {
     private Checkbox cb9 = new Checkbox("Sores that are slow to heal");
     private Checkbox cb10 = new Checkbox("More infections than usual");
     private Button submit = new Button("Submit & View Feedback");
-    private MenuBar menu = new MenuBar("NS");
+    private MenuBar menu = new MenuBar("PNS");
 
 
     public QuestionnaireView(){

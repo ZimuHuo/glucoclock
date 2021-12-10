@@ -1,6 +1,8 @@
 package com.glucoclock.views;
 
+import com.glucoclock.views.doctor.DoctorStartView;
 import com.glucoclock.views.patient.HistoryView;
+import com.glucoclock.views.patient.PatientStart;
 import com.glucoclock.views.researcher.ResearcherStart;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -63,6 +65,30 @@ public class MenuBar extends AppLayout {
 
         logo.setHeight("65px");
         home.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        if (pageType == "PNS"){
+            home.addClickListener(e ->
+                    home.getUI().ifPresent(ui ->
+                            ui.navigate(PatientStart.class)
+                    )
+            );
+        }
+
+        else if (pageType == "DNS"){
+            home.addClickListener(e ->
+                    home.getUI().ifPresent(ui ->
+                            ui.navigate(DoctorStartView.class)
+                    )
+            );
+        }
+
+        else if (pageType == "RNS"){
+            home.addClickListener(e ->
+                    home.getUI().ifPresent(ui ->
+                            ui.navigate(ResearcherStart.class)
+                    )
+            );
+        }
+
 
         if (pageType == "PStart"){
             hl.add(history,settings,logout);

@@ -19,7 +19,7 @@ public class ResearcherSetting2 extends HorizontalLayout{
     PasswordField oldPassword, newPassword, confirmPassword;
     Button confirmButton, cancelButton;
     VerticalLayout mainLayout;
-    private MenuBar menu = new MenuBar("NS");
+    private MenuBar menu = new MenuBar("RNS");
 
     public ResearcherSetting2() {
         init();

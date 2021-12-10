@@ -32,11 +32,11 @@ public class HistoryView extends VerticalLayout {
     private HorizontalLayout SearchPanel=new HorizontalLayout();
     private final LogService log_db;
     long patientid=1L;
-    private MenuBar menu = new MenuBar("NS");
+    private MenuBar menu = new MenuBar("PNS");
 
     public HistoryView(LogService log_db){
-            this.log_db = log_db;
-            log_db.bulkcreate();
+        this.log_db = log_db;
+        log_db.bulkcreate();
 
         setSizeFull();
         configSearch();

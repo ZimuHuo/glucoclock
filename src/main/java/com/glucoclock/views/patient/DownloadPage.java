@@ -27,7 +27,7 @@ public class DownloadPage extends VerticalLayout {
     DatePicker PrintEndDate = new DatePicker("Select end date:");
     Button ExportPlot=new Button("Export Plot");
     Button ExportData=new Button("Export Data");
-    private MenuBar menu = new MenuBar("NS");
+    private MenuBar menu = new MenuBar("PNS");
 
     public DownloadPage() {
         add(menu);

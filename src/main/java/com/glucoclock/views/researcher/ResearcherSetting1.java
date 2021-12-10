@@ -45,7 +45,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
     Button changeSetting, save, cancel, changePassword;
     VerticalLayout mainLayout;
     HorizontalLayout buttons;
-    private MenuBar menu = new MenuBar("NS");
+    private MenuBar menu = new MenuBar("RNS");
 
     public ResearcherSetting1() {
         add(menu);

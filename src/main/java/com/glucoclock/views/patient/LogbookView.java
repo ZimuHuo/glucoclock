@@ -36,7 +36,7 @@ public class LogbookView extends VerticalLayout {
     ArrayList<SimpleLogExample> SimpleData=new ArrayList<SimpleLogExample>();
     ArrayList<CompLogExample> Comprehensive=new ArrayList<CompLogExample>();
     ArrayList<IntensiveLogExample> Intensive=new ArrayList<IntensiveLogExample>();
-    private MenuBar menu = new MenuBar("NS");
+    private MenuBar menu = new MenuBar("PNS");
 
     private final SimpleLogBookService SimplelogData;
     private final ComprehensiveLogBookService ComprehensivelogData;

@@ -20,7 +20,7 @@ public class PatientSetting2 extends HorizontalLayout{
     PasswordField oldPassword, newPassword, confirmPassword;
     Button confirmButton, cancelButton;
     VerticalLayout mainLayout;
-    private MenuBar menu = new MenuBar("NS");
+    private MenuBar menu = new MenuBar("PNS");
 
     public PatientSetting2() {
         add(menu);

@@ -26,7 +26,7 @@ public class SimpleLogBookView extends Div {
     TextField bloodGlucose;
     TextField carbohydrate;
     Button submitButton = new Button("Upload");
-    private MenuBar menu = new MenuBar("NS");
+    private MenuBar menu = new MenuBar("PNS");
 
 
     public SimpleLogBookView(){

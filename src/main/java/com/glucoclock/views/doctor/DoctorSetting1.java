@@ -45,7 +45,7 @@ public class DoctorSetting1 extends HorizontalLayout {
     Button changeSetting, save, cancel, changePassword;
     VerticalLayout mainLayout;
     HorizontalLayout buttons;
-    private MenuBar menu = new MenuBar("NS");
+    private MenuBar menu = new MenuBar("DNS");
 
     public DoctorSetting1() {
         add(menu);

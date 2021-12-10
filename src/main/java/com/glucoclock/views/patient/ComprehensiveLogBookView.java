@@ -28,7 +28,7 @@ public class ComprehensiveLogBookView extends Div {
     private Button test1 = new Button("Test"); //Menubar test button
     private Button test2 = new Button("Test");
     private H3 title = new H3("Add Comprehensive Logbook Entry");
-    private MenuBar menu = new MenuBar("NS");
+    private MenuBar menu = new MenuBar("PNS");
 
 
     public ComprehensiveLogBookView(){

@@ -77,7 +77,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
 //    private final PatientService patientService;
 
-    private MenuBar menu = new MenuBar("NS");
+    private MenuBar menu = new MenuBar("PNS");
 
 
 
