@@ -1,5 +1,7 @@
 package com.glucoclock.views.doctor;
 
+import com.glucoclock.database.doctors_db.model.Doctor;
+import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -23,18 +25,16 @@ import java.time.ZoneId;
 
 public class DoctorSetting1 extends HorizontalLayout {
 
-    //     These are sample variables
-    //     Should be got from database
-    //    --------------------------------------------
-    String FName = "Zh";
-    String LName = "o";
-    String Email = "zg@ic.ac.uk";
-    String Home = "F, 9 Queens Gate";
-    String PostCode = "SW7 AB";
-    String Phone = "44 071471833";
-    LocalDate Birth = LocalDate.of(2001,6,13);
-    String Gender = "Male";
-    //    --------------------------------------------
+
+    //    All variables
+    String FName;
+    String LName;
+    String Email;
+    String Home;
+    String PostCode;
+    String Phone;
+    LocalDate Birth;
+    String Gender;
 
     //    All Components on the page
     TextField firstName, lastName, homeAddress, postcode, contactNumber;
@@ -45,8 +45,23 @@ public class DoctorSetting1 extends HorizontalLayout {
     VerticalLayout mainLayout;
     HorizontalLayout buttons;
 
-    public DoctorSetting1() {
-        init();
+    DoctorService doctorService;
+    
+    
+    public DoctorSetting1(DoctorService doctorService) {
+
+        //-----------------------------------------
+
+        this.doctorService = doctorService;
+        doctorService.bulkcreate();
+        long id = 1;
+        Doctor doctor = doctorService.getRepository().getDoctorById(id);
+
+
+        //-----------------------------------------
+        
+        
+        init(doctor);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         FormLayout formLayout = new FormLayout();
@@ -84,7 +99,16 @@ public class DoctorSetting1 extends HorizontalLayout {
 
 
 //    initialize all components
-    private void init() {
+    private void init(Doctor doctor) {
+        FName = doctor.getFirstName();
+        LName = doctor.getLastName();
+        Email = doctor.getEmail();
+        PostCode = doctor.getPostCode();
+        Home = doctor.getHomeAddress();
+        Gender = doctor.getGender();
+        Phone = doctor.getPhone();
+        Birth = doctor.getBirthday();
+        
         mainLayoutInit();
         buttonsInit();
         firstNameInit();
@@ -96,7 +120,7 @@ public class DoctorSetting1 extends HorizontalLayout {
         contactNumberInit();
         genderSelectInit();
         changeSettingInit();
-        saveInit();
+        saveInit(doctor.getId());
         cancelInit();
         changePasswordInit();
     }
@@ -193,11 +217,11 @@ public class DoctorSetting1 extends HorizontalLayout {
 
     }
 
-    private void saveInit() {
+    private void saveInit(long id) {
         save = new Button("Save");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        save.getElement().getStyle().set("margin-right", "auto");
+        save.getElement().getStyle().set("margin-left", "1em");
         save.addClickListener(e -> {
             FName = firstName.getValue();
             LName = lastName.getValue();
@@ -208,12 +232,23 @@ public class DoctorSetting1 extends HorizontalLayout {
             Birth = birthSelect.getValue();
             Gender = genderSelect.getValue();
 
-            allSetReadOnly(true);
+//            update any changes to the database
+            doctorService.updateDoctorFirstName(id,FName);
+            doctorService.updateDoctorLastName(id, LName);
+            doctorService.updateDoctorEmail(id, Email);
+            doctorService.updateDoctorAddress(id, Home);
+            doctorService.updateDoctorPostCode(id, PostCode);
+            doctorService.updateDoctorPhone(id, Phone);
+            doctorService.updateDoctorBirthday(id, Birth);
+            doctorService.updateDoctorGender(id, Gender);
 
+//            Change the accessibility and appearance when saved
+            allSetReadOnly(true);
             changeSetting.setVisible(true);
             changePassword.setVisible(true);
             save.setVisible(false);
             cancel.setVisible(false);
+
 
             Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
         });
@@ -231,7 +266,7 @@ public class DoctorSetting1 extends HorizontalLayout {
             homeAddress.setValue(Home);
             postcode.setValue(PostCode);
             contactNumber.setValue(Phone);
-            genderSelect.setLabel(Gender);
+            genderSelect.setValue(Gender);
 
             changeSetting.setVisible(true);
             changePassword.setVisible(true);
