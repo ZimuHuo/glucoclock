@@ -6,6 +6,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -24,6 +25,7 @@ public class ResearcherStart extends VerticalLayout {
     String F_Gender;
     String F_Insulin;
     String F_Diabetes;
+    private H2 title = new H2("Download Anonymised Patient Data");
     private MenuBar menu = new MenuBar("RStart");
 
     public ResearcherStart(){
@@ -52,9 +54,13 @@ public class ResearcherStart extends VerticalLayout {
         Filter_Diabetes.addValueChangeListener(diabetes-> {Notification.show(diabetes.getValue());F_Diabetes= diabetes.getValue();});
         //Button apply filter
         Button Filter_apply=new Button("Apply Filter");
-        Filter_apply.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+        Filter_apply.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         //Download button
         Icon Filter_download=new Icon(VaadinIcon.DOWNLOAD);
+        Filter_download.setSize("80px");
+        Button download =new Button(Filter_download);
+        download.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        download.setHeight("100px");
 
     //Layout
         FormLayout ResearchFilter=new FormLayout();
@@ -69,9 +75,9 @@ public class ResearcherStart extends VerticalLayout {
         );
         ResearchFilter.add(Filter_Insulin,Filter_Diabetes,Filter_apply);
 
-        VerticalLayout FinalLayout=new VerticalLayout(ResearchFilter,Filter_download);
+        VerticalLayout FinalLayout=new VerticalLayout(title,ResearchFilter,download);
         FinalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        Filter_download.addClickListener(download->Notification.show("Download: \nAge: "+F_AgeMin.toString()+"-"+F_AgeMax.toString()+"\nGender: "+F_Gender+"\nInsulin Type: "+F_Insulin+"\nDiabetes Type: "+F_Diabetes));
+        download.addClickListener(e->Notification.show("Download: \nAge: "+F_AgeMin.toString()+"-"+F_AgeMax.toString()+"\nGender: "+F_Gender+"\nInsulin Type: "+F_Insulin+"\nDiabetes Type: "+F_Diabetes));
 
         add(FinalLayout);
 
