@@ -19,8 +19,8 @@ public class DoctorService  {
 
     public String bulkcreate(){
         // save a single Doctor
-        repository.save(new Doctor("ZImu","Huo","ZImuhuo@outlook.com","flat1","SW& $AX","12345","Male", LocalDate.of(2001,1,1)));
-        repository.save(new Doctor("ZImu2","Huo2","ZImuhuo@outlook.com2","flat2","SW& $AX2","12345","Male", LocalDate.of(2001,1,1)));
+        repository.save(new Doctor("ZImu","Huo","zimuhuo@outlook.com","flat1","SW& $AX","12345","Male", LocalDate.of(2001,1,1)));
+        repository.save(new Doctor("ZImu2","Huo2","zimuhuo@outlook.com","flat2","SW& $AX2","12345","Male", LocalDate.of(2001,1,1)));
         return "Doctor created";
     }
 

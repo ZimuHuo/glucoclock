@@ -213,7 +213,7 @@ public class DoctorSetting1 extends HorizontalLayout {
     }
 
     private void changeSettingInit() {
-        changeSetting = new Button("Change Info");
+        changeSetting = new Button("Edit Info");
         changeSetting.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         changeSetting.getElement().getStyle().set("margin-left", "auto");
         changeSetting.addClickListener(e -> {

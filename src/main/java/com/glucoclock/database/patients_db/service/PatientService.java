@@ -20,8 +20,8 @@ public class PatientService  {
 
     public String bulkcreate(){
         // save a single Patient
-        repository.save(new Patient("ZImu","Huo","ZImuhuo@outlook.com","flat1","SW& $AX","12345","Male", LocalDate.of(2001,1,1),"Type I","[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]","[\"Syringe\", \"Injection pen\"]"));
-        repository.save(new Patient("ZImu2","Huo2","ZImuhuo@outlook.com2","flat2","SW& $AX2","12345","Male", LocalDate.of(2001,1,1),"Type II","[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]","[\"Syringe\", \"Injection pen\"]"));
+        repository.save(new Patient("ZImu","Huo","zimuhuo@outlook.com","flat1","SW& $AX","12345","Male", LocalDate.of(2001,1,1),"Type I","[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]","[\"Syringe\", \"Injection pen\"]"));
+        repository.save(new Patient("ZImu2","Huo2","zimuhuo@outlook.com","flat2","SW& $AX2","12345","Male", LocalDate.of(2001,1,1),"Type II","[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]","[\"Syringe\", \"Injection pen\"]"));
         return "Patient created";
     }
 

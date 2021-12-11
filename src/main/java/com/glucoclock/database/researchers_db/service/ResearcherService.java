@@ -20,8 +20,8 @@ public class ResearcherService  {
 
     public String bulkcreate(){
         // save a single Researcher
-        repository.save(new Researcher("ZImu","Huo","ZImuhuo@outlook.com","flat1","SW& $AX","12345","Male", LocalDate.of(2001,1,1),"Imperial College London"));
-        repository.save(new Researcher("ZImu2","Huo2","ZImuhuo@outlook.com2","flat2","SW& $AX2","12345","Male", LocalDate.of(2001,1,1),"Imperial College London"));
+        repository.save(new Researcher("ZImu","Huo","zimuhuo@outlook.com","flat1","SW& $AX","12345","Male", LocalDate.of(2001,1,1),"Imperial College London"));
+        repository.save(new Researcher("ZImu2","Huo2","zimuhuo@outlook.com","flat2","SW& $AX2","12345","Male", LocalDate.of(2001,1,1),"Imperial College London"));
         return "Researcher created";
     }
 
