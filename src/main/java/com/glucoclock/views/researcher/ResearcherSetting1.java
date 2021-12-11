@@ -95,8 +95,8 @@ public class ResearcherSetting1 extends HorizontalLayout {
 
         mainLayout.add(
                 new H2("Settings"),
-                postcode,
                 buttons,
+                postcode,
                 toHome
         );
 

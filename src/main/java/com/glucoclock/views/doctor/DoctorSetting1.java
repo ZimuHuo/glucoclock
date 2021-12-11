@@ -93,9 +93,9 @@ public class DoctorSetting1 extends HorizontalLayout {
 
         mainLayout.add(
                 new H2("Settings"),
+                buttons,
                 formLayout,
                 postcode,
-                buttons,
                 toHome
         );
 

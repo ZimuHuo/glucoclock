@@ -130,12 +130,12 @@ public class PatientSetting1 extends HorizontalLayout {
 
         MainLayout.add(
                 new H2("Settings"),
+                Buttons,
                 formLayout,
                 postcode,
                 diabetesSelect,
                 insulinSelect,
                 injectionSelect,
-                Buttons,
                 toHome
                 //button // ← button for testing
         );
