@@ -75,7 +75,7 @@ public class ResearcherSignUp2 extends HorizontalLayout {
     }
 
     private void submitButtonSetUp() {
-        this.submitButton = new Button("Submit");
+        this.submitButton = new Button("Sign Up");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left","auto");
         submitButton.addClickListener(e ->

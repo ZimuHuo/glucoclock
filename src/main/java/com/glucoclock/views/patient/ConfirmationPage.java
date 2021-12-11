@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -23,20 +24,21 @@ import com.vaadin.flow.router.Route;
 
 public class ConfirmationPage extends VerticalLayout{
     private Button OKButton;
-    private Icon Tick;
-    private H1 Header ;
+    //private Icon Tick;
+    private H2 Header ;
     private MenuBar menu = new MenuBar("PNS");
+
 
     public ConfirmationPage(){
 
-        Header = new H1("Upload Successful!");
+        Image tick = new Image("images/check.png","Upload Successful");
+        tick.setHeight("160px");
 
+        Header = new H2("Upload Successful!");
 
-        Tick = new Icon(VaadinIcon.CHECK_CIRCLE);
-        Tick.setSize("10%");
         OKButton = new Button("OK");
-        OKButton .addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        OKButton .setWidth("30%");
+        OKButton .addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        OKButton .setWidth("15%");
         OKButton.setHeight("40px");
         OKButton.addClickListener(e ->
                 OKButton.getUI().ifPresent(ui ->
@@ -44,9 +46,10 @@ public class ConfirmationPage extends VerticalLayout{
                 )
         );
 
-        setMargin(true);
-        setHorizontalComponentAlignment(Alignment.CENTER, Header,Tick,OKButton );
 
-        add(menu, Header,Tick,OKButton);
+        setMargin(true);
+        setHorizontalComponentAlignment(Alignment.CENTER, Header,tick,OKButton );
+
+        add(menu, Header,tick,OKButton);
     }
 }

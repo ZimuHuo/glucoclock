@@ -125,7 +125,7 @@ public class DoctorSignUp2 extends HorizontalLayout {
     }
 
     private void submitButtonSetUp() {
-        submitButton = new Button("Submit");
+        submitButton = new Button("Sign Up");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left","auto");
         submitButton.addClickListener(e ->
