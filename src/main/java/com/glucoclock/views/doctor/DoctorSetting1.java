@@ -3,6 +3,7 @@ package com.glucoclock.views.doctor;
 import com.glucoclock.database.doctors_db.model.Doctor;
 import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.PatientStart;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -45,6 +46,7 @@ public class DoctorSetting1 extends HorizontalLayout {
     Button changeSetting, save, cancel, changePassword, toHome;
     VerticalLayout mainLayout;
     HorizontalLayout buttons;
+    private MenuBar menu = new MenuBar("DNS");
 
     DoctorService doctorService;
     
@@ -55,13 +57,13 @@ public class DoctorSetting1 extends HorizontalLayout {
 
         this.doctorService = doctorService;
         doctorService.bulkcreate();
-        long id = 1;
+        long id = doctorService.getRepository().findAll().get(0).getId();
         Doctor doctor = doctorService.getRepository().getDoctorById(id);
 
 
         //-----------------------------------------
         
-        
+
         init(doctor);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
@@ -96,7 +98,10 @@ public class DoctorSetting1 extends HorizontalLayout {
                 toHome
         );
 
-        add(mainLayout);
+        add(
+                menu,
+                mainLayout
+        );
     }
 
 

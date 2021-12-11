@@ -5,6 +5,7 @@ package com.glucoclock.views.patient;
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.vaadin.flow.component.button.Button;
@@ -14,6 +15,7 @@ import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -63,7 +65,7 @@ public class PatientSetting1 extends HorizontalLayout {
     CheckboxGroup<String> insulinSelect;
     CheckboxGroup<String> injectionSelect;
     Button changeSetting, save, cancel, changePassword, toHome;
-
+    private MenuBar menu = new MenuBar("PNS");
 
 
 
@@ -82,7 +84,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
         this.patientService = patientService;
         patientService.bulkcreate();
-        long id = 1;
+        long id = patientService.getRepository().findAll().get(0).getId();
         Patient patient = patientService.getRepository().getPatientById(id);
 
 
@@ -150,6 +152,11 @@ public class PatientSetting1 extends HorizontalLayout {
         MainLayout.setMaxWidth("600px");
         MainLayout.setPadding(false);
 
+        add(
+                menu,
+                MainLayout
+        );
+
         setJustifyContentMode(JustifyContentMode.CENTER);
 
 
@@ -180,7 +187,6 @@ public class PatientSetting1 extends HorizontalLayout {
         insulin = gson.fromJson(patient.getInsulinType(), new TypeToken<Set<String>>(){}.getType());
         injection = gson.fromJson(patient.getInjectionMethod(), new TypeToken<Set<String>>(){}.getType());
 
-        add(MainLayout);
 
         firstNameSetUp();
         lastNameSetUp();

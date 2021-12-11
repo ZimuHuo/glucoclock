@@ -3,6 +3,7 @@ import com.glucoclock.database.researchers_db.model.Researcher;
 import com.glucoclock.database.researchers_db.model.Researcher;
 import com.glucoclock.database.researchers_db.service.ResearcherService;
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.PatientStart;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -49,6 +50,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
     Button changeSetting, save, cancel, changePassword, toHome;
     VerticalLayout mainLayout;
     HorizontalLayout buttons;
+    private MenuBar menu = new MenuBar("RNS");
 
     ResearcherService researcherService;
 
@@ -57,7 +59,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
 
         this.researcherService = researcherService;
         researcherService.bulkcreate();
-        long id = 1;
+        long id = researcherService.getRepository().findAll().get(0).getId();
         Researcher researcher = researcherService.getRepository().getResearcherById(id);
 
 
@@ -98,7 +100,10 @@ public class ResearcherSetting1 extends HorizontalLayout {
                 toHome
         );
 
-        add(mainLayout);
+        add(
+                menu,
+                mainLayout
+        );
     }
 
 
