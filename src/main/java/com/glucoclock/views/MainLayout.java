@@ -8,7 +8,7 @@ import com.glucoclock.views.researcher.*;
 import com.glucoclock.views.patient.*;
 import com.glucoclock.views.researcher.ResearcherSetting1;
 import com.glucoclock.views.researcher.ResearcherSetting2;
-import com.glucoclock.views.researcher.ResearcherSignUp;
+import com.glucoclock.views.researcher.ResearcherSignUp1;
 import com.glucoclock.views.researcher.ResearcherSignUp2;
 import com.glucoclock.views.patient.QuestionnaireView;
 
@@ -123,11 +123,11 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("SignUp", "la la-file", SignUp.class),
 
-                new MenuItemInfo("Patient Start", "la la-file", PatientStart.class),
-
                 new MenuItemInfo("Patient sign up page 1", "la la-user", PatientSignUp1.class),
 
                 new MenuItemInfo("Patient sign up page 2", "la la-user", PatientSignUp2.class),
+
+                new MenuItemInfo("Patient Start", "la la-file", PatientStart.class),
 
                 new MenuItemInfo("Patient sign up page 3", "la la-user", PatientSignUp3.class),
 
@@ -137,7 +137,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Doctor Start", "la la-file", DoctorStartView.class),
 
-                new MenuItemInfo("Doctor sign up", "la la-user", DoctorSignUp1.class),
+                new MenuItemInfo("Doctor sign up 1", "la la-user", DoctorSignUp1.class),
 
                 new MenuItemInfo("Doctor sign up 2", "la la-user", DoctorSignUp2.class),
 
@@ -145,7 +145,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Doctor Setting2", "la la-user", DoctorSetting2.class),
 
-                new MenuItemInfo("ResearcherSignUp1", "la la-user", ResearcherSignUp.class),
+                new MenuItemInfo("ResearcherSignUp1", "la la-user", ResearcherSignUp1.class),
 
                 new MenuItemInfo("ResearcherSignUp2", "la la-user", ResearcherSignUp2.class),
 
@@ -159,8 +159,6 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Intensive Logbook", "la la-file", IntensiveLogBookView.class),
 
-                //new MenuItemInfo("Questionnaire", "la la-file", QuestionnaireView.class),
-
                 new MenuItemInfo("Download","", DownloadPage.class),
 
                 new MenuItemInfo("View History","", HistoryView.class),
@@ -171,7 +169,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Questionnaire","", QuestionnaireView.class),
 
-                new MenuItemInfo("Comformation Page","",ConfirmationPage.class),
+                new MenuItemInfo("Confirmation Page","",ConfirmationPage.class),
         };
         List<RouterLink> links = new ArrayList<>();
         for (MenuItemInfo menuItemInfo : menuItems) {

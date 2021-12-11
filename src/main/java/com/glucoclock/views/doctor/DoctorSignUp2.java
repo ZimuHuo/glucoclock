@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -42,7 +43,7 @@ public class DoctorSignUp2 extends HorizontalLayout {
     public DoctorSignUp2() {
         add(menu);
         init();
-        mainLayout.add(new H1("Personal information"));
+        mainLayout.add(new H2("Personal information"));
         mainLayout.add(formLayout1);
         mainLayout.add(formLayout2);
         mainLayout.add(formLayout3);

@@ -18,7 +18,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.messages.MessageListItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-@PageTitle("Patient Start")
+@PageTitle("Patient Start Page")
 @Route(value = "PatientStart",layout = MainLayout.class)
 
 public class PatientStart extends VerticalLayout{
@@ -31,8 +31,8 @@ public class PatientStart extends VerticalLayout{
         String Logbook;
         add(menu);
         Image graph = new Image("images/GC_logo.png","logo");
-        graph.setWidth("80%");
-        graph.setHeight("10%");
+        graph.setWidth("60%");
+        //graph.setHeight("10%");
 
         LBtybe = new ComboBox<>();
         LBtybe.setLabel("Logbook\nType");

@@ -5,6 +5,7 @@ import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -27,7 +28,7 @@ public class ResearcherSetting2 extends HorizontalLayout{
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         mainLayout.add(
-                new H1("Change Password"),
+                new H2("Change Password"),
                 oldPassword,
                 newPassword,
                 confirmPassword,

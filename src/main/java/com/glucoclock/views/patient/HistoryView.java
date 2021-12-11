@@ -27,7 +27,7 @@ public class HistoryView extends VerticalLayout {
     private Grid<PersonData> Historylist=new Grid<>(PersonData.class,false);
     private LocalDate today=LocalDate.now();
     private ArrayList<PersonData> HistoryDataShown=new ArrayList<>();
-    private DatePicker SelectbyHand= new DatePicker("Select date");
+    private DatePicker SelectbyHand= new DatePicker("Select an earlier date");
     private Button ViewData=new Button("View");
     private HorizontalLayout SearchPanel=new HorizontalLayout();
     private final LogService log_db;
@@ -75,7 +75,7 @@ public class HistoryView extends VerticalLayout {
 
         //add column data of PersonData class
         Historylist.setSizeFull();
-        Historylist.addColumn(PersonData::getDatadate).setHeader("Date");
+        Historylist.addColumn(PersonData::getDatadate).setHeader("Date (the past 30 days)");
         Historylist.addColumn(PersonData::getCompleteLogBook).setHeader("Complete");
         Historylist.addColumn(PersonData::getLogBookType).setHeader("LogBook Type");
 

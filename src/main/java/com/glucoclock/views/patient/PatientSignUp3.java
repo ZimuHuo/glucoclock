@@ -8,9 +8,12 @@ import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -29,7 +32,7 @@ import java.time.ZoneId;
 
 @PageTitle("Sign up your patient account")
 @Route(value = "PatientSignUp3",layout = MainLayout.class)
-public class PatientSignUp3 extends HorizontalLayout {
+public class PatientSignUp3 extends Div {
 
     private Select<String> diabetesSelect;
     private CheckboxGroup<String> insulinSelect;
@@ -42,10 +45,12 @@ public class PatientSignUp3 extends HorizontalLayout {
     public PatientSignUp3() {
         add(menu);
         init();
+        HorizontalLayout hl = new HorizontalLayout();
         horizontalLayoutSetUp();
         verticalLayoutSetUp();
-        this.add(verticalLayout);
-        this.setJustifyContentMode(JustifyContentMode.CENTER);
+        hl.add(verticalLayout);
+        hl.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        add(hl);
     }
 
     private void init() {
@@ -64,8 +69,8 @@ public class PatientSignUp3 extends HorizontalLayout {
 
     private void verticalLayoutSetUp() {
         this.verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Info about your diabetes"));
+        verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+        verticalLayout.add(new H2("Info about your diabetes"));
         verticalLayout.add(
                 diabetesSelect,
                 insulinSelect,
@@ -99,7 +104,7 @@ public class PatientSignUp3 extends HorizontalLayout {
     }
 
     private void submitButtonInit() {
-        submitButton = new Button("Submit");
+        submitButton = new Button("Sign Up");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left", "auto");
         submitButton.addClickListener(e ->

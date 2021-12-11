@@ -5,6 +5,7 @@ import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -27,7 +28,7 @@ public class DoctorSetting2 extends HorizontalLayout{
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         mainLayout.add(
-                new H1("Change Password"),
+                new H2("Change Password"),
                 oldPassword,
                 newPassword,
                 confirmPassword,
@@ -61,19 +62,19 @@ public class DoctorSetting2 extends HorizontalLayout{
     private void oldPasswordInit() {
         oldPassword = new PasswordField("Current password");
         oldPassword.setClearButtonVisible(true);
-        oldPassword.setHelperText("Please enter your current password");
+        //oldPassword.setHelperText("Please enter your current password");
     }
 
     private void newPasswordInit() {
         newPassword = new PasswordField("New password");
         newPassword.setClearButtonVisible(true);
-        newPassword.setHelperText("Please enter your new password");
+        //newPassword.setHelperText("Please enter your new password");
     }
 
     private void confirmPasswordInit() {
         confirmPassword = new PasswordField("Confirm you new password");
         confirmPassword.setClearButtonVisible(true);
-        confirmPassword.setHelperText("Please enter you new password again");
+        //confirmPassword.setHelperText("Please enter you new password again");
     }
 
     private void confirmButtonInit() {

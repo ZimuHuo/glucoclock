@@ -6,6 +6,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -20,7 +21,7 @@ import com.vaadin.flow.router.Route;
 
 @PageTitle("Sign up your researcher account")
 @Route(value = "ResearcherSignUp",layout = MainLayout.class)
-public class ResearcherSignUp extends HorizontalLayout {
+public class ResearcherSignUp1 extends HorizontalLayout {
     TextField firstName;
     TextField lastName;
     EmailField emailField;
@@ -32,7 +33,7 @@ public class ResearcherSignUp extends HorizontalLayout {
     VerticalLayout verticalLayout;
     private MenuBar menu = new MenuBar("NS");
 
-    public ResearcherSignUp() {
+    public ResearcherSignUp1() {
         add(menu);
         init();
         formlayoutSetUp();
@@ -44,7 +45,7 @@ public class ResearcherSignUp extends HorizontalLayout {
     private void verticalLayoutSetUp() {
         this.verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Set up your account"));
+        verticalLayout.add(new H2("Set up your account"));
         verticalLayout.add(formLayout);
         verticalLayout.add(submitButton);
         verticalLayout.setMaxWidth("600px");

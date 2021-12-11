@@ -5,9 +5,12 @@ import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -18,7 +21,7 @@ import com.vaadin.flow.router.Route;
 
 @PageTitle("Sign up your patient account")
 @Route(value = "PatientSignUp1",layout = MainLayout.class)
-public class PatientSignUp1 extends HorizontalLayout {
+public class PatientSignUp1 extends Div {
     TextField firstName;
     TextField lastName;
     EmailField emailField;
@@ -27,18 +30,21 @@ public class PatientSignUp1 extends HorizontalLayout {
     FormLayout formLayout;
     Button submitButton;
     VerticalLayout mainLayout;
+    private H2 title = new H2("Set up your account");
     private MenuBar menu = new MenuBar("NS");
 
     public PatientSignUp1() {
         add(menu);
         init();
-        this.setJustifyContentMode(JustifyContentMode.CENTER);
+        HorizontalLayout hl = new HorizontalLayout();
+        hl.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
 
-        mainLayout.add(new H1("Set up your account"));
+        mainLayout.add(title);
         mainLayout.add(formLayout);
         mainLayout.add(submitButton);
 
-        add(mainLayout);
+        hl.add(mainLayout);
+        add(hl);
     }
 
 
@@ -56,7 +62,7 @@ public class PatientSignUp1 extends HorizontalLayout {
 
     private void mainLayoutSetUp() {
         mainLayout = new VerticalLayout();
-        mainLayout.setHorizontalComponentAlignment(Alignment.CENTER);
+        mainLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
         mainLayout.setMaxWidth("600px");
         mainLayout.setPadding(false);
     }
@@ -89,8 +95,8 @@ public class PatientSignUp1 extends HorizontalLayout {
         formLayout.setColspan(firstName,1);
         formLayout.setColspan(lastName, 1);
         formLayout.setColspan(emailField, 2);
-        formLayout.setColspan(password, 1);
-        formLayout.setColspan(confirmPassword, 1);
+        formLayout.setColspan(password, 2);
+        formLayout.setColspan(confirmPassword, 2);
     }
 
     private void firstNameSetUp() {

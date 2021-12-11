@@ -14,11 +14,14 @@ import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
@@ -26,6 +29,8 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.hibernate.validator.internal.constraintvalidators.bv.DigitsValidatorForCharSequence;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Set;
@@ -79,24 +84,14 @@ public class PatientSetting1 extends HorizontalLayout {
 
     public PatientSetting1(PatientService patientService) {
 
-
         //-----------------------------------------
-
         this.patientService = patientService;
         patientService.bulkcreate();
         long id = patientService.getRepository().findAll().get(0).getId();
         Patient patient = patientService.getRepository().getPatientById(id);
-
-
         //-----------------------------------------
 
-
         init(patient);
-
-
-
-
-
 
         FormLayout formLayout = new FormLayout();
         formLayout.add(
@@ -124,30 +119,25 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
 
-//        -------------Temporary button for testing------------
-
-        Button button = new Button("Check this");
-
-
-        button.addClickListener(e ->{
-
-            patientService.bulkcreate();
-                }
-        );
-
-//        -----------------------------------------------------
+////        -------------Temporary button for testing------------
+//        Button button = new Button("Check this");
+//        button.addClickListener(e ->{
+//            patientService.bulkcreate();
+//                }
+//        );
+////        -----------------------------------------------------
 
 
         MainLayout.add(
-                new H1("Personal information"),
+                new H2("Settings"),
                 formLayout,
                 postcode,
                 diabetesSelect,
                 insulinSelect,
                 injectionSelect,
                 Buttons,
-                toHome,
-                button // ← button for testing
+                toHome
+                //button // ← button for testing
         );
         MainLayout.setMaxWidth("600px");
         MainLayout.setPadding(false);
@@ -157,10 +147,7 @@ public class PatientSetting1 extends HorizontalLayout {
                 MainLayout
         );
 
-        setJustifyContentMode(JustifyContentMode.CENTER);
-
-
-
+        setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
 
 
     }

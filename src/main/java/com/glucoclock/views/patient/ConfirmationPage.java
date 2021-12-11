@@ -1,5 +1,6 @@
 package com.glucoclock.views.patient;
 import com.glucoclock.views.MainLayout;
+import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.ComprehensiveLogBookView;
 import com.glucoclock.views.patient.IntensiveLogBookView;
 import com.glucoclock.views.patient.PatientSignUp2;
@@ -17,23 +18,26 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.messages.MessageListItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+@PageTitle("Confirmation Page")
 @Route(value = "ConfirmationPage",layout = MainLayout.class)
 
 public class ConfirmationPage extends VerticalLayout{
     private Button OKButton;
     private Icon Tick;
     private H1 Header ;
+    private MenuBar menu = new MenuBar("PNS");
 
     public ConfirmationPage(){
 
         Header = new H1("Upload Successful!");
 
-        Tick = new Icon(VaadinIcon.CHECK_CIRCLE_O);
-        Tick.setSize("20%");
-        //Tick.setColor("blue");
+
+        Tick = new Icon(VaadinIcon.CHECK_CIRCLE);
+        Tick.setSize("10%");
         OKButton = new Button("OK");
         OKButton .addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         OKButton .setWidth("30%");
+        OKButton.setHeight("40px");
         OKButton.addClickListener(e ->
                 OKButton.getUI().ifPresent(ui ->
                         ui.navigate(PatientStart.class)
@@ -43,6 +47,6 @@ public class ConfirmationPage extends VerticalLayout{
         setMargin(true);
         setHorizontalComponentAlignment(Alignment.CENTER, Header,Tick,OKButton );
 
-        add(Header,Tick,OKButton );
+        add(menu, Header,Tick,OKButton);
     }
 }

@@ -16,8 +16,8 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Start")
-@Route(value = "Start", layout = MainLayout.class)
+@PageTitle("Researcher Start Page")
+@Route(value = "ResearcherStart", layout = MainLayout.class)
 public class ResearcherStart extends VerticalLayout {
     Double F_AgeMin;
     Double F_AgeMax;

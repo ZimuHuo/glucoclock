@@ -6,6 +6,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -35,7 +36,7 @@ public class DoctorSignUp1 extends HorizontalLayout {
         init();
         this.setJustifyContentMode(JustifyContentMode.CENTER);
 
-        mainLayout.add(new H1("Set up your account"));
+        mainLayout.add(new H2("Set up your account"));
         mainLayout.add(formLayout);
         mainLayout.add(submitButton);
 

@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -67,7 +68,7 @@ public class ResearcherSignUp2 extends HorizontalLayout {
     private void verticalLayoutSetUp() {
         this.verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Personal information"));
+        verticalLayout.add(new H2("Personal information"));
         verticalLayout.add(formLayout1);
         verticalLayout.add(formLayout2);
         verticalLayout.add(formLayout3);
@@ -90,7 +91,7 @@ public class ResearcherSignUp2 extends HorizontalLayout {
         previousButton.getElement().getStyle().set("margin-right", "auto");
         previousButton.addClickListener(e ->
                 previousButton.getUI().ifPresent(ui ->
-                        ui.navigate(ResearcherSignUp.class)
+                        ui.navigate(ResearcherSignUp1.class)
                 )
         );
     }

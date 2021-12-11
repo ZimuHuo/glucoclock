@@ -5,9 +5,12 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -33,17 +36,19 @@ for(Component c : myLayout) {
 
 @PageTitle("Sign up your patient account")
 @Route(value = "PatientSignUp2",layout = MainLayout.class)
-public class PatientSignUp2 extends HorizontalLayout {
+public class PatientSignUp2 extends Div {
     private RadioButtonGroup<String> sex;
     private TextField apartmentAddress;
     private TextField streetAddress;
     private TextField postcode;
+    private TextField city;
     private TextField contactNumber;
     private DatePicker datePicker;
     private FormLayout formLayout1;
     private FormLayout formLayout2;
     private FormLayout formLayout3;
     private Button submitButton, previousButton;
+    private H2 title = new H2("Personal information");
     private MenuBar menu = new MenuBar("NS");
 
 
@@ -56,8 +61,8 @@ public class PatientSignUp2 extends HorizontalLayout {
         formlayout3SetUp();
 
         VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H1("Personal information"));
+        verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+        verticalLayout.add(title);
         verticalLayout.add(formLayout1);
         verticalLayout.add(formLayout2);
         verticalLayout.add(formLayout3);
@@ -68,16 +73,20 @@ public class PatientSignUp2 extends HorizontalLayout {
         verticalLayout.add(horizontalLayout);
         verticalLayout.setMaxWidth("600px");
         verticalLayout.setPadding(false);
-        this.add(verticalLayout);
-        this.setJustifyContentMode(JustifyContentMode.CENTER);
+        HorizontalLayout hl = new HorizontalLayout();
+        hl.add(verticalLayout);
+        hl.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        add(hl);
     }
 
     private void formlayout3SetUp() {
         this.formLayout3 = new FormLayout();
         formLayout3.add(
                 apartmentAddress, streetAddress,
-                postcode
+                postcode,city
         );
+        formLayout2.setColspan(apartmentAddress, 2);
+        formLayout2.setColspan(streetAddress, 2);
         formLayout3.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("320px", 2)
@@ -116,9 +125,10 @@ public class PatientSignUp2 extends HorizontalLayout {
         sexSetUp();
         this.datePicker = new DatePicker("Date of birth");
         datePickerSetUp();
-        this.apartmentAddress = new TextField("Apartment address");
-        this.streetAddress = new TextField("Street address");
+        this.apartmentAddress = new TextField("Address Line 1");
+        this.streetAddress = new TextField("Addess Line 2");
         this.postcode = new TextField("Post code");
+        this.city = new TextField("City");
         this.contactNumber = new TextField("Contact Number");
         contactNumberSetUp();
         datePicker.setClearButtonVisible(true);
@@ -139,7 +149,7 @@ public class PatientSignUp2 extends HorizontalLayout {
 
     private void sexSetUp() {
         sex.setLabel("Gender");
-        sex.setItems("Male","Female","Others","Prefer not to say");
+        sex.setItems("Female","Male","Other","Prefer not to say");
     }
 
     private void contactNumberSetUp() {

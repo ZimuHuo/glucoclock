@@ -41,7 +41,7 @@ private TextField email = new TextField("Email");
         signInBut.setWidth("30%");
         signInBut.setHeight("50px");
         //Sign up button
-        signUpBut = new Button("Don't have an account?\nSign Up");
+        signUpBut = new Button("Don't have an account?\nSign Up!");
         signUpBut.setWidth("30%");
         signUpBut.setHeight("50px");
         signUpBut.addClickListener(e ->

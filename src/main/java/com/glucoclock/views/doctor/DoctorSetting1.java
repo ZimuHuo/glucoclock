@@ -10,6 +10,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -91,7 +92,7 @@ public class DoctorSetting1 extends HorizontalLayout {
         buttons.add(changePassword, changeSetting, save, cancel);
 
         mainLayout.add(
-                new H1("Personal Information"),
+                new H2("Settings"),
                 formLayout,
                 postcode,
                 buttons,
