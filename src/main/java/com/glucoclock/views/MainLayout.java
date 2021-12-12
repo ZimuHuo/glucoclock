@@ -41,6 +41,7 @@ import java.util.List;
 @PageTitle("Main")
 public class MainLayout extends AppLayout {
 
+
     public static class MenuItemInfo {
 
         private String text;
@@ -144,6 +145,8 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("Doctor Setting1", "la la-user", DoctorSetting1.class),
 
                 new MenuItemInfo("Doctor Setting2", "la la-user", DoctorSetting2.class),
+
+                new MenuItemInfo("View Patients Data", "la la-user", ViewPatientsData.class),
 
                 new MenuItemInfo("ResearcherSignUp1", "la la-user", ResearcherSignUp1.class),
 

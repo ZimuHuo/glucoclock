@@ -41,6 +41,7 @@ public class LogbookView extends VerticalLayout {
     private final SimpleLogBookService SimplelogData;
     private final ComprehensiveLogBookService ComprehensivelogData;
     private final IntensiveLogBookService IntensivelogData;
+    private Button Back=new Button("Back");
 
 
 
@@ -57,12 +58,14 @@ public class LogbookView extends VerticalLayout {
         Button comprehensive=new Button("Comprehensive");
         Button intensive=new Button("Intensive");
 
-        add(new HorizontalLayout(simple,comprehensive,intensive));
+        add(new HorizontalLayout(simple,comprehensive,intensive,Back));
 
 //load data into the database
         this.SimplelogData.bulkcreate();
         ComprehensivelogData.bulkcreate();
         IntensivelogData.bulkcreate();
+
+        Back.addClickListener(click->Back.getUI().ifPresent(ui->ui.navigate(HistoryView.class)));
 
     //Don't remove this part, replace the button using input of this page
         //display simple log book
@@ -71,7 +74,7 @@ public class LogbookView extends VerticalLayout {
             Notification.show("Simple");
             removeAll();
             add(
-                new HorizontalLayout(simple,comprehensive,intensive),
+                new HorizontalLayout(simple,comprehensive,intensive,Back),
                 new HorizontalLayout(
                     new Paragraph("Date: "+SelectDate.toString()),
                     new Paragraph(LogbookType+"Log Book"),
@@ -90,7 +93,7 @@ public class LogbookView extends VerticalLayout {
             Notification.show("Comprehensive");
             removeAll();
             add(
-                new HorizontalLayout(simple,comprehensive,intensive),
+                new HorizontalLayout(simple,comprehensive,intensive,Back),
                 new HorizontalLayout(
                     new Paragraph("Date: "+SelectDate.toString()),
                     new Paragraph(LogbookType+"Log Book"),
@@ -107,7 +110,7 @@ public class LogbookView extends VerticalLayout {
             Notification.show("Intensive");
             removeAll();
             add(
-            new HorizontalLayout(simple,comprehensive,intensive),
+            new HorizontalLayout(simple,comprehensive,intensive,Back),
             new HorizontalLayout(
                     new Paragraph("Date: "+SelectDate.toString()),
                     new Paragraph(LogbookType+"Log Book"),

@@ -1,16 +1,16 @@
-package com.glucoclock.views.patient;
-
+package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.patient.PersonData;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -21,9 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@PageTitle("View History")
-@Route(value = "ViewHistory", layout = MainLayout.class)
-public class HistoryView extends VerticalLayout {
+@PageTitle("View Patients History")
+@Route(value = "ViewPatientsHistory", layout = MainLayout.class)
+public class ViewPatientsData extends VerticalLayout {
+    private String PatientName="(PatientName)";
     private Grid<PersonData> Historylist=new Grid<>(PersonData.class,false);
     private LocalDate today=LocalDate.now();
     private ArrayList<PersonData> HistoryDataShown=new ArrayList<>();
@@ -35,7 +36,7 @@ public class HistoryView extends VerticalLayout {
     long patientid=1L;
     private MenuBar menu = new MenuBar("PNS");
 
-    public HistoryView(LogService log_db){
+    public ViewPatientsData(LogService log_db){
         this.log_db = log_db;
         log_db.bulkcreate();
 
@@ -45,31 +46,30 @@ public class HistoryView extends VerticalLayout {
         configureHV();
         identifyclick();
 
+
         //layout
         add(
-                new H2("View History"),Back,
+                new H2("View "+PatientName+" History"),Back,
                 SearchPanel,
                 Historylist);
-        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+        setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
         add(menu);
 
     }
 
     private void configSearch() {
         SearchPanel.add(SelectbyHand,ViewData);
-        SearchPanel.setAlignItems(Alignment.BASELINE);
+        SearchPanel.setAlignItems(FlexComponent.Alignment.BASELINE);
         SelectbyHand.addValueChangeListener(e-> Notification.show("the date select is: "+e.getValue().toString()));
     }
 
     private void identifyclick() {
         Historylist.addSelectionListener(selection-> {
-            Optional <PersonData>optionalPersonData=selection.getFirstSelectedItem();
-            Historylist.getUI().ifPresent(ui->ui.navigate(LogbookView.class));
+            Optional<PersonData> optionalPersonData=selection.getFirstSelectedItem();
             //display date clicked
             Notification.show("Show the data at: "+optionalPersonData.get().getDatadate().toString());
         });
-
-        Back.addClickListener(click->Back.getUI().ifPresent(ui->ui.navigate(PatientStart.class)));
+        Back.addClickListener(back->Back.getUI().ifPresent(ui->ui.navigate(DoctorStartView.class)));
 
     }
 
@@ -114,6 +114,10 @@ public class HistoryView extends VerticalLayout {
             HistoryDataShown.add(addData);
             date=date.minusDays(1);
         }
+    }
+
+    public void setPatientName(String PatientName){
+        this.PatientName=PatientName;
     }
 
 
