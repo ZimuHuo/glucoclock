@@ -1,7 +1,6 @@
 package com.glucoclock.database.patients_db.service;
 
 import com.glucoclock.database.patients_db.model.Patient;
-import com.glucoclock.database.patients_db.model.PatientObject;
 import com.glucoclock.database.patients_db.repository.PatientRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -25,24 +22,6 @@ public class PatientService  {
         return "Patient created";
     }
 
-//    public String create(PatientObject Patient){
-//        // save a single Patient
-//        repository.save(new Patient(Patient.getFirstName(), Patient.getLastName(),Patient.getEmail(),Patient.getPostCode()));
-//
-//        return "Patient is created";
-//    }
-
-    public List<PatientObject> findAll(){
-
-        List<Patient> Patients = repository.findAll();
-        List<PatientObject> PatientObject = new ArrayList<>();
-
-        for (Patient Patient : Patients) {
-            PatientObject.add(new PatientObject(Patient.getFirstName(),Patient.getLastName(),Patient.getEmail(),Patient.getPostCode()));
-        }
-
-        return PatientObject;
-    }
 
 
     public String search(long id){
@@ -51,17 +30,6 @@ public class PatientService  {
         return Patient;
     }
 
-
-    public List<PatientObject> fetchDataByLastName(String firstname){
-
-        List<Patient> Patients = repository.findByFirstName(firstname);
-        List<PatientObject> PatientObject = new ArrayList<>();
-
-        for (Patient Patient : Patients) {
-            PatientObject.add(new PatientObject(Patient.getFirstName(),Patient.getLastName(),Patient.getEmail(),Patient.getPostCode()));
-        }
-        return PatientObject;
-    }
 
     public PatientRepository getRepository(){
         return repository;

@@ -75,7 +75,8 @@ public class ResearcherSetting1 extends HorizontalLayout {
                 birthSelect, genderSelect,
                 emailField, contactNumber,
                 institutionSelect,
-                homeAddress
+                homeAddress,
+                postcode
         );
         formLayout.setResponsiveSteps(
                 // Use one column by default
@@ -96,7 +97,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
         mainLayout.add(
                 new H2("Settings"),
                 buttons,
-                postcode,
+                formLayout,
                 toHome
         );
 
