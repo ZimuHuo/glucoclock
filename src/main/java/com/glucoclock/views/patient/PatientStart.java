@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -32,11 +33,10 @@ public class PatientStart extends VerticalLayout{
     private Icon update;
     private Button updateButton;
     private MenuBar menu = new MenuBar("PStart");
+    private H2 title = new H2("Upload Logbook Entry");
     public PatientStart(){
         String Logbook;
         add(menu);
-//        Image graph = new Image("images/bgl.png","Plot");
-//        graph.setWidth("80%");
 
         LBtybe = new ComboBox<>();
         LBtybe.setLabel("Logbook\nType");
@@ -53,8 +53,8 @@ public class PatientStart extends VerticalLayout{
         update.setSize("15%");
         updateButton = new Button(update);
         updateButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        updateButton.setWidth("150px");
-        updateButton.setHeight("150px");
+        updateButton.setWidth("120px");
+        updateButton.setHeight("120px");
 
         LBtybe.addValueChangeListener(event -> {
             if (event.getValue() == "Simple") {
@@ -80,9 +80,9 @@ public class PatientStart extends VerticalLayout{
             //System.out.println(event.getValue());;
         });
         //setMargin(true);
-        setHorizontalComponentAlignment(Alignment.CENTER,LBtybe,datePicker,updateButton);
+        setHorizontalComponentAlignment(Alignment.CENTER,title,LBtybe,datePicker,updateButton);
 
-        add(LBtybe,datePicker,updateButton);
+        add(title,LBtybe,datePicker,updateButton);
 
     }
 
