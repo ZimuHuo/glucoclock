@@ -30,8 +30,8 @@ public class PatientStart extends VerticalLayout{
     public PatientStart(){
         String Logbook;
         add(menu);
-        Image graph = new Image("images/GC_logo.png","logo");
-        graph.setWidth("60%");
+        Image graph = new Image("images/bgl.png","Plot");
+        graph.setWidth("80%");
         //graph.setHeight("10%");
 
         LBtybe = new ComboBox<>();
