@@ -102,6 +102,14 @@ public class MenuBar extends AppLayout {
             );
         }
 
+        else if (pageType == "NS"){
+            home.addClickListener(e ->
+                    home.getUI().ifPresent(ui ->
+                            ui.navigate(HomeView.class)
+                    )
+            );
+        }
+
 
         if (pageType == "PStart"){
             hl.add(history,qn,settings,logout);
