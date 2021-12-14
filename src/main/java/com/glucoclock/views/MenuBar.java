@@ -3,6 +3,7 @@ package com.glucoclock.views;
 import com.glucoclock.views.doctor.DoctorStartView;
 import com.glucoclock.views.patient.HistoryView;
 import com.glucoclock.views.patient.PatientStart;
+import com.glucoclock.views.patient.QuestionnaireView;
 import com.glucoclock.views.researcher.ResearcherStart;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -27,6 +28,8 @@ public class MenuBar extends AppLayout {
     private Button logout = new Button(signout);
     private Image logo = new Image("/images/logo_dark.png","logo");
     private Button home = new Button(logo);
+    private Icon q = new Icon(VaadinIcon.QUESTION_CIRCLE);
+    private Button qn = new Button(q);
 
     //pageType: PStart(patient start),DRStart(doctor/researcher start),NS(non-start)
     public MenuBar(String pageType){
@@ -42,12 +45,22 @@ public class MenuBar extends AppLayout {
         cal.setColor("white");
         signout.setSize("45px");
         signout.setColor("white");
+        q.setSize("45px");
+        q.setColor("white");
 
         history.setWidth("65px");
         history.setHeight("65px");
         history.addClickListener(e ->
                 history.getUI().ifPresent(ui ->
                         ui.navigate(HistoryView.class)
+                )
+        );
+
+        qn.setHeight("65px");
+        qn.setWidth("65px");
+        qn.addClickListener(e ->
+                qn.getUI().ifPresent(ui ->
+                        ui.navigate(QuestionnaireView.class)
                 )
         );
 
@@ -91,7 +104,7 @@ public class MenuBar extends AppLayout {
 
 
         if (pageType == "PStart"){
-            hl.add(history,settings,logout);
+            hl.add(history,qn,settings,logout);
             settings.addClickListener(e ->
                     settings.getUI().ifPresent(ui ->
                             ui.navigate("PatientSetting1")

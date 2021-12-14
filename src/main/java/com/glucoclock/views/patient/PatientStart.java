@@ -18,6 +18,11 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.messages.MessageListItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Locale;
+
 @PageTitle("Patient Start Page")
 @Route(value = "PatientStart",layout = MainLayout.class)
 
@@ -30,9 +35,8 @@ public class PatientStart extends VerticalLayout{
     public PatientStart(){
         String Logbook;
         add(menu);
-        Image graph = new Image("images/bgl.png","Plot");
-        graph.setWidth("80%");
-        //graph.setHeight("10%");
+//        Image graph = new Image("images/bgl.png","Plot");
+//        graph.setWidth("80%");
 
         LBtybe = new ComboBox<>();
         LBtybe.setLabel("Logbook\nType");
@@ -41,6 +45,9 @@ public class PatientStart extends VerticalLayout{
                 event -> LBtybe.setValue(event.getDetail()));
 
         datePicker = new DatePicker("Date");
+        Locale finnishLocale = new Locale("fi", "FI");
+        datePicker.setLocale(finnishLocale);
+        datePicker.setValue(LocalDate.now(ZoneId.systemDefault()));
 
         update = new Icon(VaadinIcon.UPLOAD);
         update.setSize("15%");
@@ -73,9 +80,9 @@ public class PatientStart extends VerticalLayout{
             //System.out.println(event.getValue());;
         });
         //setMargin(true);
-        setHorizontalComponentAlignment(Alignment.CENTER,graph,LBtybe,datePicker,updateButton);
+        setHorizontalComponentAlignment(Alignment.CENTER,LBtybe,datePicker,updateButton);
 
-        add(graph,LBtybe,datePicker,updateButton);
+        add(LBtybe,datePicker,updateButton);
 
     }
 

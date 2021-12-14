@@ -39,18 +39,20 @@ public class DoctorStartView extends VerticalLayout {
     private HorizontalLayout hl = new HorizontalLayout();
     private H3 title = new H3("My Patients");
     private Icon add = new Icon(VaadinIcon.PLUS_CIRCLE);
+    private Button addBut = new Button(add);
 
 
 
 
     public DoctorStartView() {
-        add.setSize("55px");
-        Button adder = new Button(add);
-        adder.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        hl.add(title,adder);
+        add.setSize("50px");
+        addBut.setWidth("55px");
+        addBut.setHeight("55px");
+        //addBut.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        hl.add(title,addBut);
         hl.setHeight("20%");
-        hl.setVerticalComponentAlignment(Alignment.BASELINE,title,adder);
-        hl.setSpacing(false);
+        hl.setVerticalComponentAlignment(Alignment.BASELINE,title,addBut);
+        //hl.setSpacing(false);
         setSizeFull();
         createGrid();
         add(hl,grid);

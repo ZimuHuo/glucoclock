@@ -5,11 +5,15 @@ import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.researcher.ResearcherStart;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -29,11 +33,15 @@ public class HistoryView extends VerticalLayout {
     private ArrayList<PersonData> HistoryDataShown=new ArrayList<>();
     private DatePicker SelectbyHand= new DatePicker("Select an earlier date");
     private Button ViewData=new Button("View");
-    private Button Back =new Button("Back");
+    //private Button Back =new Button("Back");
     private HorizontalLayout SearchPanel=new HorizontalLayout();
     private final LogService log_db;
     long patientid=1L;
     private MenuBar menu = new MenuBar("PNS");
+    private H2 title = new H2("Data History");
+    private Icon download = new Icon(VaadinIcon.DOWNLOAD);
+    private Button downloadBut = new Button(download);
+    private Image graph = new Image("images/bgl.png","Blood Glucose Graph");
 
     public HistoryView(LogService log_db){
         this.log_db = log_db;
@@ -45,9 +53,24 @@ public class HistoryView extends VerticalLayout {
         configureHV();
         identifyclick();
 
+        graph.setWidth("100%");
+
+        HorizontalLayout hl = new HorizontalLayout();
+        download.setSize("50px");
+        downloadBut.setHeight("60px");
+        downloadBut.setWidth("60px");
+        downloadBut.addClickListener(e ->
+                downloadBut.getUI().ifPresent(ui ->
+                        ui.navigate(DownloadPage.class)
+                )
+        );
+        hl.add(title,downloadBut);
+        hl.setAlignItems(Alignment.BASELINE);
+
         //layout
         add(
-                new H2("View History"),Back,
+                hl,
+                graph,
                 SearchPanel,
                 Historylist);
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
@@ -69,7 +92,7 @@ public class HistoryView extends VerticalLayout {
             Notification.show("Show the data at: "+optionalPersonData.get().getDatadate().toString());
         });
 
-        Back.addClickListener(click->Back.getUI().ifPresent(ui->ui.navigate(PatientStart.class)));
+        //Back.addClickListener(click->Back.getUI().ifPresent(ui->ui.navigate(PatientStart.class)));
 
     }
 

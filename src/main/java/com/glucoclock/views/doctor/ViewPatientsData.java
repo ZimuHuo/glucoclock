@@ -4,11 +4,15 @@ import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.patient.DownloadPage;
 import com.glucoclock.views.patient.PersonData;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -34,7 +38,10 @@ public class ViewPatientsData extends VerticalLayout {
     private HorizontalLayout SearchPanel=new HorizontalLayout();
     private final LogService log_db;
     long patientid=1L;
-    private MenuBar menu = new MenuBar("PNS");
+    private MenuBar menu = new MenuBar("DNS");
+    private Icon download = new Icon(VaadinIcon.DOWNLOAD);
+    private Button downloadBut = new Button(download);
+    private Image graph = new Image("images/bgl.png","Blood Glucose Graph");
 
     public ViewPatientsData(LogService log_db){
         this.log_db = log_db;
@@ -46,10 +53,25 @@ public class ViewPatientsData extends VerticalLayout {
         configureHV();
         identifyclick();
 
+        graph.setWidth("100%");
 
         //layout
+        download.setSize("50px");
+        downloadBut.setHeight("60px");
+        downloadBut.setWidth("60px");
+        downloadBut.addClickListener(e ->
+                downloadBut.getUI().ifPresent(ui ->
+                        ui.navigate(DownloadPage.class)
+                )
+        );
+
+        HorizontalLayout hl = new HorizontalLayout();
+        hl.add(new H2(PatientName+"'s Data History"),downloadBut);
+        hl.setAlignItems(Alignment.BASELINE);
+
         add(
-                new H2("View "+PatientName+" History"),Back,
+                hl,
+                graph,
                 SearchPanel,
                 Historylist);
         setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
