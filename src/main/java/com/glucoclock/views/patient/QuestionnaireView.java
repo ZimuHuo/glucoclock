@@ -17,6 +17,7 @@ import com.vaadin.flow.router.Route;
 @Route(value = "QuestionnaireView",layout = MainLayout.class)
 public class QuestionnaireView extends Div {
     private H2 title = new H2 ("Questionnaire");
+    private H5 text = new H5("To learn more about causes to your symptoms");
     private CheckboxGroup<String> symptoms = new CheckboxGroup<>();
     private Button submit = new Button("Submit & View Feedback");
     private MenuBar menu = new MenuBar("PNS");
@@ -38,7 +39,7 @@ public class QuestionnaireView extends Div {
         submit.setWidth("30%");
         submit.setHeight("50px");
         VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.add(menu,title,symptoms,submit);
+        verticalLayout.add(menu,title,text,symptoms,submit);
         verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         add(verticalLayout);
     }
