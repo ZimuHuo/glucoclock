@@ -1,6 +1,5 @@
 package com.glucoclock.views.doctor;
 
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -13,7 +12,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("Doctor Settings")
-@Route(value = "DoctorSetting2",layout = MainLayout.class)
+@Route(value = "DoctorSetting2")
 
 public class DoctorSetting2 extends HorizontalLayout{
 

@@ -1,7 +1,5 @@
 package com.glucoclock.views.patient;
 
-
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -19,7 +17,7 @@ import java.time.ZoneId;
 import java.util.Locale;
 
 @PageTitle("Download")
-@Route(value = "Download", layout = MainLayout.class)
+@Route(value = "Download")
 
 public class DownloadPage extends VerticalLayout {
     Locale finnishLocale = new Locale("fi", "FI");

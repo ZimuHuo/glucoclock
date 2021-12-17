@@ -1,6 +1,5 @@
 package com.glucoclock.views.researcher;
 
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -18,7 +17,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("Researcher Start Page")
-@Route(value = "ResearcherStart", layout = MainLayout.class)
+@Route(value = "ResearcherStart")
 public class ResearcherStart extends VerticalLayout {
     Double F_AgeMin;
     Double F_AgeMax;

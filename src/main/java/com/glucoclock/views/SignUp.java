@@ -1,5 +1,5 @@
 package com.glucoclock.views;
-import com.glucoclock.views.MainLayout;
+
 import com.glucoclock.views.patient.PatientSetting1;
 import com.glucoclock.views.patient.PatientSignUp1;
 import com.glucoclock.views.patient.PatientStart;
@@ -16,7 +16,7 @@ import com.vaadin.flow.router.Route;
 import javax.print.Doc;
 
 @PageTitle("Sign up")
-@Route(value = "SignUp",layout = MainLayout.class)
+@Route(value = "SignUp")
 public class SignUp extends VerticalLayout{
     private Button PatientButton;
     private Button DoctorButton;

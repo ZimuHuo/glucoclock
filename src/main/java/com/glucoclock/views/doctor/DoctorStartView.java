@@ -1,6 +1,5 @@
 package com.glucoclock.views.doctor;
 
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -24,7 +23,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 @PageTitle("Doctor Start View")
-@Route(value = "DoctorStartView", layout = MainLayout.class)
+@Route(value = "DoctorStartView")
 public class DoctorStartView extends VerticalLayout {
     private Grid<PatientInfo> grid;
     private ListDataProvider<PatientInfo> dataProvider;

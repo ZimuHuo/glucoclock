@@ -1,5 +1,5 @@
 package com.glucoclock.views.patient;
-import com.glucoclock.views.MainLayout;
+
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.ComprehensiveLogBookView;
 import com.glucoclock.views.patient.IntensiveLogBookView;
@@ -25,7 +25,7 @@ import java.time.ZoneId;
 import java.util.Locale;
 
 @PageTitle("Patient Start Page")
-@Route(value = "PatientStart",layout = MainLayout.class)
+@Route(value = "PatientStart")
 
 public class PatientStart extends VerticalLayout{
     private ComboBox<String> LBtybe;

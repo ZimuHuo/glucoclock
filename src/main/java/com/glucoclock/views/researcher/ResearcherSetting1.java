@@ -2,7 +2,6 @@ package com.glucoclock.views.researcher;
 import com.glucoclock.database.researchers_db.model.Researcher;
 import com.glucoclock.database.researchers_db.model.Researcher;
 import com.glucoclock.database.researchers_db.service.ResearcherService;
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.PatientStart;
 import com.vaadin.flow.component.button.Button;
@@ -25,7 +24,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 @PageTitle("Researcher Settings")
-@Route(value = "ResearcherSetting1",layout = MainLayout.class)
+@Route(value = "ResearcherSetting1")
 
 public class ResearcherSetting1 extends HorizontalLayout {
 

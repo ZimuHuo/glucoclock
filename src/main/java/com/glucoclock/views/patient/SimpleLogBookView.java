@@ -1,6 +1,5 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -18,7 +17,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("Simple LogBook View")
-@Route(value = "SimpleLogBookView",layout = MainLayout.class)
+@Route(value = "SimpleLogBookView")
 public class SimpleLogBookView extends Div {
     private H3 title = new H3("Add Simple Logbook Entry");
     ComboBox<String> prepost;

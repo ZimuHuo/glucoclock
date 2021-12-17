@@ -1,5 +1,4 @@
 package com.glucoclock.views.patient;
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.ComprehensiveLogBookView;
 import com.glucoclock.views.patient.IntensiveLogBookView;
@@ -20,7 +19,7 @@ import com.vaadin.flow.component.messages.MessageListItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 @PageTitle("Confirmation Page")
-@Route(value = "ConfirmationPage",layout = MainLayout.class)
+@Route(value = "ConfirmationPage")
 
 public class ConfirmationPage extends VerticalLayout{
     private Button OKButton;

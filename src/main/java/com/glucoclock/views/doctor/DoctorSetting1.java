@@ -2,7 +2,6 @@ package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.doctors_db.model.Doctor;
 import com.glucoclock.database.doctors_db.service.DoctorService;
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.PatientStart;
 import com.vaadin.flow.component.button.Button;
@@ -24,7 +23,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 @PageTitle("Doctor Settings")
-@Route(value = "DoctorSetting1",layout = MainLayout.class)
+@Route(value = "DoctorSetting1")
 
 public class DoctorSetting1 extends HorizontalLayout {
 

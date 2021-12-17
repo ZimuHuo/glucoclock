@@ -1,6 +1,5 @@
 package com.glucoclock.views.researcher;
 
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -20,7 +19,7 @@ import com.vaadin.flow.router.Route;
 
 
 @PageTitle("Sign up your researcher account")
-@Route(value = "ResearcherSignUp",layout = MainLayout.class)
+@Route(value = "ResearcherSignUp")
 public class ResearcherSignUp1 extends HorizontalLayout {
     TextField firstName;
     TextField lastName;

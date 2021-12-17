@@ -1,6 +1,5 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -14,7 +13,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("Questionnaire View")
-@Route(value = "QuestionnaireView",layout = MainLayout.class)
+@Route(value = "QuestionnaireView")
 public class QuestionnaireView extends Div {
     private H2 title = new H2 ("Questionnaire");
     private H5 text = new H5("To learn more about causes to your symptoms");

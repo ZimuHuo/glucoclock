@@ -1,6 +1,5 @@
 package com.glucoclock.views.doctor;
 
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -22,7 +21,7 @@ import java.time.ZoneId;
 
 
 @PageTitle("Sign up your doctor account")
-@Route(value = "DoctorSignUp2",layout = MainLayout.class)
+@Route(value = "DoctorSignUp2")
 public class DoctorSignUp2 extends HorizontalLayout {
     private RadioButtonGroup<String> sex;
     private TextField apartmentAddress;

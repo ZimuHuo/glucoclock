@@ -1,5 +1,5 @@
 package com.glucoclock.views.patient;
-import com.glucoclock.views.MainLayout;
+
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -35,7 +35,7 @@ for(Component c : myLayout) {
  */
 
 @PageTitle("Sign up your patient account")
-@Route(value = "PatientSignUp2",layout = MainLayout.class)
+@Route(value = "PatientSignUp2")
 public class PatientSignUp2 extends Div {
     private RadioButtonGroup<String> sex;
     private TextField apartmentAddress;

@@ -2,7 +2,6 @@ package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.DownloadPage;
 import com.glucoclock.views.patient.PersonData;
@@ -26,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @PageTitle("View Patients History")
-@Route(value = "ViewPatientsHistory", layout = MainLayout.class)
+@Route(value = "ViewPatientsHistory")
 public class ViewPatientsData extends VerticalLayout {
     private String PatientName="(PatientName)";
     private Grid<PersonData> Historylist=new Grid<>(PersonData.class,false);
