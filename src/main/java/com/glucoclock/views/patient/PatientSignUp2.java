@@ -139,22 +139,28 @@ public class PatientSignUp2 extends Div {
 
         submitButtonInit();
         previousButtonInit();
-//        sex.setRequired(true);
-//        datePicker.setRequired(true);
-//        apartmentAddress.setRequired(true);
-//        streetAddress.setRequired(true);
-//        postcode.setRequired(true);
-//        contactNumber.setRequired(true);
+        sex.setRequired(true);
+        datePicker.setRequired(true);
+        apartmentAddress.setRequired(true);
+        streetAddress.setRequired(true);
+        postcode.setRequired(true);
+        contactNumber.setRequired(true);
     }
 
     private void sexSetUp() {
         sex.setLabel("Gender");
         sex.setItems("Female","Male","Other","Prefer not to say");
+        if (VaadinSession.getCurrent().getAttribute("Sex")!= null){
+            sex.setValue((String)VaadinSession.getCurrent().getAttribute("Sex"));
+        }
     }
 
     private void contactNumberSetUp() {
         contactNumber.setLabel("Phone number");
         contactNumber.setHelperText("Include country and area prefixes");
+        if (VaadinSession.getCurrent().getAttribute("PhoneNumber")!= null){
+            contactNumber.setValue((String)VaadinSession.getCurrent().getAttribute("PhoneNumber"));
+        }
     }
     private void datePickerSetUp() {
         LocalDate now = LocalDate.now(ZoneId.systemDefault()).minusYears(7);
@@ -163,6 +169,9 @@ public class PatientSignUp2 extends Div {
         datePicker.setErrorMessage("Try another value");
         datePicker.setHelperText("Format: DD.MM.YYYY");
         datePicker.setPlaceholder("DD.MM.YYYY");
+        if (VaadinSession.getCurrent().getAttribute("Date")!= null){
+            datePicker.setValue((LocalDate)VaadinSession.getCurrent().getAttribute("Date"));
+        }
     }
 
     private void submitButtonInit() {
@@ -175,6 +184,27 @@ public class PatientSignUp2 extends Div {
                         ui.navigate(PatientSignUp3.class)
                 )
         );
+        submitButton.addClickListener(e -> {
+
+
+
+            if (sex.isInvalid()) {
+                Notification notification = Notification.show("Check Sex Field");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }else {
+
+                VaadinSession.getCurrent().setAttribute( "FirstName",firstName.getValue());
+                VaadinSession.getCurrent().setAttribute( "LastName",lastName.getValue());
+                VaadinSession.getCurrent().setAttribute( "Email",emailField.getValue());
+                VaadinSession.getCurrent().setAttribute( "Password",password.getValue());
+                submitButton.getUI().ifPresent(ui ->
+                        ui.navigate(PatientSignUp2.class)
+                );
+            }
+
+
+
+        });
     }
 
     private void previousButtonInit() {

@@ -89,7 +89,14 @@ public class PatientSignUp1 extends Div {
             }else if (!password.getValue().equals(confirmPassword.getValue())){
                 Notification notification = Notification.show("Check Password");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            }else {
+            }else if(firstName.isEmpty()){
+                Notification notification = Notification.show("Check First name");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }else if(lastName.isEmpty()){
+                Notification notification = Notification.show("Check last name");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }
+            else {
 
                 VaadinSession.getCurrent().setAttribute( "FirstName",firstName.getValue());
                 VaadinSession.getCurrent().setAttribute( "LastName",lastName.getValue());
