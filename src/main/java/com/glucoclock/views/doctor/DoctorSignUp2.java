@@ -66,10 +66,9 @@ public class DoctorSignUp2 extends HorizontalLayout {
         verticalLayout.add(horizontalLayout);
         verticalLayout.setMaxWidth("600px");
         verticalLayout.setPadding(false);
-        HorizontalLayout hl = new HorizontalLayout();
-        hl.add(verticalLayout);
-        hl.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-        add(hl);
+        add(verticalLayout);
+        setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+
     }
 
     private void formlayout3SetUp() {
@@ -230,7 +229,7 @@ public class DoctorSignUp2 extends HorizontalLayout {
         previousButton.addClickListener(e -> {
             setSession();
             previousButton.getUI().ifPresent(ui ->
-                    ui.navigate(PatientSignUp1.class)
+                    ui.navigate(DoctorSignUp1.class)
             );
 
 
