@@ -10,6 +10,8 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -20,6 +22,7 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.Theme;
 
 import java.time.LocalDate;
@@ -179,11 +182,6 @@ public class PatientSignUp2 extends Div {
         submitButton.setIconAfterText(true);
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left","auto");
-        submitButton.addClickListener(e ->
-                submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(PatientSignUp3.class)
-                )
-        );
         submitButton.addClickListener(e -> {
 
 
@@ -193,12 +191,15 @@ public class PatientSignUp2 extends Div {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }else {
 
-                VaadinSession.getCurrent().setAttribute( "FirstName",firstName.getValue());
-                VaadinSession.getCurrent().setAttribute( "LastName",lastName.getValue());
-                VaadinSession.getCurrent().setAttribute( "Email",emailField.getValue());
-                VaadinSession.getCurrent().setAttribute( "Password",password.getValue());
+                VaadinSession.getCurrent().setAttribute( "FSex",sex.getValue());
+                VaadinSession.getCurrent().setAttribute( "ApartmentAddress",apartmentAddress.getValue());
+                VaadinSession.getCurrent().setAttribute( "StreetAddress",streetAddress.getValue());
+                VaadinSession.getCurrent().setAttribute( "Postcode",postcode.getValue());
+                VaadinSession.getCurrent().setAttribute( "City",city.getValue());
+                VaadinSession.getCurrent().setAttribute( "ContactNumber",contactNumber.getValue());
+                VaadinSession.getCurrent().setAttribute( "DatePicker",datePicker.getValue());
                 submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(PatientSignUp2.class)
+                        ui.navigate(PatientSignUp3.class)
                 );
             }
 
