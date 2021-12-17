@@ -136,9 +136,21 @@ public class PatientSignUp2 extends Div {
         contactNumberSetUp();
         datePicker.setClearButtonVisible(true);
         apartmentAddress.setClearButtonVisible(true);
+        if (VaadinSession.getCurrent().getAttribute("ApartmentAddress")!= null){
+            apartmentAddress.setValue((String)VaadinSession.getCurrent().getAttribute("ApartmentAddress"));
+        }
         streetAddress.setClearButtonVisible(true);
+        if (VaadinSession.getCurrent().getAttribute("StreetAddress")!= null){
+            streetAddress.setValue((String)VaadinSession.getCurrent().getAttribute("StreetAddress"));
+        }
         postcode.setClearButtonVisible(true);
-        contactNumber.setClearButtonVisible(true);
+        if (VaadinSession.getCurrent().getAttribute("Postcode")!= null){
+            postcode.setValue((String)VaadinSession.getCurrent().getAttribute("Postcode"));
+        }
+        if (VaadinSession.getCurrent().getAttribute("City")!= null){
+            city.setValue((String)VaadinSession.getCurrent().getAttribute("City"));
+        }
+
 
         submitButtonInit();
         previousButtonInit();
@@ -161,8 +173,8 @@ public class PatientSignUp2 extends Div {
     private void contactNumberSetUp() {
         contactNumber.setLabel("Phone number");
         contactNumber.setHelperText("Include country and area prefixes");
-        if (VaadinSession.getCurrent().getAttribute("PhoneNumber")!= null){
-            contactNumber.setValue((String)VaadinSession.getCurrent().getAttribute("PhoneNumber"));
+        if (VaadinSession.getCurrent().getAttribute("ContactNumber")!= null){
+            contactNumber.setValue((String)VaadinSession.getCurrent().getAttribute("ContactNumber"));
         }
     }
     private void datePickerSetUp() {
@@ -186,18 +198,30 @@ public class PatientSignUp2 extends Div {
 
 
 
-            if (sex.isInvalid()) {
+            if (sex.isEmpty()) {
                 Notification notification = Notification.show("Check Sex Field");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            }else {
+            }if (apartmentAddress.isEmpty()) {
+                Notification notification = Notification.show("Check apartment address");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }if (streetAddress.isEmpty()) {
+                Notification notification = Notification.show("Check street address");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }if (postcode.isEmpty()) {
+                Notification notification = Notification.show("Check post code");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }if (city.isEmpty()) {
+                Notification notification = Notification.show("Check city");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }if (contactNumber.isEmpty()) {
+                Notification notification = Notification.show("Check contact number");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }if (datePicker.isEmpty()) {
+                Notification notification = Notification.show("Check date");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            } else {
 
-                VaadinSession.getCurrent().setAttribute( "FSex",sex.getValue());
-                VaadinSession.getCurrent().setAttribute( "ApartmentAddress",apartmentAddress.getValue());
-                VaadinSession.getCurrent().setAttribute( "StreetAddress",streetAddress.getValue());
-                VaadinSession.getCurrent().setAttribute( "Postcode",postcode.getValue());
-                VaadinSession.getCurrent().setAttribute( "City",city.getValue());
-                VaadinSession.getCurrent().setAttribute( "ContactNumber",contactNumber.getValue());
-                VaadinSession.getCurrent().setAttribute( "DatePicker",datePicker.getValue());
+                setSession();
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(PatientSignUp3.class)
                 );
@@ -212,11 +236,26 @@ public class PatientSignUp2 extends Div {
         previousButton = new Button("Previous", new Icon(VaadinIcon.ARROW_LEFT));
         previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         previousButton.getElement().getStyle().set("margin-right", "auto");
-        previousButton.addClickListener(e ->
-                previousButton.getUI().ifPresent(ui ->
-                        ui.navigate(PatientSignUp1.class)
-                )
-        );
+        previousButton.addClickListener(e -> {
+            setSession();
+            previousButton.getUI().ifPresent(ui ->
+                    ui.navigate(PatientSignUp1.class)
+            );
+
+
+
+
+        });
+    }
+
+    private void setSession() {
+        VaadinSession.getCurrent().setAttribute( "Sex",sex.getValue());
+        VaadinSession.getCurrent().setAttribute( "ApartmentAddress",apartmentAddress.getValue());
+        VaadinSession.getCurrent().setAttribute( "StreetAddress",streetAddress.getValue());
+        VaadinSession.getCurrent().setAttribute( "Postcode",postcode.getValue());
+        VaadinSession.getCurrent().setAttribute( "City",city.getValue());
+        VaadinSession.getCurrent().setAttribute( "ContactNumber",contactNumber.getValue());
+        VaadinSession.getCurrent().setAttribute( "Date",datePicker.getValue());
     }
 
 }
