@@ -1,5 +1,6 @@
-package com.glucoclock.views;
+package com.glucoclock.views.all;
 
+import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.PatientSetting1;
 import com.glucoclock.views.patient.PatientSignUp1;
 import com.glucoclock.views.patient.PatientStart;
