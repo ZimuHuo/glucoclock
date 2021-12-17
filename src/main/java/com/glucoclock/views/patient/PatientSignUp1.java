@@ -2,6 +2,7 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -18,6 +19,8 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinService;
+import com.vaadin.flow.server.VaadinSession;
 
 @PageTitle("Sign up your patient account")
 @Route(value = "PatientSignUp1",layout = MainLayout.class)
@@ -33,7 +36,9 @@ public class PatientSignUp1 extends Div {
     private H2 title = new H2("Set up your account");
     private MenuBar menu = new MenuBar("NS");
 
+
     public PatientSignUp1() {
+
         add(menu);
         init();
         HorizontalLayout hl = new HorizontalLayout();
@@ -73,10 +78,14 @@ public class PatientSignUp1 extends Div {
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left", "auto");
         submitButton.addClickListener(e ->
-            submitButton.getUI().ifPresent(ui ->
-                    ui.navigate(PatientSignUp2.class)
-            )
+                VaadinSession.getCurrent().setAttribute( "FirstName",firstName.getValue())
+
+//            submitButton.getUI().ifPresent(ui ->
+//                    ui.navigate(PatientSignUp2.class)
+//            )
+
         );
+
     }
 
     private void formLayoutSetUp() {
@@ -102,6 +111,9 @@ public class PatientSignUp1 extends Div {
     private void firstNameSetUp() {
         firstName = new TextField("First name");
         firstName.setClearButtonVisible(true);
+        if (VaadinSession.getCurrent().getAttribute("FirstName")!= null){
+            firstName.setValue((String)VaadinSession.getCurrent().getAttribute("FirstName"));
+        }
     }
 
     private void lastNameSetUp() {
