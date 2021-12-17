@@ -94,8 +94,8 @@ public class PatientSignUp3 extends Div {
     private void diabetesSelectSetUp() {
         diabetesSelect = new Select<>("Type I", "Type II", "Gestational", "Others");
         diabetesSelect.setLabel("Type of diabetes");
-        if (VaadinSession.getCurrent().getAttribute("DiabetesSelect")!= null){
-            diabetesSelect.setValue((String) VaadinSession.getCurrent().getAttribute("Diabetes"));
+        if (VaadinSession.getCurrent().getAttribute("Diabetes")!= null){
+            diabetesSelect.setValue(VaadinSession.getCurrent().getAttribute("Diabetes").toString());
         }
     }
 
