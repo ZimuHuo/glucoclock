@@ -19,14 +19,14 @@ public class IntensiveLogBookService {
     public String bulkcreate(){
         LocalDate test= LocalDate.now();
         //Intensive: patient id, date, blood glucose, carb intake, food, exercise duration, exercise type, unusual event
-        repository.save(new IntensiveLogBook(1L,test,"9 AM","23","32","33","bread","30min","run","no"));
-        repository.save(new IntensiveLogBook(1L,test,"12 AM","23","34","33","rice","20min","run","no"));
-        repository.save(new IntensiveLogBook(1L,test,"2 PM","23","33","21","-","12min","run","no"));
-        repository.save(new IntensiveLogBook(1L,test,"5 PM","23","32","22","rice","40min","run","no"));
+        repository.save(new IntensiveLogBook(1L,test,"9 AM","23","32","33","13","35","24","45"));
+        repository.save(new IntensiveLogBook(1L,test,"12 AM","23","34","33","23","35","24","56"));
+        repository.save(new IntensiveLogBook(1L,test,"2 PM","23","33","21","34","24","25","45"));
+        repository.save(new IntensiveLogBook(1L,test,"5 PM","23","32","22","24","35","35","34"));
         return "Intensive Log is created";
     }
     public String create(IntensiveLogBook IntensiveLogBook){
-        repository.save(new IntensiveLogBook(IntensiveLogBook.getPatientid(),IntensiveLogBook.getDate(),IntensiveLogBook.getTime(),IntensiveLogBook.getBloodglucose(),IntensiveLogBook.getCarbintake(),IntensiveLogBook.getInsulindose(),IntensiveLogBook.getFood(),IntensiveLogBook.getExerciseduration(),IntensiveLogBook.getExercisetype(),IntensiveLogBook.getUnusualevent()));
+        repository.save(new IntensiveLogBook(IntensiveLogBook.getPatientid(),IntensiveLogBook.getDate(),IntensiveLogBook.getTime(),IntensiveLogBook.getBloodglucose(),IntensiveLogBook.getCarbintake(),IntensiveLogBook.getInsulindose(),IntensiveLogBook.getCarbbolus(),IntensiveLogBook.getHighbsbolus(),IntensiveLogBook.getBasalrate(),IntensiveLogBook.getKetons()));
         return "Intensive Log is created";
     }
 
@@ -34,7 +34,7 @@ public class IntensiveLogBookService {
         List<IntensiveLogBook> IntensiveLogBooks=repository.findAll();
         List<IntensiveLogBook>IntensiveLogBookObjects=new ArrayList<>();
         for(IntensiveLogBook IntensiveLog:IntensiveLogBooks){
-            IntensiveLogBookObjects.add(new IntensiveLogBook(IntensiveLog.getPatientid(),IntensiveLog.getDate(),IntensiveLog.getTime(),IntensiveLog.getBloodglucose(),IntensiveLog.getCarbintake(),IntensiveLog.getInsulindose(),IntensiveLog.getFood(),IntensiveLog.getExerciseduration(),IntensiveLog.getExercisetype(),IntensiveLog.getUnusualevent()));
+            IntensiveLogBookObjects.add(new IntensiveLogBook(IntensiveLog.getPatientid(),IntensiveLog.getDate(),IntensiveLog.getTime(),IntensiveLog.getBloodglucose(),IntensiveLog.getCarbintake(),IntensiveLog.getInsulindose(),IntensiveLog.getCarbbolus(),IntensiveLog.getHighbsbolus(),IntensiveLog.getBasalrate(),IntensiveLog.getKetons()));
         }
         return IntensiveLogBookObjects;
     }
@@ -78,27 +78,27 @@ public class IntensiveLogBookService {
         repository.save(Intensivelog);
     }
 
-    public void updateFood(long patientid,LocalDate Date,String Time,String Food){
+    public void updateCarbBolus(long patientid,LocalDate Date,String Time,String CarbBolus){
         IntensiveLogBook Intensivelog=repository.findByPatientidAndTimeAndDate(patientid,Time,Date);
-        Intensivelog.setFood(Food);
+        Intensivelog.setCarbbolus(CarbBolus);
         repository.save(Intensivelog);
     }
 
-    public void updateExerciseDuration(long patientid,LocalDate Date,String Time,String ExerciseDur){
+    public void updateHighBSBolus(long patientid,LocalDate Date,String Time,String HighBSBolus){
         IntensiveLogBook Intensivelog=repository.findByPatientidAndTimeAndDate(patientid,Time,Date);
-        Intensivelog.setExerciseduration(ExerciseDur);
+        Intensivelog.setHighbsbolus(HighBSBolus);
         repository.save(Intensivelog);
     }
 
-    public void updateExerciseType(long patientid,LocalDate Date,String Time,String ExerciseType){
+    public void updateBasalRate(long patientid,LocalDate Date,String Time,String BasalRate){
         IntensiveLogBook Intensivelog=repository.findByPatientidAndTimeAndDate(patientid,Time,Date);
-        Intensivelog.setExercisetype(ExerciseType);
+        Intensivelog.setBasalrate(BasalRate);
         repository.save(Intensivelog);
     }
 
-    public void updateUnusualEvent(long patientid,LocalDate Date,String Time,String UnusualEvent){
+    public void updateKetones(long patientid,LocalDate Date,String Time,String Ketones){
         IntensiveLogBook Intensivelog=repository.findByPatientidAndTimeAndDate(patientid,Time,Date);
-        Intensivelog.setUnusualevent(UnusualEvent);
+        Intensivelog.setKetons(Ketones);
         repository.save(Intensivelog);
     }
 

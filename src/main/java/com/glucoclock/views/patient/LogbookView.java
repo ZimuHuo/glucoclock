@@ -131,10 +131,10 @@ public class LogbookView extends VerticalLayout {
             Span BloodGlucose = new Span("Blood Glucose : "+intensive.getBloodglucose()+" mmol/L");
             Span CarbonIntake = new Span("Carb Intake : "+intensive.getCarbintake()+" g");
             Span InsulinDose = new Span("Insulin Dose : "+intensive.getInsulindose()+" unit");
-            Span Food = new Span("Food : "+intensive.getFood());
-            Span ExerciseType = new Span("Exercise Type : "+intensive.getExercisetype());
-            Span ExerciseDuration = new Span("Exercise Duration : "+intensive.getExerciseduration());
-            Span UnusualEvent = new Span("UnusualEvent : "+intensive.getUnusualevent());
+            Span Food = new Span("Carb Bolus : "+intensive.getCarbbolus()+" unit");
+            Span ExerciseType = new Span("High BS Bolus : "+intensive.getHighbsbolus()+" unit");
+            Span ExerciseDuration = new Span("Basal Rate : "+intensive.getBasalrate()+" unit");
+            Span UnusualEvent = new Span("Ketones : "+intensive.getKetons()+" unit");
             VerticalLayout IntensiveLog = new VerticalLayout(BloodGlucose, CarbonIntake,InsulinDose,Food,ExerciseType,ExerciseDuration,UnusualEvent);
             Details IntensiveLogBook = new Details(intensive.getTime(), IntensiveLog);
             add(IntensiveLogBook);
