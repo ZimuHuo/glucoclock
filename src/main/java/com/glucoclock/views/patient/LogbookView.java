@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @PageTitle("LogBook")
 @Route(value = "LogBook", layout = MainLayout.class)
 
