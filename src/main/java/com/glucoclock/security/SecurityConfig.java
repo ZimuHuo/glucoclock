@@ -12,6 +12,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_PROCESSING_URL = "/login";
     private static final String LOGIN_FAILURE_URL = "/login?error";
@@ -26,37 +31,45 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Vaadin handles CSRF internally
         http.csrf().disable()
 
-                // Register our CustomRequestCache, which saves unauthorized access attempts, so the user is redirected after login.
-                .requestCache().requestCache(new CustomRequestCache())
+                // Allow access to some pages for non-logged-in users
+                .authorizeRequests().antMatchers("/login","/SignUp","PatientSignUp").permitAll()
 
-                // Restrict access to our application.
-                .and().authorizeRequests()
-
-                // Allow all Vaadin internal requests.
-                .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
-
+//                // Register our CustomRequestCache, which saves unauthorized access attempts, so the user is redirected after login.
+//                .and().requestCache().requestCache(new CustomRequestCache())
+//
+//                // Restrict access to our application.
+//                .and().authorizeRequests()
+//
+//                // Allow all Vaadin internal requests.
+               .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
+//
                 // Allow all requests by logged-in users.
                 .anyRequest().authenticated()
-
-                // Configure the login page.
+//
+//                // Configure the login page.
                 .and().formLogin()
                 .loginPage(LOGIN_URL).permitAll()
+                //.permitAll()
                 .loginProcessingUrl(LOGIN_PROCESSING_URL)
-                .failureUrl(LOGIN_FAILURE_URL)
-
-                // Configure logout
-                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
+                .failureUrl(LOGIN_FAILURE_URL);
+//
+//                // Configure logout
+//                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
     }
 
+
+    //HARD CODING TO BE CHANGED LATER
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
-        UserDetails user = User.withUsername("user")
-                .password("{noop}userpass")
+        List<UserDetails> users= new ArrayList<>();
+        users.add(User.withDefaultPasswordEncoder()
+                .username("user")
+                .password("userpass")
                 .roles("USER")
-                .build();
+                .build());
 
-        return new InMemoryUserDetailsManager(user);
+        return new InMemoryUserDetailsManager(users);
     }
 
     /**
