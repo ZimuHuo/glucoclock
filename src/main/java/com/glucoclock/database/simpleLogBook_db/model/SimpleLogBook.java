@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "Simplelogbook_db")
-public class SimpleLogBook implements Serializable {
+public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -19,7 +19,7 @@ public class SimpleLogBook implements Serializable {
     private LocalDate date;
 
     @Column(name="Time")
-    private String time;
+    private int time;
 
     @Column(name = "BloodGlucose")
     private String bloodglucose;
@@ -29,7 +29,8 @@ public class SimpleLogBook implements Serializable {
 
 
 
-    public SimpleLogBook(Long PatientId, LocalDate Date, String Time, String BloodGlucose, String CarbIntake) {
+
+    public SimpleLogBook(Long PatientId, LocalDate Date, int Time, String BloodGlucose, String CarbIntake) {
 
         patientid = PatientId;
         date = Date;
@@ -66,11 +67,11 @@ public class SimpleLogBook implements Serializable {
         this.date = date;
     }
 
-    public String getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
 
@@ -88,6 +89,37 @@ public class SimpleLogBook implements Serializable {
 
     public void setCarbintake(String carbintake) {
         this.carbintake = carbintake;
+    }
+
+    public String getTimeString(){
+        String TimeString= new String();
+        if(time==1) TimeString="Pre Breakfast";
+        if(time==2) TimeString="Post Breakfast";
+        if(time==3) TimeString="Pre Lunch";
+        if(time==4) TimeString="Post Lunch";
+        if(time==5) TimeString="Post Dinner";
+        if(time==6) TimeString="Post Dinner";
+        return TimeString;
+    }
+    @Override
+    public int compareTo(SimpleLogBook that){
+        int returnint=2;
+        int thisindex=this.getTime();
+        int thatindex=that.getTime();
+        if(thisindex<thatindex) returnint=-1;
+        if(thisindex==thatindex) returnint=0;
+        if(thisindex>thatindex) returnint=1;
+        return returnint;
+    }
+    @Override
+    public String toString() {
+        return "SimpleLogBook{" +
+                "patientid=" + patientid +
+                ", date=" + date +
+                ", time=" + this.getTimeString() +
+                ", bloodglucose='" + bloodglucose + '\'' +
+                ", carbintake='" + carbintake + '\'' +
+                '}';
     }
 }
 

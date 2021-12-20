@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table (name="Log_db")
-public class Log implements Serializable {
+public class Log implements Serializable, Comparable<Log> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -15,19 +15,30 @@ public class Log implements Serializable {
     private LocalDate date;
 
     @Column (name="LogBookType")
-    private String logbooktype;
+    private int logbooktype;
 
     @Column (name="Patient_id")
     private Long patientid;
 
-    public Log(Long patientid,LocalDate date, String logbooktype){
+    public Log(Long patientid,LocalDate date, int logbooktype){
         this.patientid=patientid;
         this.date=date;
         this.logbooktype=logbooktype;
+
     }
 
     public Log() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Log{" +
+                "id=" + id +
+                ", date=" + date +
+                ", logbooktype='" + logbooktype + '\'' +
+                ", patientid=" + patientid +
+                '}';
     }
 
     public long getId() {
@@ -46,11 +57,11 @@ public class Log implements Serializable {
         this.date = date;
     }
 
-    public String getLogbooktype() {
+    public int getLogbooktype() {
         return logbooktype;
     }
 
-    public void setLogbooktype(String logbooktype) {
+    public void setLogbooktype(int logbooktype) {
         this.logbooktype = logbooktype;
     }
 
@@ -61,4 +72,18 @@ public class Log implements Serializable {
     public void setPatientid(Long patientid) {
         this.patientid = patientid;
     }
+
+    public String getStringLogBooktype(){
+        String returnLogbooktype="none";
+        if(logbooktype==1) returnLogbooktype="Simple";
+        if(logbooktype==2) returnLogbooktype="Comprehensive";
+        if(logbooktype==3) returnLogbooktype="Intensive";
+        return returnLogbooktype;
+    }
+    @Override
+    public int compareTo(Log that) {
+        return this.date.compareTo(that.date);
+    }
+
+
 }

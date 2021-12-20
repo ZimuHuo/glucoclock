@@ -3,10 +3,11 @@ package com.glucoclock.database.intensiveLogBook_db.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "Intensivelogbook_db")
-public class IntensiveLogBook implements Serializable {
+public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBook> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -18,7 +19,7 @@ public class IntensiveLogBook implements Serializable {
     private LocalDate date;
 
     @Column(name="Time")
-    private String time;
+    private LocalTime time;
 
     @Column(name = "BloodGlucose")
     private String bloodglucose;
@@ -43,7 +44,7 @@ public class IntensiveLogBook implements Serializable {
 
 
 
-    public IntensiveLogBook(Long PatientId, LocalDate Date, String Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons) {
+    public IntensiveLogBook(Long PatientId, LocalDate Date, LocalTime Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons) {
 
         patientid = PatientId;
         date = Date;
@@ -125,11 +126,11 @@ public class IntensiveLogBook implements Serializable {
         this.date = date;
     }
 
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 
@@ -147,5 +148,26 @@ public class IntensiveLogBook implements Serializable {
 
     public void setCarbintake(String carbintake) {
         this.carbintake = carbintake;
+    }
+
+    @Override
+    public int compareTo(IntensiveLogBook that){
+        return this.getTime().compareTo(that.getTime());
+    }
+
+    @Override
+    public String toString() {
+        return "IntensiveLogBook{" +
+                "patientid=" + patientid +
+                ", date=" + date +
+                ", time=" + time.toString() +
+                ", bloodglucose='" + bloodglucose + '\'' +
+                ", carbintake='" + carbintake + '\'' +
+                ", insulindose='" + insulindose + '\'' +
+                ", carbbolus='" + carbbolus + '\'' +
+                ", highbsbolus='" + highbsbolus + '\'' +
+                ", basalrate='" + basalrate + '\'' +
+                ", ketons='" + ketons + '\'' +
+                '}';
     }
 }

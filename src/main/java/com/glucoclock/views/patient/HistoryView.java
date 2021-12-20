@@ -5,11 +5,9 @@ import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.researcher.ResearcherStart;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
@@ -120,8 +118,9 @@ public class HistoryView extends VerticalLayout {
         //compare with database, if there is data occur at that day, add the data in the HistoryDataShown list
         LocalDate date=today;
 
+        List<Log> logbook=log_db.findLogBooksByPatientid(patientid);
+        //System.out.println(logbook);
         for(int day=0;day<30;day++){
-            List<Log> logbook=log_db.findLogBooksByPatientid(patientid);
             PersonData addData=new PersonData();
             addData.setLogBookType("-");
             addData.setCompleteLogBook(false);
@@ -129,7 +128,7 @@ public class HistoryView extends VerticalLayout {
             for( Log testingdata:logbook) {
                 if (testingdata.getDate().isEqual(today.minusDays(day))) {
 
-                    addData.setLogBookType(testingdata.getLogbooktype());
+                    addData.setLogBookType(testingdata.getStringLogBooktype());
                     addData.setCompleteLogBook(true);
                 }
             }

@@ -1,13 +1,13 @@
 package com.glucoclock.database.simpleLogBook_db.service;
 
 import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
-//import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBookObject;
 import com.glucoclock.database.simpleLogBook_db.repository.SimpleLogBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -18,10 +18,10 @@ public class SimpleLogBookService {
     public String bulkcreate(){
         LocalDate test= LocalDate.now();
         //Simple: patient id, date, blood glucose, carb intake
-        repository.save(new SimpleLogBook(1L,test.minusDays(8),"Pre Breakfast","23","32"));
-        repository.save(new SimpleLogBook(1L,test.minusDays(8),"Pre Lunch","23","34"));
-        repository.save(new SimpleLogBook(1L,test.minusDays(8),"Post Lunch","23","33"));
-        repository.save(new SimpleLogBook(1L,test.minusDays(8),"Pre Dinner","23","32"));
+        repository.save(new SimpleLogBook(1L,test.minusDays(8),1,"23","32"));
+        repository.save(new SimpleLogBook(1L,test.minusDays(8),6,"23","34"));
+        repository.save(new SimpleLogBook(1L,test.minusDays(8),3,"23","33"));
+        repository.save(new SimpleLogBook(1L,test.minusDays(3),4,"23","32"));
         return "Simple Log is created";
     }
     public String create(SimpleLogBook SimpleLogBook){
@@ -49,6 +49,11 @@ public class SimpleLogBookService {
     public List<SimpleLogBook> findLogByDateAndPatientid(LocalDate date,long patient_id){
         List<SimpleLogBook> SimpleLog;
         SimpleLog=repository.findByPatientidAndAndDate(patient_id,date);
+        Collections.sort(SimpleLog);
+//        for(SimpleLogBook data:SimpleLog){
+//            System.out.println(data.getTimeString());
+//            System.out.println(data.getTime());
+//        }
         return SimpleLog;
     }
 

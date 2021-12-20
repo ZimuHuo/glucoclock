@@ -46,12 +46,12 @@ public class LogbookView extends VerticalLayout {
 
 
 
-    public LogbookView(SimpleLogBookService SimplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData){
+    public LogbookView(SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData){
         removeAll();
             add(menu);
             //Used only for testing remove when developing backends
 //try set up database
-        this.SimplelogData = SimplelogData;
+        SimplelogData = simplelogData;
         ComprehensivelogData = comprehensivelogData;
         IntensivelogData = intensivelogData;
         //Used only for testing remove when developing backends
@@ -62,7 +62,7 @@ public class LogbookView extends VerticalLayout {
         add(new HorizontalLayout(simple,comprehensive,intensive,Back));
 
 //load data into the database
-        this.SimplelogData.bulkcreate();
+        SimplelogData.bulkcreate();
         ComprehensivelogData.bulkcreate();
         IntensivelogData.bulkcreate();
 
@@ -137,7 +137,7 @@ public class LogbookView extends VerticalLayout {
             Span ExerciseDuration = new Span("Basal Rate : "+intensive.getBasalrate()+" unit");
             Span UnusualEvent = new Span("Ketones : "+intensive.getKetons()+" unit");
             VerticalLayout IntensiveLog = new VerticalLayout(BloodGlucose, CarbonIntake,InsulinDose,Food,ExerciseType,ExerciseDuration,UnusualEvent);
-            Details IntensiveLogBook = new Details(intensive.getTime(), IntensiveLog);
+            Details IntensiveLogBook = new Details(intensive.getTime().toString(), IntensiveLog);
             add(IntensiveLogBook);
         }
 
@@ -150,20 +150,20 @@ public class LogbookView extends VerticalLayout {
             Span CarbonIntake = new Span("Carb Intake : "+comprehensive.getCarbintake()+" g");
             Span InsulinDose = new Span("Insulin Dose  : "+comprehensive.getInsulindose()+" unit");
             VerticalLayout CompLog = new VerticalLayout(BloodGlucose, CarbonIntake,InsulinDose);
-            Details ComprehensiveLogBook = new Details(comprehensive.getTime(), CompLog);
+            Details ComprehensiveLogBook = new Details(comprehensive.getTimeString(), CompLog);
             add(ComprehensiveLogBook);
         }
     }
 
     public void SimpleLogBookView(SimpleLogBookService SimplelogData){
-        List<SimpleLogBook> ShowData= SimplelogData.findLogByDateAndPatientid(SelectDate,patientId);
+        List<SimpleLogBook> ShowData= SimplelogData.findLogByDateAndPatientid(SelectDate.minusDays(8),patientId);
         for (SimpleLogBook simpledata:ShowData) {
 
             Span BloodGlucose = new Span("Blood Glucose : "+simpledata.getBloodglucose()+" mmol/L");
             Span CarbonIntake = new Span("Carb Intake : "+simpledata.getCarbintake()+" g");
             VerticalLayout SimpleLog = new VerticalLayout(BloodGlucose, CarbonIntake);
 
-            Details SimpleLogBook = new Details(new Paragraph(simpledata.getTime()), SimpleLog);
+            Details SimpleLogBook = new Details(new Paragraph(simpledata.getTimeString()), SimpleLog);
             add(SimpleLogBook);
         }
     }
