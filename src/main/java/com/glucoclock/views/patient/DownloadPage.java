@@ -92,6 +92,7 @@ public class DownloadPage extends VerticalLayout {
             if (exportData.length() == 0) {
                 System.out.println("exportData string is empty");
             }
+
             //export csv
             else {
                 PrintWriter pw = null;
