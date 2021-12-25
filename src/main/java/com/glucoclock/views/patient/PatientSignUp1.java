@@ -176,4 +176,8 @@ public class PatientSignUp1 extends Div {
         }
     }
 
+    public String hello() {
+        return "Hello World";
+    }
+
 }

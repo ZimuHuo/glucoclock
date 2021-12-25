@@ -416,4 +416,10 @@ public class PatientSetting1 extends HorizontalLayout {
         injectionSelect.setReadOnly(Boolean);
         toHome.setEnabled(Boolean);
     }
+
+
+
+    public String hello() {
+        return "Hello World";
+    }
 }
