@@ -23,6 +23,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -85,6 +88,22 @@ public class DownloadPage extends VerticalLayout {
             Notification.show("Download Data form "+StartDate+" to "+EndDate);
             exportData= OutputData(SimplelogData,ComprehensivelogData,IntensivelogData);
             System.out.println(exportData);
+            //check if the string is empty
+            if (exportData.length() == 0) {
+                System.out.println("exportData string is empty");
+            }
+            //export csv
+            else {
+                PrintWriter pw = null;
+                try {
+                    pw = new PrintWriter(new File("NewData.csv"));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                pw.write(exportData.toString());
+                pw.close();
+                System.out.println("export CSV");
+            }
         });
 
         //Layout
