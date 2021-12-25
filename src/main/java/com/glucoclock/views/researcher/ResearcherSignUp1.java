@@ -2,6 +2,7 @@ package com.glucoclock.views.researcher;
 
 import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.doctor.DoctorSignUp2;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -9,6 +10,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
@@ -17,6 +19,7 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 
 
 @PageTitle("Sign up your researcher account")
@@ -25,34 +28,69 @@ public class ResearcherSignUp1 extends HorizontalLayout {
     TextField firstName;
     TextField lastName;
     EmailField emailField;
-    Select<String> institution;
     PasswordField password;
     PasswordField confirmPassword;
     FormLayout formLayout;
     Button submitButton;
-    VerticalLayout verticalLayout;
+    Select<String> institution;
+    VerticalLayout mainLayout;
     private MenuBar menu = new MenuBar("NS");
 
     public ResearcherSignUp1() {
         add(menu);
         init();
-        formlayoutSetUp();
-        verticalLayoutSetUp();
-        this.add(verticalLayout);
         this.setJustifyContentMode(JustifyContentMode.CENTER);
+
+        mainLayout.add(new H2("Set up your account"));
+        mainLayout.add(formLayout);
+        mainLayout.add(submitButton);
+
+        add(mainLayout);
     }
 
-    private void verticalLayoutSetUp() {
-        this.verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER);
-        verticalLayout.add(new H2("Set up your account"));
-        verticalLayout.add(formLayout);
-        verticalLayout.add(submitButton);
-        verticalLayout.setMaxWidth("600px");
-        verticalLayout.setPadding(false);
+
+    private void submitButtonSetUp() {
+        this.submitButton = new Button("Next", new Icon(VaadinIcon.ARROW_RIGHT));
+        submitButton.setIconAfterText(true);
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitButton.getElement().getStyle().set("margin-left", "auto");
+
+        submitButton.addClickListener(e -> {
+            if(firstName.isEmpty() || lastName.isEmpty() || emailField.isEmpty() || emailField.isInvalid() || password.isEmpty() || !password.getValue().equals(confirmPassword.getValue()) || institution.isEmpty()) {
+                //Show the error messages
+                if (firstName.isEmpty())
+                    Notification.show("You must enter your first name", 3000, Notification.Position.TOP_CENTER);
+
+                if (lastName.isEmpty())
+                    Notification.show("You must enter your last name", 3000, Notification.Position.TOP_CENTER);
+
+                if (emailField.isEmpty() || emailField.isInvalid())
+                    Notification.show("You must enter a valid email address", 3000, Notification.Position.TOP_CENTER);
+
+                if (password.isEmpty())
+                    Notification.show("You must enter your password", 3000, Notification.Position.TOP_CENTER);
+
+                if (!password.getValue().equals(confirmPassword.getValue()))
+                    Notification.show("You must enter the same password twice", 3000, Notification.Position.TOP_CENTER);
+
+                if (institution.isEmpty())
+                    Notification.show("You must select you institution",3000, Notification.Position.TOP_CENTER);
+            } else {
+                //Save current information and move to next page
+                VaadinSession.getCurrent().setAttribute( "FirstName",firstName.getValue());
+                VaadinSession.getCurrent().setAttribute( "LastName",lastName.getValue());
+                VaadinSession.getCurrent().setAttribute( "Email",emailField.getValue());
+                VaadinSession.getCurrent().setAttribute( "Password",password.getValue());
+                VaadinSession.getCurrent().setAttribute("Institution",institution.getValue());
+
+                submitButton.getUI().ifPresent(ui ->
+                        ui.navigate(ResearcherSignUp2.class)
+                );
+            }
+        });
     }
 
-    private void formlayoutSetUp() {
+    private void formLayoutSetUp() {
         this.formLayout = new FormLayout();
         formLayout.add(
                 firstName, lastName,
@@ -72,54 +110,86 @@ public class ResearcherSignUp1 extends HorizontalLayout {
         formLayout.setColspan(institution, 2);
         formLayout.setColspan(password, 1);
         formLayout.setColspan(confirmPassword, 1);
-
-        this.submitButton = new Button("Next", new Icon(VaadinIcon.ARROW_RIGHT));
-        submitButton.setIconAfterText(true);
-        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.getElement().getStyle().set("margin-left", "auto");
-        submitButton.addClickListener(e ->
-                submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(ResearcherSignUp2.class)
-                )
-        );
     }
 
     private void init() {
-        this.firstName = new TextField("First name");
-        firstName.setClearButtonVisible(true);
-
-        this.lastName = new TextField("Last name");
-        lastName.setClearButtonVisible(true);
-
-        this.institution = new Select<>("Imperial College London");
-        institution.setLabel("Institution");
-        this.emailField = new EmailField("Email Address");
+        mainLayoutSetUp();
+        firstNameSetUp();
+        lastNameSetUp();
         emailFieldSetUp();
-
-        this.password = new PasswordField("Password");
-        passwordSetUp();
-
-        this.confirmPassword = new PasswordField("Confirm Password");
         confirmPasswordSetUp();
+        passwordSetUp();
+        submitButtonSetUp();
+        institutionSetUp();
+        formLayoutSetUp();
     }
 
+    private void lastNameSetUp() {
+        lastName = new TextField("Last name");
+        lastName.setClearButtonVisible(true);
+        if (VaadinSession.getCurrent().getAttribute("LastName")!= null){
+            lastName.setValue((String)VaadinSession.getCurrent().getAttribute("LastName"));
+        }
+    }
+
+    private void firstNameSetUp() {
+        firstName = new TextField("First name");
+        firstName.setClearButtonVisible(true);
+        if (VaadinSession.getCurrent().getAttribute("FirstName")!= null){
+            firstName.setValue((String)VaadinSession.getCurrent().getAttribute("FirstName"));
+        }
+    }
+
+    private void mainLayoutSetUp() {
+        mainLayout = new VerticalLayout();
+        mainLayout.setHorizontalComponentAlignment(Alignment.CENTER);
+        mainLayout.setMaxWidth("600px");
+        mainLayout.setPadding(false);
+    }
 
     private void passwordSetUp() {
+        password = new PasswordField("Password");
         password.setLabel("Password");
         password.setClearButtonVisible(true);
+
+        //Change the input format of 'confirmPassword' when user changes the input in 'password'
+        password.addValueChangeListener(e ->
+                confirmPassword.setPattern(password.getValue())
+        );
+
+        if (VaadinSession.getCurrent().getAttribute("Password")!= null){
+            password.setValue((String)VaadinSession.getCurrent().getAttribute("Password"));
+        }
     }
 
     private void confirmPasswordSetUp() {
+        confirmPassword = new PasswordField("Confirm password");
         confirmPassword.setClearButtonVisible(true);
+        confirmPassword.setErrorMessage("You must fill in the same password again");
+        if (VaadinSession.getCurrent().getAttribute("Password")!= null){
+            confirmPassword.setValue((String)VaadinSession.getCurrent().getAttribute("Password"));
+        }
     }
 
     private void emailFieldSetUp() {
+        emailField = new EmailField("Email Address");
         emailField.setLabel("Email address");
         emailField.getElement().setAttribute("name", "email");
         emailField.setPlaceholder("username@example.com");
         emailField.setErrorMessage("Please enter a valid example.com email address");
         emailField.setClearButtonVisible(true);
         emailField.setPattern("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+        if (VaadinSession.getCurrent().getAttribute("Email")!= null){
+            emailField.setValue((String)VaadinSession.getCurrent().getAttribute("Email"));
+        }
+    }
+
+    private void institutionSetUp() {
+        institution = new Select<String>("Imperial College London");
+        institution.setLabel("Institution");
+        if (VaadinSession.getCurrent().getAttribute("Institution")!= null){
+            institution.setValue((String)VaadinSession.getCurrent().getAttribute("Institution"));
+        }
     }
 
 }
