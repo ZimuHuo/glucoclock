@@ -35,18 +35,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/login","/SignUp").permitAll()
 
 //                // Register our CustomRequestCache, which saves unauthorized access attempts, so the user is redirected after login.
-//=                .and().requestCache().requestCache(new CustomRequestCache())
+                .and().requestCache().requestCache(new CustomRequestCache())
 //
-//                // Restrict access to our application.
+                // Restrict access to our application.
                 .and().authorizeRequests()
-//
-//                // Allow all Vaadin internal requests.
+
+               // Allow all Vaadin internal requests.
                .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
-//
+
                 // Allow all requests by logged-in users.
                 .anyRequest().authenticated()
-//
-//                // Configure the login page.
+
+                // Configure the login page.
                 .and().formLogin()
                 .loginPage(LOGIN_URL).permitAll()
                 .loginProcessingUrl(LOGIN_PROCESSING_URL)

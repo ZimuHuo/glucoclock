@@ -21,6 +21,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     private void authenticateNavigation(BeforeEnterEvent event) {
         if (!HomeView.class.equals(event.getNavigationTarget())
                 && !SecurityUtils.isUserLoggedIn()) {
+//            event.rerouteTo(HomeView.class);
             event.rerouteTo(HomeView.class);
         }
     }

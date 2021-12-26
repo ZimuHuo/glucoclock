@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 
+//reference: https://vaadin.com/docs/v14/flow/tutorial/login-and-authentication
 @Component
 public class SecurityService {
     private static final String LOGOUT_SUCCESS_URL = "/";

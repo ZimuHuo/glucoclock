@@ -1,6 +1,7 @@
 package com.glucoclock.views;
 
 import com.glucoclock.views.all.SignUp;
+import com.glucoclock.views.researcher.ResearcherStart;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
@@ -9,9 +10,7 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.theme.Theme;
 
 @Route(value = "login")
-//@PWA(name = "Glucoclock", shortName = "Glucoclock", enableInstallPrompt = false)
 @Theme(themeFolder = "glucoclock")
-//@RouteAlias(value = "", layout = MainLayout.class)
 public class HomeView extends VerticalLayout implements BeforeEnterObserver {
     private final LoginForm login = new LoginForm();
 //    private TextField email = new TextField("Email");
