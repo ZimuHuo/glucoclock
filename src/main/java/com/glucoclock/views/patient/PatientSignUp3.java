@@ -4,6 +4,8 @@ import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -139,12 +141,28 @@ public class PatientSignUp3 extends Div {
                 VaadinSession.getCurrent().setAttribute( "Insulin",insulinSelect.getValue());
                 VaadinSession.getCurrent().setAttribute( "Diabetes",diabetesSelect.getValue());
                 VaadinSession.getCurrent().setAttribute( "Injection",injectionSelect.getValue());
-                Patient patient = new Patient();
-                patient.setFirstName((String)VaadinSession.getCurrent().getAttribute("FirstName"));
-                patient.setLastName((String)VaadinSession.getCurrent().getAttribute("LastName"));
-                patient.setEmail((String)VaadinSession.getCurrent().getAttribute("Email"));
-                patient.setHomeAddress((String)VaadinSession.getCurrent().getAttribute("Email"));
-                //database issue set string home address only one
+
+                Gson gson = new Gson();
+
+                Patient patient = new Patient(
+                        (String)VaadinSession.getCurrent().getAttribute("FirstName"),
+                        (String)VaadinSession.getCurrent().getAttribute("LastName"),
+                        (String)VaadinSession.getCurrent().getAttribute("Email"),
+                        (String)VaadinSession.getCurrent().getAttribute("HomeAddressL1"),
+                        (String)VaadinSession.getCurrent().getAttribute("HomeAddressL2"),
+                        (String)VaadinSession.getCurrent().getAttribute("Postcode"),
+                        (String)VaadinSession.getCurrent().getAttribute("City"),
+                        (String)VaadinSession.getCurrent().getAttribute("ContactNumber"),
+                        (String)VaadinSession.getCurrent().getAttribute("Sex"),
+                        (LocalDate) VaadinSession.getCurrent().getAttribute("Date"),
+                        (String)VaadinSession.getCurrent().getAttribute("Diabetes"),
+                        gson.toJson((Set<String>)VaadinSession.getCurrent().getAttribute("Insulin")),
+                        gson.toJson((Set<String>)VaadinSession.getCurrent().getAttribute("Injection"))
+                );
+
+                patientService.getRepository().save(patient);
+
+
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate("PatientStart")
                 );

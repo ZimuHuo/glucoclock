@@ -6,7 +6,6 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -16,14 +15,10 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.select.Select;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.theme.Theme;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -41,8 +36,8 @@ for(Component c : myLayout) {
 @Route(value = "PatientSignUp2",layout = MainLayout.class)
 public class PatientSignUp2 extends Div {
     private RadioButtonGroup<String> sex;
-    private TextField apartmentAddress;
-    private TextField streetAddress;
+    private TextField AddressL1;
+    private TextField AddressL2;
     private TextField postcode;
     private TextField city;
     private TextField contactNumber;
@@ -85,11 +80,11 @@ public class PatientSignUp2 extends Div {
     private void formlayout3SetUp() {
         this.formLayout3 = new FormLayout();
         formLayout3.add(
-                apartmentAddress, streetAddress,
+                AddressL1, AddressL2,
                 postcode,city
         );
-        formLayout2.setColspan(apartmentAddress, 2);
-        formLayout2.setColspan(streetAddress, 2);
+        formLayout2.setColspan(AddressL1, 2);
+        formLayout2.setColspan(AddressL2, 2);
         formLayout3.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("320px", 2)
@@ -128,20 +123,20 @@ public class PatientSignUp2 extends Div {
         sexSetUp();
         this.datePicker = new DatePicker("Date of birth");
         datePickerSetUp();
-        this.apartmentAddress = new TextField("Address Line 1");
-        this.streetAddress = new TextField("Addess Line 2");
+        this.AddressL1 = new TextField("Address Line 1");
+        this.AddressL2 = new TextField("Address Line 2");
         this.postcode = new TextField("Post code");
         this.city = new TextField("City");
         this.contactNumber = new TextField("Contact Number");
         contactNumberSetUp();
         datePicker.setClearButtonVisible(true);
-        apartmentAddress.setClearButtonVisible(true);
-        if (VaadinSession.getCurrent().getAttribute("ApartmentAddress")!= null){
-            apartmentAddress.setValue((String)VaadinSession.getCurrent().getAttribute("ApartmentAddress"));
+        AddressL1.setClearButtonVisible(true);
+        if (VaadinSession.getCurrent().getAttribute("HomeAddressL1")!= null){
+            AddressL1.setValue((String)VaadinSession.getCurrent().getAttribute("HomeAddressL1"));
         }
-        streetAddress.setClearButtonVisible(true);
-        if (VaadinSession.getCurrent().getAttribute("StreetAddress")!= null){
-            streetAddress.setValue((String)VaadinSession.getCurrent().getAttribute("StreetAddress"));
+        AddressL2.setClearButtonVisible(true);
+        if (VaadinSession.getCurrent().getAttribute("HomeAddressL2")!= null){
+            AddressL2.setValue((String)VaadinSession.getCurrent().getAttribute("HomeAddressL2"));
         }
         postcode.setClearButtonVisible(true);
         if (VaadinSession.getCurrent().getAttribute("Postcode")!= null){
@@ -156,8 +151,8 @@ public class PatientSignUp2 extends Div {
         previousButtonInit();
         sex.setRequired(true);
         datePicker.setRequired(true);
-        apartmentAddress.setRequired(true);
-        streetAddress.setRequired(true);
+        AddressL1.setRequired(true);
+        AddressL2.setRequired(true);
         postcode.setRequired(true);
         contactNumber.setRequired(true);
     }
@@ -201,10 +196,10 @@ public class PatientSignUp2 extends Div {
             if (sex.isEmpty()) {
                 Notification notification = Notification.show("Check Sex Field");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            }if (apartmentAddress.isEmpty()) {
+            }if (AddressL1.isEmpty()) {
                 Notification notification = Notification.show("Check apartment address");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            }if (streetAddress.isEmpty()) {
+            }if (AddressL2.isEmpty()) {
                 Notification notification = Notification.show("Check street address");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }if (postcode.isEmpty()) {
@@ -250,8 +245,8 @@ public class PatientSignUp2 extends Div {
 
     private void setSession() {
         VaadinSession.getCurrent().setAttribute( "Sex",sex.getValue());
-        VaadinSession.getCurrent().setAttribute( "ApartmentAddress",apartmentAddress.getValue());
-        VaadinSession.getCurrent().setAttribute( "StreetAddress",streetAddress.getValue());
+        VaadinSession.getCurrent().setAttribute( "HomeAddressL1", AddressL1.getValue());
+        VaadinSession.getCurrent().setAttribute( "HomeAddressL2", AddressL2.getValue());
         VaadinSession.getCurrent().setAttribute( "Postcode",postcode.getValue());
         VaadinSession.getCurrent().setAttribute( "City",city.getValue());
         VaadinSession.getCurrent().setAttribute( "ContactNumber",contactNumber.getValue());
