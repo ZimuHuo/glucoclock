@@ -32,13 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
 
                 // Allow access to some pages for non-logged-in users
-                .authorizeRequests().antMatchers("/login","/SignUp","PatientSignUp").permitAll()
+                .authorizeRequests().antMatchers("/login","/SignUp").permitAll()
 
 //                // Register our CustomRequestCache, which saves unauthorized access attempts, so the user is redirected after login.
-//                .and().requestCache().requestCache(new CustomRequestCache())
+//=                .and().requestCache().requestCache(new CustomRequestCache())
 //
 //                // Restrict access to our application.
-//                .and().authorizeRequests()
+                .and().authorizeRequests()
 //
 //                // Allow all Vaadin internal requests.
                .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
@@ -49,7 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                // Configure the login page.
                 .and().formLogin()
                 .loginPage(LOGIN_URL).permitAll()
-                //.permitAll()
                 .loginProcessingUrl(LOGIN_PROCESSING_URL)
                 .failureUrl(LOGIN_FAILURE_URL);
 //
@@ -97,8 +96,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/images/**",
                 "/styles/**",
 
-                //sign up page
-                "/views/all/**",
+//                //sign up page
+//                "/views/all/**",
 
                 // (development mode) H2 debugging console
                 "/h2-console/**");

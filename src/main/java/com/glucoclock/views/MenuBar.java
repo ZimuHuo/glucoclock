@@ -1,5 +1,6 @@
 package com.glucoclock.views;
 
+import com.glucoclock.security.SecurityService;
 import com.glucoclock.views.doctor.DoctorStartView;
 import com.glucoclock.views.patient.HistoryView;
 import com.glucoclock.views.patient.PatientStart;
@@ -30,6 +31,7 @@ public class MenuBar extends AppLayout {
     private Button home = new Button(logo);
     private Icon q = new Icon(VaadinIcon.QUESTION_CIRCLE);
     private Button qn = new Button(q);
+    private final SecurityService securityService = new SecurityService();
 
     //pageType: PStart(patient start),DRStart(doctor/researcher start),NS(non-start)
     public MenuBar(String pageType){
@@ -71,9 +73,10 @@ public class MenuBar extends AppLayout {
         logout.setWidth("65px");
         logout.setHeight("65px");
         logout.addClickListener(e ->
-                logout.getUI().ifPresent(ui ->
-                        ui.navigate(HomeView.class)
-                )
+                        securityService.logout()
+//                logout.getUI().ifPresent(ui ->
+//                        ui.navigate(HomeView.class)
+//                )
         );
 
         logo.setHeight("65px");
