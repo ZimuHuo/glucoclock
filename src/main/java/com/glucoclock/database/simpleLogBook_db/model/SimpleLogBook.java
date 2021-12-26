@@ -114,13 +114,14 @@ public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
     @Override
     public String toString() {
         return "SimpleLogBook{" +
-                "patientid=" + patientid +
-                ", date=" + date +
-                ", time=" + this.getTimeString() +
-                ", bloodglucose='" + bloodglucose + '\'' +
-                ", carbintake='" + carbintake + '\'' +
+                "" + patientid +
+                ", " + date +
+                ", " + this.getTimeString() +
+                ", '" + bloodglucose + '\'' +
+                ",'" + carbintake + '\'' +
                 '}';
     }
+    //here need to be revised
 }
 
 
