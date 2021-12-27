@@ -1,5 +1,6 @@
 package com.glucoclock.database.user_db;
 
+import com.glucoclock.database.patients_db.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

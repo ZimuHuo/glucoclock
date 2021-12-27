@@ -1,7 +1,5 @@
 package com.glucoclock.views;
 
-import com.glucoclock.views.all.SignUp;
-import com.glucoclock.views.researcher.ResearcherStart;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;

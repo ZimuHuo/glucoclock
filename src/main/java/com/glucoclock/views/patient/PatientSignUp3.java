@@ -2,6 +2,9 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
+import com.glucoclock.database.user_db.Role;
+import com.glucoclock.database.user_db.User;
+import com.glucoclock.database.user_db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -32,6 +35,7 @@ import com.vaadin.flow.theme.Theme;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Set;
+import java.util.UUID;
 
 
 @PageTitle("Sign up your patient account")
@@ -138,6 +142,12 @@ public class PatientSignUp3 extends Div {
                 VaadinSession.getCurrent().setAttribute( "Insulin",insulinSelect.getValue());
                 VaadinSession.getCurrent().setAttribute( "Diabetes",diabetesSelect.getValue());
                 VaadinSession.getCurrent().setAttribute( "Injection",injectionSelect.getValue());
+                User user = new User();
+//                UUID uid = UUID.randomUUID();
+//                user.setUid(uid);
+                user.setEmail((String)VaadinSession.getCurrent().getAttribute("Email"));
+                user.setPassword((String)VaadinSession.getCurrent().getAttribute("Password"));
+                user.setRole((Role)VaadinSession.getCurrent().getAttribute("Role"));
                 Patient patient = new Patient();
                 patient.setFirstName((String)VaadinSession.getCurrent().getAttribute("FirstName"));
                 patient.setLastName((String)VaadinSession.getCurrent().getAttribute("LastName"));

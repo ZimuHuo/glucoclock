@@ -46,8 +46,6 @@ public class Patient implements Serializable {
 	@Column(name = "InjectionMethod")
 	private String InjectionMethod;
 
-
-
 	public Patient(String firstName, String lastName, String email, String homeAddress, String postCode, String phone, String gender, LocalDate birthday,String diabetesType, String insulinType, String injectionMethod) {
 
 		this.firstName = firstName;
