@@ -22,8 +22,6 @@ public class PatientService  {
         return "Patient created";
     }
 
-
-
     public String search(long id){
         String Patient = "";
         Patient = repository.findById(id).toString();
