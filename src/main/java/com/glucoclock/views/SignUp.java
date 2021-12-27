@@ -1,5 +1,6 @@
 package com.glucoclock.views;
 
+import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.PatientSetting1;
 import com.glucoclock.views.patient.PatientSignUp1;
@@ -33,7 +34,7 @@ public class SignUp extends VerticalLayout{
         PatientButton.setWidth("30%");
         PatientButton.setHeight("50px");
         PatientButton.addClickListener(e ->{
-            VaadinSession.getCurrent().setAttribute( "Role","PATIENT");
+            //VaadinSession.getCurrent().setAttribute( "Role","PATIENT");
             PatientButton.getUI().ifPresent(ui ->
                     ui.navigate("PatientSignUp1")
             );
@@ -45,7 +46,7 @@ public class SignUp extends VerticalLayout{
         DoctorButton.setWidth("30%");
         DoctorButton.setHeight("50px");
         DoctorButton.addClickListener(e ->{
-            VaadinSession.getCurrent().setAttribute( "Role","DOCTOR");
+            //VaadinSession.getCurrent().setAttribute( "Role","DOCTOR");
             DoctorButton.getUI().ifPresent(ui ->
                     ui.navigate("DoctorSignUp1")
             );
@@ -57,7 +58,7 @@ public class SignUp extends VerticalLayout{
         ResButton.setWidth("30%");
         ResButton.setHeight("50px");
         ResButton.addClickListener(e ->{
-            VaadinSession.getCurrent().setAttribute( "Role","RESEARCHER");
+            //VaadinSession.getCurrent().setAttribute( "Role","RESEARCHER");
             ResButton.getUI().ifPresent(ui ->
                     ui.navigate("ResearcherSignUp")
             );

@@ -21,16 +21,13 @@ public class User implements Serializable {
     private String password;
 
     @Column(name = "role")
-    private Role role;
+    private String role;
 
     @Column(name = "uid")
-    private UUID uid;
+    private String uid;
+    //private UUID uid;
 
-
-
-    public User(String email, String password, Role role, UUID uid) {
-
-
+    public User(String email, String password, String role, String uid) {
         this.email = email;
         this.password = password;
         this.role = role;
@@ -78,18 +75,16 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
-    public UUID getUid() {return uid;}
-    public void setUid(UUID uid) {
+    public String getUid() {return uid;}
+    public void setUid(String uid) {
         this.uid = uid;
     }
-
-
 
 }

@@ -5,6 +5,7 @@ import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.database.user_db.Role;
 import com.glucoclock.database.user_db.User;
 import com.glucoclock.database.user_db.UserService;
+import com.glucoclock.database.user_db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -51,8 +52,10 @@ public class PatientSignUp3 extends Div {
     private VerticalLayout verticalLayout;
     private HorizontalLayout horizontalLayout;
     private MenuBar menu = new MenuBar("NS");
+    private final UserService userService;
     private final PatientService patientService;
-    public PatientSignUp3(PatientService patientService) {
+    public PatientSignUp3(UserService userService,PatientService patientService) {
+        this.userService = userService;
         this.patientService = patientService;
         add(menu);
         init();
@@ -165,18 +168,24 @@ public class PatientSignUp3 extends Div {
 
                 patientService.getRepository().save(patient);
 
+                UUID uid = UUID.randomUUID();
+                User user = new User(
+                        (String)VaadinSession.getCurrent().getAttribute("Email"),
+                        (String)VaadinSession.getCurrent().getAttribute("Password"),
+                        "Patient",
+                        //Role.PATIENT,
+                        uid.toString()
+                );
 
-                User user = new User();
-//                UUID uid = UUID.randomUUID();
-//                user.setUid(uid);
-                user.setEmail((String)VaadinSession.getCurrent().getAttribute("Email"));
-                user.setPassword((String)VaadinSession.getCurrent().getAttribute("Password"));
-                user.setRole((Role)VaadinSession.getCurrent().getAttribute("Role"));
-                Patient patient = new Patient();
-                patient.setFirstName((String)VaadinSession.getCurrent().getAttribute("FirstName"));
-                patient.setLastName((String)VaadinSession.getCurrent().getAttribute("LastName"));
-                patient.setEmail((String)VaadinSession.getCurrent().getAttribute("Email"));
-                patient.setHomeAddress((String)VaadinSession.getCurrent().getAttribute("Email"));
+                userService.getRepository().save(user);
+
+
+
+//                Patient patient = new Patient();
+//                patient.setFirstName((String)VaadinSession.getCurrent().getAttribute("FirstName"));
+//                patient.setLastName((String)VaadinSession.getCurrent().getAttribute("LastName"));
+//                patient.setEmail((String)VaadinSession.getCurrent().getAttribute("Email"));
+//                patient.setHomeAddress((String)VaadinSession.getCurrent().getAttribute("Email"));
                 //database issue set string home address only one
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate("PatientStart")
