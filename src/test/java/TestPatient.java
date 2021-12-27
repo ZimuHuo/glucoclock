@@ -7,24 +7,24 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class TestPatient {
-    PatientService testService;
-
-    @Before
-    public void SetUpData(PatientService testService) {
-        this.testService = testService;
-        testService.bulkcreate();
-    }
-
-    @Test
-    public void testHello() {
-
-        PatientSetting1 test = new PatientSetting1(testService);
-        Assertions.assertEquals("Hello World", test.hello());
-    }
-
-    @Test
-    public void testAnotherHello() {
-        PatientSignUp1 test = new PatientSignUp1();
-        Assertions.assertEquals("Hello World",test.hello());
-    }
+//    PatientService testService;
+//
+//    @Before
+//    public void SetUpData(PatientService testService) {
+//        this.testService = testService;
+//        testService.bulkcreate();
+//    }
+//
+//    @Test
+//    public void testHello() {
+//
+//        PatientSetting1 test = new PatientSetting1(testService);
+//        Assertions.assertEquals("Hello World", test.hello());
+//    }
+//
+//    @Test
+//    public void testAnotherHello() {
+//        PatientSignUp1 test = new PatientSignUp1();
+//        Assertions.assertEquals("Hello World",test.hello());
+//    }
 }
