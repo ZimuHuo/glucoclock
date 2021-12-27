@@ -54,7 +54,7 @@ public class PatientSetting1 extends HorizontalLayout {
     LocalDate Birth;
     String Gender;
     String Diabetes;
-    Set<String> insulin;
+    boolean rapidInsulin, shortInsulin, intermediateInsulin, longInsulin;;
     String injection;
 
 
@@ -72,8 +72,9 @@ public class PatientSetting1 extends HorizontalLayout {
     TextField contactNumber;
     Select<String> genderSelect;
     Select<String> diabetesSelect;
-    CheckboxGroup<String> insulinSelect;
     Select<String> injectionSelect;
+    CheckboxGroup<String> insulinSelect;
+
     Button changeSetting, save, cancel, changePassword, toHome;
     private MenuBar menu = new MenuBar("PNS");
 
@@ -96,8 +97,10 @@ public class PatientSetting1 extends HorizontalLayout {
         Patient patient = patientService.getRepository().getPatientById(id);
         //-----------------------------------------
 
-        init(patient);
+        init(patient); // initialize the components on the page
 
+
+//        Setting the layout of the page
         FormLayout formLayout = new FormLayout();
         formLayout.add(
                 firstName, lastName,
@@ -154,6 +157,7 @@ public class PatientSetting1 extends HorizontalLayout {
                 MainLayout
         );
 
+//        set all components in the middle of the page (horizontally)
         setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
 
 
@@ -164,9 +168,10 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
 
-
+//  Initialize the elements in the page
     private void init(Patient patient) {
-//      Initialize the components
+
+//      set the values of the variables
         FName = patient.getFirstName();
         LName = patient.getLastName();
         Email = patient.getEmail();
@@ -179,11 +184,13 @@ public class PatientSetting1 extends HorizontalLayout {
         Birth = patient.getBirthday();
         Diabetes = patient.getDiabetesType();
         injection = patient.getInjectionMethod();
+        rapidInsulin = patient.isRapidInsulin();
+        shortInsulin = patient.isShortInsulin();
+        intermediateInsulin = patient.isIntermediateInsulin();
+        longInsulin = patient.isLongInsulin();
 
-        Gson gson = new Gson();
-        insulin = gson.fromJson(patient.getInsulinType(), new TypeToken<Set<String>>(){}.getType());
 
-
+//      Initialize the components
         firstNameSetUp();
         lastNameSetUp();
         datePickerSetUp();
@@ -203,12 +210,11 @@ public class PatientSetting1 extends HorizontalLayout {
         changePasswordSetUp();
         toHomeSetUp();
 
-
-
     }
 
 
 //    Following functions are used to initialize all the components
+//    Text field of first name
     private void firstNameSetUp(){
         firstName = new TextField("First name");
         firstName.setValue(FName);
@@ -217,7 +223,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
     }
 
-
+//  Text field of last name
     private void lastNameSetUp() {
         lastName = new TextField("Last name");
         lastName.setValue(LName);
@@ -225,7 +231,8 @@ public class PatientSetting1 extends HorizontalLayout {
         lastName.setReadOnly(true);
     }
 
-        private void contactNumberSetUp() {
+//    Text field of phone number
+    private void contactNumberSetUp() {
         contactNumber = new TextField();
         contactNumber.setLabel("Phone number");
         contactNumber.setHelperText("Include country and area prefixes");
@@ -234,6 +241,7 @@ public class PatientSetting1 extends HorizontalLayout {
         contactNumber.setReadOnly(true);
     }
 
+//    Email field of email
     private void emailFieldSetUp() {
         emailField = new EmailField();
         emailField.setLabel("Email address");
@@ -246,6 +254,7 @@ public class PatientSetting1 extends HorizontalLayout {
         emailField.setReadOnly(true);
     }
 
+//    Date picker of birthday
     private void datePickerSetUp() {
         datePicker = new DatePicker("Date of birth");
         LocalDate now = LocalDate.now(ZoneId.systemDefault()).minusYears(7);
@@ -258,6 +267,7 @@ public class PatientSetting1 extends HorizontalLayout {
         datePicker.setReadOnly(true);
     }
 
+//    Text field of address line 1
     private void homeAddressL1SetUp() {
         homeAddressL1 = new TextField("Address Line1");
         homeAddressL1.setValue(AddressL1);
@@ -265,6 +275,7 @@ public class PatientSetting1 extends HorizontalLayout {
         homeAddressL1.setReadOnly(true);
     }
 
+//    Text field of address line 2
     private void homeAddressL2SetUp() {
         homeAddressL2 = new TextField("Address Line2");
         homeAddressL2.setValue(AddressL2);
@@ -272,6 +283,7 @@ public class PatientSetting1 extends HorizontalLayout {
         homeAddressL2.setReadOnly(true);
     }
 
+//    Text field of postcode
     private void postcodeSetUp() {
         postcode = new TextField("Postcode");
         postcode.setValue(PostCode);
@@ -279,6 +291,7 @@ public class PatientSetting1 extends HorizontalLayout {
         postcode.setReadOnly(true);
     }
 
+//    Text field of city
     private void cityFieldSetUp() {
         cityField = new TextField("City");
         cityField.setValue(City);
@@ -286,6 +299,7 @@ public class PatientSetting1 extends HorizontalLayout {
         cityField.setReadOnly(true);
     }
 
+//    Selection of gender
     private void genderSelectSetUp() {
         genderSelect = new Select<>("Male","Female","Others","Prefer not to say");
         genderSelect.setValue(Gender);
@@ -293,6 +307,7 @@ public class PatientSetting1 extends HorizontalLayout {
         genderSelect.setReadOnly(true);
     }
 
+//    Selection of type of diabetes
     private void diabetesSelectSetUp() {
         diabetesSelect = new Select<>("Type I","Type II","Gestational","Others");
         diabetesSelect.setValue(Diabetes);
@@ -300,15 +315,26 @@ public class PatientSetting1 extends HorizontalLayout {
         diabetesSelect.setReadOnly(true);
     }
 
+//    Checkbox of insulin type
     private void insulinSelectSetUp() {
         insulinSelect = new CheckboxGroup<>();
         insulinSelect.setLabel("Insulin type");
         insulinSelect.setItems("Rapid-acting insulin","Short-acting insulin","Intermediate-acting insulin","Long-acting insulin");
         insulinSelect.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
-        insulinSelect.select(insulin);
+
+        if (rapidInsulin)
+            insulinSelect.select("Rapid-acting insulin");
+        if (shortInsulin)
+            insulinSelect.select("Short-acting insulin");
+        if (intermediateInsulin)
+            insulinSelect.select("Intermediate-acting insulin");
+        if (longInsulin)
+            insulinSelect.select("Long-acting insulin");
+
         insulinSelect.setReadOnly(true);
     }
 
+//    Selection of injection method of insulin
     private void injectionSelectSetUp() {
         injectionSelect = new Select<>();
         injectionSelect.setLabel("Injection method");
@@ -317,6 +343,7 @@ public class PatientSetting1 extends HorizontalLayout {
         injectionSelect.setReadOnly(true);
     }
 
+//    Button to change info
     private void changeSettingSetUp() {
         changeSetting = new Button("Edit Info");
         changeSetting.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -331,12 +358,15 @@ public class PatientSetting1 extends HorizontalLayout {
 
     }
 
+//    button to save changes
     private void saveSetUp(long id) {
         save = new Button("Save");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.getElement().getStyle().set("margin-left", "1em");
+
         save.addClickListener(e -> {
+//            update the values of the variables
             FName = firstName.getValue();
             LName = lastName.getValue();
             Email = emailField.getValue();
@@ -348,7 +378,10 @@ public class PatientSetting1 extends HorizontalLayout {
             Birth = datePicker.getValue();
             Gender = genderSelect.getValue();
             Diabetes = diabetesSelect.getValue();
-            insulin = insulinSelect.getValue();
+            rapidInsulin = insulinSelect.isSelected("Rapid-acting insulin");
+            shortInsulin = insulinSelect.isSelected("Short-acting insulin");
+            intermediateInsulin = insulinSelect.isSelected("Intermediate-acting insulin");
+            longInsulin = insulinSelect.isSelected("Long-acting insulin");
             injection = injectionSelect.getValue();
 
 //            update any changes to the database
@@ -362,7 +395,7 @@ public class PatientSetting1 extends HorizontalLayout {
             patientService.updatePatientPhone(id, Phone);
             patientService.updatePatientBirthday(id, Birth);
             patientService.updatePatientGender(id, Gender);
-            patientService.updateInsulinType(id, insulin);
+            patientService.updateInsulinType(id, rapidInsulin, shortInsulin, intermediateInsulin, longInsulin);
             patientService.updateDiabetesType(id, Diabetes);
             patientService.updateInjectionMethod(id, injection);
 
@@ -378,11 +411,13 @@ public class PatientSetting1 extends HorizontalLayout {
         });
     }
 
+//    button to cancel the changes
     private void cancelSetUp() {
         cancel = new Button("Cancel");
         cancel.setVisible(false);
         cancel.getElement().getStyle().set("margin-right", "0");
         cancel.addClickListener(e -> {
+//            Rollback the values in the components
             firstName.setValue(FName);
             lastName.setValue(LName);
             datePicker.setValue(Birth);
@@ -395,7 +430,14 @@ public class PatientSetting1 extends HorizontalLayout {
             genderSelect.setValue(Gender);
             diabetesSelect.setValue(Diabetes);
             insulinSelect.deselectAll();
-            insulinSelect.select(insulin);
+            if (rapidInsulin)
+                insulinSelect.select("Rapid-acting insulin");
+            if (shortInsulin)
+                insulinSelect.select("Short-acting insulin");
+            if (intermediateInsulin)
+                insulinSelect.select("Intermediate-acting insulin");
+            if (longInsulin)
+                insulinSelect.select("Long-acting insulin");
             injectionSelect.setValue(injection);
 
 //            Change the accessibility and appearance when cancelled
@@ -408,6 +450,7 @@ public class PatientSetting1 extends HorizontalLayout {
         });
     }
 
+//    Button to change password
     private void changePasswordSetUp() {
         changePassword = new Button("Change Password");
         changePassword.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -419,6 +462,7 @@ public class PatientSetting1 extends HorizontalLayout {
         );
     }
 
+//    Button to go back to home page
     private void toHomeSetUp() {
         toHome = new Button("OK");
         toHome.getElement().getStyle().set("margin-left", "auto");
