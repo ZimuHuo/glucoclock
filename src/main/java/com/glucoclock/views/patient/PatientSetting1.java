@@ -55,7 +55,7 @@ public class PatientSetting1 extends HorizontalLayout {
     String Gender;
     String Diabetes;
     Set<String> insulin;
-    Set<String> injection;
+    String injection;
 
 
 
@@ -73,7 +73,7 @@ public class PatientSetting1 extends HorizontalLayout {
     Select<String> genderSelect;
     Select<String> diabetesSelect;
     CheckboxGroup<String> insulinSelect;
-    CheckboxGroup<String> injectionSelect;
+    Select<String> injectionSelect;
     Button changeSetting, save, cancel, changePassword, toHome;
     private MenuBar menu = new MenuBar("PNS");
 
@@ -178,10 +178,10 @@ public class PatientSetting1 extends HorizontalLayout {
         Phone = patient.getPhone();
         Birth = patient.getBirthday();
         Diabetes = patient.getDiabetesType();
+        injection = patient.getInjectionMethod();
 
         Gson gson = new Gson();
         insulin = gson.fromJson(patient.getInsulinType(), new TypeToken<Set<String>>(){}.getType());
-        injection = gson.fromJson(patient.getInjectionMethod(), new TypeToken<Set<String>>(){}.getType());
 
 
         firstNameSetUp();
@@ -310,10 +310,10 @@ public class PatientSetting1 extends HorizontalLayout {
     }
 
     private void injectionSelectSetUp() {
-        injectionSelect = new CheckboxGroup<>();
+        injectionSelect = new Select<>();
         injectionSelect.setLabel("Injection method");
         injectionSelect.setItems("Syringe", "Injection pen", "Insulin pump");
-        injectionSelect.select(injection);
+        injectionSelect.setValue(injection);
         injectionSelect.setReadOnly(true);
     }
 
@@ -396,8 +396,7 @@ public class PatientSetting1 extends HorizontalLayout {
             diabetesSelect.setValue(Diabetes);
             insulinSelect.deselectAll();
             insulinSelect.select(insulin);
-            injectionSelect.deselectAll();
-            injectionSelect.select(injection);
+            injectionSelect.setValue(injection);
 
 //            Change the accessibility and appearance when cancelled
             changeSetting.setVisible(true);

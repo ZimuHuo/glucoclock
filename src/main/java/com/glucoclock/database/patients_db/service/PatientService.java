@@ -17,8 +17,8 @@ public class PatientService  {
 
     public String bulkcreate(){
         // save a single Patient
-        repository.save(new Patient("ZImu","Huo","zimuhuo@outlook.com","flat1","Kings Gate","SW& $AX","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type I","[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]","[\"Syringe\", \"Injection pen\"]"));
-        repository.save(new Patient("ZImu2","Huo2","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type II","[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]","[\"Syringe\", \"Injection pen\"]"));
+        repository.save(new Patient("ZImu","Huo","zimuhuo@outlook.com","flat1","Kings Gate","SW& $AX","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type I","[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]","Syringe"));
+        repository.save(new Patient("ZImu2","Huo2","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type II","[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]","Injection pen"));
         return "Patient created";
     }
 
@@ -107,10 +107,9 @@ public class PatientService  {
         repository.save(patient);
     }
 
-    public void updateInjectionMethod(long id, Set<String> injectionMethod) {
+    public void updateInjectionMethod(long id, String injectionMethod) {
         Patient patient = repository.getPatientById(id);
-        Gson gson = new Gson();
-        patient.setInjectionMethod(gson.toJson(injectionMethod));
+        patient.setInjectionMethod(injectionMethod);
         repository.save(patient);
     }
 

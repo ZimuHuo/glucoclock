@@ -43,7 +43,7 @@ public class PatientSignUp3 extends Div {
 
     private Select<String> diabetesSelect;
     private CheckboxGroup<String> insulinSelect;
-    private CheckboxGroup<String> injectionSelect;
+    private Select<String> injectionSelect;
     private Button submitButton, previousButton;
     private VerticalLayout verticalLayout;
     private HorizontalLayout horizontalLayout;
@@ -112,11 +112,11 @@ public class PatientSignUp3 extends Div {
     }
 
     private void injectionSelectSetUp() {
-        injectionSelect = new CheckboxGroup<>();
+        injectionSelect = new Select<>();
         injectionSelect.setLabel("Injection method");
         injectionSelect.setItems("Syringe", "Injection pen", "Insulin pump");
         if (VaadinSession.getCurrent().getAttribute("Injection")!= null){
-            injectionSelect.setValue((Set<String>) VaadinSession.getCurrent().getAttribute("Injection"));
+            injectionSelect.setValue((String) VaadinSession.getCurrent().getAttribute("Injection"));
         }
     }
 
@@ -157,7 +157,7 @@ public class PatientSignUp3 extends Div {
                         (LocalDate) VaadinSession.getCurrent().getAttribute("Date"),
                         (String)VaadinSession.getCurrent().getAttribute("Diabetes"),
                         gson.toJson((Set<String>)VaadinSession.getCurrent().getAttribute("Insulin")),
-                        gson.toJson((Set<String>)VaadinSession.getCurrent().getAttribute("Injection"))
+                        (String)VaadinSession.getCurrent().getAttribute("Injection")
                 );
 
                 patientService.getRepository().save(patient);
