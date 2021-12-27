@@ -127,13 +127,16 @@ public class ComprehensiveLogBook implements Serializable, Comparable<Comprehens
     }
     @Override
     public String toString() {
-        return "ComprehensiveLogBook{" +
-                "patientid=" + patientid +
-                ", date=" + date +
-                ", time=" + this.getTimeString() +
-                ", bloodglucose='" + bloodglucose + '\'' +
-                ", carbintake='" + carbintake + '\'' +
-                ", insulindose='" + insulindose + '\'' +
-                '}';
+        return patientid +
+                ","+"Comprehensive" +
+                "," + date +
+                "," + this.getTimeString() +
+                "," + bloodglucose +
+                "," + carbintake +
+                "," + insulindose+
+                "," + "-" +
+                "," + "-" +
+                "," + "-" +
+                "," + "-";
     }
 }

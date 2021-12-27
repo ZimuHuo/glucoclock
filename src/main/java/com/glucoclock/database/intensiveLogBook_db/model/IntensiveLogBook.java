@@ -157,17 +157,16 @@ public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBo
 
     @Override
     public String toString() {
-        return "IntensiveLogBook{" +
-                "patientid=" + patientid +
-                ", date=" + date +
-                ", time=" + time.toString() +
-                ", bloodglucose='" + bloodglucose + '\'' +
-                ", carbintake='" + carbintake + '\'' +
-                ", insulindose='" + insulindose + '\'' +
-                ", carbbolus='" + carbbolus + '\'' +
-                ", highbsbolus='" + highbsbolus + '\'' +
-                ", basalrate='" + basalrate + '\'' +
-                ", ketons='" + ketons + '\'' +
-                '}';
+        return patientid +
+                ","+"Intensive" +
+                "," + date +
+                "," + time.toString() +
+                "," + bloodglucose +
+                "," + carbintake +
+                "," + insulindose +
+                "," + carbbolus +
+                "," + highbsbolus +
+                "," + basalrate +
+                "," + ketons;
     }
 }
