@@ -127,7 +127,7 @@ public class ViewPatientsData extends VerticalLayout {
             for( Log testingdata:logbook) {
                 if (testingdata.getDate().isEqual(today.minusDays(day))) {
 
-                    addData.setLogBookType(testingdata.getLogbooktype());
+                    addData.setLogBookType(testingdata.getStringLogBooktype());
                     addData.setCompleteLogBook(true);
                 }
             }

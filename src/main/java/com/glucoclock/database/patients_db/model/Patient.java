@@ -69,11 +69,23 @@ public class Patient implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("Patient[id=%d, firstName='%s', lastName='%s']", id, firstName, lastName);
+		return "Patient{" +
+				"id=" + id +
+				", firstName='" + firstName + ',' +
+				", lastName='" + lastName + ',' +
+				", email='" + email + ',' +
+				", HomeAddress='" + HomeAddress + ',' +
+				", postCode='" + postCode + ',' +
+				", Phone='" + Phone + ',' +
+				", Gender='" + Gender + ',' +
+				", Birthday=" + Birthday +
+				", DiabetesType='" + DiabetesType + ',' +
+				", InsulinType='" + InsulinType + ',' +
+				", InjectionMethod='" + InjectionMethod + ',' +
+				'}';
 	}
 
-
-//	getters and setters
+	//	getters and setters
 	public String getFirstName() {
         return firstName;
     }
@@ -161,4 +173,7 @@ public class Patient implements Serializable {
 	public void setInjectionMethod(String injectionMethod) {
 		InjectionMethod = injectionMethod;
 	}
+
+
+
 }

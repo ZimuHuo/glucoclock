@@ -3,10 +3,11 @@ package com.glucoclock.database.intensiveLogBook_db.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "Intensivelogbook_db")
-public class IntensiveLogBook implements Serializable {
+public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBook> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -18,7 +19,7 @@ public class IntensiveLogBook implements Serializable {
     private LocalDate date;
 
     @Column(name="Time")
-    private String time;
+    private LocalTime time;
 
     @Column(name = "BloodGlucose")
     private String bloodglucose;
@@ -29,21 +30,21 @@ public class IntensiveLogBook implements Serializable {
     @Column(name="InsulinDose")
     private String insulindose;
 
-    @Column (name="Food")
-    private String food;
+    @Column (name="CarbBolus")
+    private String carbbolus;
 
-    @Column (name="ExerciseDuration")
-    private String exerciseduration;
+    @Column (name="HighBSBolus")
+    private String highbsbolus;
 
-    @Column (name="ExerciseType")
-    private String exercisetype;
+    @Column (name="BasalRate")
+    private String basalrate;
 
-    @Column (name="UnusualEvent")
-    private String unusualevent;
+    @Column (name="Ketons")
+    private String ketons;
 
 
 
-    public IntensiveLogBook(Long PatientId, LocalDate Date, String Time, String BloodGlucose, String CarbIntake, String InsulinDose, String Food, String ExerciseDur, String ExerciseType, String UnusualEvent) {
+    public IntensiveLogBook(Long PatientId, LocalDate Date, LocalTime Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons) {
 
         patientid = PatientId;
         date = Date;
@@ -51,47 +52,46 @@ public class IntensiveLogBook implements Serializable {
         carbintake = CarbIntake;
         time=Time;
         insulindose=InsulinDose;
-        food=Food;
-        exerciseduration=ExerciseDur;
-        exercisetype=ExerciseType;
-        unusualevent=UnusualEvent;
+        carbbolus=CarbBolus;
+        highbsbolus=HighBSBolus;
+        basalrate=BasalRate;
+        ketons=Ketons;
     }
 
     public IntensiveLogBook() {
 
     }
 
-
-    public String getFood() {
-        return food;
+    public String getCarbbolus() {
+        return carbbolus;
     }
 
-    public void setFood(String food) {
-        this.food = food;
+    public void setCarbbolus(String carbbolus) {
+        this.carbbolus = carbbolus;
     }
 
-    public String getExerciseduration() {
-        return exerciseduration;
+    public String getHighbsbolus() {
+        return highbsbolus;
     }
 
-    public void setExerciseduration(String exerciseduration) {
-        this.exerciseduration = exerciseduration;
+    public void setHighbsbolus(String highbsbolus) {
+        this.highbsbolus = highbsbolus;
     }
 
-    public String getExercisetype() {
-        return exercisetype;
+    public String getBasalrate() {
+        return basalrate;
     }
 
-    public void setExercisetype(String exercisetype) {
-        this.exercisetype = exercisetype;
+    public void setBasalrate(String basalrate) {
+        this.basalrate = basalrate;
     }
 
-    public String getUnusualevent() {
-        return unusualevent;
+    public String getKetons() {
+        return ketons;
     }
 
-    public void setUnusualevent(String unusualevent) {
-        this.unusualevent = unusualevent;
+    public void setKetons(String ketons) {
+        this.ketons = ketons;
     }
 
     public String getInsulindose() {
@@ -126,11 +126,11 @@ public class IntensiveLogBook implements Serializable {
         this.date = date;
     }
 
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 
@@ -148,5 +148,25 @@ public class IntensiveLogBook implements Serializable {
 
     public void setCarbintake(String carbintake) {
         this.carbintake = carbintake;
+    }
+
+    @Override
+    public int compareTo(IntensiveLogBook that){
+        return this.getTime().compareTo(that.getTime());
+    }
+
+    @Override
+    public String toString() {
+        return patientid +
+                ","+"Intensive" +
+                "," + date +
+                "," + time.toString() +
+                "," + bloodglucose +
+                "," + carbintake +
+                "," + insulindose +
+                "," + carbbolus +
+                "," + highbsbolus +
+                "," + basalrate +
+                "," + ketons;
     }
 }

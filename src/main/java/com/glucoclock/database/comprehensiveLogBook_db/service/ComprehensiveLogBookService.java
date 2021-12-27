@@ -1,13 +1,13 @@
 package com.glucoclock.database.comprehensiveLogBook_db.service;
 
 import com.glucoclock.database.comprehensiveLogBook_db.model.ComprehensiveLogBook;
-//import com.glucoclock.database.comprehensiveLogBook_db.model.ComprehensiveLogBookObject;
 import com.glucoclock.database.comprehensiveLogBook_db.repository.ComprehensiveLogBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -18,10 +18,10 @@ public class ComprehensiveLogBookService {
     public String bulkcreate(){
         LocalDate test= LocalDate.now();
         //Simple: patient id, date, blood glucose, carb intake
-        repository.save(new ComprehensiveLogBook(1L,test,"Pre Breakfast","23","32","33"));
-        repository.save(new ComprehensiveLogBook(1L,test,"Pre Lunch","23","34","33"));
-        repository.save(new ComprehensiveLogBook(1L,test,"Post Lunch","23","33","21"));
-        repository.save(new ComprehensiveLogBook(1L,test,"Pre Dinner","23","32","22"));
+        repository.save(new ComprehensiveLogBook(1L,test.minusDays(4),1,"23","32","33"));
+        repository.save(new ComprehensiveLogBook(1L,test.minusDays(4),4,"23","34","33"));
+        repository.save(new ComprehensiveLogBook(2L,test.minusDays(4),3,"23","33","21"));
+        repository.save(new ComprehensiveLogBook(1L,test.minusDays(4),2,"23","32","22"));
         return "Comprehensive Log is created";
     }
     public String create(ComprehensiveLogBook ComprehensiveLogBook){
@@ -42,6 +42,7 @@ public class ComprehensiveLogBookService {
     public List<ComprehensiveLogBook> findLogsByPatientid(long patient_id){
         List<ComprehensiveLogBook> Comprehensivelog;
         Comprehensivelog=repository.findByPatientid(patient_id);
+        Collections.sort(Comprehensivelog);
         return Comprehensivelog;
     }
 
@@ -49,6 +50,7 @@ public class ComprehensiveLogBookService {
     public List<ComprehensiveLogBook> findLogByDateAndPatientid(LocalDate date,long patient_id){
         List<ComprehensiveLogBook> Comprehensivelog;
         Comprehensivelog=repository.findByPatientidAndAndDate(patient_id,date);
+        Collections.sort(Comprehensivelog);
         return Comprehensivelog;
     }
 
