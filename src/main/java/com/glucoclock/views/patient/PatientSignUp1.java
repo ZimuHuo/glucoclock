@@ -175,5 +175,4 @@ public class PatientSignUp1 extends Div {
             emailField.setValue((String)VaadinSession.getCurrent().getAttribute("Email"));
         }
     }
-
 }
