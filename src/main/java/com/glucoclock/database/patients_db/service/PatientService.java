@@ -17,8 +17,8 @@ public class PatientService  {
 
     public String bulkcreate(){
         // save a single Patient
-        repository.save(new Patient("ZImu","Huo","zimuhuo@outlook.com","flat1","SW& $AX","12345","Male", LocalDate.of(2001,1,1),"Type I","[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]","[\"Syringe\", \"Injection pen\"]"));
-        repository.save(new Patient("ZImu2","Huo2","zimuhuo@outlook.com","flat2","SW& $AX2","12345","Male", LocalDate.of(2001,1,1),"Type II","[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]","[\"Syringe\", \"Injection pen\"]"));
+        repository.save(new Patient("ZImu","Huo","zimuhuo@outlook.com","flat1","Kings Gate","SW& $AX","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type I","[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]","[\"Syringe\", \"Injection pen\"]"));
+        repository.save(new Patient("ZImu2","Huo2","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type II","[\"Rapid-acting insulin\",\"Short-acting insulin\",\"Intermediate-acting insulin\"]","[\"Syringe\", \"Injection pen\"]"));
         return "Patient created";
     }
 
@@ -56,9 +56,21 @@ public class PatientService  {
         repository.save(patient);
     }
 
-    public void updatePatientAddress(long id, String newHomeAddress) {
+    public void updatePatientAddressL1(long id, String newHomeAddressL1) {
         Patient patient = repository.getPatientById(id);
-        patient.setHomeAddress(newHomeAddress);
+        patient.setHomeAddressL1(newHomeAddressL1);
+        repository.save(patient);
+    }
+
+    public void updatePatientAddressL2(long id, String newHomeAddressL2) {
+        Patient patient = repository.getPatientById(id);
+        patient.setHomeAddressL2(newHomeAddressL2);
+        repository.save(patient);
+    }
+
+    public void updatePatientCity(long id, String newCity) {
+        Patient patient = repository.getPatientById(id);
+        patient.setCity(newCity);
         repository.save(patient);
     }
 

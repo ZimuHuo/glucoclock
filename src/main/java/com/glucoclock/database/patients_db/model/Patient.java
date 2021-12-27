@@ -22,11 +22,17 @@ public class Patient implements Serializable {
 	@Column(name = "Email")
 	private String email;
 
-	@Column(name = "HomeAddress")
-	private String HomeAddress;
+	@Column(name = "HomeAddressL1")
+	private String HomeAddressL1;
+
+	@Column(name = "HomeAddressL2")
+	private String HomeAddressL2;
 
 	@Column(name = "PostCode")
 	private String postCode;
+
+	@Column(name = "City")
+	private String City;
 
 	@Column(name = "Phone")
 	private String Phone;
@@ -46,12 +52,16 @@ public class Patient implements Serializable {
 	@Column(name = "InjectionMethod")
 	private String InjectionMethod;
 
-	public Patient(String firstName, String lastName, String email, String homeAddress, String postCode, String phone, String gender, LocalDate birthday,String diabetesType, String insulinType, String injectionMethod) {
+
+
+	public Patient(String firstName, String lastName, String email, String homeAddressL1, String homeAddressL2, String postCode,String city, String phone, String gender, LocalDate birthday,String diabetesType, String insulinType, String injectionMethod) {
 
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.HomeAddress = homeAddress;
+		this.HomeAddressL1 = homeAddressL1;
+		this.HomeAddressL2 = homeAddressL2;
+		this.City = city;
 		this.postCode = postCode;
 		this.Phone = phone;
 		this.Gender = gender;
@@ -72,8 +82,10 @@ public class Patient implements Serializable {
 				", firstName='" + firstName + ',' +
 				", lastName='" + lastName + ',' +
 				", email='" + email + ',' +
-				", HomeAddress='" + HomeAddress + ',' +
+				", Address Line1='" + HomeAddressL1 + ',' +
+				", Address Line2='" + HomeAddressL2 + ',' +
 				", postCode='" + postCode + ',' +
+				", City='" + City + ',' +
 				", Phone='" + Phone + ',' +
 				", Gender='" + Gender + ',' +
 				", Birthday=" + Birthday +
@@ -116,13 +128,17 @@ public class Patient implements Serializable {
 		this.postCode = postCode;
 	}
 
-	public String getHomeAddress() {
-		return HomeAddress;
-	}
+	public String getHomeAddressL1() {return HomeAddressL1;}
 
-	public void setHomeAddress(String homeAddress) {
-		HomeAddress = homeAddress;
-	}
+	public void setHomeAddressL1(String homeAddressL1) {HomeAddressL1 = homeAddressL1;}
+
+	public String getHomeAddressL2() {return HomeAddressL2;}
+
+	public void setHomeAddressL2(String homeAddressL2) {HomeAddressL2 = homeAddressL2;}
+
+	public String getCity() {return City;}
+
+	public void setCity(String city) {City = city;}
 
 	public String getPhone() {
 		return Phone;
