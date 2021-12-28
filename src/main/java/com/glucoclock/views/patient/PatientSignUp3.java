@@ -30,7 +30,7 @@ import java.util.UUID;
 
 
 @PageTitle("Patient Sign Up")
-@Route(value = "patient/signup3")
+@Route(value = "patient-sign-up-3")
 public class PatientSignUp3 extends Div {
 
     private Select<String> diabetesSelect;

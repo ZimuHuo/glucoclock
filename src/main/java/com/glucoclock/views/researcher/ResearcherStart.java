@@ -17,7 +17,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("Search for and Download Anonymised Data")
-@Route(value = "researcher/datasearcheranddownload")
+@Route(value = "researcher/data-searcher-and-download")
 public class ResearcherStart extends VerticalLayout {
     Double F_AgeMin;
     Double F_AgeMax;

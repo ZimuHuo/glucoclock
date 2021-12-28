@@ -24,7 +24,7 @@ import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.VaadinSession;
 
 @PageTitle("Patient Sign Up")
-@Route(value = "patient/signup1")
+@Route(value = "patient-sign-up-1")
 public class PatientSignUp1 extends Div {
     TextField firstName;
     TextField lastName;
