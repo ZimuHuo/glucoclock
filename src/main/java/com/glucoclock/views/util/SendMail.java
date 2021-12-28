@@ -16,9 +16,9 @@ The following code and google gmail apis are gathered in the link below:
 https://cloud.google.com/appengine/docs/standard/java/mail/sending-mail-with-mail-api
  */
 public class SendMail {
-    public static void sendMail() {
+    public static void sendMail(String messagetosend,String emailadd) {
         // patient email get from the database
-        String to = "Zimuhuo@outlook.com";
+        String to = emailadd;
 
         String from = "glucoclock@gmail.com";
         String host = "smtp.gmail.com";
@@ -41,7 +41,7 @@ public class SendMail {
             message.setFrom(new InternetAddress(from));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject("alert");
-            message.setText("Dude, what is wrong with your glucose level?"); //leave the message here
+            message.setText(messagetosend); //leave the message here
             Transport.send(message);
 
             //Add this to the heroku logbook to track all the email sent

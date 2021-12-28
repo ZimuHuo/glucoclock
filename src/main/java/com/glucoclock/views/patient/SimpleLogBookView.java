@@ -16,9 +16,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.HtmlEmail;
-
 import java.util.Properties;
 
 @PageTitle("Add Simple Logbook Entry")
@@ -72,7 +69,7 @@ public class SimpleLogBookView extends Div {
         submitButton.addClickListener(e -> {
 
             SendMail sendMail = new SendMail();
-            sendMail.sendMail();
+            sendMail.sendMail("too high");
 
             submitButton.getUI().ifPresent(ui ->
                     ui.navigate(ConfirmationPage.class)

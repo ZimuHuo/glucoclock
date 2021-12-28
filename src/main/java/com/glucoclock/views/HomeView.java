@@ -1,5 +1,7 @@
 package com.glucoclock.views;
 
+import com.glucoclock.views.patient.ConfirmationPage;
+import com.glucoclock.views.util.SendMail;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
@@ -10,9 +12,6 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.Theme;
-import org.vaadin.pekkam.Canvas;
-import org.vaadin.pekkam.CanvasRenderingContext2D;
-
 
 import javax.imageio.ImageIO;
 import javax.xml.transform.stream.StreamSource;
@@ -34,6 +33,7 @@ public class HomeView extends VerticalLayout implements BeforeEnterObserver {
 //    private Button signInBut;
     private Button signUpBut;
     private Button codeBut;
+    private TextField textField;
     //private H5 welcomeTxt = new H5("Your No.1 choice of \n modern digital diabetic logbook");
     TextArea textArea;
     public HomeView() {
@@ -58,18 +58,9 @@ public class HomeView extends VerticalLayout implements BeforeEnterObserver {
                         ui.navigate(SignUp.class)
                 )
         );
-        codeBut = new Button("Get code");
-        codeBut.addClickListener(e ->
-                signUpBut.getUI().ifPresent(ui ->
-                        ui.navigate(SignUp.class)
-                )
-        );
 
-        textArea = new TextArea();
-        textArea.setValue(getRandomNum());
-        TextField textField = new TextField();
 
-        add(logo,login,textArea,textField, signUpBut);
+        add(logo,login, signUpBut);
 
         setAlignItems(Alignment.CENTER);
 
@@ -84,22 +75,24 @@ public class HomeView extends VerticalLayout implements BeforeEnterObserver {
                 .containsKey("error")) {
             login.setError(true);
         }
-        if ((String)VaadinSession.getCurrent().getAttribute("code"))
-    }
-
-
-
-    public String getRandomNum(){
-        Random random = new Random();
-        String num = random.nextInt(99999999)+""; //nice trick for conversion in case you are wondering :D
-        StringBuffer buffer = new StringBuffer();
-        for (int i =0; i<7-num.length();i++){
-            buffer.append(random.nextInt(9)); //took me a while to figure out this :D forced consistency
+        if ((String)VaadinSession.getCurrent().getAttribute("code")!=textField.getValue()){
+            login.setError(true);
         }
-        num = buffer.toString()+num;
-        VaadinSession.getCurrent().setAttribute( "code",num);
-        return num;
-
     }
+
+//      Vaadin is really fucked, can't get a fucking user name from login form. WOW
+//
+//    public String getRandomNum(){
+//        Random random = new Random();
+//        String num = random.nextInt(99999999)+""; //nice trick for conversion in case you are wondering :D
+//        StringBuffer buffer = new StringBuffer();
+//        for (int i =0; i<7-num.length();i++){
+//            buffer.append(random.nextInt(9)); //took me a while to figure out this :D forced consistency
+//        }
+//        num = buffer.toString()+num;
+//        VaadinSession.getCurrent().setAttribute( "code",num);
+//        return num;
+//
+//    }
 
 }
