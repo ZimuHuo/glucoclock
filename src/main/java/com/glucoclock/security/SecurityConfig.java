@@ -1,6 +1,7 @@
 package com.glucoclock.security;
 
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import com.glucoclock.views.ErrorPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,7 +55,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and().authorizeRequests().antMatchers("/doctor/*").hasAuthority("DOCTOR")
 
-                .and().exceptionHandling().accessDeniedPage("/patient/view-history")
+                .and().authorizeRequests().antMatchers("/researcher/*").hasAuthority("RESEARCHER")
+
+                .and().exceptionHandling().accessDeniedPage("/error/access-denied")
+
 //                // Register our CustomRequestCache, which saves unauthorized access attempts, so the user is redirected after login.
                 .and().requestCache().requestCache(new CustomRequestCache())
 //
@@ -67,8 +71,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // Allow all requests by logged-in users.
                 .anyRequest().authenticated()
-
-
 
                 // Configure the login page.
                 .and().formLogin()

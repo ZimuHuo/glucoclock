@@ -1,5 +1,6 @@
 package com.glucoclock.security;
 
+import com.glucoclock.views.ErrorPage;
 import com.glucoclock.views.HomeView;
 import com.glucoclock.views.SignUp;
 import com.glucoclock.views.doctor.DoctorSignUp1;
@@ -68,6 +69,9 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
             }
             else if (ResearcherSignUp2.class.equals(event.getNavigationTarget())){
                 event.forwardTo(ResearcherSignUp2.class);
+            }
+            else if (ErrorPage.class.equals(event.getNavigationTarget())){
+                event.forwardTo(ErrorPage.class);
             }
             //else{event.rerouteTo(HomeView.class);}
 
