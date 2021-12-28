@@ -23,8 +23,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-@PageTitle("Researcher Settings")
-@Route(value = "ResearcherSetting1")
+@PageTitle("Settings")
+@Route(value = "researcher/settings")
 
 public class ResearcherSetting1 extends HorizontalLayout {
 

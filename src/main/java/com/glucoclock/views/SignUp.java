@@ -18,8 +18,8 @@ import com.vaadin.flow.server.VaadinSession;
 
 import javax.print.Doc;
 
-@PageTitle("Sign up")
-@Route(value = "SignUp")
+@PageTitle("Sign Up | Choose Account Type")
+@Route(value = "sign-up")
 public class SignUp extends VerticalLayout{
     private Button PatientButton;
     private Button DoctorButton;

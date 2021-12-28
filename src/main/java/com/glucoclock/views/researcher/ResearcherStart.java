@@ -16,8 +16,8 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Researcher Start Page")
-@Route(value = "ResearcherStart")
+@PageTitle("Search for and Download Anonymised Data")
+@Route(value = "researcher/data-searcher-and-download")
 public class ResearcherStart extends VerticalLayout {
     Double F_AgeMin;
     Double F_AgeMax;
