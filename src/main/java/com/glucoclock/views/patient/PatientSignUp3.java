@@ -188,7 +188,7 @@ public class PatientSignUp3 extends Div {
 //                patient.setHomeAddress((String)VaadinSession.getCurrent().getAttribute("Email"));
                 //database issue set string home address only one
                 submitButton.getUI().ifPresent(ui ->
-                        ui.navigate("PatientStart")
+                        ui.navigate(PatientStart.class)
                 );
             }
 
