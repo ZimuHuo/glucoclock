@@ -22,7 +22,7 @@ import com.vaadin.flow.server.VaadinSession;
 
 
 @PageTitle("Researcher Sign Up")
-@Route(value = "researcher-sign-up-1")
+@Route(value = "researcher/signup1")
 public class ResearcherSignUp1 extends HorizontalLayout {
     TextField firstName;
     TextField lastName;
