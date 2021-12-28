@@ -1,6 +1,7 @@
 package com.glucoclock.views.patient;
 
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.util.SendMail;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -15,6 +16,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
+
+import java.util.Properties;
 
 @PageTitle("Add Simple Logbook Entry")
 @Route(value = "patient/addsimplelogbookentry")
@@ -64,10 +69,17 @@ public class SimpleLogBookView extends Div {
         formLayout.setColspan(carbohydrate,2 );
         submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.addClickListener(e ->
-                submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(ConfirmationPage.class)
-                )
+        submitButton.addClickListener(e -> {
+
+            SendMail sendMail = new SendMail();
+            sendMail.sendMail();
+
+            submitButton.getUI().ifPresent(ui ->
+                    ui.navigate(ConfirmationPage.class)
+            );
+
+                }
+
         );
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(title);
