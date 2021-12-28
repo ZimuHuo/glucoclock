@@ -19,14 +19,16 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.messages.MessageListItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
+import javax.annotation.security.RolesAllowed;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Locale;
 
 @PageTitle("Start Page")
-@Route(value = "patient/start-page")
-
+@Route(value = "/patient/start-page")
+@RolesAllowed("PATIENT")
 public class PatientStart extends VerticalLayout{
     private ComboBox<String> LBtybe;
     private DatePicker datePicker;

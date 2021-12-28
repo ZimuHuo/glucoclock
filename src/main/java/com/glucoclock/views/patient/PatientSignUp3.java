@@ -2,8 +2,11 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
-import com.glucoclock.database.user_db.User;
-import com.glucoclock.database.user_db.UserService;
+
+import com.glucoclock.security.db.Authorities;
+import com.glucoclock.security.db.AuthoritiesService;
+import com.glucoclock.security.db.User;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.google.gson.Gson;
 import com.vaadin.flow.component.button.Button;
@@ -24,10 +27,10 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
+import javax.annotation.security.RolesAllowed;
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
-
 
 @PageTitle("Patient Sign Up")
 @Route(value = "patient-sign-up-3")
@@ -42,9 +45,11 @@ public class PatientSignUp3 extends Div {
     private MenuBar menu = new MenuBar("NS");
     private final UserService userService;
     private final PatientService patientService;
-    public PatientSignUp3(UserService userService,PatientService patientService) {
+    private final AuthoritiesService authoritiesService;
+    public PatientSignUp3(UserService userService, PatientService patientService, AuthoritiesService authoritiesService) {
         this.userService = userService;
         this.patientService = patientService;
+        this.authoritiesService = authoritiesService;
         add(menu);
         init();
         HorizontalLayout hl = new HorizontalLayout();
@@ -160,12 +165,13 @@ public class PatientSignUp3 extends Div {
                 User user = new User(
                         (String)VaadinSession.getCurrent().getAttribute("Email"),
                         (String)VaadinSession.getCurrent().getAttribute("Password"),
-                        "Patient",
+                        "PATIENT",
+                        (byte) 1
                         //Role.PATIENT,
-                        uid.toString()
                 );
-
                 userService.getRepository().save(user);
+                Authorities authorities = new Authorities((String)VaadinSession.getCurrent().getAttribute("Email"),"PATIENT");
+                authoritiesService.getRepository().save(authorities);
 
 
 

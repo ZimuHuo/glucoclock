@@ -1,8 +1,10 @@
 package com.glucoclock.security;
 
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +27,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_URL = "/login";
     private static final String LOGOUT_SUCCESS_URL = "/login";
 
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select username, password, enabled from users where username=?")
+                .authoritiesByUsernameQuery("select username, role from users where username=?")
+        ;
+
+    }
     /**
      * Require login to access internal pages and configure login form.
      */
@@ -34,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // Allow access to some pages for non-logged-in users
                 .authorizeRequests().antMatchers("/login","/sign-up","/patient-sign-up-1","/patient-sign-up-2","/patient-sign-up-3","/doctor-sign-up-1","/doctor-sign-up-2","/researcher-sign-up-1","/doctor-sign-up-2").permitAll()
-                
+
 //                // Register our CustomRequestCache, which saves unauthorized access attempts, so the user is redirected after login.
                 .and().requestCache().requestCache(new CustomRequestCache())
 //
@@ -59,18 +74,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     //HARD CODING TO BE CHANGED LATER
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        List<UserDetails> users= new ArrayList<>();
-        users.add(User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("userpass")
-                .roles("USER")
-                .build());
-
-        return new InMemoryUserDetailsManager(users);
-    }
+//    @Bean
+//    @Override
+//    public UserDetailsService userDetailsService() {
+//        List<UserDetails> users= new ArrayList<>();
+//        users.add(User.withDefaultPasswordEncoder()
+//                .username("user")
+//                .password("userpass")
+//                .roles("USER")
+//                .build());
+//
+//        return new InMemoryUserDetailsManager(users);
+//    }
 
 //    @Bean
 //    public BCryptPasswordEncoder bCryptPasswordEncoder() {

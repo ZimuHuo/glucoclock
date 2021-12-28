@@ -20,6 +20,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import javax.annotation.security.RolesAllowed;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.List;
 
 @PageTitle("My Logbook")
 @Route(value = "patient/logbook")
-
+@RolesAllowed("ADMIN")
 public class LogbookView extends VerticalLayout {
     Long patientId=1L;         //set to 1 for testing
     LocalDate SelectDate=LocalDate.now();   //will get from previous page
