@@ -41,37 +41,34 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 //                && !SecurityUtils.isUserLoggedIn()) { //and if user is not logged in
 //            event.rerouteTo(HomeView.class);
 //        }
-        //if nav target is not home view
-        if (!HomeView.class.equals(event.getNavigationTarget())){
-            //and if user is not logged in
-            if(!SecurityUtils.isUserLoggedIn()){
-                //allow universal access to all sign-up pages
-                if (SignUp.class.equals(event.getNavigationTarget())){
-                    event.forwardTo(SignUp.class);
-                }
-                else if (PatientSignUp1.class.equals(event.getNavigationTarget())){
-                    event.forwardTo(PatientSignUp1.class);
-                }
-                else if (PatientSignUp2.class.equals(event.getNavigationTarget())){
-                    event.forwardTo(PatientSignUp2.class);
-                }
-                else if (PatientSignUp3.class.equals(event.getNavigationTarget())){
-                    event.forwardTo(PatientSignUp3.class);
-                }
-                else if (DoctorSignUp1.class.equals(event.getNavigationTarget())){
-                    event.forwardTo(DoctorSignUp1.class);
-                }
-                else if (DoctorSignUp2.class.equals(event.getNavigationTarget())){
-                    event.forwardTo(DoctorSignUp2.class);
-                }
-                else if (ResearcherSignUp1.class.equals(event.getNavigationTarget())){
-                    event.forwardTo(ResearcherSignUp1.class);
-                }
-                else if (ResearcherSignUp2.class.equals(event.getNavigationTarget())){
-                    event.forwardTo(ResearcherSignUp2.class);
-                }
-                //else{event.rerouteTo(HomeView.class);}
+        //if nav target is not home view and user is not logged in
+        if (!HomeView.class.equals(event.getNavigationTarget()) && !SecurityUtils.isUserLoggedIn()){
+            //allow anonymous access to all sign-up pages
+            if (SignUp.class.equals(event.getNavigationTarget())){
+                event.forwardTo(SignUp.class);
             }
+            else if (PatientSignUp1.class.equals(event.getNavigationTarget())){
+                event.forwardTo(PatientSignUp1.class);
+            }
+            else if (PatientSignUp2.class.equals(event.getNavigationTarget())){
+                event.forwardTo(PatientSignUp2.class);
+            }
+            else if (PatientSignUp3.class.equals(event.getNavigationTarget())){
+                event.forwardTo(PatientSignUp3.class);
+            }
+            else if (DoctorSignUp1.class.equals(event.getNavigationTarget())){
+                event.forwardTo(DoctorSignUp1.class);
+            }
+            else if (DoctorSignUp2.class.equals(event.getNavigationTarget())){
+                event.forwardTo(DoctorSignUp2.class);
+            }
+            else if (ResearcherSignUp1.class.equals(event.getNavigationTarget())){
+                event.forwardTo(ResearcherSignUp1.class);
+            }
+            else if (ResearcherSignUp2.class.equals(event.getNavigationTarget())){
+                event.forwardTo(ResearcherSignUp2.class);
+            }
+            //else{event.rerouteTo(HomeView.class);}
 
         }
 
