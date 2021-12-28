@@ -31,8 +31,8 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
 
-@PageTitle("Download")
-@Route(value = "Download")
+@PageTitle("Download Data and Graph")
+@Route(value = "patient/download")
 
 public class DownloadPage extends VerticalLayout {
     Locale finnishLocale = new Locale("fi", "FI");

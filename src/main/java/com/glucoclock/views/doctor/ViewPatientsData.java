@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@PageTitle("View Patients History")
-@Route(value = "ViewPatientsHistory")
+@PageTitle("View Patients Data History")
+@Route(value = "doctor/view-patient-history")
 public class ViewPatientsData extends VerticalLayout {
     private String PatientName="(PatientName)";
     private Grid<PersonData> Historylist=new Grid<>(PersonData.class,false);

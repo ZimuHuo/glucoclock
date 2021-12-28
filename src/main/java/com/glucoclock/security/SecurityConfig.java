@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
 
                 // Allow access to some pages for non-logged-in users
-                .authorizeRequests().antMatchers("/login","/SignUp").permitAll()
+                .authorizeRequests().antMatchers("/login","/sign-up").permitAll()
 
 //                // Register our CustomRequestCache, which saves unauthorized access attempts, so the user is redirected after login.
                 .and().requestCache().requestCache(new CustomRequestCache())

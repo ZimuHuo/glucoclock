@@ -36,8 +36,8 @@ import java.time.ZoneId;
 import java.util.Set;
 
 
-@PageTitle("Patient Settings")
-@Route(value = "PatientSetting1")
+@PageTitle("Settings")
+@Route(value = "patient/settings")
 public class PatientSetting1 extends HorizontalLayout {
 
 

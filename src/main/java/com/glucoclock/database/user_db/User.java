@@ -1,6 +1,8 @@
 package com.glucoclock.database.user_db;
 
 
+import org.dom4j.tree.AbstractEntity;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;

@@ -41,8 +41,8 @@ import java.util.Set;
 import java.util.UUID;
 
 
-@PageTitle("Sign up your patient account")
-@Route(value = "PatientSignUp3")
+@PageTitle("Patient Sign Up")
+@Route(value = "patient-sign-up-3")
 public class PatientSignUp3 extends Div {
 
     private Select<String> diabetesSelect;

@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@PageTitle("View History")
-@Route(value = "ViewHistory")
+@PageTitle("View Data History")
+@Route(value = "patient/view-history")
 public class HistoryView extends VerticalLayout {
     private Grid<PersonData> Historylist=new Grid<>(PersonData.class,false);
     private LocalDate today=LocalDate.now();

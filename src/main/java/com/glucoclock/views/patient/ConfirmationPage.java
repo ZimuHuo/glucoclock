@@ -18,8 +18,8 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.messages.MessageListItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-@PageTitle("Confirmation Page")
-@Route(value = "ConfirmationPage")
+@PageTitle("Upload Successful")
+@Route(value = "patient/upload-confirmation")
 
 public class ConfirmationPage extends VerticalLayout{
     private Button OKButton;

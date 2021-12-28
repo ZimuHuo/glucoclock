@@ -22,8 +22,8 @@ import com.vaadin.flow.router.Route;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-@PageTitle("Doctor Settings")
-@Route(value = "DoctorSetting1")
+@PageTitle("Settings")
+@Route(value = "/doctor/settings")
 
 public class DoctorSetting1 extends HorizontalLayout {
 

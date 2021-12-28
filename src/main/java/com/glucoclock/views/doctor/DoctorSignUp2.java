@@ -26,8 +26,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 
-@PageTitle("Sign up your doctor account")
-@Route(value = "DoctorSignUp2")
+@PageTitle("Doctor Sign Up")
+@Route(value = "doctor-sign-up-2")
 public class DoctorSignUp2 extends HorizontalLayout {
     private RadioButtonGroup<String> sex;
     private TextField apartmentAddress;

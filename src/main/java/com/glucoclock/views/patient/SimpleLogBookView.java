@@ -16,8 +16,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Simple LogBook View")
-@Route(value = "SimpleLogBookView")
+@PageTitle("Add Simple Logbook Entry")
+@Route(value = "patient/add-simple-logbook-entry")
 public class SimpleLogBookView extends Div {
     private H3 title = new H3("Add Simple Logbook Entry");
     ComboBox<String> prepost;

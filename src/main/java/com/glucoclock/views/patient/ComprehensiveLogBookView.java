@@ -16,8 +16,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Comprehensive LogBook View")
-@Route(value = "ComprehensiveLogBookView")
+@PageTitle("Add Comprehensive Logbook Entry")
+@Route(value = "patient/add-comprehensive-logbook-entry")
 public class ComprehensiveLogBookView extends Div {
     private ComboBox<String> prepost;
     private ComboBox<String> meal;

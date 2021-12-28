@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@PageTitle("LogBook")
-@Route(value = "LogBook")
+@PageTitle("My Logbook")
+@Route(value = "patient/logbook")
 
 public class LogbookView extends VerticalLayout {
     Long patientId=1L;         //set to 1 for testing

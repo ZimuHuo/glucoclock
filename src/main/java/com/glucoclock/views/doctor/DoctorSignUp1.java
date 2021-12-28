@@ -21,8 +21,8 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
 
-@PageTitle("Sign up your doctor account")
-@Route(value = "DoctorSignUp1")
+@PageTitle("Doctor Sign Up")
+@Route(value = "doctor-sign-up-1")
 public class DoctorSignUp1 extends HorizontalLayout {
     TextField firstName;
     TextField lastName;

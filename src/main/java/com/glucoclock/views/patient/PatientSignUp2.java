@@ -32,8 +32,8 @@ for(Component c : myLayout) {
 }
  */
 
-@PageTitle("Sign up your patient account")
-@Route(value = "PatientSignUp2")
+@PageTitle("Patient Sign Up")
+@Route(value = "patient-sign-up-2")
 public class PatientSignUp2 extends Div {
     private RadioButtonGroup<String> sex;
     private TextField AddressL1;

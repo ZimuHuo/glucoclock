@@ -24,8 +24,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Locale;
 
-@PageTitle("Patient Start Page")
-@Route(value = "PatientStart")
+@PageTitle("Start Page")
+@Route(value = "patient/start-page")
 
 public class PatientStart extends VerticalLayout{
     private ComboBox<String> LBtybe;

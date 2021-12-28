@@ -22,8 +22,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-@PageTitle("Doctor Start View")
-@Route(value = "DoctorStartView")
+@PageTitle("My Patients")
+@Route(value = "doctor/my-patients")
 public class DoctorStartView extends VerticalLayout {
     private Grid<PatientInfo> grid;
     private ListDataProvider<PatientInfo> dataProvider;

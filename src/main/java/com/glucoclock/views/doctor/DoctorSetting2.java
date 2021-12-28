@@ -11,8 +11,8 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Doctor Settings")
-@Route(value = "DoctorSetting2")
+@PageTitle("Change Password")
+@Route(value = "doctor/change-password")
 
 public class DoctorSetting2 extends HorizontalLayout{
 
