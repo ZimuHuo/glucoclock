@@ -54,27 +54,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and().authorizeRequests().antMatchers("/doctor/*").hasAuthority("DOCTOR")
 
-
+                .and().exceptionHandling().accessDeniedPage("/patient/view-history")
 //                // Register our CustomRequestCache, which saves unauthorized access attempts, so the user is redirected after login.
                 .and().requestCache().requestCache(new CustomRequestCache())
 //
                 // Restrict access to our application.
                 .and().authorizeRequests()
 
+
                // Allow all Vaadin internal requests.
                .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
 
                 // Allow all requests by logged-in users.
                 .anyRequest().authenticated()
-//                .anyRequest().hasRole("PATIENT")
-//
-//                .antMatchers("/patient")
+
+
 
                 // Configure the login page.
                 .and().formLogin()
                 .loginPage(LOGIN_URL).permitAll()
                 .loginProcessingUrl(LOGIN_PROCESSING_URL)
-                .failureUrl(LOGIN_FAILURE_URL);
+                .failureUrl(LOGIN_FAILURE_URL)
+        ;
 //
 //                // Configure logout
 //                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);

@@ -10,6 +10,7 @@ import com.glucoclock.views.patient.PatientSignUp3;
 import com.glucoclock.views.researcher.ResearcherSignUp1;
 import com.glucoclock.views.researcher.ResearcherSignUp2;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.router.AfterNavigationListener;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
@@ -71,7 +72,6 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
             //else{event.rerouteTo(HomeView.class);}
 
         }
-
 
         }
 
