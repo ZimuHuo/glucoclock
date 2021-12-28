@@ -2,6 +2,7 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
+import com.glucoclock.database.user_db.Role;
 import com.glucoclock.database.user_db.User;
 import com.glucoclock.database.user_db.UserService;
 import com.glucoclock.views.MenuBar;
@@ -160,12 +161,11 @@ public class PatientSignUp3 extends Div {
                 User user = new User(
                         (String)VaadinSession.getCurrent().getAttribute("Email"),
                         (String)VaadinSession.getCurrent().getAttribute("Password"),
-                        "Patient",
-                        //Role.PATIENT,
-                        uid.toString()
+                        Role.PATIENT,
+                        uid
                 );
-
-                userService.getRepository().save(user);
+                userService.save(user);
+//                userService.getRepository().save(user);
 
 
 

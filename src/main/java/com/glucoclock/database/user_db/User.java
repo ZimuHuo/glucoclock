@@ -2,6 +2,8 @@ package com.glucoclock.database.user_db;
 
 
 import org.dom4j.tree.AbstractEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,13 +25,13 @@ public class User implements Serializable {
     private String password;
 
     @Column(name = "role")
-    private String role;
+    private Role role;
 
     @Column(name = "uid")
-    private String uid;
-    //private UUID uid;
+    //private String uid;
+    private UUID uid;
 
-    public User(String email, String password, String role, String uid) {
+    public User(String email, String password, Role role, UUID uid) {
         this.email = email;
         this.password = password;
         this.role = role;
@@ -77,15 +79,15 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
-    public String getUid() {return uid;}
-    public void setUid(String uid) {
+    public UUID getUid() {return uid;}
+    public void setUid(UUID uid) {
         this.uid = uid;
     }
 
