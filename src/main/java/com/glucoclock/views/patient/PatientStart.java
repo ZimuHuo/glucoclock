@@ -19,7 +19,9 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.messages.MessageListItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.annotation.security.RolesAllowed;
 import java.time.LocalDate;
@@ -37,6 +39,12 @@ public class PatientStart extends VerticalLayout{
     private MenuBar menu = new MenuBar("PStart");
     private H2 title = new H2("Upload Logbook Entry");
     public PatientStart(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.getAuthorities();
+        authentication.getName();
+        System.out.print(authentication.getName()); // here it gets the username. absolutely fantastic
+        //way easier than what im expected how cool is that!
+
         String Logbook;
         add(menu);
 
