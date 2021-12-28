@@ -74,8 +74,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().formLogin()
                 .loginPage(LOGIN_URL).permitAll()
                 .loginProcessingUrl(LOGIN_PROCESSING_URL)
-                .failureUrl(LOGIN_FAILURE_URL)
-        ;
+                .failureUrl(LOGIN_FAILURE_URL);
+
+        http.formLogin().defaultSuccessUrl("/control", true);
+
+
+
 //
 //                // Configure logout
 //                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);

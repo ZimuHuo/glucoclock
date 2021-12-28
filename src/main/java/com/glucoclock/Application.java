@@ -13,11 +13,9 @@ import org.vaadin.artur.helpers.LaunchUtil;
  * The entry point of the Spring Boot application.
  */
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class, ErrorMvcAutoConfiguration.class})
-//@SpringBootApplication(exclude = {ErrorMvcAutoConfiguration.class})
 @NpmPackage(value = "@fontsource/ubuntu", version = "4.5.0")
 @NpmPackage(value = "lumo-css-framework", version = "^4.0.10")
 @NpmPackage(value = "line-awesome", version = "1.3.0")
-
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
