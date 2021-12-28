@@ -1,6 +1,7 @@
 package com.glucoclock.security;
 
 import com.glucoclock.views.HomeView;
+import com.glucoclock.views.SignUp;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
@@ -29,9 +30,25 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     }
 
     private void authenticateNavigation(BeforeEnterEvent event) {
-        if (!HomeView.class.equals(event.getNavigationTarget()) //if nav target is not home view
-                && !SecurityUtils.isUserLoggedIn()) { //and if user is not logged in
-            event.rerouteTo(HomeView.class);
+//        if (!HomeView.class.equals(event.getNavigationTarget()) //if nav target is not home view
+//                && !SecurityUtils.isUserLoggedIn()) { //and if user is not logged in
+//            event.rerouteTo(HomeView.class);
+//        }
+        //if nav target is not home view
+        if (!HomeView.class.equals(event.getNavigationTarget())){
+            //and if user is not logged in
+            if(!SecurityUtils.isUserLoggedIn()){
+                //allow access to certain pages
+                if (SignUp.class.equals(event.getNavigationTarget())){
+                    event.forwardTo(SignUp.class);
+                }
+                else{event.rerouteTo(HomeView.class);}
+            }
+
         }
+
+
+        }
+
     }
-}
+
