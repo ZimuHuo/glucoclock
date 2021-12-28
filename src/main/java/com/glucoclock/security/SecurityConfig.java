@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // Allow access to some pages for non-logged-in users
                 .authorizeRequests().antMatchers("/login","/sign-up","/patient-sign-up-1","/patient-sign-up-2","/patient-sign-up-3","/doctor-sign-up-1","/doctor-sign-up-2","/researcher-sign-up-1","/doctor-sign-up-2").permitAll()
-
+                
 //                // Register our CustomRequestCache, which saves unauthorized access attempts, so the user is redirected after login.
                 .and().requestCache().requestCache(new CustomRequestCache())
 //
