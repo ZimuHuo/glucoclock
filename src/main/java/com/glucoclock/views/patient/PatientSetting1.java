@@ -91,7 +91,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
         //-----------------------------------------
         this.patientService = patientService;
-        patientService.bulkcreate();
+//        patientService.bulkcreate();
         long id = patientService.getRepository().findAll().get(0).getId();
         Patient patient = patientService.getRepository().getPatientById(id);
         //-----------------------------------------

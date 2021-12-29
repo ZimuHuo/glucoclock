@@ -15,12 +15,12 @@ public class PatientService  {
     @Autowired
     PatientRepository repository;
 
-    public String bulkcreate(){
-        // save a single Patient
-        repository.save(new Patient("ZImu","Huo","zimuhuo@outlook.com","flat1","Kings Gate","SW& $AX","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type I",true,true,true,false,"Syringe"));
-        repository.save(new Patient("ZImu2","Huo2","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type II",true,true,true,false,"Injection pen"));
-        return "Patient created";
-    }
+//    public String bulkcreate(){
+//        // save a single Patient
+//        repository.save(new Patient("ZImu","Huo","zimuhuo@outlook.com","flat1","Kings Gate","SW& $AX","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type I",true,true,true,false,"Syringe"));
+//        repository.save(new Patient("ZImu2","Huo2","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type II",true,true,true,false,"Injection pen"));
+//        return "Patient created";
+//    }
 
     public String search(long id){
 //        Search for a patient

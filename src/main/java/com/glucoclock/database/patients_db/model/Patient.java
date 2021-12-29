@@ -4,6 +4,7 @@ package com.glucoclock.database.patients_db.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Patient_db")
@@ -79,6 +80,10 @@ public class Patient implements Serializable {
 	@Column(name = "InjectionMethod")
 	private String InjectionMethod;
 
+//	UID
+	@Column(name = "UID")
+	private UUID UID;
+
 
 // Constructor of patient
 	public Patient(String firstName,
@@ -96,7 +101,8 @@ public class Patient implements Serializable {
 				   boolean shortInsulin,
 				   boolean intermediateInsulin,
 				   boolean longInsulin,
-				   String injectionMethod) {
+				   String injectionMethod,
+				   UUID uid) {
 
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -114,6 +120,7 @@ public class Patient implements Serializable {
 		this.IntermediateInsulin = intermediateInsulin;
 		this.LongInsulin = longInsulin;
 		this.InjectionMethod = injectionMethod;
+		this.UID = uid;
 	}
 
 	public Patient() {
@@ -173,14 +180,26 @@ public class Patient implements Serializable {
 		this.postCode = postCode;
 	}
 
-	public String getHomeAddressL1() {return HomeAddressL1;}
-	public void setHomeAddressL1(String homeAddressL1) {HomeAddressL1 = homeAddressL1;}
+	public String getHomeAddressL1() {
+		return HomeAddressL1;
+	}
+	public void setHomeAddressL1(String homeAddressL1) {
+		HomeAddressL1 = homeAddressL1;
+	}
 
-	public String getHomeAddressL2() {return HomeAddressL2;}
-	public void setHomeAddressL2(String homeAddressL2) {HomeAddressL2 = homeAddressL2;}
+	public String getHomeAddressL2() {
+		return HomeAddressL2;
+	}
+	public void setHomeAddressL2(String homeAddressL2) {
+		HomeAddressL2 = homeAddressL2;
+	}
 
-	public String getCity() {return City;}
-	public void setCity(String city) {City = city;}
+	public String getCity() {
+		return City;
+	}
+	public void setCity(String city) {
+		City = city;
+	}
 
 	public String getPhone() {
 		return Phone;
@@ -203,17 +222,33 @@ public class Patient implements Serializable {
 		Birthday = birthday;
 	}
 
-	public boolean isRapidInsulin() {return RapidInsulin;}
-	public void setRapidInsulin(boolean rapidInsulin) {RapidInsulin = rapidInsulin;}
+	public boolean isRapidInsulin() {
+		return RapidInsulin;
+	}
+	public void setRapidInsulin(boolean rapidInsulin) {
+		RapidInsulin = rapidInsulin;
+	}
 
-	public boolean isShortInsulin() {return ShortInsulin;}
-	public void setShortInsulin(boolean shortInsulin) {ShortInsulin = shortInsulin;}
+	public boolean isShortInsulin() {
+		return ShortInsulin;
+	}
+	public void setShortInsulin(boolean shortInsulin) {
+		ShortInsulin = shortInsulin;
+	}
 
-	public boolean isIntermediateInsulin() {return IntermediateInsulin;}
-	public void setIntermediateInsulin(boolean intermediateInsulin) {IntermediateInsulin = intermediateInsulin;}
+	public boolean isIntermediateInsulin() {
+		return IntermediateInsulin;
+	}
+	public void setIntermediateInsulin(boolean intermediateInsulin) {
+		IntermediateInsulin = intermediateInsulin;
+	}
 
-	public boolean isLongInsulin() {return LongInsulin;}
-	public void setLongInsulin(boolean longInsulin) {LongInsulin = longInsulin;}
+	public boolean isLongInsulin() {
+		return LongInsulin;
+	}
+	public void setLongInsulin(boolean longInsulin) {
+		LongInsulin = longInsulin;
+	}
 
 	public String getDiabetesType() {
 		return DiabetesType;
@@ -229,6 +264,10 @@ public class Patient implements Serializable {
 		InjectionMethod = injectionMethod;
 	}
 
-
-
+	public UUID getUID() {
+		return UID;
+	}
+	public void setUID(UUID UID) {
+		this.UID = UID;
+	}
 }

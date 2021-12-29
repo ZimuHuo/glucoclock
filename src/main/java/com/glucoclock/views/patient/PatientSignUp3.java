@@ -148,7 +148,19 @@ public class PatientSignUp3 extends Div {
                 VaadinSession.getCurrent().setAttribute( "Diabetes",diabetesSelect.getValue());
                 VaadinSession.getCurrent().setAttribute( "Injection",injectionSelect.getValue());
 
-//              Create and save a new patient
+
+//                Create and save a new user in db
+                User user = new User(
+                        (String)VaadinSession.getCurrent().getAttribute("Email"),
+                        (String)VaadinSession.getCurrent().getAttribute("Password"),
+                        "PATIENT",
+                        (byte) 1
+                        //Role.PATIENT,
+                );
+                userService.getRepository().save(user);
+
+
+//              Create and save a new patient in db
                 Patient patient = new Patient(
                         (String)VaadinSession.getCurrent().getAttribute("FirstName"),
                         (String)VaadinSession.getCurrent().getAttribute("LastName"),
@@ -165,31 +177,17 @@ public class PatientSignUp3 extends Div {
                         insulinSelect.isSelected("Short-acting insulin"),
                         insulinSelect.isSelected("Intermediate-acting insulin"),
                         insulinSelect.isSelected("Long-acting insulin"),
-                        (String)VaadinSession.getCurrent().getAttribute("Injection")
+                        (String)VaadinSession.getCurrent().getAttribute("Injection"),
+                        userService.getRepository().findByUsername((String)VaadinSession.getCurrent().getAttribute("Email")).getUid()
                 );
                 patientService.getRepository().save(patient);
-                User user = new User(
-                        (String)VaadinSession.getCurrent().getAttribute("Email"),
-                        (String)VaadinSession.getCurrent().getAttribute("Password"),
-                        "PATIENT",
-                        (byte) 1
-                        //Role.PATIENT,
-                );
 
-                userService.getRepository().save(user);
+
                 Authorities authorities = new Authorities((String)VaadinSession.getCurrent().getAttribute("Email"),"PATIENT");
                 authoritiesService.getRepository().save(authorities);
                 SendMail.sendMail("Congratulations!","Thank you for choosing our app!",(String)VaadinSession.getCurrent().getAttribute("Email"));
 
 
-
-
-//                Patient patient = new Patient();
-//                patient.setFirstName((String)VaadinSession.getCurrent().getAttribute("FirstName"));
-//                patient.setLastName((String)VaadinSession.getCurrent().getAttribute("LastName"));
-//                patient.setEmail((String)VaadinSession.getCurrent().getAttribute("Email"));
-//                patient.setHomeAddress((String)VaadinSession.getCurrent().getAttribute("Email"));
-                //database issue set string home address only one
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(PatientStart.class)
                 );
