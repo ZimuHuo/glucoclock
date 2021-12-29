@@ -70,10 +70,11 @@ public class PatientSignUp1 extends Div {
                 Notification notification = Notification.show("Please choose another email address");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }else {
-                String code = "Your code is: "+verificationCode.getRandomNum();
+                String code = verificationCode.getRandomNum();
+                String email = "Your code is: "+code;
                 VaadinSession.getCurrent().setAttribute("code",code);
-                SendMail.sendMail("Verification code",code,emailField.getValue());
-                Notification notification = Notification.show(code);
+                SendMail.sendMail("Verification code",email,emailField.getValue());
+                Notification notification = Notification.show("You should receive an email by now. In case you dont "+email);
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }
                 }
@@ -122,7 +123,10 @@ public class PatientSignUp1 extends Div {
             }else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
                 Notification notification = Notification.show("Please choose another email address");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            }else {
+            }else if(!VaadinSession.getCurrent().getAttribute("code").equals(code.getValue())){
+                Notification notification = Notification.show("Wrong code");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            } else {
 
                 VaadinSession.getCurrent().setAttribute( "FirstName",firstName.getValue());
                 VaadinSession.getCurrent().setAttribute( "LastName",lastName.getValue());

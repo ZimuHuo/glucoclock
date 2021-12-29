@@ -1,6 +1,7 @@
 package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.doctors_db.model.Doctor;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -10,6 +11,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -33,8 +35,9 @@ public class DoctorSignUp1 extends HorizontalLayout {
     Button submitButton;
     VerticalLayout mainLayout;
     private MenuBar menu = new MenuBar("NS");
-
-    public DoctorSignUp1() {
+private UserService userService;
+    public DoctorSignUp1(UserService userService) {
+        this.userService = userService;
         add(menu);
         init();
         this.setJustifyContentMode(JustifyContentMode.CENTER);
@@ -71,7 +74,10 @@ public class DoctorSignUp1 extends HorizontalLayout {
                 if (!password.getValue().equals(confirmPassword.getValue()))
                     Notification.show("You must enter the same password twice", 3000, Notification.Position.TOP_CENTER);
 
-            } else {
+            } else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
+                Notification notification = Notification.show("Please choose another email address");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }else {
                 //Save current information and move to next page
                 VaadinSession.getCurrent().setAttribute( "FirstName",firstName.getValue());
                 VaadinSession.getCurrent().setAttribute( "LastName",lastName.getValue());
