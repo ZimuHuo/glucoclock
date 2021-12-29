@@ -70,9 +70,11 @@ public class PatientSignUp1 extends Div {
                 Notification notification = Notification.show("Please choose another email address");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }else {
-                String code = verificationCode.getRandomNum();
+                String code = "Your code is: "+verificationCode.getRandomNum();
                 VaadinSession.getCurrent().setAttribute("code",code);
-                SendMail.sendMail(code,emailField.getValue());
+                SendMail.sendMail("Verification code",code,emailField.getValue());
+                Notification notification = Notification.show(code);
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }
                 }
 

@@ -16,7 +16,7 @@ The following code and google gmail apis are gathered in the link below:
 https://cloud.google.com/appengine/docs/standard/java/mail/sending-mail-with-mail-api
  */
 public class SendMail {
-    public static void sendMail(String messagetosend,String emailadd) {
+    public static void sendMail(String title,String messagetosend,String emailadd) {
         // patient email get from the database
         String to = emailadd;
 
@@ -40,7 +40,7 @@ public class SendMail {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject("alert");
+            message.setSubject(title);
             message.setText(messagetosend); //leave the message here
             Transport.send(message);
 

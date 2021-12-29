@@ -8,6 +8,7 @@ import com.glucoclock.security.db.AuthoritiesService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.util.SendMail;
 import com.google.gson.Gson;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -158,10 +159,7 @@ public class PatientSignUp3 extends Div {
                         gson.toJson((Set<String>)VaadinSession.getCurrent().getAttribute("Insulin")),
                         gson.toJson((Set<String>)VaadinSession.getCurrent().getAttribute("Injection"))
                 );
-
                 patientService.getRepository().save(patient);
-
-                UUID uid = UUID.randomUUID();
                 User user = new User(
                         (String)VaadinSession.getCurrent().getAttribute("Email"),
                         (String)VaadinSession.getCurrent().getAttribute("Password"),
@@ -169,9 +167,12 @@ public class PatientSignUp3 extends Div {
                         (byte) 1
                         //Role.PATIENT,
                 );
+
                 userService.getRepository().save(user);
                 Authorities authorities = new Authorities((String)VaadinSession.getCurrent().getAttribute("Email"),"PATIENT");
                 authoritiesService.getRepository().save(authorities);
+                SendMail.sendMail("Congratulations!","Thank you for choosing our app!",(String)VaadinSession.getCurrent().getAttribute("Email"));
+
 
 
 
@@ -196,12 +197,12 @@ public class PatientSignUp3 extends Div {
         previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         previousButton.getElement().getStyle().set("margin-right", "auto");
         previousButton.addClickListener(e -> {
-
             VaadinSession.getCurrent().setAttribute( "Insulin",insulinSelect.getValue());
             VaadinSession.getCurrent().setAttribute( "Diabetes",diabetesSelect.getValue());
             VaadinSession.getCurrent().setAttribute( "Injection",injectionSelect.getValue());
             previousButton.getUI().ifPresent(ui ->
                     ui.navigate(PatientSignUp2.class)
+
             );
 
 
