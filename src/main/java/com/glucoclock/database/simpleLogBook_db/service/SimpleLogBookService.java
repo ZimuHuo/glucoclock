@@ -21,7 +21,7 @@ public class SimpleLogBookService {
         repository.save(new SimpleLogBook(1L,test.minusDays(8),1,"23","32"));
         repository.save(new SimpleLogBook(1L,test.minusDays(8),6,"23","34"));
         repository.save(new SimpleLogBook(1L,test.minusDays(8),3,"23","33"));
-        repository.save(new SimpleLogBook(1L,test.minusDays(3),4,"23","32"));
+        repository.save(new SimpleLogBook(4L,test.minusDays(3),4,"23","32"));
         return "Simple Log is created";
     }
     public String create(SimpleLogBook SimpleLogBook){
@@ -50,10 +50,6 @@ public class SimpleLogBookService {
         List<SimpleLogBook> SimpleLog;
         SimpleLog=repository.findByPatientidAndAndDate(patient_id,date);
         Collections.sort(SimpleLog);
-//        for(SimpleLogBook data:SimpleLog){
-//            System.out.println(data.getTimeString());
-//            System.out.println(data.getTime());
-//        }
         return SimpleLog;
     }
 

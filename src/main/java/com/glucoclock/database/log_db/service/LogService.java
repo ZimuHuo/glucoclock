@@ -18,10 +18,10 @@ public class LogService {
     public String bulkcreate(){
         LocalDate test=LocalDate.now();
 
-        repository.save(new Log(1L,test.minusDays(4),2));
-        repository.save(new Log(1L,test.minusDays(1),3));
+        repository.save(new Log(2L,test.minusDays(4),2));
+        repository.save(new Log(3L,test.minusDays(1),3));
         repository.save(new Log(1L,test.minusDays(8),1));
-        repository.save(new Log(1L,test.minusDays(3),1));
+        repository.save(new Log(4L,test.minusDays(3),1));
 
         return "Log is created";
     }

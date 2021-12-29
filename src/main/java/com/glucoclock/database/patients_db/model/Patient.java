@@ -7,21 +7,24 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "Patient_db")
-public class Patient implements Serializable {
+public class Patient implements Serializable, Comparable<Patient> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-
 	//Columns of the database and variables:
+// Patient id
+	@Column(name="Patientid")
+	private Long patientid;
+
 //	First Name of patient
-	@Column(name = "firstname")
-	private String firstName;
+	@Column(name = "Firstname")
+	private String firstname;
 
 //	last name of patient
-	@Column(name = "lastname")
-	private String lastName;
+	@Column(name = "Lastname")
+	private String lastname;
 
 	@Column(name = "Email")
 	private String email;
@@ -48,40 +51,41 @@ public class Patient implements Serializable {
 
 //	Gender
 	@Column(name = "Gender")
-	private String Gender;
+	private String gender;
 
 //	Birthday
 	@Column(name = "Birthday")
-	private LocalDate Birthday;
+	private LocalDate birthday;
 
 //	Type of diabetes
 	@Column(name = "DiabetesType")
-	private String DiabetesType;
+	private String diabetestype;
 
 //	Type(s) of insulin
 //	rapid-acting insulin
 	@Column(name = "RapidInsulin")
-	private boolean RapidInsulin;
+	private boolean rapidinsulin;
 
 //	short-acting insulin
 	@Column(name = "ShortInsulin")
-	private boolean ShortInsulin;
+	private boolean shortinsulin;
 
 //	intermediate-acting insulin
 	@Column(name = "IntermediateInsulin")
-	private boolean IntermediateInsulin;
+	private boolean intermediateinsulin;
 
 //	long-acting insulin
 	@Column(name = "LongInsulin")
-	private boolean LongInsulin;
+	private boolean longinsulin;
 
 //	injection method of insulin
 	@Column(name = "InjectionMethod")
-	private String InjectionMethod;
+	private String injectionmethod;
 
 
 // Constructor of patient
-	public Patient(String firstName,
+	public Patient(Long patientid,
+				   String firstName,
 				   String lastName,
 				   String email,
 				   String homeAddressL1,
@@ -98,22 +102,23 @@ public class Patient implements Serializable {
 				   boolean longInsulin,
 				   String injectionMethod) {
 
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.patientid=patientid;
+		this.firstname = firstName;
+		this.lastname = lastName;
 		this.email = email;
 		this.HomeAddressL1 = homeAddressL1;
 		this.HomeAddressL2 = homeAddressL2;
 		this.City = city;
 		this.postCode = postCode;
 		this.Phone = phone;
-		this.Gender = gender;
-		this.Birthday =  birthday;
-		this.DiabetesType = diabetesType;
-		this.RapidInsulin = rapidInsulin;
-		this.ShortInsulin = shortInsulin;
-		this.IntermediateInsulin = intermediateInsulin;
-		this.LongInsulin = longInsulin;
-		this.InjectionMethod = injectionMethod;
+		this.gender = gender;
+		this.birthday =  birthday;
+		this.diabetestype = diabetesType;
+		this.rapidinsulin = rapidInsulin;
+		this.shortinsulin= shortInsulin;
+		this.intermediateinsulin = intermediateInsulin;
+		this.longinsulin = longInsulin;
+		this.injectionmethod = injectionMethod;
 	}
 
 	public Patient() {
@@ -124,35 +129,46 @@ public class Patient implements Serializable {
 	public String toString() {
 		return "Patient{" +
 				"id=" + id +
-				", firstName='" + firstName + ',' +
-				", lastName='" + lastName + ',' +
+				", firstName='" + firstname + ',' +
+				", lastName='" + lastname + ',' +
 				", email='" + email + ',' +
 				", Address Line1='" + HomeAddressL1 + ',' +
 				", Address Line2='" + HomeAddressL2 + ',' +
 				", postCode='" + postCode + ',' +
 				", City='" + City + ',' +
 				", Phone='" + Phone + ',' +
-				", Gender='" + Gender + ',' +
-				", Birthday=" + Birthday +
-				", DiabetesType='" + DiabetesType + ',' +
+				", Gender='" + gender + ',' +
+				", Birthday=" + birthday +
+				", DiabetesType='" + diabetestype + ',' +
 //				", InsulinType='" + InsulinType + ',' +
-				", InjectionMethod='" + InjectionMethod + ',' +
+				", InjectionMethod='" + injectionmethod + ',' +
 				'}';
 	}
 
+
+
 	//	getters and setters
+
+	public Long getPatientid() {
+		return patientid;
+	}
+
+	public void setPatientid(Long patientid) {
+		this.patientid = patientid;
+	}
+
 	public String getFirstName() {
-        return firstName;
+        return firstname;
     }
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstname = firstName;
     }
 
     public String getLastName() {
-        return lastName;
+        return lastname;
     }
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastname = lastName;
     }
 
 	public long getId() {
@@ -190,45 +206,46 @@ public class Patient implements Serializable {
 	}
 
 	public String getGender() {
-		return Gender;
+		return gender;
 	}
 	public void setGender(String gender) {
-		Gender = gender;
+		this.gender = gender;
 	}
 
 	public LocalDate getBirthday() {
-		return Birthday;
+		return birthday;
 	}
-	public void setBirthday(LocalDate birthday) {
-		Birthday = birthday;
-	}
+	public void setBirthday(LocalDate birthday) {this.birthday = birthday;}
 
-	public boolean isRapidInsulin() {return RapidInsulin;}
-	public void setRapidInsulin(boolean rapidInsulin) {RapidInsulin = rapidInsulin;}
+	public boolean isRapidInsulin() {return rapidinsulin;}
+	public void setRapidInsulin(boolean rapidInsulin) {rapidinsulin = rapidInsulin;}
 
-	public boolean isShortInsulin() {return ShortInsulin;}
-	public void setShortInsulin(boolean shortInsulin) {ShortInsulin = shortInsulin;}
+	public boolean isShortInsulin() {return shortinsulin;}
+	public void setShortInsulin(boolean shortInsulin) {shortinsulin = shortInsulin;}
 
-	public boolean isIntermediateInsulin() {return IntermediateInsulin;}
-	public void setIntermediateInsulin(boolean intermediateInsulin) {IntermediateInsulin = intermediateInsulin;}
+	public boolean isIntermediateInsulin() {return intermediateinsulin;}
+	public void setIntermediateInsulin(boolean intermediateInsulin) {intermediateinsulin = intermediateInsulin;}
 
-	public boolean isLongInsulin() {return LongInsulin;}
-	public void setLongInsulin(boolean longInsulin) {LongInsulin = longInsulin;}
+	public boolean isLongInsulin() {return longinsulin;}
+	public void setLongInsulin(boolean longInsulin) {longinsulin = longInsulin;}
 
 	public String getDiabetesType() {
-		return DiabetesType;
+		return diabetestype;
 	}
 	public void setDiabetesType(String diabetesType) {
-		DiabetesType = diabetesType;
+		diabetestype = diabetesType;
 	}
 
 	public String getInjectionMethod() {
-		return InjectionMethod;
+		return injectionmethod;
 	}
 	public void setInjectionMethod(String injectionMethod) {
-		InjectionMethod = injectionMethod;
+		injectionmethod = injectionMethod;
 	}
 
 
-
+	@Override
+	public int compareTo(Patient that) {
+		return this.birthday.compareTo(that.birthday);
+	}
 }

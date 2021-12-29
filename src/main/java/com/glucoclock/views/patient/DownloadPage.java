@@ -120,8 +120,7 @@ public class DownloadPage extends VerticalLayout {
     public String OutputData(){
        //set up the returned string, this is the first 2 lines of the csv file
         String Finaloutput=
-                "Start date"+","+StartDate.toString()+","+"End date"+","+EndDate.toString()+"\n"
-                +"Patient ID" +
+                "Start date"+","+StartDate.toString()+","+"End date"+","+EndDate.toString()+"\n" +
                 ","+"LogBook Type" +
                 "," + "Date" +
                 "," + "Time" +
@@ -191,6 +190,7 @@ public class DownloadPage extends VerticalLayout {
         return ComprehensiveoutString;
     }
 
+    //if this data is Intensivelogbook
     public String IntensiveOut(LocalDate checkdate){
         //set up the returned string
        String IntensiveoutString=new String();

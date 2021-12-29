@@ -4,16 +4,11 @@ import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
-import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -22,18 +17,12 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.select.Select;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.PasswordField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.theme.Theme;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Set;
 
 
@@ -152,6 +141,7 @@ public class PatientSignUp3 extends Div {
 
 //              Create and save a new patient
                 Patient patient = new Patient(
+                        (Long)VaadinSession.getCurrent().getAttribute("Patientid"),
                         (String)VaadinSession.getCurrent().getAttribute("FirstName"),
                         (String)VaadinSession.getCurrent().getAttribute("LastName"),
                         (String)VaadinSession.getCurrent().getAttribute("Email"),

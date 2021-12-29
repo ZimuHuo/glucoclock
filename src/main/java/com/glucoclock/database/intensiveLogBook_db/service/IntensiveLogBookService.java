@@ -20,10 +20,10 @@ public class IntensiveLogBookService {
     public String bulkcreate(){
         LocalDate test= LocalDate.now();
         //Intensive: patient id, date, blood glucose, carb intake, food, exercise duration, exercise type, unusual event
-        repository.save(new IntensiveLogBook(1L,test.minusDays(1), LocalTime.of(9,0,0),"23","32","33","13","35","24","45"));
-        repository.save(new IntensiveLogBook(1L,test.minusDays(1),LocalTime.of(17,0,0),"23","34","33","23","35","24","56"));
-        repository.save(new IntensiveLogBook(2L,test.minusDays(1),LocalTime.of(14,0,0),"23","33","21","34","24","25","45"));
-        repository.save(new IntensiveLogBook(1L,test.minusDays(1),LocalTime.of(5,0,0),"23","32","22","24","35","35","34"));
+        repository.save(new IntensiveLogBook(3L,test.minusDays(1), LocalTime.of(9,0,0),"23","32","33","13","35","24","45"));
+        repository.save(new IntensiveLogBook(3L,test.minusDays(1),LocalTime.of(17,0,0),"23","34","33","23","35","24","56"));
+        repository.save(new IntensiveLogBook(3L,test.minusDays(1),LocalTime.of(14,0,0),"23","33","21","34","24","25","45"));
+        repository.save(new IntensiveLogBook(3L,test.minusDays(1),LocalTime.of(5,0,0),"23","32","22","24","35","35","34"));
         return "Intensive Log is created";
     }
     public String create(IntensiveLogBook IntensiveLogBook){

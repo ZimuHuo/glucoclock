@@ -18,10 +18,10 @@ public class ComprehensiveLogBookService {
     public String bulkcreate(){
         LocalDate test= LocalDate.now();
         //Simple: patient id, date, blood glucose, carb intake
-        repository.save(new ComprehensiveLogBook(1L,test.minusDays(4),1,"23","32","33"));
-        repository.save(new ComprehensiveLogBook(1L,test.minusDays(4),4,"23","34","33"));
+        repository.save(new ComprehensiveLogBook(2L,test.minusDays(4),1,"23","32","33"));
+        repository.save(new ComprehensiveLogBook(2L,test.minusDays(4),4,"23","34","33"));
         repository.save(new ComprehensiveLogBook(2L,test.minusDays(4),3,"23","33","21"));
-        repository.save(new ComprehensiveLogBook(1L,test.minusDays(4),2,"23","32","22"));
+        repository.save(new ComprehensiveLogBook(2L,test.minusDays(4),2,"23","32","22"));
         return "Comprehensive Log is created";
     }
     public String create(ComprehensiveLogBook ComprehensiveLogBook){

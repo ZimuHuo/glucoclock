@@ -2,13 +2,12 @@ package com.glucoclock.database.patients_db.service;
 
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.repository.PatientRepository;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class PatientService  {
@@ -17,8 +16,11 @@ public class PatientService  {
 
     public String bulkcreate(){
         // save a single Patient
-        repository.save(new Patient("ZImu","Huo","zimuhuo@outlook.com","flat1","Kings Gate","SW& $AX","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type I",true,true,true,false,"Syringe"));
-        repository.save(new Patient("ZImu2","Huo2","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type II",true,true,true,false,"Injection pen"));
+        repository.save(new Patient(1l,"ZImu","Huo","zimuhuo@outlook.com","flat1","Kings Gate","SW& $AX","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type I",true,true,false,false,"Syringe"));
+        repository.save(new Patient(2l,"ZImu2","Huo2","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Male", LocalDate.of(2000,1,2),"Type II",true,false,true,false,"Injection pen"));
+        repository.save(new Patient(3l,"Ann","B","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Female", LocalDate.of(1985,3,10),"Type II",false,true,false,false,"Injection pen"));
+        repository.save(new Patient(4l,"Cindy","B","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Female", LocalDate.of(1995,10,24),"Type II",false,true,false,false,"Injection pen"));
+
         return "Patient created";
     }
 
@@ -36,6 +38,19 @@ public class PatientService  {
         return repository;
     }
 
+
+    public List<Patient> researcherSearch(LocalDate miniage, LocalDate maxage, String gender, String diabetestype, boolean rapidindulin, boolean shortinsulin, boolean intermediateinsulin, boolean longinsulin){
+        List<Patient> patientList;
+
+    patientList=repository.findByBirthdayBetweenAndGenderAndDiabetestypeAndRapidinsulinAndShortinsulinAndIntermediateinsulinAndLonginsulin(miniage, maxage, gender, diabetestype, rapidindulin,shortinsulin,intermediateinsulin, longinsulin);
+        //sort the patientlist in age order
+        Collections.sort(patientList);
+        if(patientList==null)System.out.println("patientList is null");
+        else System.out.println("patientList not null");
+        System.out.println(patientList);
+
+        return patientList;
+    }
 
 //    Methods to change patient info in database
 //    Change the last name
