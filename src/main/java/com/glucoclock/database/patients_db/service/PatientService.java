@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PatientService  {
@@ -39,16 +40,30 @@ public class PatientService  {
     }
 
 
-    public List<Patient> researcherSearch(LocalDate miniage, LocalDate maxage, String gender, String diabetestype, boolean rapidindulin, boolean shortinsulin, boolean intermediateinsulin, boolean longinsulin){
-        List<Patient> patientList;
-
-    patientList=repository.findByBirthdayBetweenAndGenderAndDiabetestypeAndRapidinsulinAndShortinsulinAndIntermediateinsulinAndLonginsulin(miniage, maxage, gender, diabetestype, rapidindulin,shortinsulin,intermediateinsulin, longinsulin);
-        //sort the patientlist in age order
+    public List<Patient> researcherSearch(LocalDate miniage, LocalDate maxage, String gender, String diabetestype,String insulintype){
+        List<Patient> patientList = null;
+        patientList=repository.findByBirthdayBetween(miniage, maxage);
         Collections.sort(patientList);
-        if(patientList==null)System.out.println("patientList is null");
-        else System.out.println("patientList not null");
+        if(insulintype.equals("Rapid acting insulin")) patientList.stream().filter(patient->patient.isRapidInsulin()==true).collect(Collectors.toList());
+        if(insulintype.equals("Short acting insulin")) patientList.stream().filter(patient->patient.isShortInsulin()==true).collect(Collectors.toList());
+        if(insulintype.equals("Intermediate acting insulin"))patientList.stream().filter(patient->patient.isIntermediateInsulin()==true).collect(Collectors.toList());
+        if(insulintype.equals("Long acting insulin")) patientList.stream().filter(patient->patient.isLongInsulin()==true).collect(Collectors.toList());
+
         System.out.println(patientList);
 
+
+//        Boolean yes=true;
+//        if(insulintype.equals("Rapid acting insulin")) patientList=repository.findByBirthdayBetweenAndGenderAndDiabetestypeAndRapidinsulin(miniage, maxage, gender, diabetestype,yes);
+//        if(insulintype.equals("Short acting insulin")) patientList=repository.findByBirthdayBetweenAndGenderAndDiabetestypeAndShortinsulin(miniage, maxage, gender, diabetestype,yes);
+//        if(insulintype.equals("Intermediate acting insulin")) patientList=repository.findByBirthdayBetweenAndGenderAndDiabetestypeAndIntermediateinsulin(miniage, maxage, gender, diabetestype,yes);
+//        if(insulintype.equals("Long acting insulin")) patientList=repository.findByBirthdayBetweenAndGenderAndDiabetestypeAndLonginsulin(miniage, maxage, gender, diabetestype,yes);
+//        //sort the patientlist in age order
+//        Collections.sort(patientList);
+//        if(patientList==null)System.out.println("patientList is null");
+//        else System.out.println("patientList not null");
+//        System.out.println(patientList);
+//        patientList.stream().filter(patient->patient.getGender()=="Male")
+//                .collect(Collectors.toList());
         return patientList;
     }
 

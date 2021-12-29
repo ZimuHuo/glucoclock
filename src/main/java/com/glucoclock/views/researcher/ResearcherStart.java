@@ -103,36 +103,36 @@ public class ResearcherStart extends VerticalLayout {
             Notification.show(insulin.getValue());
             F_Insulin = insulin.getValue();
             //write the insulin type the researcher wanted in the Boolean variables
-            if (F_Insulin.equals("Rapid acting insulin")) {
-                F_RapidInsulin = true;
-                F_ShortInsulin = false;
-                F_InterInsulin = false;
-                F_LongInsulin = false;
-            }
-            if (F_Insulin.equals("Short acting insulin")) {
-                F_RapidInsulin = false;
-                F_ShortInsulin = true;
-                F_InterInsulin = false;
-                F_LongInsulin = false;
-            }
-            if (F_Insulin.equals("Intermediate acting insulin")) {
-                F_RapidInsulin = false;
-                F_ShortInsulin = false;
-                F_InterInsulin = true;
-                F_LongInsulin = false;
-            }
-            if (F_Insulin.equals("Long acting insulin")) {
-                F_RapidInsulin = false;
-                F_ShortInsulin = false;
-                F_InterInsulin = false;
-                F_LongInsulin = true;
-            }
-            if (F_Insulin.equals("Any")) {
-                F_RapidInsulin = true;
-                F_ShortInsulin = true;
-                F_InterInsulin = true;
-                F_LongInsulin = true;
-            }
+//            if (F_Insulin.equals("Rapid acting insulin")) {
+//                F_RapidInsulin = true;
+//                F_ShortInsulin = false;
+//                F_InterInsulin = false;
+//                F_LongInsulin = false;
+//            }
+//            if (F_Insulin.equals("Short acting insulin")) {
+//                F_RapidInsulin = false;
+//                F_ShortInsulin = true;
+//                F_InterInsulin = false;
+//                F_LongInsulin = false;
+//            }
+//            if (F_Insulin.equals("Intermediate acting insulin")) {
+//                F_RapidInsulin = false;
+//                F_ShortInsulin = false;
+//                F_InterInsulin = true;
+//                F_LongInsulin = false;
+//            }
+//            if (F_Insulin.equals("Long acting insulin")) {
+//                F_RapidInsulin = false;
+//                F_ShortInsulin = false;
+//                F_InterInsulin = false;
+//                F_LongInsulin = true;
+//            }
+//            if (F_Insulin.equals("Any")) {
+//                F_RapidInsulin = true;
+//                F_ShortInsulin = true;
+//                F_InterInsulin = true;
+//                F_LongInsulin = true;
+//            }
 
         });
         //Diabetes filter
@@ -153,6 +153,12 @@ public class ResearcherStart extends VerticalLayout {
         download.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         download.setHeight("100px");
 
+        //Click listener of the Filter_apply
+        Filter_apply.addClickListener(click->{
+            String notification=CheckOutputNum();
+            Notification.show(notification);
+        });
+
         //Button wrapper
         // Download Data
         //set up the button wrapper function
@@ -169,10 +175,6 @@ public class ResearcherStart extends VerticalLayout {
         );
         //add button wrapper to the Download data
         this.buttonWrapper.wrapComponent(download);
-        //each time the download button is clicked, the focuse the entered data
-//        download.addFocusListener(event->{
-//
-//        });
 
         //Layout
         FormLayout ResearchFilter = new FormLayout();
@@ -189,15 +191,18 @@ public class ResearcherStart extends VerticalLayout {
 
         VerticalLayout FinalLayout = new VerticalLayout(title, ResearchFilter, buttonWrapper);
         FinalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-//        download.addClickListener(e -> {
-//                    Notification.show("Download: \nAge: " + F_AgeMin + "-" + F_AgeMax + "\nGender: " + F_Gender + "\nInsulin Type: " + F_Insulin + "\nDiabetes Type: " + F_Diabetes);
-//                    F_Result = OutputData();
-//                    System.out.println(F_Result);
-//                }
-//        );
+
 
         add(FinalLayout);
 
+    }
+
+    public String CheckOutputNum(){
+        String returnString="There are ";
+        List<Patient> patientList;
+        patientList = patientService.researcherSearch(F_AgeMax_date, F_AgeMin_date, F_Gender, F_Diabetes, F_Insulin);
+        returnString+=patientList.size()+" Patients data fit your requirement.";
+        return returnString;
     }
 
     public String OutputData() {
@@ -219,7 +224,7 @@ public class ResearcherStart extends VerticalLayout {
 
         System.out.println(F_AgeMin_date);
         System.out.println(F_AgeMax_date);
-        patientList = patientService.researcherSearch(F_AgeMax_date, F_AgeMin_date, F_Gender, F_Diabetes, F_RapidInsulin, F_ShortInsulin, F_InterInsulin, F_LongInsulin);
+        patientList = patientService.researcherSearch(F_AgeMax_date, F_AgeMin_date, F_Gender, F_Diabetes, F_Insulin);
         //System.out.println(patientList);
 
         for (Patient thispatient : patientList) {
