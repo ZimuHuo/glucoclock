@@ -1,6 +1,7 @@
 package com.glucoclock.views;
 
 import com.glucoclock.security.SecurityService;
+import com.glucoclock.views.doctor.DoctorNotificationView;
 import com.glucoclock.views.doctor.DoctorSetting1;
 import com.glucoclock.views.doctor.DoctorStartView;
 import com.glucoclock.views.patient.HistoryView;
@@ -27,9 +28,11 @@ public class MenuBar extends AppLayout {
     private Icon cog = new Icon(VaadinIcon.COG_O);
     private Icon cal = new Icon(VaadinIcon.CALENDAR_CLOCK);
     private Icon signout = new Icon(VaadinIcon.SIGN_OUT);
+    private Icon noti = new Icon(VaadinIcon.ENVELOPES);
     private Button history = new Button(cal);
     private Button settings = new Button(cog);
     private Button logout = new Button(signout);
+    private Button notification = new Button(noti);
     private Image logo = new Image("/images/logo_dark.png","logo");
     private Button home = new Button(logo);
     private Icon q = new Icon(VaadinIcon.QUESTION_CIRCLE);
@@ -48,10 +51,15 @@ public class MenuBar extends AppLayout {
         cog.setColor("white");
         cal.setSize("45px");
         cal.setColor("white");
+        noti.setSize("45px");
+        noti.setColor("white");
         signout.setSize("45px");
         signout.setColor("white");
         q.setSize("45px");
         q.setColor("white");
+
+        notification.setWidth("65px");
+        notification.setHeight("65px");
 
         history.setWidth("65px");
         history.setHeight("65px");
@@ -127,12 +135,18 @@ public class MenuBar extends AppLayout {
         }
 
         else if (pageType == "DStart"){
-            hl.add(settings,logout);
+            hl.add(notification,settings,logout);
             settings.addClickListener(e ->
                     settings.getUI().ifPresent(ui ->
                             ui.navigate(DoctorSetting1.class)
                     )
-            );}
+            );
+            notification.addClickListener(e ->
+                    notification.getUI().ifPresent(ui ->
+                            ui.navigate(DoctorNotificationView.class)
+                    )
+            );
+        }
 
         else if (pageType == "RStart"){
             hl.add(settings,logout);
