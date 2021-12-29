@@ -4,10 +4,7 @@ import com.glucoclock.security.SecurityService;
 import com.glucoclock.views.doctor.DoctorNotificationView;
 import com.glucoclock.views.doctor.DoctorSetting1;
 import com.glucoclock.views.doctor.DoctorStartView;
-import com.glucoclock.views.patient.HistoryView;
-import com.glucoclock.views.patient.PatientSetting1;
-import com.glucoclock.views.patient.PatientStart;
-import com.glucoclock.views.patient.QuestionnaireView;
+import com.glucoclock.views.patient.*;
 import com.glucoclock.views.researcher.ResearcherSetting1;
 import com.glucoclock.views.researcher.ResearcherStart;
 import com.vaadin.flow.component.Component;
@@ -124,12 +121,16 @@ public class MenuBar extends AppLayout {
             );
         }
 
-
         if (pageType == "PStart"){
-            hl.add(history,qn,settings,logout);
+            hl.add(notification,history,qn,settings,logout);
             settings.addClickListener(e ->
                     settings.getUI().ifPresent(ui ->
                             ui.navigate(PatientSetting1.class)
+                    )
+            );
+            notification.addClickListener(e ->
+                    notification.getUI().ifPresent(ui ->
+                            ui.navigate(PatientNotificationView.class)
                     )
             );
         }
