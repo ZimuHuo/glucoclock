@@ -10,6 +10,7 @@ import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -50,13 +51,22 @@ public class DoctorStartView extends VerticalLayout {
         //addBut.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         hl.add(title,addBut);
         hl.setHeight("20%");
-        hl.setVerticalComponentAlignment(Alignment.BASELINE,title,addBut);
+        hl.setVerticalComponentAlignment(FlexComponent.Alignment.BASELINE,title,addBut);
+
+        addBut.addClickListener(e->
+                addBut.getUI().ifPresent(ui ->
+                ui.navigate(AddPatientView.class))
+        );
         //hl.setSpacing(false);
         setSizeFull();
         createGrid();
-        add(hl,grid);
-        setAlignItems(Alignment.CENTER);
-        add(menu);
+        VerticalLayout vl = new VerticalLayout();
+        vl.add(hl);
+        vl.setPadding(true);
+        vl.setAlignItems(FlexComponent.Alignment.CENTER);
+        add(vl,grid,menu);
+        setPadding(true);
+        setMargin(true);
     }
 
     private void createGrid() {

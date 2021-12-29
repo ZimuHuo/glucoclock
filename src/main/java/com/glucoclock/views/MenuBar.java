@@ -1,10 +1,13 @@
 package com.glucoclock.views;
 
 import com.glucoclock.security.SecurityService;
+import com.glucoclock.views.doctor.DoctorSetting1;
 import com.glucoclock.views.doctor.DoctorStartView;
 import com.glucoclock.views.patient.HistoryView;
+import com.glucoclock.views.patient.PatientSetting1;
 import com.glucoclock.views.patient.PatientStart;
 import com.glucoclock.views.patient.QuestionnaireView;
+import com.glucoclock.views.researcher.ResearcherSetting1;
 import com.glucoclock.views.researcher.ResearcherStart;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -118,7 +121,7 @@ public class MenuBar extends AppLayout {
             hl.add(history,qn,settings,logout);
             settings.addClickListener(e ->
                     settings.getUI().ifPresent(ui ->
-                            ui.navigate("PatientSetting1")
+                            ui.navigate(PatientSetting1.class)
                     )
             );
         }
@@ -127,7 +130,7 @@ public class MenuBar extends AppLayout {
             hl.add(settings,logout);
             settings.addClickListener(e ->
                     settings.getUI().ifPresent(ui ->
-                            ui.navigate("DoctorSetting1")
+                            ui.navigate(DoctorSetting1.class)
                     )
             );}
 
@@ -135,7 +138,7 @@ public class MenuBar extends AppLayout {
             hl.add(settings,logout);
             settings.addClickListener(e ->
                     settings.getUI().ifPresent(ui ->
-                            ui.navigate("ResearcherSetting1")
+                            ui.navigate(ResearcherSetting1.class)
                     )
                     );}
 
