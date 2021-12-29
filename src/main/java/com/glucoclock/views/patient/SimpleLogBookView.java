@@ -69,7 +69,7 @@ public class SimpleLogBookView extends Div {
         submitButton.addClickListener(e -> {
 
             SendMail sendMail = new SendMail();
-            sendMail.sendMail("too high");
+            sendMail.sendMail("too high","Zimuhuo@outlook.com");
 
             submitButton.getUI().ifPresent(ui ->
                     ui.navigate(ConfirmationPage.class)

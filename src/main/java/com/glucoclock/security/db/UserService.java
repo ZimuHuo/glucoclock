@@ -19,4 +19,5 @@ public class UserService extends CrudService<User, Integer> {
         return repository;
     }
 
+
 }

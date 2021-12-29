@@ -30,7 +30,7 @@ public class SendMail {
         properties.put("mail.smtp.auth", "true");
         Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("glucoclock@gmail.com", "IloveJava");//Yes, this is my gmail password :D
+                return new PasswordAuthentication("glucoclock1@gmail.com", "IloveJava");//Yes, this is my gmail password :D
             }
         });
 

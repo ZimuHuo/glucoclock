@@ -28,12 +28,7 @@ import java.util.Random;
 @Theme(themeFolder = "glucoclock")
 public class HomeView extends VerticalLayout implements BeforeEnterObserver {
     private final LoginForm login = new LoginForm();
-//    private TextField email = new TextField("Email");
-//    private PasswordField pw = new PasswordField("Password");
-//    private Button signInBut;
     private Button signUpBut;
-    private Button codeBut;
-    private TextField textField;
     //private H5 welcomeTxt = new H5("Your No.1 choice of \n modern digital diabetic logbook");
     TextArea textArea;
     public HomeView() {
@@ -59,7 +54,6 @@ public class HomeView extends VerticalLayout implements BeforeEnterObserver {
                 )
         );
 
-
         add(logo,login, signUpBut);
 
         setAlignItems(Alignment.CENTER);
@@ -75,24 +69,7 @@ public class HomeView extends VerticalLayout implements BeforeEnterObserver {
                 .containsKey("error")) {
             login.setError(true);
         }
-        if ((String)VaadinSession.getCurrent().getAttribute("code")!=textField.getValue()){
-            login.setError(true);
-        }
     }
 
-//      Vaadin is really fucked, can't get a fucking user name from login form. WOW
-//
-//    public String getRandomNum(){
-//        Random random = new Random();
-//        String num = random.nextInt(99999999)+""; //nice trick for conversion in case you are wondering :D
-//        StringBuffer buffer = new StringBuffer();
-//        for (int i =0; i<7-num.length();i++){
-//            buffer.append(random.nextInt(9)); //took me a while to figure out this :D forced consistency
-//        }
-//        num = buffer.toString()+num;
-//        VaadinSession.getCurrent().setAttribute( "code",num);
-//        return num;
-//
-//    }
 
 }
