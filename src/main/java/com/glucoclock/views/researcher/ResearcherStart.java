@@ -63,6 +63,11 @@ public class ResearcherStart extends VerticalLayout {
     public ResearcherStart(PatientService patientService, SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, LogService logdata) {
         //Databases
         this.patientService = patientService;
+        patientService.bulkcreate();
+        simplelogData.bulkcreate();
+        comprehensivelogData.bulkcreate();
+        intensivelogData.bulkcreate();
+        logdata.bulkcreate();
         SimplelogData = simplelogData;
         ComprehensivelogData = comprehensivelogData;
         IntensivelogData = intensivelogData;
@@ -248,7 +253,6 @@ public class ResearcherStart extends VerticalLayout {
                     Finaloutput += simplestring + "\n";
 
                 }
-
                 //if this data is Comprehensivelogbook
                 if (eachdata.getLogbooktype() == 2) {
                     //use ComprehensiveOut method to get the string which contain all the data at that date

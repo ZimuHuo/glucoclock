@@ -243,7 +243,18 @@ public class Patient implements Serializable, Comparable<Patient> {
 		injectionmethod = injectionMethod;
 	}
 
-
+	public boolean isMale(){
+		return this.gender.equals("Male");
+	}
+	public boolean isFemale(){
+		return this.gender.equals("Female");
+	}
+	public boolean isType1(){
+		return  this.diabetestype.equals("Type I");
+	}
+	public boolean isType2(){
+		return  this.diabetestype.equals("Type II");
+	}
 	@Override
 	public int compareTo(Patient that) {
 		return this.birthday.compareTo(that.birthday);

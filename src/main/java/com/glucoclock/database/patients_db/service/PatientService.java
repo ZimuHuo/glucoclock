@@ -44,26 +44,74 @@ public class PatientService  {
         List<Patient> patientList = null;
         patientList=repository.findByBirthdayBetween(miniage, maxage);
         Collections.sort(patientList);
-        if(insulintype.equals("Rapid acting insulin")) patientList.stream().filter(patient->patient.isRapidInsulin()==true).collect(Collectors.toList());
-        if(insulintype.equals("Short acting insulin")) patientList.stream().filter(patient->patient.isShortInsulin()==true).collect(Collectors.toList());
-        if(insulintype.equals("Intermediate acting insulin"))patientList.stream().filter(patient->patient.isIntermediateInsulin()==true).collect(Collectors.toList());
-        if(insulintype.equals("Long acting insulin")) patientList.stream().filter(patient->patient.isLongInsulin()==true).collect(Collectors.toList());
 
-        System.out.println(patientList);
+        //I think it worked? maybe you missed something when you implementing this?
+
+        //filter 2: check the insulin type
+        if(!insulintype.equals("Any")){
+            if (insulintype.equals("Rapid acting insulin")) {
+                patientList = patientList.stream()
+                        .filter(patient -> patient.isRapidInsulin())
+                        .collect(Collectors.toList());
+            } else if (insulintype.equals("Short acting insulin")) {
+                patientList = patientList.stream()
+                        .filter(patient -> patient.isShortInsulin())
+                        .collect(Collectors.toList());
+            } else if (insulintype.equals("Intermediate acting insulin")) {
+                patientList = patientList.stream()
+                        .filter(patient -> patient.isIntermediateInsulin())
+                        .collect(Collectors.toList());
+            } else{
+                patientList = patientList.stream()
+                        .filter(patient -> patient.isLongInsulin())
+                        .collect(Collectors.toList());
+            }
+        }
 
 
-//        Boolean yes=true;
-//        if(insulintype.equals("Rapid acting insulin")) patientList=repository.findByBirthdayBetweenAndGenderAndDiabetestypeAndRapidinsulin(miniage, maxage, gender, diabetestype,yes);
-//        if(insulintype.equals("Short acting insulin")) patientList=repository.findByBirthdayBetweenAndGenderAndDiabetestypeAndShortinsulin(miniage, maxage, gender, diabetestype,yes);
-//        if(insulintype.equals("Intermediate acting insulin")) patientList=repository.findByBirthdayBetweenAndGenderAndDiabetestypeAndIntermediateinsulin(miniage, maxage, gender, diabetestype,yes);
-//        if(insulintype.equals("Long acting insulin")) patientList=repository.findByBirthdayBetweenAndGenderAndDiabetestypeAndLonginsulin(miniage, maxage, gender, diabetestype,yes);
-//        //sort the patientlist in age order
-//        Collections.sort(patientList);
-//        if(patientList==null)System.out.println("patientList is null");
-//        else System.out.println("patientList not null");
-//        System.out.println(patientList);
-//        patientList.stream().filter(patient->patient.getGender()=="Male")
-//                .collect(Collectors.toList());
+        //filter 3: check the gender, skip if any
+        if(!gender.equals("Any")){
+            if (gender.equals("Type I")) {
+                patientList = patientList.stream()
+                        .filter(patient -> patient.isType1())
+                        .collect(Collectors.toList());
+            } else {
+                patientList = patientList.stream()
+                        .filter(patient -> patient.isType2())
+                        .collect(Collectors.toList());
+            }
+        }
+
+        //can you do this part, you did not include this as the filter... maybe not needed?
+        // if yes.. just delete this part
+        //Injection method, too much code, i hate this....
+//        if(!.equals("Any")){
+//            if (gender.equals("Type I")) {
+//                patientList = patientList.stream()
+//                        .filter(patient -> patient.isType1())
+//                        .collect(Collectors.toList());
+//            } else {
+//                patientList = patientList.stream()
+//                        .filter(patient -> patient.isType2())
+//                        .collect(Collectors.toList());
+//            }
+//        }
+
+
+        //last filter
+        if(!diabetestype.equals("Any")) {
+            if (insulintype.equals("Rapid acting insulin")) {
+                patientList = patientList.stream()
+                        .filter(patient -> patient.isRapidInsulin())
+                        .collect(Collectors.toList());
+            } else {
+                patientList = patientList.stream()
+                        .filter(patient -> patient.isShortInsulin())
+                        .collect(Collectors.toList());
+            }
+
+        }
+
         return patientList;
     }
 
