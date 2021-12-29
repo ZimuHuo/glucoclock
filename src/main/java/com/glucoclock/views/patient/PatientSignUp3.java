@@ -45,9 +45,12 @@ public class PatientSignUp3 extends Div {
     private VerticalLayout verticalLayout;
     private HorizontalLayout horizontalLayout;
     private MenuBar menu = new MenuBar("NS");
+
+//    Variables
     private final UserService userService;
     private final PatientService patientService;
     private final AuthoritiesService authoritiesService;
+
     public PatientSignUp3(UserService userService, PatientService patientService, AuthoritiesService authoritiesService) {
         this.userService = userService;
         this.patientService = patientService;

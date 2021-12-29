@@ -1,5 +1,13 @@
 package com.glucoclock.views.doctor;
 
+import com.glucoclock.database.doctors_db.model.Doctor;
+import com.glucoclock.database.doctors_db.service.DoctorService;
+import com.glucoclock.database.patients_db.model.Patient;
+import com.glucoclock.database.patients_db.service.PatientService;
+import com.glucoclock.security.db.Authorities;
+import com.glucoclock.security.db.AuthoritiesService;
+import com.glucoclock.security.db.User;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.PatientSignUp1;
 import com.glucoclock.views.patient.PatientSignUp3;
@@ -29,6 +37,7 @@ import java.time.ZoneId;
 @PageTitle("Doctor Sign Up")
 @Route(value = "doctor-sign-up-2")
 public class DoctorSignUp2 extends HorizontalLayout {
+//    All components in the page
     private RadioButtonGroup<String> sex;
     private TextField apartmentAddress;
     private TextField streetAddress;
@@ -43,9 +52,18 @@ public class DoctorSignUp2 extends HorizontalLayout {
     private H2 title = new H2("Personal information");
     private MenuBar menu = new MenuBar("NS");
 
+//    Variables
+    private final UserService userService;
+    private final DoctorService doctorService;
+    private final AuthoritiesService authoritiesService;
 
 
-    public DoctorSignUp2() {
+
+    public DoctorSignUp2(UserService userService, DoctorService doctorService, AuthoritiesService authoritiesService) {
+        this.userService = userService;
+        this.doctorService = doctorService;
+        this.authoritiesService = authoritiesService;
+
         add(menu);
         init();
         formlayout1SetUp();
@@ -111,25 +129,28 @@ public class DoctorSignUp2 extends HorizontalLayout {
         formLayout1.setColspan(datePicker, 1);
     }
 
+//    Initialize all components
     private void init() {
         this.sex = new RadioButtonGroup<>();
         sexSetUp();
         this.datePicker = new DatePicker("Date of birth");
         datePickerSetUp();
         this.apartmentAddress = new TextField("Address Line 1");
-        this.streetAddress = new TextField("Addess Line 2");
+        this.streetAddress = new TextField("Address Line 2");
         this.postcode = new TextField("Post code");
         this.city = new TextField("City");
         this.contactNumber = new TextField("Contact Number");
         contactNumberSetUp();
         datePicker.setClearButtonVisible(true);
         apartmentAddress.setClearButtonVisible(true);
-        if (VaadinSession.getCurrent().getAttribute("ApartmentAddress")!= null){
-            apartmentAddress.setValue((String)VaadinSession.getCurrent().getAttribute("ApartmentAddress"));
+
+//        Fill in the components by session
+        if (VaadinSession.getCurrent().getAttribute("HomeAddressL1")!= null){
+            apartmentAddress.setValue((String)VaadinSession.getCurrent().getAttribute("HomeAddressL1"));
         }
         streetAddress.setClearButtonVisible(true);
-        if (VaadinSession.getCurrent().getAttribute("StreetAddress")!= null){
-            streetAddress.setValue((String)VaadinSession.getCurrent().getAttribute("StreetAddress"));
+        if (VaadinSession.getCurrent().getAttribute("HomeAddressL2")!= null){
+            streetAddress.setValue((String)VaadinSession.getCurrent().getAttribute("HomeAddressL2"));
         }
         postcode.setClearButtonVisible(true);
         if (VaadinSession.getCurrent().getAttribute("Postcode")!= null){
@@ -209,7 +230,35 @@ public class DoctorSignUp2 extends HorizontalLayout {
 
                 setSession();
 
-//                CREATE DOCTOR OBJECT HERE
+//                Create and save a new user
+                User user = new User(
+                        (String)VaadinSession.getCurrent().getAttribute("Email"),
+                        (String)VaadinSession.getCurrent().getAttribute("Password"),
+                        "DOCTOR",
+                        (byte) 1
+                        //Role.DOCTOR,
+                );
+                userService.getRepository().save(user);
+
+//                Create and save a new doctor
+                Doctor doctor = new Doctor(
+                        (String)VaadinSession.getCurrent().getAttribute("FirstName"),
+                        (String)VaadinSession.getCurrent().getAttribute("LastName"),
+                        (String)VaadinSession.getCurrent().getAttribute("Email"),
+                        (String)VaadinSession.getCurrent().getAttribute("HomeAddressL1"),
+                        (String)VaadinSession.getCurrent().getAttribute("HomeAddressL2"),
+                        (String)VaadinSession.getCurrent().getAttribute("Postcode"),
+                        (String)VaadinSession.getCurrent().getAttribute("City"),
+                        (String)VaadinSession.getCurrent().getAttribute("ContactNumber"),
+                        (String)VaadinSession.getCurrent().getAttribute("Sex"),
+                        (LocalDate) VaadinSession.getCurrent().getAttribute("Date"),
+                        userService.getRepository().findByUsername((String)VaadinSession.getCurrent().getAttribute("Email")).getUid()
+                );
+                doctorService.getRepository().save(doctor);
+
+//                Set the authority of the user as doctor
+                Authorities authorities = new Authorities((String)VaadinSession.getCurrent().getAttribute("Email"),"DOCTOR");
+                authoritiesService.getRepository().save(authorities);
 
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(DoctorStartView.class)
@@ -239,8 +288,8 @@ public class DoctorSignUp2 extends HorizontalLayout {
 
     private void setSession() {
         VaadinSession.getCurrent().setAttribute( "Sex",sex.getValue());
-        VaadinSession.getCurrent().setAttribute( "ApartmentAddress",apartmentAddress.getValue());
-        VaadinSession.getCurrent().setAttribute( "StreetAddress",streetAddress.getValue());
+        VaadinSession.getCurrent().setAttribute( "HomeAddressL1",apartmentAddress.getValue());
+        VaadinSession.getCurrent().setAttribute( "HomeAddressL2",streetAddress.getValue());
         VaadinSession.getCurrent().setAttribute( "Postcode",postcode.getValue());
         VaadinSession.getCurrent().setAttribute( "City",city.getValue());
         VaadinSession.getCurrent().setAttribute( "ContactNumber",contactNumber.getValue());

@@ -32,14 +32,16 @@ public class DoctorSetting1 extends HorizontalLayout {
     String FName;
     String LName;
     String Email;
-    String Home;
+    String AddressL1;
+    String AddressL2;
     String PostCode;
+    String City;
     String Phone;
     LocalDate Birth;
     String Gender;
 
     //    All Components on the page
-    TextField firstName, lastName, homeAddress, postcode, contactNumber;
+    TextField firstName, lastName, homeAddressL1, homeAddressL2, postcode, cityField, contactNumber;
     DatePicker birthSelect;
     EmailField emailField;
     Select<String> genderSelect;
@@ -56,7 +58,7 @@ public class DoctorSetting1 extends HorizontalLayout {
         //-----------------------------------------
 
         this.doctorService = doctorService;
-        doctorService.bulkcreate();
+//        doctorService.bulkcreate();
         long id = doctorService.getRepository().findAll().get(0).getId();
         Doctor doctor = doctorService.getRepository().getDoctorById(id);
 
@@ -72,19 +74,21 @@ public class DoctorSetting1 extends HorizontalLayout {
                 firstName, lastName,
                 birthSelect, genderSelect,
                 emailField, contactNumber,
-                homeAddress
+                homeAddressL1,
+                homeAddressL2
         );
         formLayout.setResponsiveSteps(
                 // Use one column by default
                 new FormLayout.ResponsiveStep("0", 1),
-                // Use two columns, if the layout's width exceeds 320px
+                // Use two columns, if the layout's width exceeds 300px
                 new FormLayout.ResponsiveStep("300px", 2)
         );
         formLayout.setColspan(firstName,1);
         formLayout.setColspan(lastName,1);
         formLayout.setColspan(birthSelect,1 );
         formLayout.setColspan(emailField,1 );
-        formLayout.setColspan(homeAddress,2 );
+        formLayout.setColspan(homeAddressL1,2 );
+        formLayout.setColspan(homeAddressL2,2 );
         formLayout.setColspan(contactNumber,1 );
         formLayout.setColspan(genderSelect,1 );
 
@@ -95,6 +99,7 @@ public class DoctorSetting1 extends HorizontalLayout {
                 buttons,
                 formLayout,
                 postcode,
+                cityField,
                 toHome
         );
 
@@ -111,7 +116,8 @@ public class DoctorSetting1 extends HorizontalLayout {
         LName = doctor.getLastName();
         Email = doctor.getEmail();
         PostCode = doctor.getPostCode();
-        Home = doctor.getHomeAddress();
+        AddressL1 = doctor.getHomeAddressL1();
+        AddressL2 = doctor.getHomeAddressL2();
         Gender = doctor.getGender();
         Phone = doctor.getPhone();
         Birth = doctor.getBirthday();
@@ -122,8 +128,10 @@ public class DoctorSetting1 extends HorizontalLayout {
         lastNameInit();
         birthSelectInit();
         emailFieldInit();
-        homeAddressInit();
+        homeAddressL1Init();
+        homeAddressL2Init();
         postcodeInit();
+        cityFieldInit();
         contactNumberInit();
         genderSelectInit();
         changeSettingInit();
@@ -190,11 +198,18 @@ public class DoctorSetting1 extends HorizontalLayout {
         birthSelect.setReadOnly(true);
     }
 
-    private void homeAddressInit() {
-        homeAddress = new TextField("Home address");
-        homeAddress.setValue(Home);
-        homeAddress.setClearButtonVisible(true);
-        homeAddress.setReadOnly(true);
+    private void homeAddressL1Init() {
+        homeAddressL1 = new TextField("Address L1");
+        homeAddressL1.setValue(AddressL1);
+        homeAddressL1.setClearButtonVisible(true);
+        homeAddressL1.setReadOnly(true);
+    }
+
+    private void homeAddressL2Init() {
+        homeAddressL2 = new TextField("Address L2");
+        homeAddressL2.setValue(AddressL2);
+        homeAddressL2.setClearButtonVisible(true);
+        homeAddressL2.setReadOnly(true);
     }
 
     private void postcodeInit() {
@@ -202,6 +217,13 @@ public class DoctorSetting1 extends HorizontalLayout {
         postcode.setValue(PostCode);
         postcode.setClearButtonVisible(true);
         postcode.setReadOnly(true);
+    }
+
+    private void cityFieldInit() {
+        cityField = new TextField("City");
+        cityField.setValue(City);
+        cityField.setClearButtonVisible(true);
+        cityField.setReadOnly(true);
     }
 
     private void genderSelectInit() {
@@ -234,8 +256,10 @@ public class DoctorSetting1 extends HorizontalLayout {
             FName = firstName.getValue();
             LName = lastName.getValue();
             Email = emailField.getValue();
-            Home = homeAddress.getValue();
+            AddressL1 = homeAddressL1.getValue();
+            AddressL2 = homeAddressL2.getValue();
             PostCode = postcode.getValue();
+            City = cityField.getValue();
             Phone = contactNumber.getValue();
             Birth = birthSelect.getValue();
             Gender = genderSelect.getValue();
@@ -244,8 +268,10 @@ public class DoctorSetting1 extends HorizontalLayout {
             doctorService.updateDoctorFirstName(id,FName);
             doctorService.updateDoctorLastName(id, LName);
             doctorService.updateDoctorEmail(id, Email);
-            doctorService.updateDoctorAddress(id, Home);
+            doctorService.updateDoctorAddressL1(id, AddressL1);
+            doctorService.updateDoctorAddressL2(id, AddressL2);
             doctorService.updateDoctorPostCode(id, PostCode);
+            doctorService.updateDoctorCity(id, City);
             doctorService.updateDoctorPhone(id, Phone);
             doctorService.updateDoctorBirthday(id, Birth);
             doctorService.updateDoctorGender(id, Gender);
@@ -271,8 +297,10 @@ public class DoctorSetting1 extends HorizontalLayout {
             lastName.setValue(LName);
             birthSelect.setValue(Birth);
             emailField.setValue(Email);
-            homeAddress.setValue(Home);
+            homeAddressL1.setValue(AddressL1);
+            homeAddressL2.setValue(AddressL2);
             postcode.setValue(PostCode);
+            cityField.setValue(City);
             contactNumber.setValue(Phone);
             genderSelect.setValue(Gender);
 
@@ -314,8 +342,10 @@ public class DoctorSetting1 extends HorizontalLayout {
         lastName.setReadOnly(Boolean);
         birthSelect.setReadOnly(Boolean);
         emailField.setReadOnly(Boolean);
-        homeAddress.setReadOnly(Boolean);
+        homeAddressL1.setReadOnly(Boolean);
+        homeAddressL2.setReadOnly(Boolean);
         postcode.setReadOnly(Boolean);
+        cityField.setReadOnly(Boolean);
         contactNumber.setReadOnly(Boolean);
         genderSelect.setReadOnly(Boolean);
     }

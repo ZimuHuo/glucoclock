@@ -16,7 +16,7 @@ The following code and google gmail apis are gathered in the link below:
 https://cloud.google.com/appengine/docs/standard/java/mail/sending-mail-with-mail-api
  */
 public class SendMail {
-//    public static void sendMail(String title,String messagetosend,String emailadd) {
+    public static void sendMail(String title,String messagetosend,String emailadd) {
 //        // patient email get from the database
 //        String to = emailadd;
 //
@@ -50,6 +50,6 @@ public class SendMail {
 //            System.out.println(mex.getMessage());
 //        }
 //
-//    }
+    }
 
 }
