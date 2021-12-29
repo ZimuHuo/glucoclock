@@ -160,7 +160,7 @@ public class PatientSignUp3 extends Div {
                 userService.getRepository().save(user);
 
 
-//              Create and save a new patient in db
+//                Create and save a new patient in db
                 Patient patient = new Patient(
                         (String)VaadinSession.getCurrent().getAttribute("FirstName"),
                         (String)VaadinSession.getCurrent().getAttribute("LastName"),
@@ -182,12 +182,14 @@ public class PatientSignUp3 extends Div {
                 );
                 patientService.getRepository().save(patient);
 
-
+//                Set the authority of the user as patient
                 Authorities authorities = new Authorities((String)VaadinSession.getCurrent().getAttribute("Email"),"PATIENT");
                 authoritiesService.getRepository().save(authorities);
+
+//                Send a confirmation email
                 SendMail.sendMail("Congratulations!","Thank you for choosing our app!",(String)VaadinSession.getCurrent().getAttribute("Email"));
 
-
+//                Direct to patient home page
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(PatientStart.class)
                 );
