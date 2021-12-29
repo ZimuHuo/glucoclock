@@ -32,6 +32,7 @@ public class DoctorStartView extends VerticalLayout {
     private Grid.Column<PatientInfo> firstNameColumn;
     private Grid.Column<PatientInfo> lastNameColumn;
     private Grid.Column<PatientInfo> emailColumn;
+    private Grid.Column<PatientInfo> logbookColumn;
     private Grid.Column<PatientInfo> buttonColumn;
 
     private MenuBar menu = new MenuBar("DStart");
@@ -85,16 +86,13 @@ public class DoctorStartView extends VerticalLayout {
         grid.setDataProvider(dataProvider);
     }
 
-    private Button buildDeleteButton( ) {
-        Button button = new Button("123");
-        return button;
-    }
 
     private void addColumnsToGrid() {
-        firstNameColumn = grid.addColumn(PatientInfo::getFirstName, "FirstName").setHeader("First Name").setWidth("23%").setFlexGrow(0);
-        lastNameColumn = grid.addColumn(PatientInfo::getLastName, "LastName").setHeader("Last Name").setWidth("23%").setFlexGrow(0);
-        emailColumn = grid.addColumn(PatientInfo::getEmail, "Email").setHeader("Email").setWidth("32%").setFlexGrow(0);
-        buttonColumn = grid.addComponentColumn(PatientInfo::buildDeleteButton).setWidth("15%").setFlexGrow(0);
+        firstNameColumn = grid.addColumn(PatientInfo::getFirstName, "FirstName").setHeader("First Name").setWidth("17%").setFlexGrow(0);
+        lastNameColumn = grid.addColumn(PatientInfo::getLastName, "LastName").setHeader("Last Name").setWidth("17%").setFlexGrow(0);
+        emailColumn = grid.addColumn(PatientInfo::getEmail, "Email").setHeader("Email").setWidth("28%").setFlexGrow(0);
+        logbookColumn = grid.addComponentColumn(PatientInfo::buildLogbookMenu).setHeader("Suggested Logbook Type").setWidth("18%").setFlexGrow(0);
+        buttonColumn = grid.addComponentColumn(PatientInfo::buildViewButton).setWidth("14%").setFlexGrow(0);
     }
 
 
