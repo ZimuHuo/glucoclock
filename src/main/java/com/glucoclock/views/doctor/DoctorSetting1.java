@@ -118,6 +118,7 @@ public class DoctorSetting1 extends HorizontalLayout {
         PostCode = doctor.getPostCode();
         AddressL1 = doctor.getHomeAddressL1();
         AddressL2 = doctor.getHomeAddressL2();
+        City = doctor.getCity();
         Gender = doctor.getGender();
         Phone = doctor.getPhone();
         Birth = doctor.getBirthday();

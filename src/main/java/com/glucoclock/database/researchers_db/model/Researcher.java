@@ -3,6 +3,7 @@ package com.glucoclock.database.researchers_db.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "researcher_db")
@@ -12,44 +13,81 @@ public class Researcher implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    //Columns of the database and variables:
+//	First Name of patient
     @Column(name = "firstname")
     private String firstName;
 
+    //	last name of patient
     @Column(name = "lastname")
     private String lastName;
 
+    //  Email
     @Column(name = "Email")
     private String email;
 
-    @Column(name = "HomeAddress")
-    private String HomeAddress;
+    //	Address line1
+    @Column(name = "HomeAddressL1")
+    private String HomeAddressL1;
 
+    //	Address line2
+    @Column(name = "HomeAddressL2")
+    private String HomeAddressL2;
+
+    //	Postcode
     @Column(name = "PostCode")
     private String postCode;
 
+    //	City
+    @Column(name = "City")
+    private String City;
+
+    //	Phone number
     @Column(name = "Phone")
     private String Phone;
 
+    //	Gender
     @Column(name = "Gender")
     private String Gender;
 
+    //	Birthday
     @Column(name = "Birthday")
     private LocalDate Birthday;
 
+//    Institution
     @Column(name = "Institution")
     private String Institution;
 
+    //	UID
+    @Column(name = "UID")
+    private UUID UID;
 
-    public Researcher(String firstName, String lastName, String email, String homeAddress, String postCode, String phone, String gender, LocalDate birthday, String institution) {
+
+    public Researcher(
+            String firstName,
+            String lastName,
+            String email,
+            String homeAddressL1,
+            String homeAddressL2,
+            String postCode,
+            String city,
+            String phone,
+            String gender,
+            LocalDate birthday,
+            String institution,
+            UUID uid) {
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.HomeAddress = homeAddress;
+        this.HomeAddressL1 = homeAddressL1;
+        this.HomeAddressL2 = homeAddressL2;
         this.postCode = postCode;
+        this.City = city;
         this.Phone = phone;
         this.Gender = gender;
-        this.Birthday = birthday;
+        this.Birthday =  birthday;
+        this.UID = uid;
         this.Institution = institution;
     }
 
@@ -65,6 +103,7 @@ public class Researcher implements Serializable {
 
 
 //    Getters and setters
+
 
     public long getId() {
         return id;
@@ -94,12 +133,20 @@ public class Researcher implements Serializable {
         this.email = email;
     }
 
-    public String getHomeAddress() {
-        return HomeAddress;
+    public String getHomeAddressL1() {
+        return HomeAddressL1;
     }
 
-    public void setHomeAddress(String homeAddress) {
-        HomeAddress = homeAddress;
+    public void setHomeAddressL1(String homeAddressL1) {
+        HomeAddressL1 = homeAddressL1;
+    }
+
+    public String getHomeAddressL2() {
+        return HomeAddressL2;
+    }
+
+    public void setHomeAddressL2(String homeAddressL2) {
+        HomeAddressL2 = homeAddressL2;
     }
 
     public String getPostCode() {
@@ -108,6 +155,14 @@ public class Researcher implements Serializable {
 
     public void setPostCode(String postCode) {
         this.postCode = postCode;
+    }
+
+    public String getCity() {
+        return City;
+    }
+
+    public void setCity(String city) {
+        City = city;
     }
 
     public String getPhone() {
@@ -140,5 +195,13 @@ public class Researcher implements Serializable {
 
     public void setInstitution(String institution) {
         Institution = institution;
+    }
+
+    public UUID getUID() {
+        return UID;
+    }
+
+    public void setUID(UUID UID) {
+        this.UID = UID;
     }
 }

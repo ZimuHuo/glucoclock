@@ -18,12 +18,12 @@ public class ResearcherService  {
     @Autowired
     ResearcherRepository repository;
 
-    public String bulkcreate(){
-        // save a single Researcher
-        repository.save(new Researcher("ZImu","Huo","zimuhuo@outlook.com","flat1","SW& $AX","12345","Male", LocalDate.of(2001,1,1),"Imperial College London"));
-        repository.save(new Researcher("ZImu2","Huo2","zimuhuo@outlook.com","flat2","SW& $AX2","12345","Male", LocalDate.of(2001,1,1),"Imperial College London"));
-        return "Researcher created";
-    }
+//    public String bulkcreate(){
+//        // save a single Researcher
+//        repository.save(new Researcher("ZImu","Huo","zimuhuo@outlook.com","flat1","SW& $AX","12345","Male", LocalDate.of(2001,1,1),"Imperial College London"));
+//        repository.save(new Researcher("ZImu2","Huo2","zimuhuo@outlook.com","flat2","SW& $AX2","12345","Male", LocalDate.of(2001,1,1),"Imperial College London"));
+//        return "Researcher created";
+//    }
 
 
     public String search(long id){
@@ -61,9 +61,21 @@ public class ResearcherService  {
         repository.save(researcher);
     }
 
-    public void updateResearcherAddress(long id, String newHomeAddress) {
+    public void updateResearcherAddressL1(long id, String newHomeAddressL1) {
         Researcher researcher = repository.getResearcherById(id);
-        researcher.setHomeAddress(newHomeAddress);
+        researcher.setHomeAddressL1(newHomeAddressL1);
+        repository.save(researcher);
+    }
+
+    public void updateResearcherAddressL2(long id, String newHomeAddressL2) {
+        Researcher researcher = repository.getResearcherById(id);
+        researcher.setHomeAddressL2(newHomeAddressL2);
+        repository.save(researcher);
+    }
+
+    public void updateResearcherCity(long id, String city) {
+        Researcher researcher = repository.getResearcherById(id);
+        researcher.setCity(city);
         repository.save(researcher);
     }
 
