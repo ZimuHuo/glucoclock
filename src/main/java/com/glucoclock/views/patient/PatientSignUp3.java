@@ -37,9 +37,10 @@ import java.util.UUID;
 @Route(value = "patient-sign-up-3")
 public class PatientSignUp3 extends Div {
 
+//    Components in the page
     private Select<String> diabetesSelect;
     private CheckboxGroup<String> insulinSelect;
-    private CheckboxGroup<String> injectionSelect;
+    private Select<String> injectionSelect;
     private Button submitButton, previousButton;
     private VerticalLayout verticalLayout;
     private HorizontalLayout horizontalLayout;
@@ -61,6 +62,7 @@ public class PatientSignUp3 extends Div {
         add(hl);
     }
 
+//    Initialize the components on the page
     private void init() {
         diabetesSelectSetUp();
         insulinSelectSetUp();
@@ -92,7 +94,8 @@ public class PatientSignUp3 extends Div {
 
 
 
-
+//  Methods to initialize the components
+//    Selection of diabetes type
     private void diabetesSelectSetUp() {
         diabetesSelect = new Select<>("Type I", "Type II", "Gestational", "Others");
         diabetesSelect.setLabel("Type of diabetes");
@@ -101,6 +104,7 @@ public class PatientSignUp3 extends Div {
         }
     }
 
+//    Checkbox of insulin type
     private void insulinSelectSetUp() {
         insulinSelect = new CheckboxGroup<>();
         insulinSelect.setLabel("Insulin type");
@@ -111,22 +115,24 @@ public class PatientSignUp3 extends Div {
         }
     }
 
+//    Selection of injection method of insulin
     private void injectionSelectSetUp() {
-        injectionSelect = new CheckboxGroup<>();
+        injectionSelect = new Select<>();
         injectionSelect.setLabel("Injection method");
         injectionSelect.setItems("Syringe", "Injection pen", "Insulin pump");
         if (VaadinSession.getCurrent().getAttribute("Injection")!= null){
-            injectionSelect.setValue((Set<String>) VaadinSession.getCurrent().getAttribute("Injection"));
+            injectionSelect.setValue((String) VaadinSession.getCurrent().getAttribute("Injection"));
         }
     }
 
+//    Button to complete sign up
     private void submitButtonInit() {
         submitButton = new Button("Sign Up");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left", "auto");
         submitButton.addClickListener(e -> {
 
-
+//      Check if all fields have been filled in
             if (injectionSelect.isEmpty()) {
                 Notification notification = Notification.show("Check Injection");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
@@ -142,8 +148,7 @@ public class PatientSignUp3 extends Div {
                 VaadinSession.getCurrent().setAttribute( "Diabetes",diabetesSelect.getValue());
                 VaadinSession.getCurrent().setAttribute( "Injection",injectionSelect.getValue());
 
-                Gson gson = new Gson();
-
+//              Create and save a new patient
                 Patient patient = new Patient(
                         (String)VaadinSession.getCurrent().getAttribute("FirstName"),
                         (String)VaadinSession.getCurrent().getAttribute("LastName"),
@@ -156,8 +161,11 @@ public class PatientSignUp3 extends Div {
                         (String)VaadinSession.getCurrent().getAttribute("Sex"),
                         (LocalDate) VaadinSession.getCurrent().getAttribute("Date"),
                         (String)VaadinSession.getCurrent().getAttribute("Diabetes"),
-                        gson.toJson((Set<String>)VaadinSession.getCurrent().getAttribute("Insulin")),
-                        gson.toJson((Set<String>)VaadinSession.getCurrent().getAttribute("Injection"))
+                        insulinSelect.isSelected("Rapid-acting insulin"),
+                        insulinSelect.isSelected("Short-acting insulin"),
+                        insulinSelect.isSelected("Intermediate-acting insulin"),
+                        insulinSelect.isSelected("Long-acting insulin"),
+                        (String)VaadinSession.getCurrent().getAttribute("Injection")
                 );
                 patientService.getRepository().save(patient);
                 User user = new User(
@@ -192,20 +200,19 @@ public class PatientSignUp3 extends Div {
         });
     }
 
+//    button to go back to last page
     private void previousButtonInit() {
         previousButton = new Button("Previous", new Icon(VaadinIcon.ARROW_LEFT));
         previousButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         previousButton.getElement().getStyle().set("margin-right", "auto");
         previousButton.addClickListener(e -> {
+
             VaadinSession.getCurrent().setAttribute( "Insulin",insulinSelect.getValue());
             VaadinSession.getCurrent().setAttribute( "Diabetes",diabetesSelect.getValue());
             VaadinSession.getCurrent().setAttribute( "Injection",injectionSelect.getValue());
             previousButton.getUI().ifPresent(ui ->
                     ui.navigate(PatientSignUp2.class)
-
             );
-
-
 
         });
     }
