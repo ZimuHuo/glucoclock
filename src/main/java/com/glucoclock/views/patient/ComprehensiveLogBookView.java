@@ -1,5 +1,10 @@
 package com.glucoclock.views.patient;
 
+import com.glucoclock.database.comprehensiveLogBook_db.model.ComprehensiveLogBook;
+import com.glucoclock.database.comprehensiveLogBook_db.service.ComprehensiveLogBookService;
+import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
+import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -9,12 +14,18 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
+
+import java.time.LocalDate;
+import java.util.UUID;
 
 @PageTitle("Add Comprehensive Logbook Entry")
 @Route(value = "patient/add-comprehensive-logbook-entry")
@@ -29,8 +40,13 @@ public class ComprehensiveLogBookView extends Div {
     private H3 title = new H3("Add Comprehensive Logbook Entry");
     private MenuBar menu = new MenuBar("PNS");
 
+    private final UserService userService;
+    private final ComprehensiveLogBookService comprehensiveLogBookService;
 
-    public ComprehensiveLogBookView(){
+
+    public ComprehensiveLogBookView(UserService userService, ComprehensiveLogBookService comprehensiveLogBookService){
+        this.userService = userService;
+        this.comprehensiveLogBookService = comprehensiveLogBookService;
         init();
         add(menu);
         var formLayout = new FormLayout();
@@ -52,10 +68,42 @@ public class ComprehensiveLogBookView extends Div {
         Button submitButton = new Button("Upload");
         submitButton.setWidth("12%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.addClickListener(e ->
-                submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(ConfirmationPage.class)
-                )
+        submitButton.addClickListener(e ->{
+                    //check input validity
+                    try{
+                        float bg = Integer.parseInt(bloodGlucose.getValue());
+                        float ci = Integer.parseInt(carbohydrate.getValue());
+                        float id = Integer.parseInt(insulinDose.getValue());
+                        //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
+                        if(bg>140){
+//                    SendMail sendMail = new SendMail();
+//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
+                            Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
+                        }
+                        //save to database
+                        UUID uid = userService.getRepository().findAll().get(0).getUid();
+                        ComprehensiveLogBook comprehensiveLogBook = new ComprehensiveLogBook(
+                                uid,
+                                (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
+                                prepost.getValue()+meal.getValue(),
+                                bloodGlucose.getValue(),
+                                carbohydrate.getValue(),
+                                insulinDose.getValue()
+
+                        );
+                        comprehensiveLogBookService.getRepository().save(comprehensiveLogBook);
+
+                        //Navigation
+                        submitButton.getUI().ifPresent(ui ->
+                                ui.navigate(ConfirmationPage.class)
+                        );
+                    }
+                    catch (NumberFormatException ex){
+                        ex.printStackTrace();
+                        Notification.show("Invalid input(s), please re-enter");
+                    }
+                }
+
         );
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(title);
@@ -82,15 +130,5 @@ public class ComprehensiveLogBookView extends Div {
         prepost.setItems("Pre","Post");
         meal.setItems("Breakfast","Lunch","Dinner");
     }
-    private Component menuBar(){
-        this.setHeight("81px");
-        this.getStyle().set( "background-image" , "url('images/menubar.png')");
-        test1.setWidth("8%");
-        test2.setWidth("8%");
-        HorizontalLayout menuButtons = new HorizontalLayout(test1,test2);
-        VerticalLayout rightC = new VerticalLayout();
-        rightC.setHorizontalComponentAlignment(FlexComponent.Alignment.END,menuButtons);
-        rightC.add(menuButtons);
-        return rightC;
-    }
+
 }

@@ -16,17 +16,17 @@ public class ComprehensiveLogBookService {
     @Autowired
     ComprehensiveLogBookRepository repository;
 
-    public String bulkcreate(){
-        LocalDate test= LocalDate.now();
-        //Simple: patient id, date, blood glucose, carb intake
-        repository.save(new ComprehensiveLogBook(UUID.fromString("8115af8e-1b82-4395-b410-c3395f73cfe9"),test.minusDays(4),1,"23","32","33"));
-        repository.save(new ComprehensiveLogBook(UUID.fromString("8115af8e-1b82-4395-b410-c3395f73cfe9"),test.minusDays(4),4,"23","34","33"));
-        repository.save(new ComprehensiveLogBook(UUID.fromString("8115af8e-1b82-4395-b410-c3395f73cfe9"),test.minusDays(4),3,"23","33","21"));
-        repository.save(new ComprehensiveLogBook(UUID.fromString("8115af8e-1b82-4395-b410-c3395f73cfe9"),test.minusDays(4),2,"23","32","22"));
-       return "Comprehensive Log is created";
-    }
+//    public String bulkcreate(){
+//        LocalDate test= LocalDate.now();
+//        //Simple: patient id, date, blood glucose, carb intake
+//        repository.save(new ComprehensiveLogBook(UUID.fromString("8115af8e-1b82-4395-b410-c3395f73cfe9"),test.minusDays(4),1,"23","32","33"));
+//        repository.save(new ComprehensiveLogBook(UUID.fromString("8115af8e-1b82-4395-b410-c3395f73cfe9"),test.minusDays(4),4,"23","34","33"));
+//        repository.save(new ComprehensiveLogBook(UUID.fromString("8115af8e-1b82-4395-b410-c3395f73cfe9"),test.minusDays(4),3,"23","33","21"));
+//        repository.save(new ComprehensiveLogBook(UUID.fromString("8115af8e-1b82-4395-b410-c3395f73cfe9"),test.minusDays(4),2,"23","32","22"));
+//       return "Comprehensive Log is created";
+//    }
     public String create(ComprehensiveLogBook ComprehensiveLogBook){
-        repository.save(new ComprehensiveLogBook(ComprehensiveLogBook.getPatientuid(),ComprehensiveLogBook.getDate(),ComprehensiveLogBook.getTime(),ComprehensiveLogBook.getBloodglucose(),ComprehensiveLogBook.getCarbintake(),ComprehensiveLogBook.getInsulindose()));
+        repository.save(new ComprehensiveLogBook(ComprehensiveLogBook.getPatientuid(),ComprehensiveLogBook.getDate(),ComprehensiveLogBook.getTimeString(),ComprehensiveLogBook.getBloodglucose(),ComprehensiveLogBook.getCarbintake(),ComprehensiveLogBook.getInsulindose()));
         return "Comprehensive Log is created";
     }
 
@@ -34,7 +34,7 @@ public class ComprehensiveLogBookService {
         List<ComprehensiveLogBook> ComprehensiveLogBooks=repository.findAll();
         List<ComprehensiveLogBook>ComprehensiveLogBookObjects=new ArrayList<>();
         for(ComprehensiveLogBook ComprehensiveLog:ComprehensiveLogBooks){
-            ComprehensiveLogBookObjects.add(new ComprehensiveLogBook(ComprehensiveLog.getPatientuid(),ComprehensiveLog.getDate(),ComprehensiveLog.getTime(),ComprehensiveLog.getBloodglucose(),ComprehensiveLog.getCarbintake(),ComprehensiveLog.getInsulindose()));
+            ComprehensiveLogBookObjects.add(new ComprehensiveLogBook(ComprehensiveLog.getPatientuid(),ComprehensiveLog.getDate(),ComprehensiveLog.getTimeString(),ComprehensiveLog.getBloodglucose(),ComprehensiveLog.getCarbintake(),ComprehensiveLog.getInsulindose()));
         }
         return ComprehensiveLogBookObjects;
     }

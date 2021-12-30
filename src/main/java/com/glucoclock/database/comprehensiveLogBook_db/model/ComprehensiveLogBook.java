@@ -33,14 +33,19 @@ public class ComprehensiveLogBook implements Serializable, Comparable<Comprehens
 
 
 
-    public ComprehensiveLogBook(UUID PatientUid, LocalDate Date, int Time, String BloodGlucose, String CarbIntake, String InsulinDose) {
+    public ComprehensiveLogBook(UUID PatientUid, LocalDate Date, String TimeString, String BloodGlucose, String CarbIntake, String InsulinDose) {
 
         patientuid = PatientUid;
         date = Date;
         bloodglucose = BloodGlucose;
         carbintake = CarbIntake;
-        time=Time;
         insulindose=InsulinDose;
+        if (TimeString.equals("PreBreakfast")) time =1;
+        else if (TimeString.equals("PostBreakfast")) time =2;
+        else if (TimeString.equals("PreLunch")) time =3;
+        else if (TimeString.equals("PostLunch")) time =4;
+        else if (TimeString.equals("PreDinner")) time =5;
+        else if (TimeString.equals("PostDinner")) time =6;
     }
 
     public ComprehensiveLogBook() {

@@ -86,37 +86,36 @@ public class SimpleLogBookView extends Div {
         submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.addClickListener(e -> {
-
-            //check input validity
-            try{
-                float bg = Integer.parseInt(bloodGlucose.getValue());
-                //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
-                if(bg>140){
+                    //check input validity
+                    try{
+                        float bg = Integer.parseInt(bloodGlucose.getValue());
+                        float ci = Integer.parseInt(carbohydrate.getValue());
+                        //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
+                        if(bg>140){
 //                    SendMail sendMail = new SendMail();
 //                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
-                    Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
-                }
-                //save to database
-                UUID uid = userService.getRepository().findAll().get(0).getUid();
-                //User user = userService.getRepository().getUserByUid(uid);
-                SimpleLogBook simpleLogBook = new SimpleLogBook(
-                        uid,
-                        (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
-                        prepost.getValue()+meal.getValue(),
-                        bloodGlucose.getValue(),
-                        carbohydrate.getValue()
-                );
-                simpleLogBookService.getRepository().save(simpleLogBook);
+                            Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
+                        }
+                        //save to database
+                        UUID uid = userService.getRepository().findAll().get(0).getUid();
+                        SimpleLogBook simpleLogBook = new SimpleLogBook(
+                                uid,
+                                (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
+                                prepost.getValue()+meal.getValue(),
+                                bloodGlucose.getValue(),
+                                carbohydrate.getValue()
+                        );
+                        simpleLogBookService.getRepository().save(simpleLogBook);
 
-                //Navigation
-                submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(ConfirmationPage.class)
-                );
-            }
-            catch (NumberFormatException ex){
-                ex.printStackTrace();
-                Notification.show("Invalid blood glucose input, please re-enter");
-            }
+                        //Navigation
+                        submitButton.getUI().ifPresent(ui ->
+                                ui.navigate(ConfirmationPage.class)
+                        );
+                    }
+                    catch (NumberFormatException ex){
+                        ex.printStackTrace();
+                        Notification.show("Invalid input(s), please re-enter");
+                    }
 
 
                 }
