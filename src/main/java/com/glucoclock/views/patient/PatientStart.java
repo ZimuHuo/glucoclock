@@ -1,5 +1,6 @@
 package com.glucoclock.views.patient;
 
+import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.ComprehensiveLogBookView;
 import com.glucoclock.views.patient.IntensiveLogBookView;
