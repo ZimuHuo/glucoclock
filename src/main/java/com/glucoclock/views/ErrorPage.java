@@ -2,6 +2,7 @@ package com.glucoclock.views;
 
 import com.glucoclock.views.patient.PatientStart;
 import com.glucoclock.views.researcher.ResearcherSignUp1;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,15 +18,15 @@ public class PatientService  {
     @Autowired
     PatientRepository repository;
 
-//    public String bulkcreate(){
-//        // save a single Patient
-//        repository.save(new Patient(1l,"ZImu","Huo","zimuhuo@outlook.com","flat1","Kings Gate","SW& $AX","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type I",true,true,false,false,"Syringe"));
-//        repository.save(new Patient(2l,"ZImu2","Huo2","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Male", LocalDate.of(2000,1,2),"Type II",true,false,true,false,"Injection pen"));
-//        repository.save(new Patient(3l,"Ann","B","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Female", LocalDate.of(1985,3,10),"Type II",false,true,false,false,"Injection pen"));
-//        repository.save(new Patient(4l,"Cindy","B","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Female", LocalDate.of(1995,10,24),"Type II",false,true,false,false,"Injection pen"));
-//
-//        return "Patient created";
-//    }
+    public String bulkcreate(){
+        // save a single Patient
+        repository.save(new Patient(1l,"ZImu","Huo","zimuhuo@outlook.com","flat1","Kings Gate","SW& $AX","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type I",true,true,false,false,"Syringe", UUID.randomUUID()));
+        repository.save(new Patient(2l,"ZImu2","Huo2","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Male", LocalDate.of(2000,1,2),"Type II",true,false,true,false,"Injection pen",UUID.randomUUID()));
+        repository.save(new Patient(3l,"Ann","B","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Female", LocalDate.of(1985,3,10),"Type II",false,true,false,false,"Injection pen",UUID.randomUUID()));
+        repository.save(new Patient(4l,"Cindy","B","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Female", LocalDate.of(1995,10,24),"Type II",false,true,false,false,"Injection pen",UUID.randomUUID()));
+
+        return "Patient created";
+    }
 
 
 
