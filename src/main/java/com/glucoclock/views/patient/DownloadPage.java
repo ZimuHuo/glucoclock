@@ -30,6 +30,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 @PageTitle("Download Data and Graph")
 @Route(value = "patient/download")
@@ -48,7 +49,7 @@ public class DownloadPage extends VerticalLayout {
     private String exportData;
 
     //get the patient id from the session, in order to find the data of that patient
-    Long patientid=1L;
+    UUID patientid=UUID.fromString("113d2815-54fb-4396-94fb-9a071393c336");
     //include the databases
     private final SimpleLogBookService SimplelogData;
     private final ComprehensiveLogBookService ComprehensivelogData;
@@ -174,7 +175,7 @@ public class DownloadPage extends VerticalLayout {
     public String SimpleOut(LocalDate checkdate){
         String SimpleoutString=new String();//set up returned string
         //find the data for this patient at checkdate, and stored the data in the simpledata list
-        List<SimpleLogBook> simpledata=SimplelogData.findLogByDateAndPatientid(checkdate,patientid);
+        List<SimpleLogBook> simpledata=SimplelogData.findLogByDateAndPatientuid(checkdate,patientid);
         for(SimpleLogBook eachdata:simpledata) {
             //get each data in string form, and added to the returned string
             SimpleoutString += eachdata.toString()+"\n";
@@ -186,7 +187,7 @@ public class DownloadPage extends VerticalLayout {
         //set up the returned string
         String ComprehensiveoutString=new String();
         //find the data for this patient at checkdate, and stored the data in the comprehensivedata list
-        List<ComprehensiveLogBook> comprehensivedata=ComprehensivelogData.findLogByDateAndPatientid(checkdate,patientid);
+        List<ComprehensiveLogBook> comprehensivedata=ComprehensivelogData.findLogByDateAndPatientuid(checkdate,patientid);
         for(ComprehensiveLogBook eachdata:comprehensivedata) {
             //get each data in string form, and added to the returned string
             ComprehensiveoutString += eachdata.toString()+"\n";
@@ -199,7 +200,7 @@ public class DownloadPage extends VerticalLayout {
         //set up the returned string
        String IntensiveoutString=new String();
         //find the data for this patient at checkdate, and stored the data in the intensivedata list
-        List<IntensiveLogBook> intensivedata=IntensivelogData.findLogByDateAndPatientid(checkdate,patientid);
+        List<IntensiveLogBook> intensivedata=IntensivelogData.findLogByDateAndPatientuid(checkdate,patientid);
         for(IntensiveLogBook eachdata:intensivedata) {
             //get each data in string form, and added to the returned string
             IntensiveoutString += eachdata.toString()+"\n";

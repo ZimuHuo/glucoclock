@@ -3,6 +3,7 @@ package com.glucoclock.database.comprehensiveLogBook_db.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.UUID;
 
 
 @Entity
@@ -12,8 +13,8 @@ public class ComprehensiveLogBook implements Serializable, Comparable<Comprehens
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "PatientId")
-    private Long patientid;
+    @Column(name = "PatientUid")
+    private UUID patientuid;
 
     @Column(name = "Date")
     private LocalDate date;
@@ -32,9 +33,9 @@ public class ComprehensiveLogBook implements Serializable, Comparable<Comprehens
 
 
 
-    public ComprehensiveLogBook(Long PatientId, LocalDate Date, int Time, String BloodGlucose, String CarbIntake, String InsulinDose) {
+    public ComprehensiveLogBook(UUID PatientUid, LocalDate Date, int Time, String BloodGlucose, String CarbIntake, String InsulinDose) {
 
-        patientid = PatientId;
+        patientuid = PatientUid;
         date = Date;
         bloodglucose = BloodGlucose;
         carbintake = CarbIntake;
@@ -64,12 +65,12 @@ public class ComprehensiveLogBook implements Serializable, Comparable<Comprehens
         this.id = id;
     }
 
-    public Long getPatientid() {
-        return patientid;
+    public UUID getPatientuid() {
+        return patientuid;
     }
 
-    public void setPatientid(Long patientid) {
-        this.patientid = patientid;
+    public void setPatientuid(UUID patientuid) {
+        this.patientuid = patientuid;
     }
 
     public LocalDate getDate() {

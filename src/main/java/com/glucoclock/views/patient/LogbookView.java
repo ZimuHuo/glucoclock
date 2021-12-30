@@ -24,13 +24,14 @@ import javax.annotation.security.RolesAllowed;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @PageTitle("My Logbook")
 @Route(value = "patient/logbook")
 @RolesAllowed("ADMIN")
 public class LogbookView extends VerticalLayout {
-    Long patientId=1L;         //set to 1 for testing
+    UUID patientuid= UUID.fromString("113d2815-54fb-4396-94fb-9a071393c336");         //set to 1 for testing
     LocalDate SelectDate=LocalDate.now();   //will get from previous page
     String LogbookType="Simple";
     Icon editIcon=new Icon(VaadinIcon.EDIT);
@@ -128,7 +129,7 @@ public class LogbookView extends VerticalLayout {
     }
 
     private void IntensiveLogBookView(IntensiveLogBookService IntensivelogData) {
-        List<IntensiveLogBook> ShowData=IntensivelogData.findLogByDateAndPatientid(SelectDate,patientId);
+        List<IntensiveLogBook> ShowData=IntensivelogData.findLogByDateAndPatientuid(SelectDate,patientuid);
         for(IntensiveLogBook intensive:ShowData){
             Span BloodGlucose = new Span("Blood Glucose : "+intensive.getBloodglucose()+" mmol/L");
             Span CarbonIntake = new Span("Carb Intake : "+intensive.getCarbintake()+" g");
@@ -145,7 +146,7 @@ public class LogbookView extends VerticalLayout {
     }
 
     private void CompLogBookView(ComprehensiveLogBookService ComprehensivelogData) {
-        List<ComprehensiveLogBook> ShowData=ComprehensivelogData.findLogByDateAndPatientid(SelectDate,patientId);
+        List<ComprehensiveLogBook> ShowData=ComprehensivelogData.findLogByDateAndPatientuid(SelectDate,patientuid);
         for(ComprehensiveLogBook comprehensive:ShowData){
             Span BloodGlucose = new Span("Blood Glucose : "+comprehensive.getBloodglucose()+" mmol/L");
             Span CarbonIntake = new Span("Carb Intake : "+comprehensive.getCarbintake()+" g");
@@ -157,7 +158,7 @@ public class LogbookView extends VerticalLayout {
     }
 
     public void SimpleLogBookView(SimpleLogBookService SimplelogData){
-        List<SimpleLogBook> ShowData= SimplelogData.findLogByDateAndPatientid(SelectDate.minusDays(8),patientId);
+        List<SimpleLogBook> ShowData= SimplelogData.findLogByDateAndPatientuid(SelectDate.minusDays(8),patientuid);
         for (SimpleLogBook simpledata:ShowData) {
 
             Span BloodGlucose = new Span("Blood Glucose : "+simpledata.getBloodglucose()+" mmol/L");

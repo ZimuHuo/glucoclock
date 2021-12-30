@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @PageTitle("View Data History")
 @Route(value = "patient/view-history")
@@ -33,7 +34,7 @@ public class HistoryView extends VerticalLayout {
     //private Button Back =new Button("Back");
     private HorizontalLayout SearchPanel=new HorizontalLayout();
     private final LogService log_db;
-    long patientid=1L;
+    UUID patientuid= UUID.fromString("113d2815-54fb-4396-94fb-9a071393c336");
     private MenuBar menu = new MenuBar("PNS");
     private H2 title = new H2("Data History");
     private Icon download = new Icon(VaadinIcon.DOWNLOAD);
@@ -117,7 +118,7 @@ public class HistoryView extends VerticalLayout {
         //compare with database, if there is data occur at that day, add the data in the HistoryDataShown list
         LocalDate date=today;
 
-        List<Log> logbook=log_db.findLogBooksByPatientid(patientid);
+        List<Log> logbook=log_db.findLogBooksByPatientid(patientuid);
         //System.out.println(logbook);
         for(int day=0;day<30;day++){
             PersonData addData=new PersonData();

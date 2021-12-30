@@ -16,9 +16,12 @@ public class Patient implements Serializable,Comparable<Patient>{
 	private long id;
 
 	//Columns of the database and variables:
-// Patient id
-	@Column(name="Patientid")
-	private Long patientid;
+//// Patient id
+//	@Column(name="Patientid")
+//	private Long patientid;
+	//	UID
+	@Column(name = "UID")
+	private UUID uid;
 
 //	First Name of patient
 	@Column(name = "Firstname")
@@ -84,13 +87,11 @@ public class Patient implements Serializable,Comparable<Patient>{
 	@Column(name = "InjectionMethod")
 	private String injectionmethod;
 
-//	UID
-	@Column(name = "UID")
-	private UUID UID;
+
 
 
 // Constructor of patient
-	public Patient(Long patientid,
+	public Patient(UUID uid,
 				   String firstName,
 				   String lastName,
 				   String email,
@@ -106,10 +107,9 @@ public class Patient implements Serializable,Comparable<Patient>{
 				   boolean shortInsulin,
 				   boolean intermediateInsulin,
 				   boolean longInsulin,
-				   String injectionMethod,
-				   UUID uid) {
+				   String injectionMethod) {
 
-		this.patientid=patientid;
+		this.uid=uid;
 		this.firstname = firstName;
 		this.lastname = lastName;
 		this.email = email;
@@ -126,7 +126,7 @@ public class Patient implements Serializable,Comparable<Patient>{
 		this.intermediateinsulin = intermediateInsulin;
 		this.longinsulin = longInsulin;
 		this.injectionmethod = injectionMethod;
-		this.UID = uid;
+		this.uid = uid;
 	}
 
 	public Patient() {
@@ -155,12 +155,13 @@ public class Patient implements Serializable,Comparable<Patient>{
 
 	//	getters and setters
 
-	public Long getPatientid() {
-		return patientid;
+
+	public UUID getUid() {
+		return uid;
 	}
 
-	public void setPatientid(Long patientid) {
-		this.patientid = patientid;
+	public void setUid(UUID uid) {
+		this.uid = uid;
 	}
 
 	public String getFirstName() {

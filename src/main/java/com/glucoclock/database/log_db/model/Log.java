@@ -3,6 +3,7 @@ package com.glucoclock.database.log_db.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table (name="Log_db")
@@ -17,11 +18,11 @@ public class Log implements Serializable, Comparable<Log> {
     @Column (name="LogBookType")
     private int logbooktype;
 
-    @Column (name="Patient_id")
-    private Long patientid;
+    @Column (name="Patient_uid")
+    private UUID patientuid;
 
-    public Log(Long patientid,LocalDate date, int logbooktype){
-        this.patientid=patientid;
+    public Log(UUID patientuid,LocalDate date, int logbooktype){
+        this.patientuid=patientuid;
         this.date=date;
         this.logbooktype=logbooktype;
 
@@ -37,7 +38,7 @@ public class Log implements Serializable, Comparable<Log> {
                 "id=" + id +
                 ", date=" + date +
                 ", logbooktype='" + logbooktype + '\'' +
-                ", patientid=" + patientid +
+                ", patientid=" + patientuid +
                 '}';
     }
 
@@ -65,12 +66,12 @@ public class Log implements Serializable, Comparable<Log> {
         this.logbooktype = logbooktype;
     }
 
-    public Long getPatientid() {
-        return patientid;
+    public UUID getPatientuid() {
+        return patientuid;
     }
 
-    public void setPatientid(Long patientid) {
-        this.patientid = patientid;
+    public void setPatientuid(UUID patientuid) {
+        this.patientuid = patientuid;
     }
 
     public String getStringLogBooktype(){

@@ -2,10 +2,8 @@ package com.glucoclock.database.patients_db.service;
 
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.repository.PatientRepository;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -20,10 +18,10 @@ public class PatientService  {
 
     public String bulkcreate(){
         // save a single Patient
-        repository.save(new Patient(1l,"ZImu","Huo","zimuhuo@outlook.com","flat1","Kings Gate","SW& $AX","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type I",true,true,false,false,"Syringe", UUID.randomUUID()));
-        repository.save(new Patient(2l,"ZImu2","Huo2","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Male", LocalDate.of(2000,1,2),"Type II",true,false,true,false,"Injection pen",UUID.randomUUID()));
-        repository.save(new Patient(3l,"Ann","B","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Female", LocalDate.of(1985,3,10),"Type II",false,true,false,false,"Injection pen",UUID.randomUUID()));
-        repository.save(new Patient(4l,"Cindy","B","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Female", LocalDate.of(1995,10,24),"Type II",false,true,false,false,"Injection pen",UUID.randomUUID()));
+        repository.save(new Patient(UUID.fromString("113d2815-54fb-4396-94fb-9a071393c336"),"ZImu","Huo","zimuhuo@outlook.com","flat1","Kings Gate","SW& $AX","New Deli","12345","Male", LocalDate.of(2001,1,1),"Type I",true,true,false,false,"Syringe"));
+        repository.save(new Patient(UUID.fromString("8115af8e-1b82-4395-b410-c3395f73cfe9"),"ZImu2","Huo2","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Male", LocalDate.of(2000,1,2),"Type II",true,false,true,false,"Injection pen"));
+        repository.save(new Patient(UUID.fromString("9bb703ed-e4af-444c-a6f1-fcba0cab81aa"),"Ann","B","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Female", LocalDate.of(1985,3,10),"Type II",false,true,false,false,"Injection pen"));
+        repository.save(new Patient(UUID.fromString("1e522787-854c-41f6-81b1-cd169b6d3c3d"),"Cindy","B","zimuhuo@outlook.com","flat2","Kings Gate","SW& $AX2","New Deli","12345","Female", LocalDate.of(1995,10,24),"Type II",false,true,false,false,"Injection pen"));
 
         return "Patient created";
     }
@@ -37,10 +35,10 @@ public class PatientService  {
         return Patient;
     }
 
-    public String searchPatientname(Long patientid){
+    public String searchPatientname(UUID patientid){
         //find the patient name
         String patientname;
-        patientname=repository.getPatientByPatientid(patientid).getFirstName()+" "+repository.getPatientByPatientid(patientid).getLastName();
+        patientname=repository.getPatientByUid(patientid).getFirstName()+" "+repository.getPatientByUid(patientid).getLastName();
         return patientname;
     }
 
