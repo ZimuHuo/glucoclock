@@ -2,7 +2,6 @@ package com.glucoclock.views.researcher;
 import com.glucoclock.database.researchers_db.model.Researcher;
 import com.glucoclock.database.researchers_db.model.Researcher;
 import com.glucoclock.database.researchers_db.service.ResearcherService;
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.PatientStart;
 import com.vaadin.flow.component.button.Button;
@@ -24,8 +23,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-@PageTitle("Researcher Settings")
-@Route(value = "ResearcherSetting1",layout = MainLayout.class)
+@PageTitle("Settings")
+@Route(value = "researcher/settings")
 
 public class ResearcherSetting1 extends HorizontalLayout {
 
@@ -35,8 +34,10 @@ public class ResearcherSetting1 extends HorizontalLayout {
     String FName;
     String LName;
     String Email;
-    String Home;
+    String AddressL1;
+    String AddressL2;
     String PostCode;
+    String City;
     String Phone;
     LocalDate Birth;
     String Gender;
@@ -44,7 +45,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
     //    --------------------------------------------
 
     //    All Components on the page
-    TextField firstName, lastName, homeAddress, postcode, contactNumber;
+    TextField firstName, lastName, homeAddressL1, homeAddressL2, postcode, cityField, contactNumber;
     DatePicker birthSelect;
     EmailField emailField;
     Select<String> genderSelect, institutionSelect;
@@ -59,7 +60,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
         //-----------------------------------------
 
         this.researcherService = researcherService;
-        researcherService.bulkcreate();
+//        researcherService.bulkcreate();
         long id = researcherService.getRepository().findAll().get(0).getId();
         Researcher researcher = researcherService.getRepository().getResearcherById(id);
 
@@ -75,8 +76,9 @@ public class ResearcherSetting1 extends HorizontalLayout {
                 birthSelect, genderSelect,
                 emailField, contactNumber,
                 institutionSelect,
-                homeAddress,
-                postcode
+                homeAddressL1,
+                homeAddressL2,
+                postcode, cityField
         );
         formLayout.setResponsiveSteps(
                 // Use one column by default
@@ -88,7 +90,10 @@ public class ResearcherSetting1 extends HorizontalLayout {
         formLayout.setColspan(lastName,1);
         formLayout.setColspan(birthSelect,1 );
         formLayout.setColspan(emailField,1 );
-        formLayout.setColspan(homeAddress,2 );
+        formLayout.setColspan(homeAddressL1,2 );
+        formLayout.setColspan(homeAddressL2,2 );
+        formLayout.setColspan(postcode,1 );
+        formLayout.setColspan(cityField,1 );
         formLayout.setColspan(contactNumber,1 );
         formLayout.setColspan(genderSelect,1 );
 
@@ -114,7 +119,9 @@ public class ResearcherSetting1 extends HorizontalLayout {
         LName = researcher.getLastName();
         Email = researcher.getEmail();
         PostCode = researcher.getPostCode();
-        Home = researcher.getHomeAddress();
+        AddressL1 = researcher.getHomeAddressL1();
+        AddressL2 = researcher.getHomeAddressL2();
+        City = researcher.getCity();
         Gender = researcher.getGender();
         Phone = researcher.getPhone();
         Birth = researcher.getBirthday();
@@ -126,8 +133,10 @@ public class ResearcherSetting1 extends HorizontalLayout {
         lastNameInit();
         birthSelectInit();
         emailFieldInit();
-        homeAddressInit();
+        homeAddressL1Init();
+        homeAddressL2Init();
         postcodeInit();
+        cityFieldInit();
         contactNumberInit();
         genderSelectInit();
         changeSettingInit();
@@ -195,11 +204,18 @@ public class ResearcherSetting1 extends HorizontalLayout {
         birthSelect.setReadOnly(true);
     }
 
-    private void homeAddressInit() {
-        homeAddress = new TextField("Home address");
-        homeAddress.setValue(Home);
-        homeAddress.setClearButtonVisible(true);
-        homeAddress.setReadOnly(true);
+    private void homeAddressL1Init() {
+        homeAddressL1 = new TextField("Address L1");
+        homeAddressL1.setValue(AddressL1);
+        homeAddressL1.setClearButtonVisible(true);
+        homeAddressL1.setReadOnly(true);
+    }
+
+    private void homeAddressL2Init() {
+        homeAddressL2 = new TextField("Address L2");
+        homeAddressL2.setValue(AddressL2);
+        homeAddressL2.setClearButtonVisible(true);
+        homeAddressL2.setReadOnly(true);
     }
 
     private void postcodeInit() {
@@ -207,6 +223,13 @@ public class ResearcherSetting1 extends HorizontalLayout {
         postcode.setValue(PostCode);
         postcode.setClearButtonVisible(true);
         postcode.setReadOnly(true);
+    }
+
+    private void cityFieldInit() {
+        cityField = new TextField("City");
+        cityField.setValue(City);
+        cityField.setClearButtonVisible(true);
+        cityField.setReadOnly(true);
     }
 
     private void genderSelectInit() {
@@ -239,8 +262,10 @@ public class ResearcherSetting1 extends HorizontalLayout {
             FName = firstName.getValue();
             LName = lastName.getValue();
             Email = emailField.getValue();
-            Home = homeAddress.getValue();
+            AddressL1 = homeAddressL1.getValue();
+            AddressL2 = homeAddressL2.getValue();
             PostCode = postcode.getValue();
+            City = cityField.getValue();
             Phone = contactNumber.getValue();
             Birth = birthSelect.getValue();
             Gender = genderSelect.getValue();
@@ -250,8 +275,10 @@ public class ResearcherSetting1 extends HorizontalLayout {
             researcherService.updateResearcherFirstName(id,FName);
             researcherService.updateResearcherLastName(id, LName);
             researcherService.updateResearcherEmail(id, Email);
-            researcherService.updateResearcherAddress(id, Home);
+            researcherService.updateResearcherAddressL1(id, AddressL1);
+            researcherService.updateResearcherAddressL2(id, AddressL2);
             researcherService.updateResearcherPostCode(id, PostCode);
+            researcherService.updateResearcherCity(id, City);
             researcherService.updateResearcherPhone(id, Phone);
             researcherService.updateResearcherBirthday(id, Birth);
             researcherService.updateResearcherGender(id, Gender);
@@ -277,8 +304,10 @@ public class ResearcherSetting1 extends HorizontalLayout {
             lastName.setValue(LName);
             birthSelect.setValue(Birth);
             emailField.setValue(Email);
-            homeAddress.setValue(Home);
+            homeAddressL1.setValue(AddressL1);
+            homeAddressL2.setValue(AddressL2);
             postcode.setValue(PostCode);
+            cityField.setValue(City);
             contactNumber.setValue(Phone);
             genderSelect.setValue(Gender);
 
@@ -327,8 +356,10 @@ public class ResearcherSetting1 extends HorizontalLayout {
         lastName.setReadOnly(Boolean);
         birthSelect.setReadOnly(Boolean);
         emailField.setReadOnly(Boolean);
-        homeAddress.setReadOnly(Boolean);
+        homeAddressL1.setReadOnly(Boolean);
+        homeAddressL2.setReadOnly(Boolean);
         postcode.setReadOnly(Boolean);
+        cityField.setReadOnly(Boolean);
         contactNumber.setReadOnly(Boolean);
         genderSelect.setReadOnly(Boolean);
         toHome.setEnabled(Boolean);

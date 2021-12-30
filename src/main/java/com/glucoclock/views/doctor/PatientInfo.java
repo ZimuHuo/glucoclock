@@ -3,6 +3,7 @@ import com.glucoclock.database.log_db.service.LogService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.select.Select;
 
 public class PatientInfo {
     private String firstName;
@@ -33,7 +34,13 @@ public class PatientInfo {
         this.email = email;
     }
 
-    public Button buildDeleteButton() {
+    public Select<String> buildLogbookMenu(){
+        Select<String> logbookSuggestion = new Select<>();
+        logbookSuggestion.setItems("Simple","Comprehensive","Intensive");
+        return logbookSuggestion;
+    }
+
+    public Button buildViewButton() {
         Button button = new Button("View Data");
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         button.addClickListener(click->{
@@ -42,5 +49,6 @@ public class PatientInfo {
         });
         return button;
     }
+
 
 }

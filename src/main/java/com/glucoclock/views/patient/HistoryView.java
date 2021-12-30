@@ -3,7 +3,6 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -23,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@PageTitle("View History")
-@Route(value = "ViewHistory", layout = MainLayout.class)
+@PageTitle("View Data History")
+@Route(value = "patient/view-history")
 public class HistoryView extends VerticalLayout {
     private Grid<PersonData> Historylist=new Grid<>(PersonData.class,false);
     private LocalDate today=LocalDate.now();

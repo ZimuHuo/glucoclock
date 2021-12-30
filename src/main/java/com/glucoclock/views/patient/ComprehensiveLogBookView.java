@@ -1,6 +1,5 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -17,8 +16,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Comprehensive LogBook View")
-@Route(value = "ComprehensiveLogBookView",layout = MainLayout.class)
+@PageTitle("Add Comprehensive Logbook Entry")
+@Route(value = "patient/add-comprehensive-logbook-entry")
 public class ComprehensiveLogBookView extends Div {
     private ComboBox<String> prepost;
     private ComboBox<String> meal;

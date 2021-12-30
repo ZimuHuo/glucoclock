@@ -21,6 +21,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.PageTitle;
@@ -33,8 +34,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 
-@PageTitle("Researcher Start Page")
-@Route(value = "ResearcherStart", layout = MainLayout.class)
+@PageTitle("Search for and Download Anonymised Data")
+@Route(value = "researcher/data-searcher-and-download")
 public class ResearcherStart extends VerticalLayout {
     double F_AgeMin;
     double F_AgeMax;

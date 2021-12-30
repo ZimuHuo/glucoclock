@@ -7,7 +7,6 @@ import com.glucoclock.database.intensiveLogBook_db.model.IntensiveLogBook;
 import com.glucoclock.database.intensiveLogBook_db.service.IntensiveLogBookService;
 import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
 import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.details.Details;
@@ -21,14 +20,15 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import javax.annotation.security.RolesAllowed;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 
-@PageTitle("LogBook")
-@Route(value = "LogBook", layout = MainLayout.class)
-
+@PageTitle("My Logbook")
+@Route(value = "patient/logbook")
+@RolesAllowed("ADMIN")
 public class LogbookView extends VerticalLayout {
     Long patientId=1L;         //set to 1 for testing
     LocalDate SelectDate=LocalDate.now();   //will get from previous page

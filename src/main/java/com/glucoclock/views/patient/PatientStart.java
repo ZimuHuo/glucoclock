@@ -1,5 +1,5 @@
 package com.glucoclock.views.patient;
-import com.glucoclock.views.MainLayout;
+
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.ComprehensiveLogBookView;
 import com.glucoclock.views.patient.IntensiveLogBookView;
@@ -19,14 +19,18 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.messages.MessageListItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.annotation.security.RolesAllowed;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Locale;
 
-@PageTitle("Patient Start Page")
-@Route(value = "PatientStart",layout = MainLayout.class)
-
+@PageTitle("Start Page")
+@Route(value = "/patient/start-page")
+@RolesAllowed("PATIENT")
 public class PatientStart extends VerticalLayout{
     private ComboBox<String> LBtybe;
     private DatePicker datePicker;
@@ -35,6 +39,12 @@ public class PatientStart extends VerticalLayout{
     private MenuBar menu = new MenuBar("PStart");
     private H2 title = new H2("Upload Logbook Entry");
     public PatientStart(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.getAuthorities();
+        authentication.getName();
+        System.out.print(authentication.getName()); // here it gets the username. absolutely fantastic
+        //way easier than what im expected how cool is that!
+
         String Logbook;
         add(menu);
 

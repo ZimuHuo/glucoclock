@@ -10,7 +10,6 @@ import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
 import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -32,8 +31,8 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
 
-@PageTitle("Download")
-@Route(value = "Download", layout = MainLayout.class)
+@PageTitle("Download Data and Graph")
+@Route(value = "patient/download")
 
 public class DownloadPage extends VerticalLayout {
     Locale finnishLocale = new Locale("fi", "FI");

@@ -1,7 +1,9 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.views.MainLayout;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.util.SendMail;
+import com.glucoclock.views.util.verificationCode;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -18,14 +20,15 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.VaadinSession;
 
-@PageTitle("Sign up your patient account")
-@Route(value = "PatientSignUp1",layout = MainLayout.class)
+@PageTitle("Patient Sign Up")
+@Route(value = "patient-sign-up-1")
 public class PatientSignUp1 extends Div {
     TextField firstName;
     TextField lastName;
@@ -35,12 +38,14 @@ public class PatientSignUp1 extends Div {
     FormLayout formLayout;
     Button submitButton;
     VerticalLayout mainLayout;
+    Button codeButton;
+    TextField code;
     private H2 title = new H2("Set up your account");
     private MenuBar menu = new MenuBar("NS");
+    private UserService userService;
 
-
-    public PatientSignUp1() {
-
+    public PatientSignUp1(UserService userService) {
+        this.userService = userService;
         add(menu);
         init();
         HorizontalLayout hl = new HorizontalLayout();
@@ -57,6 +62,25 @@ public class PatientSignUp1 extends Div {
 
 
     private void init() {
+        this.codeButton = new Button("send code");
+        this.code = new TextField();
+        code.setRequired(true);
+        codeButton.addClickListener(e ->{
+            if(userService.getRepository().findByUsername(emailField.getValue())!=null) {
+                Notification notification = Notification.show("Please choose another email address");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }else {
+                String code = verificationCode.getRandomNum();
+                String email = "Your code is: "+code;
+                VaadinSession.getCurrent().setAttribute("code",code);
+                SendMail.sendMail("Verification code",email,emailField.getValue());
+                Notification notification = Notification.show("You should receive an email by now. In case you dont "+email);
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }
+                }
+
+        );
+
         mainLayoutSetUp();
         firstNameSetUp();
         lastNameSetUp();
@@ -65,6 +89,9 @@ public class PatientSignUp1 extends Div {
         confirmPasswordSetUp();
         submitButtonSetUp();
         formLayoutSetUp();
+
+
+
     }
 
     private void mainLayoutSetUp() {
@@ -81,8 +108,6 @@ public class PatientSignUp1 extends Div {
         submitButton.getElement().getStyle().set("margin-left", "auto");
         submitButton.addClickListener(e -> {
 
-
-
             if (emailField.isInvalid()) {
                 Notification notification = Notification.show("Check Emailfield");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
@@ -95,8 +120,13 @@ public class PatientSignUp1 extends Div {
             }else if(lastName.isEmpty()){
                 Notification notification = Notification.show("Check last name");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            }
-            else {
+            }else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
+                Notification notification = Notification.show("Please choose another email address");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }else if(!VaadinSession.getCurrent().getAttribute("code").equals(code.getValue())){
+                Notification notification = Notification.show("Wrong code");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            } else {
 
                 VaadinSession.getCurrent().setAttribute( "FirstName",firstName.getValue());
                 VaadinSession.getCurrent().setAttribute( "LastName",lastName.getValue());
@@ -117,7 +147,8 @@ public class PatientSignUp1 extends Div {
         formLayout.add(
                 firstName, lastName,
                 emailField,
-                password, confirmPassword
+                password, confirmPassword,
+                code,codeButton
         );
         formLayout.setResponsiveSteps(
                 // Use one column by default

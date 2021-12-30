@@ -1,6 +1,13 @@
 package com.glucoclock.views.researcher;
 
-import com.glucoclock.views.MainLayout;
+import com.glucoclock.database.doctors_db.model.Doctor;
+import com.glucoclock.database.doctors_db.service.DoctorService;
+import com.glucoclock.database.researchers_db.model.Researcher;
+import com.glucoclock.database.researchers_db.service.ResearcherService;
+import com.glucoclock.security.db.Authorities;
+import com.glucoclock.security.db.AuthoritiesService;
+import com.glucoclock.security.db.User;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.doctor.DoctorSignUp1;
 import com.glucoclock.views.doctor.DoctorStartView;
@@ -27,8 +34,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 
-@PageTitle("Sign up your researcher account")
-@Route(value = "ResearcherSignUp2",layout = MainLayout.class)
+@PageTitle("Researcher Sign Up")
+@Route(value = "researcher-sign-up-2")
 public class ResearcherSignUp2 extends HorizontalLayout {
     private RadioButtonGroup<String> sex;
     private TextField apartmentAddress;
@@ -44,9 +51,18 @@ public class ResearcherSignUp2 extends HorizontalLayout {
     private H2 title = new H2("Personal information");
     private MenuBar menu = new MenuBar("NS");
 
+    //    Variables
+    private final UserService userService;
+    private final ResearcherService researcherService;
+    private final AuthoritiesService authoritiesService;
 
 
-    public ResearcherSignUp2() {
+
+    public ResearcherSignUp2(UserService userService, ResearcherService researcherService, AuthoritiesService authoritiesService) {
+        this.userService = userService;
+        this.researcherService = researcherService;
+        this.authoritiesService = authoritiesService;
+
         add(menu);
         init();
         formlayout1SetUp();
@@ -125,12 +141,12 @@ public class ResearcherSignUp2 extends HorizontalLayout {
         contactNumberSetUp();
         datePicker.setClearButtonVisible(true);
         apartmentAddress.setClearButtonVisible(true);
-        if (VaadinSession.getCurrent().getAttribute("ApartmentAddress")!= null){
-            apartmentAddress.setValue((String)VaadinSession.getCurrent().getAttribute("ApartmentAddress"));
+        if (VaadinSession.getCurrent().getAttribute("HomeAddressL1")!= null){
+            apartmentAddress.setValue((String)VaadinSession.getCurrent().getAttribute("HomeAddressL1"));
         }
         streetAddress.setClearButtonVisible(true);
-        if (VaadinSession.getCurrent().getAttribute("StreetAddress")!= null){
-            streetAddress.setValue((String)VaadinSession.getCurrent().getAttribute("StreetAddress"));
+        if (VaadinSession.getCurrent().getAttribute("HomeAddressL2")!= null){
+            streetAddress.setValue((String)VaadinSession.getCurrent().getAttribute("HomeAddressL2"));
         }
         postcode.setClearButtonVisible(true);
         if (VaadinSession.getCurrent().getAttribute("Postcode")!= null){
@@ -210,15 +226,41 @@ public class ResearcherSignUp2 extends HorizontalLayout {
 
                 setSession();
 
-//                CREATE RESEARCHER OBJECT HERE
+//                Create and save a new user
+                User user = new User(
+                        (String)VaadinSession.getCurrent().getAttribute("Email"),
+                        (String)VaadinSession.getCurrent().getAttribute("Password"),
+                        "RESEARCHER",
+                        (byte) 1
+                        //Role.RESEARCHER,
+                );
+                userService.getRepository().save(user);
+
+//                Create and save a new researcher
+                Researcher researcher = new Researcher(
+                        (String)VaadinSession.getCurrent().getAttribute("FirstName"),
+                        (String)VaadinSession.getCurrent().getAttribute("LastName"),
+                        (String)VaadinSession.getCurrent().getAttribute("Email"),
+                        (String)VaadinSession.getCurrent().getAttribute("HomeAddressL1"),
+                        (String)VaadinSession.getCurrent().getAttribute("HomeAddressL2"),
+                        (String)VaadinSession.getCurrent().getAttribute("Postcode"),
+                        (String)VaadinSession.getCurrent().getAttribute("City"),
+                        (String)VaadinSession.getCurrent().getAttribute("ContactNumber"),
+                        (String)VaadinSession.getCurrent().getAttribute("Sex"),
+                        (LocalDate) VaadinSession.getCurrent().getAttribute("Date"),
+                        (String)VaadinSession.getCurrent().getAttribute("Institution"),
+                        userService.getRepository().findByUsername((String)VaadinSession.getCurrent().getAttribute("Email")).getUid()
+                );
+                researcherService.getRepository().save(researcher);
+
+//                Set the authority of the user as researcher
+                Authorities authorities = new Authorities((String)VaadinSession.getCurrent().getAttribute("Email"),"RESEARCHER");
+                authoritiesService.getRepository().save(authorities);
 
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(ResearcherStart.class)
                 );
             }
-
-
-
         });
     }
 
@@ -232,16 +274,13 @@ public class ResearcherSignUp2 extends HorizontalLayout {
                     ui.navigate(ResearcherSignUp1.class)
             );
 
-
-
-
         });
     }
 
     private void setSession() {
         VaadinSession.getCurrent().setAttribute( "Sex",sex.getValue());
-        VaadinSession.getCurrent().setAttribute( "ApartmentAddress",apartmentAddress.getValue());
-        VaadinSession.getCurrent().setAttribute( "StreetAddress",streetAddress.getValue());
+        VaadinSession.getCurrent().setAttribute( "HomeAddressL1",apartmentAddress.getValue());
+        VaadinSession.getCurrent().setAttribute( "HomeAddressL2",streetAddress.getValue());
         VaadinSession.getCurrent().setAttribute( "Postcode",postcode.getValue());
         VaadinSession.getCurrent().setAttribute( "City",city.getValue());
         VaadinSession.getCurrent().setAttribute( "ContactNumber",contactNumber.getValue());

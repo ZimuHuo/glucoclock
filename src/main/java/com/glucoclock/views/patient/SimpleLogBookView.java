@@ -1,7 +1,7 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.util.SendMail;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -16,9 +16,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import java.util.Properties;
 
-@PageTitle("Simple LogBook View")
-@Route(value = "SimpleLogBookView",layout = MainLayout.class)
+@PageTitle("Add Simple Logbook Entry")
+@Route(value = "patient/addsimplelogbookentry")
 public class SimpleLogBookView extends Div {
     private H3 title = new H3("Add Simple Logbook Entry");
     ComboBox<String> prepost;
@@ -65,10 +66,17 @@ public class SimpleLogBookView extends Div {
         formLayout.setColspan(carbohydrate,2 );
         submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.addClickListener(e ->
-                submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(ConfirmationPage.class)
-                )
+        submitButton.addClickListener(e -> {
+
+            SendMail sendMail = new SendMail();
+            sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
+
+            submitButton.getUI().ifPresent(ui ->
+                    ui.navigate(ConfirmationPage.class)
+            );
+
+                }
+
         );
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(title);

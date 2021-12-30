@@ -1,6 +1,5 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -21,8 +20,8 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 
 
-@PageTitle("Intensive LogBook View")
-@Route(value = "IntensiveLogBookView",layout = MainLayout.class)
+@PageTitle("Add Intensive Logbook Entry")
+@Route(value = "patient/add-intensive-logbook-entry")
 public class IntensiveLogBookView extends Div {
     private TimePicker timePicker;
     private TextField bloodGlucose;

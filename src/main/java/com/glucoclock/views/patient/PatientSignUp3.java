@@ -2,13 +2,22 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
-import com.glucoclock.views.MainLayout;
+
+import com.glucoclock.security.db.Authorities;
+import com.glucoclock.security.db.AuthoritiesService;
+import com.glucoclock.security.db.User;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.util.SendMail;
+import com.google.gson.Gson;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
+import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -17,17 +26,24 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.PasswordField;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import com.vaadin.flow.theme.Theme;
 
+import javax.annotation.security.RolesAllowed;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Set;
+import java.util.UUID;
 
-
-@PageTitle("Sign up your patient account")
-@Route(value = "PatientSignUp3",layout = MainLayout.class)
+@PageTitle("Patient Sign Up")
+@Route(value = "patient-sign-up-3")
 public class PatientSignUp3 extends Div {
 
 //    Components in the page
@@ -38,11 +54,16 @@ public class PatientSignUp3 extends Div {
     private VerticalLayout verticalLayout;
     private HorizontalLayout horizontalLayout;
     private MenuBar menu = new MenuBar("NS");
+
+//    Variables
+    private final UserService userService;
     private final PatientService patientService;
+    private final AuthoritiesService authoritiesService;
 
-
-    public PatientSignUp3(PatientService patientService) {
+    public PatientSignUp3(UserService userService, PatientService patientService, AuthoritiesService authoritiesService) {
+        this.userService = userService;
         this.patientService = patientService;
+        this.authoritiesService = authoritiesService;
         add(menu);
         init();
         HorizontalLayout hl = new HorizontalLayout();
@@ -139,7 +160,19 @@ public class PatientSignUp3 extends Div {
                 VaadinSession.getCurrent().setAttribute( "Diabetes",diabetesSelect.getValue());
                 VaadinSession.getCurrent().setAttribute( "Injection",injectionSelect.getValue());
 
-//              Create and save a new patient
+
+//                Create and save a new user in db
+                User user = new User(
+                        (String)VaadinSession.getCurrent().getAttribute("Email"),
+                        (String)VaadinSession.getCurrent().getAttribute("Password"),
+                        "PATIENT",
+                        (byte) 1
+                        //Role.PATIENT,
+                );
+                userService.getRepository().save(user);
+
+
+//                Create and save a new patient in db
                 Patient patient = new Patient(
                         (Long)VaadinSession.getCurrent().getAttribute("Patientid"),
                         (String)VaadinSession.getCurrent().getAttribute("FirstName"),
@@ -157,14 +190,22 @@ public class PatientSignUp3 extends Div {
                         insulinSelect.isSelected("Short-acting insulin"),
                         insulinSelect.isSelected("Intermediate-acting insulin"),
                         insulinSelect.isSelected("Long-acting insulin"),
-                        (String)VaadinSession.getCurrent().getAttribute("Injection")
+                        (String)VaadinSession.getCurrent().getAttribute("Injection"),
+                        userService.getRepository().findByUsername((String)VaadinSession.getCurrent().getAttribute("Email")).getUid()
                 );
 
                 patientService.getRepository().save(patient);
 
+//                Set the authority of the user as patient
+                Authorities authorities = new Authorities((String)VaadinSession.getCurrent().getAttribute("Email"),"PATIENT");
+                authoritiesService.getRepository().save(authorities);
 
+//                Send a confirmation email
+                SendMail.sendMail("Congratulations!","Thank you for choosing our app!",(String)VaadinSession.getCurrent().getAttribute("Email"));
+
+//                Direct to patient home page
                 submitButton.getUI().ifPresent(ui ->
-                        ui.navigate("PatientStart")
+                        ui.navigate(PatientStart.class)
                 );
             }
 

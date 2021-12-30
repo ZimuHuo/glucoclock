@@ -1,6 +1,5 @@
 package com.glucoclock.views.researcher;
 
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -12,8 +11,8 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Researcher Settings")
-@Route(value = "ResearcherSetting2",layout = MainLayout.class)
+@PageTitle("Change Password")
+@Route(value = "researcher/change-password")
 
 public class ResearcherSetting2 extends HorizontalLayout{
 
