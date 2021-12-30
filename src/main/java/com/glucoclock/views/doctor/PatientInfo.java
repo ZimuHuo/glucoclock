@@ -4,13 +4,15 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.server.VaadinSession;
+
+import java.util.UUID;
 
 public class PatientInfo {
     private String firstName;
     private String lastName;
     private String email;
-
-
+    private UUID uid;
 
     public String getFirstName() {
         return firstName;
@@ -44,6 +46,7 @@ public class PatientInfo {
         Button button = new Button("View Data");
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         button.addClickListener(click->{
+            VaadinSession.getCurrent().setAttribute("PatientID", uid);
             button.getUI().ifPresent(ui->ui.navigate(ViewPatientsData.class));
             Notification.show(firstName+lastName);
         });

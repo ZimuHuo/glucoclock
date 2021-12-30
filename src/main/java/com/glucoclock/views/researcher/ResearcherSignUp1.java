@@ -3,6 +3,8 @@ package com.glucoclock.views.researcher;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.doctor.DoctorSignUp2;
+import com.glucoclock.views.util.SendMail;
+import com.glucoclock.views.util.verificationCode;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -37,9 +39,30 @@ public class ResearcherSignUp1 extends HorizontalLayout {
     VerticalLayout mainLayout;
     private MenuBar menu = new MenuBar("NS");
 UserService userService;
+Button codeButton;
+TextField code;
     public ResearcherSignUp1(UserService userService) {
         this.userService = userService;
         add(menu);
+
+        this.codeButton = new Button("send code");
+        this.code = new TextField();
+        code.setRequired(true);
+        codeButton.addClickListener(e ->{
+                    if(userService.getRepository().findByUsername(emailField.getValue())!=null) {
+                        Notification notification = Notification.show("Please choose another email address");
+                        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    }else {
+                        String code = verificationCode.getRandomNum();
+                        String email = "Your code is: "+code;
+                        VaadinSession.getCurrent().setAttribute("code",code);
+                        SendMail.sendMail("Verification code",email,emailField.getValue());
+                        Notification notification = Notification.show("You should receive an email by now. In case you dont "+email);
+                        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    }
+                }
+
+        );
         init();
         this.setJustifyContentMode(JustifyContentMode.CENTER);
 
@@ -80,6 +103,9 @@ UserService userService;
             } else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
                 Notification notification = Notification.show("Please choose another email address");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }else if(!VaadinSession.getCurrent().getAttribute("code").equals(code.getValue())){
+                Notification notification = Notification.show("Wrong code");
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }else {
                 //Save current information and move to next page
                 VaadinSession.getCurrent().setAttribute( "FirstName",firstName.getValue());
@@ -101,7 +127,8 @@ UserService userService;
                 firstName, lastName,
                 emailField,
                 institution,
-                password, confirmPassword
+                password, confirmPassword,
+                code, codeButton
         );
         formLayout.setResponsiveSteps(
                 // Use one column by default

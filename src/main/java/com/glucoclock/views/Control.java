@@ -26,5 +26,6 @@ public class Control extends VerticalLayout implements BeforeEnterObserver {
         }else{
             event.rerouteTo(HomeView.class);
         }
+        // we need a fully functional error page to deal with all the exceptions
     }
 }
