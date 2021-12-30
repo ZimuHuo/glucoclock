@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Patient_db")
-public class Patient implements Serializable {
+public class Patient implements Serializable,Comparable<Patient>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -117,14 +117,14 @@ public class Patient implements Serializable {
 		this.City = city;
 		this.postCode = postCode;
 		this.Phone = phone;
-		this.Gender = gender;
-		this.Birthday =  birthday;
-		this.DiabetesType = diabetesType;
-		this.RapidInsulin = rapidInsulin;
-		this.ShortInsulin = shortInsulin;
-		this.IntermediateInsulin = intermediateInsulin;
-		this.LongInsulin = longInsulin;
-		this.InjectionMethod = injectionMethod;
+		this.gender = gender;
+		this.birthday =  birthday;
+		this.diabetestype = diabetesType;
+		this.rapidinsulin = rapidInsulin;
+		this.shortinsulin = shortInsulin;
+		this.intermediateinsulin = intermediateInsulin;
+		this.longinsulin = longInsulin;
+		this.injectionmethod = injectionMethod;
 		this.UID = uid;
 	}
 
@@ -136,8 +136,8 @@ public class Patient implements Serializable {
 	public String toString() {
 		return "Patient{" +
 				"id=" + id +
-				", firstName='" + firstName + ',' +
-				", lastName='" + lastName + ',' +
+				", firstName='" + firstname + ',' +
+				", lastName='" + lastname + ',' +
 				", email='" + email + ',' +
 				", Address Line1='" + HomeAddressL1 + ',' +
 				", Address Line2='" + HomeAddressL2 + ',' +

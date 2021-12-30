@@ -4,7 +4,6 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
-import com.glucoclock.views.MainLayout;
 import com.glucoclock.views.MenuBar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -37,8 +36,8 @@ import java.time.ZoneId;
 import java.util.Set;
 
 
-@PageTitle("Patient Settings")
-@Route(value = "PatientSetting1",layout = MainLayout.class)
+@PageTitle("Settings")
+@Route(value = "patient/settings")
 public class PatientSetting1 extends HorizontalLayout {
 
 
