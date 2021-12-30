@@ -31,13 +31,19 @@ public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
 
 
 
-    public SimpleLogBook(UUID PatientUid, LocalDate Date, int Time, String BloodGlucose, String CarbIntake) {
+    public SimpleLogBook(UUID PatientUid, LocalDate Date, String TimeString, String BloodGlucose, String CarbIntake) {
 
         patientuid = PatientUid;
         date = Date;
         bloodglucose = BloodGlucose;
         carbintake = CarbIntake;
-        time=Time;
+        if (TimeString.equals("PreBreakfast")) time =1;
+        else if (TimeString.equals("PostBreakfast")) time =2;
+        else if (TimeString.equals("PreLunch")) time =3;
+        else if (TimeString.equals("PostLunch")) time =4;
+        else if (TimeString.equals("PreDinner")) time =5;
+        else if (TimeString.equals("PostDinner")) time =6;
+
     }
 
     public SimpleLogBook() {
@@ -102,6 +108,8 @@ public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
         if(time==6) TimeString="Post Dinner";
         return TimeString;
     }
+
+
     @Override
     public int compareTo(SimpleLogBook that){
         int returnint=2;

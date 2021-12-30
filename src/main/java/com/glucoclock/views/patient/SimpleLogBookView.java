@@ -1,5 +1,10 @@
 package com.glucoclock.views.patient;
 
+import com.glucoclock.database.patients_db.model.Patient;
+import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
+import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
+import com.glucoclock.security.db.User;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.util.SendMail;
 import com.vaadin.flow.component.Component;
@@ -10,13 +15,21 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.time.LocalDate;
 import java.util.Properties;
+import java.util.UUID;
 
 @PageTitle("Add Simple Logbook Entry")
 @Route(value = "patient/addsimplelogbookentry")
@@ -29,8 +42,14 @@ public class SimpleLogBookView extends Div {
     Button submitButton = new Button("Upload");
     private MenuBar menu = new MenuBar("PNS");
 
+    private final UserService userService;
+    private final SimpleLogBookService simpleLogBookService;
 
-    public SimpleLogBookView(){
+
+    public SimpleLogBookView(UserService userService, SimpleLogBookService simpleLogBookService){
+        this.userService = userService;
+        this.simpleLogBookService = simpleLogBookService;
+
         init();
         add(menu);
         //add(menuBar());
@@ -68,12 +87,37 @@ public class SimpleLogBookView extends Div {
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.addClickListener(e -> {
 
-            SendMail sendMail = new SendMail();
-            sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
+            //check input validity
+            try{
+                float bg = Integer.parseInt(bloodGlucose.getValue());
+                //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
+                if(bg>140){
+//                    SendMail sendMail = new SendMail();
+//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
+                    Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
+                }
+                //save to database
+                UUID uid = userService.getRepository().findAll().get(0).getUid();
+                //User user = userService.getRepository().getUserByUid(uid);
+                SimpleLogBook simpleLogBook = new SimpleLogBook(
+                        uid,
+                        (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
+                        prepost.getValue()+meal.getValue(),
+                        bloodGlucose.getValue(),
+                        carbohydrate.getValue()
+                );
+                simpleLogBookService.getRepository().save(simpleLogBook);
 
-            submitButton.getUI().ifPresent(ui ->
-                    ui.navigate(ConfirmationPage.class)
-            );
+                //Navigation
+                submitButton.getUI().ifPresent(ui ->
+                        ui.navigate(ConfirmationPage.class)
+                );
+            }
+            catch (NumberFormatException ex){
+                ex.printStackTrace();
+                Notification.show("Invalid blood glucose input, please re-enter");
+            }
+
 
                 }
 

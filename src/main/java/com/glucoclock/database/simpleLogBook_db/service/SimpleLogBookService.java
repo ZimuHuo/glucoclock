@@ -16,25 +16,25 @@ public class SimpleLogBookService {
     @Autowired
     SimpleLogBookRepository repository;
 
-    public String bulkcreate(){
-        LocalDate test= LocalDate.now();
-        //Simple: patient id, date, blood glucose, carb intake
-        repository.save(new SimpleLogBook(UUID.fromString("113d2815-54fb-4396-94fb-9a071393c336"),test.minusDays(8),1,"23","32"));
-        repository.save(new SimpleLogBook(UUID.fromString("113d2815-54fb-4396-94fb-9a071393c336"),test.minusDays(8),6,"23","34"));
-        repository.save(new SimpleLogBook(UUID.fromString("113d2815-54fb-4396-94fb-9a071393c336"),test.minusDays(8),3,"23","33"));
-        repository.save(new SimpleLogBook(UUID.fromString("1e522787-854c-41f6-81b1-cd169b6d3c3d"),test.minusDays(3),4,"23","32"));
-        return "Simple Log is created";
-    }
-    public String create(SimpleLogBook SimpleLogBook){
-        repository.save(new SimpleLogBook(SimpleLogBook.getPatientuid(),SimpleLogBook.getDate(),SimpleLogBook.getTime(),SimpleLogBook.getBloodglucose(),SimpleLogBook.getCarbintake()));
-        return "Simple Log is created";
-    }
+//    public String bulkcreate(){
+//        LocalDate test= LocalDate.now();
+//        //Simple: patient id, date, blood glucose, carb intake
+//        repository.save(new SimpleLogBook(UUID.fromString("113d2815-54fb-4396-94fb-9a071393c336"),test.minusDays(8),1,"23","32"));
+//        repository.save(new SimpleLogBook(UUID.fromString("113d2815-54fb-4396-94fb-9a071393c336"),test.minusDays(8),6,"23","34"));
+//        repository.save(new SimpleLogBook(UUID.fromString("113d2815-54fb-4396-94fb-9a071393c336"),test.minusDays(8),3,"23","33"));
+//        repository.save(new SimpleLogBook(UUID.fromString("1e522787-854c-41f6-81b1-cd169b6d3c3d"),test.minusDays(3),4,"23","32"));
+//        return "Simple Log is created";
+//    }
+//    public String create(SimpleLogBook SimpleLogBook){
+//        repository.save(new SimpleLogBook(SimpleLogBook.getPatientuid(),SimpleLogBook.getDate(),SimpleLogBook.getTimeString(),SimpleLogBook.getBloodglucose(),SimpleLogBook.getCarbintake()));
+//        return "Simple Log is created";
+//    }
 
     public List<SimpleLogBook> findAll(){
         List<SimpleLogBook> SimpleLogBooks=repository.findAll();
         List<SimpleLogBook>SimpleLogBookObjects=new ArrayList<>();
         for(SimpleLogBook SimpleLog:SimpleLogBooks){
-            SimpleLogBookObjects.add(new SimpleLogBook(SimpleLog.getPatientuid(),SimpleLog.getDate(),SimpleLog.getTime(),SimpleLog.getBloodglucose(),SimpleLog.getCarbintake()));
+            SimpleLogBookObjects.add(new SimpleLogBook(SimpleLog.getPatientuid(),SimpleLog.getDate(),SimpleLog.getTimeString(),SimpleLog.getBloodglucose(),SimpleLog.getCarbintake()));
         }
         return SimpleLogBookObjects;
     }
