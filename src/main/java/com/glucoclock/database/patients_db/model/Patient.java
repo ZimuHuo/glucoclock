@@ -4,6 +4,7 @@ package com.glucoclock.database.patients_db.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -277,3 +278,15 @@ public class Patient implements Serializable,Comparable<Patient>{
 		return this.birthday.compareTo(that.birthday);
 	}
 }
+
+//	UUID uid,
+//	LocalDateTime dateTime,
+//	Boolean isFrequentUrination,
+//	Boolean isExcessiveThirst,
+//	Boolean isUnexplainedWeightLoss,
+//	Boolean isExtremeHunger,
+//	Boolean isSuddenVisionChanges,
+//	Boolean isTinglingOrNumbnessInHandsOrFeet,
+//	Boolean isVeryDrySkin,
+//	Boolean isSoresThatAreSlowToHeal,
+//	Boolean isMoreInfectionsThanUsual

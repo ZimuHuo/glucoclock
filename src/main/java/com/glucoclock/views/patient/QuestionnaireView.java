@@ -24,7 +24,7 @@ public class QuestionnaireView extends Div {
 
     public QuestionnaireView(){
         symptoms.setLabel("Symptoms (Select all that apply)");
-        symptoms.setItems("Frequency urination",
+        symptoms.setItems("Frequent urination",
                 "Excessive thirst",
                 "Unexplained weight loss",
                 "Extreme hunger",
