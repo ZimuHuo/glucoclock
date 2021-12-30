@@ -1,5 +1,10 @@
 package com.glucoclock.views.patient;
 
+import com.glucoclock.database.comprehensiveLogBook_db.model.ComprehensiveLogBook;
+import com.glucoclock.database.intensiveLogBook_db.model.IntensiveLogBook;
+import com.glucoclock.database.intensiveLogBook_db.service.IntensiveLogBookService;
+import com.glucoclock.security.db.User;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -7,6 +12,8 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -14,10 +21,13 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 
 @PageTitle("Add Intensive Logbook Entry")
@@ -26,6 +36,7 @@ public class IntensiveLogBookView extends Div {
     private TimePicker timePicker;
     private TextField bloodGlucose;
     private TextField carbohydrateIntake;
+    private TextField insulinDose;
     private TextField carbBolus;
     private TextField highBsBolus;
     private TextField basalRate;
@@ -34,7 +45,12 @@ public class IntensiveLogBookView extends Div {
     private H3 title = new H3("Add Intensive Logbook Entry");
     private MenuBar menu = new MenuBar("PNS");
 
-    public IntensiveLogBookView() {
+    private final UserService userService;
+    private final IntensiveLogBookService intensiveLogBookService;
+
+    public IntensiveLogBookView(UserService userService, IntensiveLogBookService intensiveLogBookService) {
+        this.userService = userService;
+        this.intensiveLogBookService = intensiveLogBookService;
         init();
         add(menu);
         //add(menuBar());
@@ -43,6 +59,7 @@ public class IntensiveLogBookView extends Div {
                 timePicker,
                 bloodGlucose,
                 carbohydrateIntake,
+                insulinDose,
                 carbBolus,
                 highBsBolus,
                 basalRate,
@@ -57,18 +74,54 @@ public class IntensiveLogBookView extends Div {
         formLayout.setColspan(timePicker, 1);
         formLayout.setColspan(bloodGlucose,1 );
         formLayout.setColspan(carbohydrateIntake,1 );
+        formLayout.setColspan(insulinDose,1 );
         formLayout.setColspan(carbBolus,1 );
         formLayout.setColspan(highBsBolus,1 );
-        formLayout.setColspan(basalRate,1 );
         formLayout.setColspan(basalRate,1 );
         formLayout.setColspan(ketones,1);
         Button submitButton = new Button("Upload");
         submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.addClickListener(e ->
+        submitButton.addClickListener(e ->{
+            //check input validity
+            try{
+                float bg = Integer.parseInt(bloodGlucose.getValue());
+                //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
+                if(bg>140){
+//                    SendMail sendMail = new SendMail();
+//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
+                    Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
+                }
+                //save to database
+                UUID uid = userService.getRepository().findAll().get(0).getUid();
+                IntensiveLogBook intensiveLogBook = new IntensiveLogBook(
+                        uid,
+                        (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
+                        timePicker.getValue(),
+                        bloodGlucose.getValue(),
+                        carbohydrateIntake.getValue(),
+                        insulinDose.getValue(),
+                        carbBolus.getValue(),
+                        highBsBolus.getValue(),
+                        basalRate.getValue(),
+                        ketones.getValue()
+
+                );
+//UUID PatientUid, LocalDate Date, LocalTime Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons
+                intensiveLogBookService.getRepository().save(intensiveLogBook);
+
+                //Navigation
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(ConfirmationPage.class)
-                )
+                );
+            }
+            catch (NumberFormatException ex){
+                ex.printStackTrace();
+                Notification.show("Invalid input(s), please re-enter");
+            }
+
+        }
+
         );
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER,title,submitButton);
@@ -88,6 +141,7 @@ public class IntensiveLogBookView extends Div {
         setTimePicker();
         this.bloodGlucose = new TextField("Blood Glucose");
         this.carbohydrateIntake = new TextField("Carbohydrate Intake");
+        this.insulinDose = new TextField("Insulin Dose");
         this.carbBolus = new TextField("Carb Bolus");
         this.highBsBolus = new TextField("High BS Bolus");
         this.basalRate = new TextField("Basal Rate");
@@ -112,6 +166,7 @@ public class IntensiveLogBookView extends Div {
     private void setHelperText() {
         bloodGlucose.setHelperText("unit");
         carbohydrateIntake.setHelperText("unit");
+        insulinDose.setHelperText("unit");
         carbBolus.setHelperText("unit");
         highBsBolus.setHelperText("unit");
         basalRate.setHelperText("unit");
@@ -121,27 +176,13 @@ public class IntensiveLogBookView extends Div {
     private void setClearButtonVisible() {
         bloodGlucose.setClearButtonVisible(true);
         carbohydrateIntake.setClearButtonVisible(true);
+        insulinDose.setClearButtonVisible(true);
         carbBolus.setClearButtonVisible(true);
         highBsBolus.setClearButtonVisible(true);
         basalRate.setClearButtonVisible(true);
         ketones.setClearButtonVisible(true);
     }
 
-    private Component menuBar(){
-        Button test1 = new Button("Test"); //Menubar test button
-        Button test2 = new Button("Test");
-        this.setHeight("81px");
-        this.getStyle().set( "background-image" , "url('images/menubar.png')")
-                .set("margin", "0")
-                .set("position", "absolute");
-        test1.setWidth("8%");
-        test2.setWidth("8%");
-        HorizontalLayout menuButtons = new HorizontalLayout(test1,test2);
-        VerticalLayout rightC = new VerticalLayout();
-        rightC.setHorizontalComponentAlignment(FlexComponent.Alignment.END,menuButtons);
-        rightC.add(menuButtons);
-        return rightC;
-    }
 
 }
 
