@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @PageTitle("View Patients Data History")
 @Route(value = "doctor/view-patient-history")
@@ -36,7 +37,7 @@ public class ViewPatientsData extends VerticalLayout {
     private Button Back =new Button("Back");
     private HorizontalLayout SearchPanel=new HorizontalLayout();
     private final LogService log_db;
-    long patientid=1L;
+    UUID patientid= UUID.fromString("113d2815-54fb-4396-94fb-9a071393c336");
     private MenuBar menu = new MenuBar("DNS");
     private Icon download = new Icon(VaadinIcon.DOWNLOAD);
     private Button downloadBut = new Button(download);

@@ -20,7 +20,6 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.PageTitle;
@@ -32,6 +31,7 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @PageTitle("Search for and Download Anonymised Data")
 @Route(value = "researcher/data-searcher-and-download")
@@ -42,10 +42,6 @@ public class ResearcherStart extends VerticalLayout {
     LocalDate F_AgeMax_date;
     String F_Gender;
     String F_Insulin;
-    Boolean F_RapidInsulin = false;
-    Boolean F_ShortInsulin = false;
-    Boolean F_InterInsulin = false;
-    Boolean F_LongInsulin = false;
     String F_Diabetes;
     String F_Result;
 
@@ -63,11 +59,11 @@ public class ResearcherStart extends VerticalLayout {
     public ResearcherStart(PatientService patientService, SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, LogService logdata) {
         //Databases
         this.patientService = patientService;
-        patientService.bulkcreate();
-        simplelogData.bulkcreate();
-        comprehensivelogData.bulkcreate();
-        intensivelogData.bulkcreate();
-        logdata.bulkcreate();
+//        patientService.bulkcreate();
+//        simplelogData.bulkcreate();
+//        comprehensivelogData.bulkcreate();
+//        intensivelogData.bulkcreate();
+//        logdata.bulkcreate();
         SimplelogData = simplelogData;
         ComprehensivelogData = comprehensivelogData;
         IntensivelogData = intensivelogData;
@@ -107,38 +103,6 @@ public class ResearcherStart extends VerticalLayout {
         Filter_Insulin.addValueChangeListener(insulin -> {
             Notification.show(insulin.getValue());
             F_Insulin = insulin.getValue();
-            //write the insulin type the researcher wanted in the Boolean variables
-//            if (F_Insulin.equals("Rapid acting insulin")) {
-//                F_RapidInsulin = true;
-//                F_ShortInsulin = false;
-//                F_InterInsulin = false;
-//                F_LongInsulin = false;
-//            }
-//            if (F_Insulin.equals("Short acting insulin")) {
-//                F_RapidInsulin = false;
-//                F_ShortInsulin = true;
-//                F_InterInsulin = false;
-//                F_LongInsulin = false;
-//            }
-//            if (F_Insulin.equals("Intermediate acting insulin")) {
-//                F_RapidInsulin = false;
-//                F_ShortInsulin = false;
-//                F_InterInsulin = true;
-//                F_LongInsulin = false;
-//            }
-//            if (F_Insulin.equals("Long acting insulin")) {
-//                F_RapidInsulin = false;
-//                F_ShortInsulin = false;
-//                F_InterInsulin = false;
-//                F_LongInsulin = true;
-//            }
-//            if (F_Insulin.equals("Any")) {
-//                F_RapidInsulin = true;
-//                F_ShortInsulin = true;
-//                F_InterInsulin = true;
-//                F_LongInsulin = true;
-//            }
-
         });
         //Diabetes filter
         ComboBox<String> Filter_Diabetes = new ComboBox<>("Diabetes type ");
@@ -233,22 +197,22 @@ public class ResearcherStart extends VerticalLayout {
         //System.out.println(patientList);
 
         for (Patient thispatient : patientList) {
-            Long patientid;
-            patientid = thispatient.getPatientid();
+            UUID patientuid;
+            patientuid = thispatient.getUid();
 
             //seperate each patient data
             Finaloutput = Finaloutput + "Patient" + patientNumber + "\n";
             List<Log> PatientData;//create a list store the data fit requirement (from logdata database)
             //find the data of this patient (patient id), store them in the PatientData list
             // the list will contain logbook type and date and patient id
-            PatientData = Logdata.findLogBooksByPatientid(patientid);
+            PatientData = Logdata.findLogBooksByPatientid(patientuid);
 
             // check in corresponding logbook database(find the logbook type from the list) for each data in the PatientData list
             for (Log eachdata : PatientData) {
                 //if this data is Simplelogbook
                 if (eachdata.getLogbooktype() == 1) {
                     //use SimpleOut method to get the string which contain all the data at that date
-                    String simplestring = SimpleOut(eachdata.getDate(), patientid);
+                    String simplestring = SimpleOut(eachdata.getDate(), patientuid);
                     //add the string to the returned string
                     Finaloutput += simplestring + "\n";
 
@@ -256,7 +220,7 @@ public class ResearcherStart extends VerticalLayout {
                 //if this data is Comprehensivelogbook
                 if (eachdata.getLogbooktype() == 2) {
                     //use ComprehensiveOut method to get the string which contain all the data at that date
-                    String comprehensivestring = ComprehensiveOut(eachdata.getDate(), patientid);
+                    String comprehensivestring = ComprehensiveOut(eachdata.getDate(), patientuid);
                     //add the string to the returned string
                     Finaloutput += comprehensivestring + "\n";
                 }
@@ -264,23 +228,23 @@ public class ResearcherStart extends VerticalLayout {
                 //if this data is Intensivelogbook
                 if (eachdata.getLogbooktype() == 3) {
                     //use IntensiveOut method to get the string which contain all the data at that date
-                    String intensivestring = IntensiveOut(eachdata.getDate(), patientid);
+                    String intensivestring = IntensiveOut(eachdata.getDate(), patientuid);
                     //add the string to the returned string
                     Finaloutput += intensivestring + "\n";
                 }
 
             }
-                System.out.println(patientid);
+                System.out.println(patientuid);
 
             patientNumber+=1;
             }
 
             return Finaloutput;
     }
-    public String SimpleOut (LocalDate checkdate, Long patientid){
+    public String SimpleOut (LocalDate checkdate, UUID patientuid){
         String SimpleoutString = new String();//set up returned string
         //find the data for this patient at checkdate, and stored the data in the simpledata list
-        List<SimpleLogBook> simpledata = SimplelogData.findLogByDateAndPatientid(checkdate, patientid);
+        List<SimpleLogBook> simpledata = SimplelogData.findLogByDateAndPatientuid(checkdate, patientuid);
         for (SimpleLogBook eachdata : simpledata) {
             //get each data in string form, and added to the returned string
             SimpleoutString += eachdata.toString() + "\n";
@@ -288,11 +252,11 @@ public class ResearcherStart extends VerticalLayout {
         return SimpleoutString;
     }
 
-    public String ComprehensiveOut (LocalDate checkdate, Long patientid){
+    public String ComprehensiveOut (LocalDate checkdate, UUID patientuid){
         //set up the returned string
         String ComprehensiveoutString = new String();
         //find the data for this patient at checkdate, and stored the data in the comprehensivedata list
-        List<ComprehensiveLogBook> comprehensivedata = ComprehensivelogData.findLogByDateAndPatientid(checkdate, patientid);
+        List<ComprehensiveLogBook> comprehensivedata = ComprehensivelogData.findLogByDateAndPatientuid(checkdate, patientuid);
         for (ComprehensiveLogBook eachdata : comprehensivedata) {
             //get each data in string form, and added to the returned string
             ComprehensiveoutString += eachdata.toString() + "\n";
@@ -300,11 +264,11 @@ public class ResearcherStart extends VerticalLayout {
         return ComprehensiveoutString;
     }
 
-    public String IntensiveOut (LocalDate checkdate, Long patientid){
+    public String IntensiveOut (LocalDate checkdate, UUID patientuid){
         //set up the returned string
         String IntensiveoutString = new String();
         //find the data for this patient at checkdate, and stored the data in the intensivedata list
-        List<IntensiveLogBook> intensivedata = IntensivelogData.findLogByDateAndPatientid(checkdate, patientid);
+        List<IntensiveLogBook> intensivedata = IntensivelogData.findLogByDateAndPatientuid(checkdate, patientuid);
         for (IntensiveLogBook eachdata : intensivedata) {
             //get each data in string form, and added to the returned string
             IntensiveoutString += eachdata.toString() + "\n";

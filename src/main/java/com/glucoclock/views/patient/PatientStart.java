@@ -20,6 +20,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.messages.MessageListItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -68,6 +69,7 @@ public class PatientStart extends VerticalLayout{
         updateButton.setHeight("120px");
 
         LBtybe.addValueChangeListener(event -> {
+            VaadinSession.getCurrent().setAttribute( "date",datePicker.getValue());
             if (event.getValue() == "Simple") {
                 updateButton.addClickListener(e ->
                         updateButton.getUI().ifPresent(ui ->

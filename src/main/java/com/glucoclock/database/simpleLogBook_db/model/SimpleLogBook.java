@@ -4,6 +4,7 @@ package com.glucoclock.database.simpleLogBook_db.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Simplelogbook_db")
@@ -12,8 +13,8 @@ public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "PatientId")
-    private Long patientid;
+    @Column(name = "PatientUid")
+    private UUID patientuid;
 
     @Column(name = "Date")
     private LocalDate date;
@@ -30,13 +31,19 @@ public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
 
 
 
-    public SimpleLogBook(Long PatientId, LocalDate Date, int Time, String BloodGlucose, String CarbIntake) {
+    public SimpleLogBook(UUID PatientUid, LocalDate Date, String TimeString, String BloodGlucose, String CarbIntake) {
 
-        patientid = PatientId;
+        patientuid = PatientUid;
         date = Date;
         bloodglucose = BloodGlucose;
         carbintake = CarbIntake;
-        time=Time;
+        if (TimeString.equals("PreBreakfast")) time =1;
+        else if (TimeString.equals("PostBreakfast")) time =2;
+        else if (TimeString.equals("PreLunch")) time =3;
+        else if (TimeString.equals("PostLunch")) time =4;
+        else if (TimeString.equals("PreDinner")) time =5;
+        else if (TimeString.equals("PostDinner")) time =6;
+
     }
 
     public SimpleLogBook() {
@@ -51,12 +58,12 @@ public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
         this.id = id;
     }
 
-    public Long getPatientid() {
-        return patientid;
+    public UUID getPatientuid() {
+        return patientuid;
     }
 
-    public void setPatientid(Long patientid) {
-        this.patientid = patientid;
+    public void setPatientuid(UUID patientuid) {
+        this.patientuid = patientuid;
     }
 
     public LocalDate getDate() {
@@ -101,6 +108,8 @@ public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
         if(time==6) TimeString="Post Dinner";
         return TimeString;
     }
+
+
     @Override
     public int compareTo(SimpleLogBook that){
         int returnint=2;
@@ -124,7 +133,7 @@ public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
                 "," + "-" +
                 "," + "-";
     }
-    //here need to be revised
+
 }
 
 
