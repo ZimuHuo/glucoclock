@@ -1,4 +1,8 @@
 package com.glucoclock.database.questionnaire_db;
 
-public interface QuestionnaireRepository {
+import org.springframework.data.repository.CrudRepository;
+
+
+public interface QuestionnaireRepository extends CrudRepository<Questionnaire, Long> {
+    <S extends Questionnaire> S save(S s);
 }
