@@ -5,12 +5,13 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 public interface IntensiveLogBookRepository extends CrudRepository<IntensiveLogBook, Long> {
     List<IntensiveLogBook> findAll();
-    List<IntensiveLogBook> findByPatientid(Long patient_id);
-    IntensiveLogBook findByPatientidAndTimeAndDate(Long patient_id,String Time, LocalDate Date);
-    List<IntensiveLogBook> findByPatientidAndAndDate(Long patient_id,LocalDate Date);
+    List<IntensiveLogBook> findByPatientuid(UUID patient_uid);
+    IntensiveLogBook findByPatientuidAndTimeAndDate(UUID patient_uid,String Time, LocalDate Date);
+    List<IntensiveLogBook> findByPatientuidAndAndDate(UUID patient_uid,LocalDate Date);
     @Override
     <S extends IntensiveLogBook> S save(S s);
 

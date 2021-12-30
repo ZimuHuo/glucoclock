@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Intensivelogbook_db")
@@ -12,8 +13,8 @@ public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBo
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "PatientId")
-    private Long patientid;
+    @Column(name = "PatientUid")
+    private UUID patientuid;
 
     @Column(name = "Date")
     private LocalDate date;
@@ -44,9 +45,9 @@ public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBo
 
 
 
-    public IntensiveLogBook(Long PatientId, LocalDate Date, LocalTime Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons) {
+    public IntensiveLogBook(UUID PatientUid, LocalDate Date, LocalTime Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons) {
 
-        patientid = PatientId;
+        patientuid = PatientUid;
         date = Date;
         bloodglucose = BloodGlucose;
         carbintake = CarbIntake;
@@ -110,12 +111,12 @@ public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBo
         this.id = id;
     }
 
-    public Long getPatientid() {
-        return patientid;
+    public UUID getPatientuid() {
+        return patientuid;
     }
 
-    public void setPatientid(Long patientid) {
-        this.patientid = patientid;
+    public void setPatientuid(UUID patientuid) {
+        this.patientuid = patientuid;
     }
 
     public LocalDate getDate() {

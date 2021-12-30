@@ -2,22 +2,17 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
-
 import com.glucoclock.security.db.Authorities;
 import com.glucoclock.security.db.AuthoritiesService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.util.SendMail;
-import com.google.gson.Gson;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
-import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -26,21 +21,13 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.select.Select;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.PasswordField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.theme.Theme;
 
-import javax.annotation.security.RolesAllowed;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Set;
-import java.util.UUID;
 
 @PageTitle("Patient Sign Up")
 @Route(value = "patient-sign-up-3")
@@ -174,7 +161,7 @@ public class PatientSignUp3 extends Div {
 
 //                Create and save a new patient in db
                 Patient patient = new Patient(
-                        (Long)VaadinSession.getCurrent().getAttribute("Patientid"),
+                        userService.getRepository().findByUsername((String)VaadinSession.getCurrent().getAttribute("Email")).getUid(),
                         (String)VaadinSession.getCurrent().getAttribute("FirstName"),
                         (String)VaadinSession.getCurrent().getAttribute("LastName"),
                         (String)VaadinSession.getCurrent().getAttribute("Email"),
@@ -190,8 +177,8 @@ public class PatientSignUp3 extends Div {
                         insulinSelect.isSelected("Short-acting insulin"),
                         insulinSelect.isSelected("Intermediate-acting insulin"),
                         insulinSelect.isSelected("Long-acting insulin"),
-                        (String)VaadinSession.getCurrent().getAttribute("Injection"),
-                        userService.getRepository().findByUsername((String)VaadinSession.getCurrent().getAttribute("Email")).getUid()
+                        (String)VaadinSession.getCurrent().getAttribute("Injection")
+
                 );
 
                 patientService.getRepository().save(patient);
