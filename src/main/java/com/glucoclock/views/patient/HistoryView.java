@@ -43,7 +43,7 @@ public class HistoryView extends VerticalLayout {
 
     public HistoryView(LogService log_db){
         this.log_db = log_db;
-        log_db.bulkcreate();
+//        log_db.bulkcreate();
 
         setSizeFull();
         configSearch();

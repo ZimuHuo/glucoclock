@@ -63,11 +63,11 @@ public class ResearcherStart extends VerticalLayout {
     public ResearcherStart(PatientService patientService, SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, LogService logdata) {
         //Databases
         this.patientService = patientService;
-        patientService.bulkcreate();
-        simplelogData.bulkcreate();
-        comprehensivelogData.bulkcreate();
-        intensivelogData.bulkcreate();
-        logdata.bulkcreate();
+//        patientService.bulkcreate();
+//        simplelogData.bulkcreate();
+//        comprehensivelogData.bulkcreate();
+//        intensivelogData.bulkcreate();
+//        logdata.bulkcreate();
         SimplelogData = simplelogData;
         ComprehensivelogData = comprehensivelogData;
         IntensivelogData = intensivelogData;

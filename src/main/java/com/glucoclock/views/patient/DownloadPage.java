@@ -55,17 +55,19 @@ public class DownloadPage extends VerticalLayout {
     private final ComprehensiveLogBookService ComprehensivelogData;
     private final IntensiveLogBookService IntensivelogData;
     private final LogService Logdata;
+    private final PatientService PatientData;
     FileDownloadWrapper buttonWrapper;
     //Menu bar
     private MenuBar menu = new MenuBar("PNS");
 
 
-    public DownloadPage(SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, PatientService patientService, LogService logdata) {
+    public DownloadPage(SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, PatientService patientService, LogService logdata, PatientService patientData) {
         // access the data in the databases
         SimplelogData = simplelogData;
         ComprehensivelogData = comprehensivelogData;
         IntensivelogData = intensivelogData;
         Logdata = logdata;
+        PatientData = patientData;
         // add menu bar
         add(menu);
         //2 calendar options preset to current time
@@ -121,7 +123,8 @@ public class DownloadPage extends VerticalLayout {
        //set up the returned string, this is the first 2 lines of the csv file
         String Finaloutput=
                 "Start date"+","+StartDate.toString()+","+"End date"+","+EndDate.toString()+"\n" +
-                ","+"LogBook Type" +
+                "Patient name"+","+PatientData.searchPatientname(patientid)+"\n"+
+                "LogBook Type" +
                 "," + "Date" +
                 "," + "Time" +
                 "," + "Blood glucose" +
@@ -130,7 +133,9 @@ public class DownloadPage extends VerticalLayout {
                 "," + "Carb bolus" +
                 "," + "High BS Bolus" +
                 "," + "Basal Rate" +
-                "," + "Ketones"+"\n";
+                "," + "Ketones"+"\n"
+                ;
+
         List<Log> PatientData;//create a list store the data fit requirement (from logdata database)
         //find the data of this patient (patient id), between StartDate and EndDate, store them in the PatientData list
         // the list will contain logbook type and date and patient id

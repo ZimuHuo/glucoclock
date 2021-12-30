@@ -34,6 +34,12 @@ public class PatientService  {
         return Patient;
     }
 
+    public String searchPatientname(Long patientid){
+        //find the patient name
+        String patientname;
+        patientname=repository.getPatientByPatientid(patientid).getFirstName()+" "+repository.getPatientByPatientid(patientid).getLastName();
+        return patientname;
+    }
 
     public PatientRepository getRepository(){
         return repository;
@@ -45,7 +51,6 @@ public class PatientService  {
         patientList=repository.findByBirthdayBetween(miniage, maxage);
         Collections.sort(patientList);
 
-        //I think it worked? maybe you missed something when you implementing this?
 
         //filter 2: check the insulin type
         if(!insulintype.equals("Any")){
@@ -68,45 +73,28 @@ public class PatientService  {
             }
         }
 
-
         //filter 3: check the gender, skip if any
         if(!gender.equals("Any")){
-            if (gender.equals("Type I")) {
+            if (gender.equals("Female")) {
+                patientList = patientList.stream()
+                        .filter(patient -> patient.isFemale())
+                        .collect(Collectors.toList());
+            } else {
+                patientList = patientList.stream()
+                        .filter(patient -> patient.isMale())
+                        .collect(Collectors.toList());
+            }
+        }
+
+        //filter 4: diabetes type
+        if(!diabetestype.equals("Any")) {
+            if (diabetestype.equals("Type I")) {
                 patientList = patientList.stream()
                         .filter(patient -> patient.isType1())
                         .collect(Collectors.toList());
             } else {
                 patientList = patientList.stream()
                         .filter(patient -> patient.isType2())
-                        .collect(Collectors.toList());
-            }
-        }
-
-        //can you do this part, you did not include this as the filter... maybe not needed?
-        // if yes.. just delete this part
-        //Injection method, too much code, i hate this....
-//        if(!.equals("Any")){
-//            if (gender.equals("Type I")) {
-//                patientList = patientList.stream()
-//                        .filter(patient -> patient.isType1())
-//                        .collect(Collectors.toList());
-//            } else {
-//                patientList = patientList.stream()
-//                        .filter(patient -> patient.isType2())
-//                        .collect(Collectors.toList());
-//            }
-//        }
-
-
-        //last filter
-        if(!diabetestype.equals("Any")) {
-            if (insulintype.equals("Rapid acting insulin")) {
-                patientList = patientList.stream()
-                        .filter(patient -> patient.isRapidInsulin())
-                        .collect(Collectors.toList());
-            } else {
-                patientList = patientList.stream()
-                        .filter(patient -> patient.isShortInsulin())
                         .collect(Collectors.toList());
             }
 

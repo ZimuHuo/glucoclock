@@ -62,9 +62,10 @@ public class LogbookView extends VerticalLayout {
         add(new HorizontalLayout(simple,comprehensive,intensive,Back));
 
 //load data into the database
-        SimplelogData.bulkcreate();
-        ComprehensivelogData.bulkcreate();
-        IntensivelogData.bulkcreate();
+//        System.out.println("active");
+//        SimplelogData.bulkcreate();
+//        ComprehensivelogData.bulkcreate();
+//        IntensivelogData.bulkcreate();
 
         Back.addClickListener(click->Back.getUI().ifPresent(ui->ui.navigate(HistoryView.class)));
 
