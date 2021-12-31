@@ -161,35 +161,12 @@ public class DoctorStartView extends VerticalLayout {
             PatientInfo p = new PatientInfo(patientService.searchByuid(thispatient.getPatientuid()).getFirstName(),
                     patientService.searchByuid(thispatient.getPatientuid()).getLastName(),
                     patientService.searchByuid(thispatient.getPatientuid()).getEmail());
-//            PatientInfo p = new PatientInfo(patientService.getRepository().getPatientByUid(thispatient.getPatientuid()).getFirstName(),
-//                    patientService.getRepository().getPatientByUid(thispatient.getPatientuid()).getLastName(),
-//                    patientService.getRepository().getPatientByUid(thispatient.getPatientuid()).getEmail()
-//                    );
-            System.out.println(patientService.searchByuid(thispatient.getPatientuid()).getFirstName());
-//            p.setFirstName(patientService.searchByuid(thispatient.getPatientuid()).getFirstName());
-//            p.setLastName(patientService.searchByuid(thispatient.getPatientuid()).getLastName());
-//            p.setEmail(patientService.searchByuid(thispatient.getPatientuid()).getEmail(
-            System.out.println(p.getFirstName());
-            System.out.println(p.getEmail());
             patientList_final.add(p);
         }
 
         System.out.println(patientList_final.get(0));
         return patientList_final;
 
-//        return Arrays.asList(
-//                createPatient("ABC","DEF","abcdef@ic.ac.uk"),
-//                createPatient("Imperial","College","ic@gmail.com")
-//                   );
     }
-
-//    private PatientInfo createPatient(String firstName, String lastName, String email) {
-//        PatientInfo p = new PatientInfo();
-//        p.setFirstName(firstName);
-//        p.setLastName(lastName);
-//        p.setEmail(email);
-//        return p;
-//    }
-
 
 }
