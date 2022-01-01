@@ -109,7 +109,6 @@ public class Patient implements Serializable,Comparable<Patient>{
 				   boolean longInsulin,
 				   String injectionMethod) {
 
-		this.uid=uid;
 		this.firstname = firstName;
 		this.lastname = lastName;
 		this.email = email;
