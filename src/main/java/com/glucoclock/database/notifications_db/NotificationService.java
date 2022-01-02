@@ -16,9 +16,9 @@ public class NotificationService {
 
 
 //    Change the status of request
-    public void updateStatus(long id, String status) {
+    public void resolveRequest(long id) {
         Notification n = repository.getNotificationById(id);
-        n.setStatus(status);
+        n.setStatus("Resolved");
         repository.save(n);
     }
 
