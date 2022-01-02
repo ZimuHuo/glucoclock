@@ -66,6 +66,7 @@ TextField code;
         init();
         this.setJustifyContentMode(JustifyContentMode.CENTER);
 
+        mainLayout.add(new H2("     "));
         mainLayout.add(new H2("Set up your account"));
         mainLayout.add(formLayout);
         mainLayout.add(submitButton);
