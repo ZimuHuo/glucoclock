@@ -34,7 +34,7 @@ for(Component c : myLayout) {
 
 @PageTitle("Patient Sign Up")
 @Route(value = "patient-sign-up-2")
-public class PatientSignUp2 extends Div {
+public class PatientSignUp2View extends Div {
     private RadioButtonGroup<String> sex;
     private TextField AddressL1;
     private TextField AddressL2;
@@ -51,7 +51,7 @@ public class PatientSignUp2 extends Div {
 
 
 
-    public PatientSignUp2() {
+    public PatientSignUp2View() {
         add(menu);
         init();
         formlayout1SetUp();
@@ -218,7 +218,7 @@ public class PatientSignUp2 extends Div {
 
                 setSession();
                 submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(PatientSignUp3.class)
+                        ui.navigate(PatientSignUp3View.class)
                 );
             }
 
@@ -234,7 +234,7 @@ public class PatientSignUp2 extends Div {
         previousButton.addClickListener(e -> {
             setSession();
             previousButton.getUI().ifPresent(ui ->
-                    ui.navigate(PatientSignUp1.class)
+                    ui.navigate(PatientSignUp1View.class)
             );
 
 

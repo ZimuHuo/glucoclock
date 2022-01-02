@@ -5,20 +5,13 @@ package com.glucoclock.views.patient;
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MenuBar;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Main;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -28,17 +21,14 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.apache.poi.ss.formula.functions.T;
-import org.hibernate.validator.internal.constraintvalidators.bv.DigitsValidatorForCharSequence;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Set;
 
 
 @PageTitle("Settings")
 @Route(value = "patient/settings")
-public class PatientSetting1 extends HorizontalLayout {
+public class PatientSettings1View extends HorizontalLayout {
 
 
     //     All variables
@@ -87,7 +77,7 @@ public class PatientSetting1 extends HorizontalLayout {
 
 
 
-    public PatientSetting1(PatientService patientService) {
+    public PatientSettings1View(PatientService patientService) {
 
         //-----------------------------------------
         this.patientService = patientService;
@@ -459,7 +449,7 @@ public class PatientSetting1 extends HorizontalLayout {
         save.getElement().getStyle().set("margin-right", "auto");
         changePassword.addClickListener(e ->
                 changePassword.getUI().ifPresent(ui ->
-                        ui.navigate(PatientSetting2.class)
+                        ui.navigate(PatientSettings2View.class)
                 )
         );
     }

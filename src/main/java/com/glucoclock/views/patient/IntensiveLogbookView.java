@@ -1,12 +1,9 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.database.comprehensiveLogBook_db.model.ComprehensiveLogBook;
 import com.glucoclock.database.intensiveLogBook_db.model.IntensiveLogBook;
 import com.glucoclock.database.intensiveLogBook_db.service.IntensiveLogBookService;
-import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -32,7 +29,7 @@ import java.util.UUID;
 
 @PageTitle("Add Intensive Logbook Entry")
 @Route(value = "patient/add-intensive-logbook-entry")
-public class IntensiveLogBookView extends Div {
+public class IntensiveLogbookView extends Div {
     private TimePicker timePicker;
     private TextField bloodGlucose;
     private TextField carbohydrateIntake;
@@ -48,7 +45,7 @@ public class IntensiveLogBookView extends Div {
     private final UserService userService;
     private final IntensiveLogBookService intensiveLogBookService;
 
-    public IntensiveLogBookView(UserService userService, IntensiveLogBookService intensiveLogBookService) {
+    public IntensiveLogbookView(UserService userService, IntensiveLogBookService intensiveLogBookService) {
         this.userService = userService;
         this.intensiveLogBookService = intensiveLogBookService;
         init();
@@ -112,7 +109,7 @@ public class IntensiveLogBookView extends Div {
 
                 //Navigation
                 submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(ConfirmationPage.class)
+                        ui.navigate(ConfirmationView.class)
                 );
             }
             catch (NumberFormatException ex){

@@ -1,8 +1,6 @@
 package com.glucoclock.views;
 
-import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
-import com.glucoclock.views.patient.PatientSignUp2;
 import com.glucoclock.views.util.SendMail;
 import com.glucoclock.views.util.verificationCode;
 import com.vaadin.flow.component.button.Button;

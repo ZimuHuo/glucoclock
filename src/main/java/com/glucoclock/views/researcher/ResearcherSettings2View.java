@@ -1,9 +1,8 @@
-package com.glucoclock.views.doctor;
+package com.glucoclock.views.researcher;
 
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -12,18 +11,18 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("Change Password")
-@Route(value = "doctor/change-password")
+@Route(value = "researcher/change-password")
 
-public class DoctorSetting2 extends HorizontalLayout{
+public class ResearcherSettings2View extends HorizontalLayout{
 
     PasswordField oldPassword, newPassword, confirmPassword;
     Button confirmButton, cancelButton;
     VerticalLayout mainLayout;
-    private MenuBar menu = new MenuBar("DNS");
+    private MenuBar menu = new MenuBar("RNS");
 
-    public DoctorSetting2() {
-        add(menu);
+    public ResearcherSettings2View() {
         init();
+        add(menu);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         mainLayout.add(
@@ -61,19 +60,19 @@ public class DoctorSetting2 extends HorizontalLayout{
     private void oldPasswordInit() {
         oldPassword = new PasswordField("Current password");
         oldPassword.setClearButtonVisible(true);
-        //oldPassword.setHelperText("Please enter your current password");
+        oldPassword.setHelperText("Please enter your current password");
     }
 
     private void newPasswordInit() {
         newPassword = new PasswordField("New password");
         newPassword.setClearButtonVisible(true);
-        //newPassword.setHelperText("Please enter your new password");
+        newPassword.setHelperText("Please enter your new password");
     }
 
     private void confirmPasswordInit() {
         confirmPassword = new PasswordField("Confirm you new password");
         confirmPassword.setClearButtonVisible(true);
-        //confirmPassword.setHelperText("Please enter you new password again");
+        confirmPassword.setHelperText("Please enter you new password again");
     }
 
     private void confirmButtonInit() {
@@ -82,7 +81,7 @@ public class DoctorSetting2 extends HorizontalLayout{
         confirmButton.getElement().getStyle().set("margin-left", "auto");
         confirmButton.addClickListener(e ->
                 confirmButton.getUI().ifPresent(ui ->
-                        ui.navigate(DoctorSetting1.class)
+                        ui.navigate(ResearcherSettings1View.class)
                 )
         );
     }
@@ -92,7 +91,7 @@ public class DoctorSetting2 extends HorizontalLayout{
         cancelButton.getElement().getStyle().set("margin-right", "auto");
         cancelButton.addClickListener(e ->
                 cancelButton.getUI().ifPresent(ui ->
-                        ui.navigate(DoctorSetting1.class)
+                        ui.navigate(ResearcherSettings1View.class)
                 )
         );
     }

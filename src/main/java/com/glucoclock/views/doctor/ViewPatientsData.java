@@ -3,7 +3,7 @@ package com.glucoclock.views.doctor;
 import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.patient.DownloadPage;
+import com.glucoclock.views.patient.PatientDownloadView;
 import com.glucoclock.views.patient.PersonData;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -61,7 +61,7 @@ public class ViewPatientsData extends VerticalLayout {
         downloadBut.setWidth("60px");
         downloadBut.addClickListener(e ->
                 downloadBut.getUI().ifPresent(ui ->
-                        ui.navigate(DownloadPage.class)
+                        ui.navigate(PatientDownloadView.class)
                 )
         );
 

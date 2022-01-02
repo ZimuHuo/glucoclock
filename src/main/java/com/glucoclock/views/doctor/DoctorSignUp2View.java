@@ -2,20 +2,15 @@ package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.doctors_db.model.Doctor;
 import com.glucoclock.database.doctors_db.service.DoctorService;
-import com.glucoclock.database.patients_db.model.Patient;
-import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.security.db.Authorities;
 import com.glucoclock.security.db.AuthoritiesService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.patient.PatientSignUp1;
-import com.glucoclock.views.patient.PatientSignUp3;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -36,7 +31,7 @@ import java.time.ZoneId;
 
 @PageTitle("Doctor Sign Up")
 @Route(value = "doctor-sign-up-2")
-public class DoctorSignUp2 extends HorizontalLayout {
+public class DoctorSignUp2View extends HorizontalLayout {
 //    All components in the page
     private RadioButtonGroup<String> sex;
     private TextField apartmentAddress;
@@ -59,7 +54,7 @@ public class DoctorSignUp2 extends HorizontalLayout {
 
 
 
-    public DoctorSignUp2(UserService userService, DoctorService doctorService, AuthoritiesService authoritiesService) {
+    public DoctorSignUp2View(UserService userService, DoctorService doctorService, AuthoritiesService authoritiesService) {
         this.userService = userService;
         this.doctorService = doctorService;
         this.authoritiesService = authoritiesService;
@@ -277,7 +272,7 @@ public class DoctorSignUp2 extends HorizontalLayout {
         previousButton.addClickListener(e -> {
             setSession();
             previousButton.getUI().ifPresent(ui ->
-                    ui.navigate(DoctorSignUp1.class)
+                    ui.navigate(DoctorSignUp1View.class)
             );
 
 

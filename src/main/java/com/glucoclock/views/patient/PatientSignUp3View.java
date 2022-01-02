@@ -31,7 +31,7 @@ import java.util.Set;
 
 @PageTitle("Patient Sign Up")
 @Route(value = "patient-sign-up-3")
-public class PatientSignUp3 extends Div {
+public class PatientSignUp3View extends Div {
 
 //    Components in the page
     private Select<String> diabetesSelect;
@@ -47,7 +47,7 @@ public class PatientSignUp3 extends Div {
     private final PatientService patientService;
     private final AuthoritiesService authoritiesService;
 
-    public PatientSignUp3(UserService userService, PatientService patientService, AuthoritiesService authoritiesService) {
+    public PatientSignUp3View(UserService userService, PatientService patientService, AuthoritiesService authoritiesService) {
         this.userService = userService;
         this.patientService = patientService;
         this.authoritiesService = authoritiesService;
@@ -212,7 +212,7 @@ public class PatientSignUp3 extends Div {
             VaadinSession.getCurrent().setAttribute( "Diabetes",diabetesSelect.getValue());
             VaadinSession.getCurrent().setAttribute( "Injection",injectionSelect.getValue());
             previousButton.getUI().ifPresent(ui ->
-                    ui.navigate(PatientSignUp2.class)
+                    ui.navigate(PatientSignUp2View.class)
             );
 
         });

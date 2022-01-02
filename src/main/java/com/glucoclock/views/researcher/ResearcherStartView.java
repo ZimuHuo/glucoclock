@@ -35,7 +35,7 @@ import java.util.UUID;
 
 @PageTitle("Search for and Download Anonymised Data")
 @Route(value = "researcher/data-searcher-and-download")
-public class ResearcherStart extends VerticalLayout {
+public class ResearcherStartView extends VerticalLayout {
     double F_AgeMin;
     double F_AgeMax;
     LocalDate F_AgeMin_date;
@@ -56,7 +56,7 @@ public class ResearcherStart extends VerticalLayout {
     private H2 title = new H2("Download Anonymised Patient Data");
     private MenuBar menu = new MenuBar("RStart");
 
-    public ResearcherStart(PatientService patientService, SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, LogService logdata) {
+    public ResearcherStartView(PatientService patientService, SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, LogService logdata) {
         //Databases
         this.patientService = patientService;
 //        patientService.bulkcreate();

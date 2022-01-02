@@ -2,7 +2,7 @@ package com.glucoclock.views;
 
 import com.glucoclock.views.doctor.DoctorStartView;
 import com.glucoclock.views.patient.PatientStart;
-import com.glucoclock.views.researcher.ResearcherStart;
+import com.glucoclock.views.researcher.ResearcherStartView;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
@@ -22,7 +22,7 @@ public class Control extends VerticalLayout implements BeforeEnterObserver {
         }else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("DOCTOR"))){
             event.forwardTo(DoctorStartView.class);
         }else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("RESEARCHER"))){
-            event.forwardTo(ResearcherStart.class);
+            event.forwardTo(ResearcherStartView.class);
         }else{
             event.rerouteTo(HomeView.class);
         }

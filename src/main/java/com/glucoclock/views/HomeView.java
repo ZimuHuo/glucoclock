@@ -1,29 +1,12 @@
 package com.glucoclock.views;
 
-import com.glucoclock.views.patient.ConfirmationPage;
-import com.glucoclock.views.util.SendMail;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.*;
-import com.vaadin.flow.server.StreamResource;
-import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.Theme;
-
-import javax.imageio.ImageIO;
-import javax.xml.transform.stream.StreamSource;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Random;
 
 @Route(value = "login")
 @Theme(themeFolder = "glucoclock")
@@ -55,7 +38,7 @@ public class HomeView extends VerticalLayout implements BeforeEnterObserver {
         signUpBut.setHeight("50px");
         signUpBut.addClickListener(e ->
                 signUpBut.getUI().ifPresent(ui ->
-                        ui.navigate(SignUp.class)
+                        ui.navigate(SignUpView.class)
                 )
         );
 

@@ -67,20 +67,20 @@ public class PatientStart extends VerticalLayout{
             if (event.getValue() == "Simple") {
                 updateButton.addClickListener(e ->
                         updateButton.getUI().ifPresent(ui ->
-                                ui.navigate(SimpleLogBookView.class)
+                                ui.navigate(SimpleLogbookView.class)
                         )
                 );
             } else if (event.getValue() == "Comprehensive"){
                 updateButton.addClickListener(e ->
                         updateButton.getUI().ifPresent(ui ->
-                                ui.navigate(ComprehensiveLogBookView.class)
+                                ui.navigate(ComprehensiveLogbookView.class)
                         )
                 );
             }
             else if (event.getValue() == "Intensive"){
                 updateButton.addClickListener(e ->
                         updateButton.getUI().ifPresent(ui ->
-                                ui.navigate(IntensiveLogBookView.class)
+                                ui.navigate(IntensiveLogbookView.class)
                         )
                 );
             }

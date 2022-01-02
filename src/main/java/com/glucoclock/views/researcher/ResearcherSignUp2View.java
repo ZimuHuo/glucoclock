@@ -1,7 +1,5 @@
 package com.glucoclock.views.researcher;
 
-import com.glucoclock.database.doctors_db.model.Doctor;
-import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.researchers_db.model.Researcher;
 import com.glucoclock.database.researchers_db.service.ResearcherService;
 import com.glucoclock.security.db.Authorities;
@@ -9,13 +7,10 @@ import com.glucoclock.security.db.AuthoritiesService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.doctor.DoctorSignUp1;
-import com.glucoclock.views.doctor.DoctorStartView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -36,7 +31,7 @@ import java.time.ZoneId;
 
 @PageTitle("Researcher Sign Up")
 @Route(value = "researcher-sign-up-2")
-public class ResearcherSignUp2 extends HorizontalLayout {
+public class ResearcherSignUp2View extends HorizontalLayout {
     private RadioButtonGroup<String> sex;
     private TextField apartmentAddress;
     private TextField streetAddress;
@@ -58,7 +53,7 @@ public class ResearcherSignUp2 extends HorizontalLayout {
 
 
 
-    public ResearcherSignUp2(UserService userService, ResearcherService researcherService, AuthoritiesService authoritiesService) {
+    public ResearcherSignUp2View(UserService userService, ResearcherService researcherService, AuthoritiesService authoritiesService) {
         this.userService = userService;
         this.researcherService = researcherService;
         this.authoritiesService = authoritiesService;
@@ -258,7 +253,7 @@ public class ResearcherSignUp2 extends HorizontalLayout {
                 authoritiesService.getRepository().save(authorities);
 
                 submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(ResearcherStart.class)
+                        ui.navigate(ResearcherStartView.class)
                 );
             }
         });
@@ -271,7 +266,7 @@ public class ResearcherSignUp2 extends HorizontalLayout {
         previousButton.addClickListener(e -> {
             setSession();
             previousButton.getUI().ifPresent(ui ->
-                    ui.navigate(ResearcherSignUp1.class)
+                    ui.navigate(ResearcherSignUp1View.class)
             );
 
         });

@@ -1,19 +1,15 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
 import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
-import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.util.SendMail;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -24,16 +20,13 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
-import java.util.Properties;
 import java.util.UUID;
 
 @PageTitle("Add Simple Logbook Entry")
 @Route(value = "patient/addsimplelogbookentry")
-public class SimpleLogBookView extends Div {
+public class SimpleLogbookView extends Div {
     private H3 title = new H3("Add Simple Logbook Entry");
     ComboBox<String> prepost;
     ComboBox<String> meal;
@@ -46,7 +39,7 @@ public class SimpleLogBookView extends Div {
     private final SimpleLogBookService simpleLogBookService;
 
 
-    public SimpleLogBookView(UserService userService, SimpleLogBookService simpleLogBookService){
+    public SimpleLogbookView(UserService userService, SimpleLogBookService simpleLogBookService){
         this.userService = userService;
         this.simpleLogBookService = simpleLogBookService;
 
@@ -109,7 +102,7 @@ public class SimpleLogBookView extends Div {
 
                         //Navigation
                         submitButton.getUI().ifPresent(ui ->
-                                ui.navigate(ConfirmationPage.class)
+                                ui.navigate(ConfirmationView.class)
                         );
                     }
                     catch (NumberFormatException ex){

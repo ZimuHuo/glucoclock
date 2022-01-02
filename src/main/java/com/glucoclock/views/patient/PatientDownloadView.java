@@ -35,7 +35,7 @@ import java.util.UUID;
 @PageTitle("Download Data and Graph")
 @Route(value = "patient/download")
 
-public class DownloadPage extends VerticalLayout {
+public class PatientDownloadView extends VerticalLayout {
     Locale finnishLocale = new Locale("fi", "FI");
     //use 2 calendar to choose start and end date, when click the export button, export the data between these 2 date
     DatePicker PrintStartDate = new DatePicker("Select start date:"); //calendar to choose start date
@@ -61,7 +61,7 @@ public class DownloadPage extends VerticalLayout {
     private MenuBar menu = new MenuBar("PNS");
 
 
-    public DownloadPage(SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, PatientService patientService, LogService logdata, PatientService patientData) {
+    public PatientDownloadView(SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, PatientService patientService, LogService logdata, PatientService patientData) {
         // access the data in the databases
         SimplelogData = simplelogData;
         ComprehensivelogData = comprehensivelogData;

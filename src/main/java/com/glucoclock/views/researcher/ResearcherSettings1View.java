@@ -1,6 +1,5 @@
 package com.glucoclock.views.researcher;
 import com.glucoclock.database.researchers_db.model.Researcher;
-import com.glucoclock.database.researchers_db.model.Researcher;
 import com.glucoclock.database.researchers_db.service.ResearcherService;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.PatientStart;
@@ -8,7 +7,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -19,14 +17,13 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
 @PageTitle("Settings")
 @Route(value = "researcher/settings")
 
-public class ResearcherSetting1 extends HorizontalLayout {
+public class ResearcherSettings1View extends HorizontalLayout {
 
     //     These are sample variables
     //     Should be got from database
@@ -56,7 +53,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
 
     ResearcherService researcherService;
 
-    public ResearcherSetting1(ResearcherService researcherService) {
+    public ResearcherSettings1View(ResearcherService researcherService) {
         //-----------------------------------------
 
         this.researcherService = researcherService;
@@ -326,7 +323,7 @@ public class ResearcherSetting1 extends HorizontalLayout {
         save.getElement().getStyle().set("margin-right", "auto");
         changePassword.addClickListener(e ->
                 changePassword.getUI().ifPresent(ui ->
-                        ui.navigate(ResearcherSetting2.class)
+                        ui.navigate(ResearcherSettings2View.class)
                 )
         );
     }

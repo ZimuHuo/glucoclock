@@ -2,17 +2,13 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.comprehensiveLogBook_db.model.ComprehensiveLogBook;
 import com.glucoclock.database.comprehensiveLogBook_db.service.ComprehensiveLogBookService;
-import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
-import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -29,7 +25,7 @@ import java.util.UUID;
 
 @PageTitle("Add Comprehensive Logbook Entry")
 @Route(value = "patient/add-comprehensive-logbook-entry")
-public class ComprehensiveLogBookView extends Div {
+public class ComprehensiveLogbookView extends Div {
     private ComboBox<String> prepost;
     private ComboBox<String> meal;
     private TextField bloodGlucose;
@@ -44,7 +40,7 @@ public class ComprehensiveLogBookView extends Div {
     private final ComprehensiveLogBookService comprehensiveLogBookService;
 
 
-    public ComprehensiveLogBookView(UserService userService, ComprehensiveLogBookService comprehensiveLogBookService){
+    public ComprehensiveLogbookView(UserService userService, ComprehensiveLogBookService comprehensiveLogBookService){
         this.userService = userService;
         this.comprehensiveLogBookService = comprehensiveLogBookService;
         init();
@@ -95,7 +91,7 @@ public class ComprehensiveLogBookView extends Div {
 
                         //Navigation
                         submitButton.getUI().ifPresent(ui ->
-                                ui.navigate(ConfirmationPage.class)
+                                ui.navigate(ConfirmationView.class)
                         );
                     }
                     catch (NumberFormatException ex){
