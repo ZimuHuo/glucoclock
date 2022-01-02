@@ -3,6 +3,7 @@ package com.glucoclock.views;
 import com.glucoclock.views.patient.ConfirmationPage;
 import com.glucoclock.views.util.SendMail;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -37,6 +38,10 @@ public class HomeView extends VerticalLayout implements BeforeEnterObserver {
         logo.setWidth("50%");
         //Log in details
         login.setAction("login");
+        login.addForgotPasswordListener(e ->
+                signUpBut.getUI().ifPresent(ui ->
+                        ui.navigate(getPassword.class)
+                ));
 //        email.setWidth("30%");
 //        pw.setWidth("30%");
         //Sign in button
@@ -55,7 +60,6 @@ public class HomeView extends VerticalLayout implements BeforeEnterObserver {
         );
 
         add(logo,login, signUpBut);
-
         setAlignItems(Alignment.CENTER);
 
     }
