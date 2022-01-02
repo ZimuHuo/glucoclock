@@ -8,7 +8,8 @@ import java.util.UUID;
 
 public interface NotificationRepository extends CrudRepository<Notification, Long> {
 
-    List<Notification> getNotificationByUid(UUID uid);
+    List<Notification> getNotificationByPatientuid(UUID uid);
+    List<Notification> getNotificationByDoctoruid(UUID uid);
     Notification getNotificationById(long id);
 
     @Override
