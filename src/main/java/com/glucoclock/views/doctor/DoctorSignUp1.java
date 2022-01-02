@@ -38,6 +38,8 @@ public class DoctorSignUp1 extends HorizontalLayout {
     VerticalLayout mainLayout;
     private MenuBar menu = new MenuBar("NS");
 private UserService userService;
+    private H2 gap = new H2("  ");
+    private H2 title = new H2("Set up your account");
 Button codeButton;
 TextField code;
     public DoctorSignUp1(UserService userService) {
@@ -72,8 +74,8 @@ TextField code;
 
         init();
         this.setJustifyContentMode(JustifyContentMode.CENTER);
-
-        mainLayout.add(new H2("Set up your account"));
+        mainLayout.add(gap);
+        mainLayout.add(title);
         mainLayout.add(formLayout);
         mainLayout.add(submitButton);
 
