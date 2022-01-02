@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
-
+@Entity
 @Table(name = "Notification_db")
 public class Notification implements Serializable {
 

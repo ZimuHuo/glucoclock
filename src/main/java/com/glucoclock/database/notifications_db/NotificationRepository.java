@@ -6,10 +6,11 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.UUID;
 
-public interface NotificationRepository extends CrudRepository {
+public interface NotificationRepository extends CrudRepository<Notification, Long> {
 
-    List<Notification> getNotificationByUID(UUID uid);
-    Notification getNotificationByID(long id);
+    List<Notification> getNotificationByUid(UUID uid);
+    Notification getNotificationById(long id);
 
+    @Override
     <S extends Notification> S save(S s);
 }
