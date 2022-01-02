@@ -8,6 +8,8 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -90,7 +92,11 @@ public class PatientStart extends VerticalLayout{
         setHorizontalComponentAlignment(Alignment.CENTER,title,LBtybe,datePicker,updateButton);
 
         add(title,LBtybe,datePicker,updateButton);
-
+        if (VaadinSession.getCurrent().getAttribute("Error")!=null){
+            com.vaadin.flow.component.notification.Notification notification = Notification.show("WRONG URL"+VaadinSession.getCurrent().getAttribute("Error"));
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            VaadinSession.getCurrent().setAttribute("Error",null);
+        }
     }
 
 }
