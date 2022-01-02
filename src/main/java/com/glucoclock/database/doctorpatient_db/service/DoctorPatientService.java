@@ -63,6 +63,9 @@ public class DoctorPatientService {
         DoctorPatient doctorpatient=repository.getDoctorPatientById(id);
         doctorpatient.setDoctoruid(doctoruid);
     }
+    public boolean exist(UUID patientuid){
+        return repository.getDoctorPatientByPatientuid(patientuid)!=null;
+    }
 
 
 }
