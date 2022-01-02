@@ -27,7 +27,7 @@ import java.util.UUID;
 
 @PageTitle("View Patients Data History")
 @Route(value = "doctor/view-patient-history")
-public class ViewPatientsData extends VerticalLayout {
+public class PatientDataView extends VerticalLayout {
     private String PatientName="(PatientName)";
     private Grid<PersonData> Historylist=new Grid<>(PersonData.class,false);
     private LocalDate today=LocalDate.now();
@@ -43,7 +43,7 @@ public class ViewPatientsData extends VerticalLayout {
     private Button downloadBut = new Button(download);
     private Image graph = new Image("images/bgl.png","Blood Glucose Graph");
 
-    public ViewPatientsData(LogService log_db){
+    public PatientDataView(LogService log_db){
         this.log_db = log_db;
         log_db.bulkcreate();
 

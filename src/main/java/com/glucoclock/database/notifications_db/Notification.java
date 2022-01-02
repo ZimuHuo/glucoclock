@@ -1,7 +1,6 @@
 package com.glucoclock.database.notifications_db;
 
 import com.glucoclock.database.patients_db.service.PatientService;
-import com.glucoclock.views.doctor.ViewPatientsData;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Span;
