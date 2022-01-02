@@ -69,7 +69,7 @@ public class DoctorStartView extends VerticalLayout {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         String username = authentication.getName();//return email
-        User user=this.userService.getRepository().findByUsername(username); //return user
+        User user=userService.getRepository().findByUsername(username); //return user
         doctoruid=user.getUid();
 
         //UUID doctoruid = userService.getRepository().findAll().get(0).getUid();
@@ -174,12 +174,12 @@ public class DoctorStartView extends VerticalLayout {
         List<DoctorPatient> patientList;
 
         //check patient list of a doctor in the DoctorPateint database using doctoruid
-        patientList=this.doctorpatientService.getPatientlist(doctoruid);
+        patientList=doctorpatientService.getPatientlist(doctoruid);
         //change each patient into PatientInfo form, add to patientList_final
         for(DoctorPatient thispatient:patientList){
-            PatientInfo p = new PatientInfo(this.patientService.searchByuid(thispatient.getPatientuid()).getFirstName(),
-                    this.patientService.searchByuid(thispatient.getPatientuid()).getLastName(),
-                    this.patientService.searchByuid(thispatient.getPatientuid()).getEmail());
+            PatientInfo p = new PatientInfo(patientService.searchByuid(thispatient.getPatientuid()).getFirstName(),
+                    patientService.searchByuid(thispatient.getPatientuid()).getLastName(),
+                    patientService.searchByuid(thispatient.getPatientuid()).getEmail());
             patientList_final.add(p);
         }
 

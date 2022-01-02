@@ -56,7 +56,7 @@ public class AddPatientView extends Div {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         String username = authentication.getName();//return email
-        User user=this.userService.getRepository().findByUsername(username); //return user
+        User user=userService.getRepository().findByUsername(username); //return user
         doctoruid=user.getUid();
 
 
@@ -72,16 +72,24 @@ public class AddPatientView extends Div {
         search.addClickListener(e->{
             //get the value in the textfield when click search button
             searchEmail=patientEmail.getValue();
+            System.out.println(searchEmail+","+status);
             //get uid of this email
-            patientuid=this.patientService.searchPatientuid(searchEmail);
+            patientuid=patientService.searchPatientuid(searchEmail);
             if(patientuid==null)status=3; //(this patient do not have an account)
             else {
                 List<UUID> uidList = new ArrayList<>();
                 //check if this email already exist in this doctor's patient list
-                uidList = this.doctorpatientService.getPatientidlist(doctoruid);
-                for (UUID thisid : uidList) {
-                    if (thisid.equals(patientuid)) status = 1; //(this id is already exist in the database)
-                    else status = 2;   //(this id not exist in current list)
+                uidList = doctorpatientService.getPatientidlist(doctoruid);
+                    //if the doctor do not have patient
+                if(uidList==null){
+                    status=2;
+                }
+                else {
+                    //doctor have patients before
+                    for (UUID thisid : uidList) {
+                        if (thisid.equals(patientuid)) status = 1; //(this id is already exist in the database)
+                        else status = 2;   //(this id not exist in current list)
+                    }
                 }
             }
             //notifications
@@ -96,7 +104,7 @@ public class AddPatientView extends Div {
         //Add--Click add to go back to home page
         add.addClickListener(e->{
             //add to database
-            this.doctorpatientService.create(patientuid,doctoruid);
+            doctorpatientService.create(patientuid,doctoruid);
             Notification.show("Successfully Added").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             //navigate to Patient start page
             add.getUI().ifPresent(ui ->
