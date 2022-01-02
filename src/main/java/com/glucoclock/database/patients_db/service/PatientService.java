@@ -42,6 +42,15 @@ public class PatientService  {
         return patientname;
     }
 
+    public UUID searchPatientuid(String patientEmail){
+        UUID returnuid=null;
+        Patient patient;
+        patient=repository.getPatientByEmail(patientEmail);
+        //check exist of the patient
+        if(patient!=null) returnuid=patient.getUid();
+        return returnuid;
+    }
+
     public Patient searchByuid(UUID patientuid){
         return repository.getPatientByUid(patientuid);
     }

@@ -44,17 +44,20 @@ public class DoctorStartView extends VerticalLayout {
     private Icon add = new Icon(VaadinIcon.PLUS_CIRCLE);
     private Button addBut = new Button(add);
 
+    //database
     private final UserService userService;
     private final DoctorPatientService doctorpatientService;
     private final PatientService patientService;
     private final DoctorService doctorService;
 
+    //need to connect to session
     private UUID doctoruid=UUID.fromString("58864138-61ab-49c5-97ef-c98f8c981b0e");
 
 
 
 
     public DoctorStartView(UserService userService, DoctorPatientService doctorpatientService, PatientService patientService, DoctorService doctorService) {
+        //database
         this.userService = userService;
         this.doctorpatientService = doctorpatientService;
         this.patientService = patientService;
@@ -75,13 +78,18 @@ public class DoctorStartView extends VerticalLayout {
         hl.setHeight("20%");
         hl.setVerticalComponentAlignment(FlexComponent.Alignment.BASELINE,title,addBut);
 
+        //Add button
         addBut.addClickListener(e->
+                //navigate to the add patient page
                 addBut.getUI().ifPresent(ui ->
                 ui.navigate(AddPatientView.class))
         );
         //hl.setSpacing(false);
+        //Create grid
         setSizeFull();
         createGrid();
+
+        //Layout
         VerticalLayout vl = new VerticalLayout();
         vl.add(hl);
         vl.setPadding(true);
@@ -151,12 +159,13 @@ public class DoctorStartView extends VerticalLayout {
 
 
     private List<PatientInfo> getPatients() {
-
+        //get patients from the database
         List<PatientInfo> patientList_final = new ArrayList<>();
         List<DoctorPatient> patientList;
 
+        //check patient list of a doctor in the DoctorPateint database using doctoruid
         patientList=doctorpatientService.getPatientlist(doctoruid);
-        System.out.println(patientList.toString());
+        //change each patient into PatientInfo form, add to patientList_final
         for(DoctorPatient thispatient:patientList){
             PatientInfo p = new PatientInfo(patientService.searchByuid(thispatient.getPatientuid()).getFirstName(),
                     patientService.searchByuid(thispatient.getPatientuid()).getLastName(),
@@ -164,7 +173,7 @@ public class DoctorStartView extends VerticalLayout {
             patientList_final.add(p);
         }
 
-        System.out.println(patientList_final.get(0));
+        //return list of patient of the doctor
         return patientList_final;
 
     }
