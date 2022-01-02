@@ -19,12 +19,14 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
+import com.vaadin.flow.server.VaadinSession;
 import org.vaadin.olli.FileDownloadWrapper;
 
 import java.io.ByteArrayInputStream;
@@ -164,6 +166,11 @@ public class ResearcherStart extends VerticalLayout {
 
         add(FinalLayout);
 
+        if (VaadinSession.getCurrent().getAttribute("Error")!=null){
+            com.vaadin.flow.component.notification.Notification notification = Notification.show("WRONG URL"+VaadinSession.getCurrent().getAttribute("Error"));
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            VaadinSession.getCurrent().setAttribute("Error",null);
+        }
     }
 
     public String CheckOutputNum(){
