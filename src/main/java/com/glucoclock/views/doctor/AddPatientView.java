@@ -2,6 +2,8 @@ package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.patients_db.service.PatientService;
+import com.glucoclock.security.db.User;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -17,6 +19,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,18 +38,27 @@ public class AddPatientView extends Div {
 
     private final DoctorPatientService doctorpatientService;
     private final PatientService patientService;
+    private final UserService userService;
 
     private UUID patientuid;
     private String searchEmail;
     private int status=0;
     //defalt=0, =1 if there is data already inside the database, do not need to enter again.
-    private UUID doctoruid=UUID.fromString("58864138-61ab-49c5-97ef-c98f8c981b0e");
+    private UUID doctoruid;
 
 
 
-    public AddPatientView(DoctorPatientService doctorpatientService, PatientService patientService){
+    public AddPatientView (DoctorPatientService doctorpatientService, PatientService patientService, UserService userService){
         this.doctorpatientService = doctorpatientService;
         this.patientService = patientService;
+        this.userService = userService;
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.getAuthorities();
+        String username = authentication.getName();//return email
+        User user=this.userService.getRepository().findByUsername(username); //return user
+        doctoruid=user.getUid();
+
 
         //buttons style
         searchIcon.setColor("white");
@@ -53,6 +66,8 @@ public class AddPatientView extends Div {
         add.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add.setEnabled(false);//initially the button is disabled
 
+
+        patientEmail.addFocusListener(change-> add.setEnabled(false));
         //Search--Patient found notification upon click
         search.addClickListener(e->{
             //get the value in the textfield when click search button
@@ -63,7 +78,7 @@ public class AddPatientView extends Div {
             else {
                 List<UUID> uidList = new ArrayList<>();
                 //check if this email already exist in this doctor's patient list
-                uidList = doctorpatientService.getPatientidlist(doctoruid);
+                uidList = this.doctorpatientService.getPatientidlist(doctoruid);
                 for (UUID thisid : uidList) {
                     if (thisid.equals(patientuid)) status = 1; //(this id is already exist in the database)
                     else status = 2;   //(this id not exist in current list)

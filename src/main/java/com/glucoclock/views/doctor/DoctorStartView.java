@@ -4,6 +4,7 @@ import com.glucoclock.database.doctorpatient_db.model.DoctorPatient;
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.patients_db.service.PatientService;
+import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
@@ -22,6 +23,8 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.*;
 
@@ -51,7 +54,7 @@ public class DoctorStartView extends VerticalLayout {
     private final DoctorService doctorService;
 
     //need to connect to session
-    private UUID doctoruid=UUID.fromString("58864138-61ab-49c5-97ef-c98f8c981b0e");
+    private UUID doctoruid;
 
 
 
@@ -62,6 +65,13 @@ public class DoctorStartView extends VerticalLayout {
         this.doctorpatientService = doctorpatientService;
         this.patientService = patientService;
         this.doctorService = doctorService;
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.getAuthorities();
+        String username = authentication.getName();//return email
+        User user=this.userService.getRepository().findByUsername(username); //return user
+        doctoruid=user.getUid();
+
         //UUID doctoruid = userService.getRepository().findAll().get(0).getUid();
 
         //create testing database
@@ -164,12 +174,12 @@ public class DoctorStartView extends VerticalLayout {
         List<DoctorPatient> patientList;
 
         //check patient list of a doctor in the DoctorPateint database using doctoruid
-        patientList=doctorpatientService.getPatientlist(doctoruid);
+        patientList=this.doctorpatientService.getPatientlist(doctoruid);
         //change each patient into PatientInfo form, add to patientList_final
         for(DoctorPatient thispatient:patientList){
-            PatientInfo p = new PatientInfo(patientService.searchByuid(thispatient.getPatientuid()).getFirstName(),
-                    patientService.searchByuid(thispatient.getPatientuid()).getLastName(),
-                    patientService.searchByuid(thispatient.getPatientuid()).getEmail());
+            PatientInfo p = new PatientInfo(this.patientService.searchByuid(thispatient.getPatientuid()).getFirstName(),
+                    this.patientService.searchByuid(thispatient.getPatientuid()).getLastName(),
+                    this.patientService.searchByuid(thispatient.getPatientuid()).getEmail());
             patientList_final.add(p);
         }
 
