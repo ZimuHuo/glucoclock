@@ -1,13 +1,17 @@
 package com.glucoclock.views.doctor;
 
+import com.glucoclock.database.doctorpatient_db.model.DoctorPatient;
+import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
+import com.glucoclock.database.doctors_db.service.DoctorService;
+import com.glucoclock.database.patients_db.service.PatientService;
+import com.glucoclock.security.db.User;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.HeaderRow;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -16,12 +20,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.router.*;
-
-import java.util.Arrays;
-import java.util.List;
-
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.*;
 
 @PageTitle("My Patients")
 @Route(value = "doctor/my-patients")
@@ -42,10 +47,39 @@ public class DoctorStartView extends VerticalLayout {
     private Icon add = new Icon(VaadinIcon.PLUS_CIRCLE);
     private Button addBut = new Button(add);
 
+    //database
+    private final UserService userService;
+    private final DoctorPatientService doctorpatientService;
+    private final PatientService patientService;
+    private final DoctorService doctorService;
+
+    //need to connect to session
+    private UUID doctoruid;
 
 
 
-    public DoctorStartView() {
+
+    public DoctorStartView(UserService userService, DoctorPatientService doctorpatientService, PatientService patientService, DoctorService doctorService) {
+        //database
+        this.userService = userService;
+        this.doctorpatientService = doctorpatientService;
+        this.patientService = patientService;
+        this.doctorService = doctorService;
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.getAuthorities();
+        String username = authentication.getName();//return email
+        User user=this.userService.getRepository().findByUsername(username); //return user
+        doctoruid=user.getUid();
+
+        //UUID doctoruid = userService.getRepository().findAll().get(0).getUid();
+
+        //create testing database
+//        this.patientService.bulkcreate();
+//        this.doctorService.bulkcreate();
+//        this.doctorpatientService.bulkcreate();
+
+
         add.setSize("50px");
         addBut.setWidth("55px");
         addBut.setHeight("55px");
@@ -54,13 +88,18 @@ public class DoctorStartView extends VerticalLayout {
         hl.setHeight("20%");
         hl.setVerticalComponentAlignment(FlexComponent.Alignment.BASELINE,title,addBut);
 
+        //Add button
         addBut.addClickListener(e->
+                //navigate to the add patient page
                 addBut.getUI().ifPresent(ui ->
                 ui.navigate(AddPatientView.class))
         );
         //hl.setSpacing(false);
+        //Create grid
         setSizeFull();
         createGrid();
+
+        //Layout
         VerticalLayout vl = new VerticalLayout();
         vl.add(hl);
         vl.setPadding(true);
@@ -130,18 +169,23 @@ public class DoctorStartView extends VerticalLayout {
 
 
     private List<PatientInfo> getPatients() {
-        return Arrays.asList(
-                createPatient("ABC","DEF","abcdef@ic.ac.uk"),
-                createPatient("Imperial","College","ic@gmail.com"));
-    }
+        //get patients from the database
+        List<PatientInfo> patientList_final = new ArrayList<>();
+        List<DoctorPatient> patientList;
 
-    private PatientInfo createPatient(String firstName, String lastName, String email) {
-        PatientInfo p = new PatientInfo();
-        p.setFirstName(firstName);
-        p.setLastName(lastName);
-        p.setEmail(email);
-        return p;
-    }
+        //check patient list of a doctor in the DoctorPateint database using doctoruid
+        patientList=this.doctorpatientService.getPatientlist(doctoruid);
+        //change each patient into PatientInfo form, add to patientList_final
+        for(DoctorPatient thispatient:patientList){
+            PatientInfo p = new PatientInfo(this.patientService.searchByuid(thispatient.getPatientuid()).getFirstName(),
+                    this.patientService.searchByuid(thispatient.getPatientuid()).getLastName(),
+                    this.patientService.searchByuid(thispatient.getPatientuid()).getEmail());
+            patientList_final.add(p);
+        }
 
+        //return list of patient of the doctor
+        return patientList_final;
+
+    }
 
 }

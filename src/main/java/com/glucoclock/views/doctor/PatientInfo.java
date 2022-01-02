@@ -14,6 +14,21 @@ public class PatientInfo {
     private String email;
     private UUID uid;
 
+    public PatientInfo(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "PatientInfo{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
     public String getFirstName() {
         return firstName;
     }

@@ -68,6 +68,13 @@ public class DownloadPage extends VerticalLayout {
         IntensivelogData = intensivelogData;
         Logdata = logdata;
         PatientData = patientData;
+
+        //create testing database
+//        SimplelogData.bulkcreate();
+//        ComprehensivelogData.bulkcreate();
+//        IntensivelogData.bulkcreate();
+//        Logdata.bulkcreate();
+
         // add menu bar
         add(menu);
         //2 calendar options preset to current time
