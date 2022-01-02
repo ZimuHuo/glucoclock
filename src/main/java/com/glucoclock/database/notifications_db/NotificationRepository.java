@@ -8,8 +8,13 @@ import java.util.UUID;
 
 public interface NotificationRepository extends CrudRepository<Notification, Long> {
 
+//    Search for a patient's all notifications
     List<Notification> getNotificationByPatientuid(UUID uid);
+
+//    Search for a doctor's all notifications
     List<Notification> getNotificationByDoctoruid(UUID uid);
+
+//    Search for a single notification
     Notification getNotificationById(long id);
 
     @Override

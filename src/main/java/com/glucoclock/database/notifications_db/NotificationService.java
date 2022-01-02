@@ -10,6 +10,7 @@ public class NotificationService {
     @Autowired
     NotificationRepository repository;
 
+//    Get repository
     public NotificationRepository getRepository() {
         return repository;
     }
