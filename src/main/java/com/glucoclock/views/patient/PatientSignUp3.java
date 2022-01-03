@@ -6,6 +6,7 @@ import com.glucoclock.security.db.Authorities;
 import com.glucoclock.security.db.AuthoritiesService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
+import com.glucoclock.views.Control;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.util.SendMail;
 import com.vaadin.flow.component.button.Button;
@@ -198,7 +199,7 @@ public class PatientSignUp3 extends Div {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 //                Direct to patient home page
                 submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(PatientStart.class)
+                        ui.navigate(Control.class)
                 );
             }
 

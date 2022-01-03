@@ -8,6 +8,7 @@ import com.glucoclock.security.db.Authorities;
 import com.glucoclock.security.db.AuthoritiesService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
+import com.glucoclock.views.Control;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.doctor.DoctorSignUp1;
 import com.glucoclock.views.doctor.DoctorStartView;
@@ -264,7 +265,7 @@ public class ResearcherSignUp2 extends HorizontalLayout {
                         AuthorityUtils.createAuthorityList("RESEARCHER"));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(ResearcherStart.class)
+                        ui.navigate(Control.class)
                 );
             }
         });
