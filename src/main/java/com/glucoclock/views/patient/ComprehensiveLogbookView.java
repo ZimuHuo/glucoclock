@@ -111,7 +111,13 @@ public class ComprehensiveLogbookView extends Div {
                                 "Alarm"
                         );
                         n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
-                        n.setCompleteMessage("something");
+                        n.setCompleteMessage(
+                                n.getPatientFirstName() +" "+ n.getPatientLastName() +" is experiencing abnormal blood glucose levels.\n" +
+                                        "\n" +
+                                        "Date: " + n.getDate().toLocalDate() + "\n" +
+                                        "Time: " + n.getDate().toLocalTime() + "\n" +
+                                        "Blood glucose level: " + bloodGlucose.getValue() + "units."
+                        );
                         notificationService.getRepository().save(n);
 
 
