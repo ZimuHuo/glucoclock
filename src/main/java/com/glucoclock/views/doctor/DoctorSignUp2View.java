@@ -1,21 +1,17 @@
-package com.glucoclock.views.researcher;
+package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.doctors_db.model.Doctor;
 import com.glucoclock.database.doctors_db.service.DoctorService;
-import com.glucoclock.database.researchers_db.model.Researcher;
-import com.glucoclock.database.researchers_db.service.ResearcherService;
 import com.glucoclock.security.db.Authorities;
 import com.glucoclock.security.db.AuthoritiesService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
+import com.glucoclock.views.Control;
 import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.doctor.DoctorSignUp1;
-import com.glucoclock.views.doctor.DoctorStartView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -29,14 +25,19 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 
 
-@PageTitle("Researcher Sign Up")
-@Route(value = "researcher-sign-up-2")
-public class ResearcherSignUp2 extends HorizontalLayout {
+@PageTitle("Doctor Sign Up")
+@Route(value = "doctor-sign-up-2")
+public class DoctorSignUp2View extends HorizontalLayout {
+//    All components in the page
     private RadioButtonGroup<String> sex;
     private TextField apartmentAddress;
     private TextField streetAddress;
@@ -51,16 +52,16 @@ public class ResearcherSignUp2 extends HorizontalLayout {
     private H2 title = new H2("Personal information");
     private MenuBar menu = new MenuBar("NS");
 
-    //    Variables
+//    Variables
     private final UserService userService;
-    private final ResearcherService researcherService;
+    private final DoctorService doctorService;
     private final AuthoritiesService authoritiesService;
 
 
 
-    public ResearcherSignUp2(UserService userService, ResearcherService researcherService, AuthoritiesService authoritiesService) {
+    public DoctorSignUp2View(UserService userService, DoctorService doctorService, AuthoritiesService authoritiesService) {
         this.userService = userService;
-        this.researcherService = researcherService;
+        this.doctorService = doctorService;
         this.authoritiesService = authoritiesService;
 
         add(menu);
@@ -128,19 +129,22 @@ public class ResearcherSignUp2 extends HorizontalLayout {
         formLayout1.setColspan(datePicker, 1);
     }
 
+//    Initialize all components
     private void init() {
         this.sex = new RadioButtonGroup<>();
         sexSetUp();
         this.datePicker = new DatePicker("Date of birth");
         datePickerSetUp();
         this.apartmentAddress = new TextField("Address Line 1");
-        this.streetAddress = new TextField("Addess Line 2");
+        this.streetAddress = new TextField("Address Line 2");
         this.postcode = new TextField("Post code");
         this.city = new TextField("City");
         this.contactNumber = new TextField("Contact Number");
         contactNumberSetUp();
         datePicker.setClearButtonVisible(true);
         apartmentAddress.setClearButtonVisible(true);
+
+//        Fill in the components by session
         if (VaadinSession.getCurrent().getAttribute("HomeAddressL1")!= null){
             apartmentAddress.setValue((String)VaadinSession.getCurrent().getAttribute("HomeAddressL1"));
         }
@@ -230,14 +234,14 @@ public class ResearcherSignUp2 extends HorizontalLayout {
                 User user = new User(
                         (String)VaadinSession.getCurrent().getAttribute("Email"),
                         (String)VaadinSession.getCurrent().getAttribute("Password"),
-                        "RESEARCHER",
+                        "DOCTOR",
                         (byte) 1
-                        //Role.RESEARCHER,
+                        //Role.DOCTOR,
                 );
                 userService.getRepository().save(user);
 
-//                Create and save a new researcher
-                Researcher researcher = new Researcher(
+//                Create and save a new doctor
+                Doctor doctor = new Doctor(
                         (String)VaadinSession.getCurrent().getAttribute("FirstName"),
                         (String)VaadinSession.getCurrent().getAttribute("LastName"),
                         (String)VaadinSession.getCurrent().getAttribute("Email"),
@@ -248,19 +252,23 @@ public class ResearcherSignUp2 extends HorizontalLayout {
                         (String)VaadinSession.getCurrent().getAttribute("ContactNumber"),
                         (String)VaadinSession.getCurrent().getAttribute("Sex"),
                         (LocalDate) VaadinSession.getCurrent().getAttribute("Date"),
-                        (String)VaadinSession.getCurrent().getAttribute("Institution"),
                         userService.getRepository().findByUsername((String)VaadinSession.getCurrent().getAttribute("Email")).getUid()
                 );
-                researcherService.getRepository().save(researcher);
+                doctorService.getRepository().save(doctor);
 
-//                Set the authority of the user as researcher
-                Authorities authorities = new Authorities((String)VaadinSession.getCurrent().getAttribute("Email"),"RESEARCHER");
+//                Set the authority of the user as doctor
+                Authorities authorities = new Authorities((String)VaadinSession.getCurrent().getAttribute("Email"),"DOCTOR");
                 authoritiesService.getRepository().save(authorities);
-
+                Authentication authentication = new UsernamePasswordAuthenticationToken( (String)VaadinSession.getCurrent().getAttribute("Email"), (String)VaadinSession.getCurrent().getAttribute("Password"),
+                        AuthorityUtils.createAuthorityList("DOCTOR"));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
                 submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(ResearcherStart.class)
+                        ui.navigate(Control.class)
                 );
             }
+
+
+
         });
     }
 
@@ -271,8 +279,11 @@ public class ResearcherSignUp2 extends HorizontalLayout {
         previousButton.addClickListener(e -> {
             setSession();
             previousButton.getUI().ifPresent(ui ->
-                    ui.navigate(ResearcherSignUp1.class)
+                    ui.navigate(DoctorSignUp1View.class)
             );
+
+
+
 
         });
     }
@@ -286,6 +297,5 @@ public class ResearcherSignUp2 extends HorizontalLayout {
         VaadinSession.getCurrent().setAttribute( "ContactNumber",contactNumber.getValue());
         VaadinSession.getCurrent().setAttribute( "Date",datePicker.getValue());
     }
-
 
 }

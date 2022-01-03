@@ -1,5 +1,4 @@
 package com.glucoclock.views.doctor;
-import com.glucoclock.database.log_db.service.LogService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.notification.Notification;
@@ -13,6 +12,21 @@ public class PatientInfo {
     private String lastName;
     private String email;
     private UUID uid;
+
+    public PatientInfo(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "PatientInfo{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 
     public String getFirstName() {
         return firstName;
@@ -47,7 +61,7 @@ public class PatientInfo {
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         button.addClickListener(click->{
             VaadinSession.getCurrent().setAttribute("PatientID", uid);
-            button.getUI().ifPresent(ui->ui.navigate(ViewPatientsData.class));
+            button.getUI().ifPresent(ui->ui.navigate(PatientDataView.class));
             Notification.show(firstName+lastName);
         });
         return button;

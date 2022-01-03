@@ -1,28 +1,20 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.patient.ComprehensiveLogBookView;
-import com.glucoclock.views.patient.IntensiveLogBookView;
-import com.glucoclock.views.patient.PatientSignUp2;
-import com.glucoclock.views.patient.SimpleLogBookView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.messages.MessageListItem;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.annotation.security.RolesAllowed;
@@ -50,6 +42,10 @@ public class PatientStart extends VerticalLayout{
         String Logbook;
         add(menu);
 
+        //create testing database
+
+
+
         LBtybe = new ComboBox<>();
         LBtybe.setLabel("Logbook\nType");
         LBtybe.setItems("Simple","Comprehensive","Intensive");
@@ -73,20 +69,20 @@ public class PatientStart extends VerticalLayout{
             if (event.getValue() == "Simple") {
                 updateButton.addClickListener(e ->
                         updateButton.getUI().ifPresent(ui ->
-                                ui.navigate(SimpleLogBookView.class)
+                                ui.navigate(SimpleLogbookView.class)
                         )
                 );
             } else if (event.getValue() == "Comprehensive"){
                 updateButton.addClickListener(e ->
                         updateButton.getUI().ifPresent(ui ->
-                                ui.navigate(ComprehensiveLogBookView.class)
+                                ui.navigate(ComprehensiveLogbookView.class)
                         )
                 );
             }
             else if (event.getValue() == "Intensive"){
                 updateButton.addClickListener(e ->
                         updateButton.getUI().ifPresent(ui ->
-                                ui.navigate(IntensiveLogBookView.class)
+                                ui.navigate(IntensiveLogbookView.class)
                         )
                 );
             }
@@ -96,7 +92,11 @@ public class PatientStart extends VerticalLayout{
         setHorizontalComponentAlignment(Alignment.CENTER,title,LBtybe,datePicker,updateButton);
 
         add(title,LBtybe,datePicker,updateButton);
-
+        if (VaadinSession.getCurrent().getAttribute("Error")!=null){
+            com.vaadin.flow.component.notification.Notification notification = Notification.show("WRONG URL"+VaadinSession.getCurrent().getAttribute("Error"));
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            VaadinSession.getCurrent().setAttribute("Error",null);
+        }
     }
 
 }

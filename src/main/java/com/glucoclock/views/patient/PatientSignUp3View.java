@@ -6,6 +6,7 @@ import com.glucoclock.security.db.Authorities;
 import com.glucoclock.security.db.AuthoritiesService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
+import com.glucoclock.views.Control;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.util.SendMail;
 import com.vaadin.flow.component.button.Button;
@@ -25,13 +26,17 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.util.Set;
 
 @PageTitle("Patient Sign Up")
 @Route(value = "patient-sign-up-3")
-public class PatientSignUp3 extends Div {
+public class PatientSignUp3View extends Div {
 
 //    Components in the page
     private Select<String> diabetesSelect;
@@ -47,7 +52,7 @@ public class PatientSignUp3 extends Div {
     private final PatientService patientService;
     private final AuthoritiesService authoritiesService;
 
-    public PatientSignUp3(UserService userService, PatientService patientService, AuthoritiesService authoritiesService) {
+    public PatientSignUp3View(UserService userService, PatientService patientService, AuthoritiesService authoritiesService) {
         this.userService = userService;
         this.patientService = patientService;
         this.authoritiesService = authoritiesService;
@@ -189,10 +194,12 @@ public class PatientSignUp3 extends Div {
 
 //                Send a confirmation email
                 SendMail.sendMail("Congratulations!","Thank you for choosing our app!",(String)VaadinSession.getCurrent().getAttribute("Email"));
-
+                Authentication authentication = new UsernamePasswordAuthenticationToken( (String)VaadinSession.getCurrent().getAttribute("Email"), (String)VaadinSession.getCurrent().getAttribute("Password"),
+                        AuthorityUtils.createAuthorityList("PATIENT"));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
 //                Direct to patient home page
                 submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(PatientStart.class)
+                        ui.navigate(Control.class)
                 );
             }
 
@@ -212,7 +219,7 @@ public class PatientSignUp3 extends Div {
             VaadinSession.getCurrent().setAttribute( "Diabetes",diabetesSelect.getValue());
             VaadinSession.getCurrent().setAttribute( "Injection",injectionSelect.getValue());
             previousButton.getUI().ifPresent(ui ->
-                    ui.navigate(PatientSignUp2.class)
+                    ui.navigate(PatientSignUp2View.class)
             );
 
         });

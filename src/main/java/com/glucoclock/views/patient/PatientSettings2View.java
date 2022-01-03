@@ -3,7 +3,6 @@ package com.glucoclock.views.patient;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -14,14 +13,14 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Change Password")
 @Route(value = "patient/change-password")
 
-public class PatientSetting2 extends HorizontalLayout{
+public class PatientSettings2View extends HorizontalLayout{
 
     PasswordField oldPassword, newPassword, confirmPassword;
     Button confirmButton, cancelButton;
     VerticalLayout mainLayout;
     private MenuBar menu = new MenuBar("PNS");
 
-    public PatientSetting2() {
+    public PatientSettings2View() {
         add(menu);
         init();
         setJustifyContentMode(JustifyContentMode.CENTER);
@@ -82,7 +81,7 @@ public class PatientSetting2 extends HorizontalLayout{
         confirmButton.getElement().getStyle().set("margin-left", "auto");
         confirmButton.addClickListener(e ->
                 confirmButton.getUI().ifPresent(ui ->
-                        ui.navigate(PatientSetting1.class)
+                        ui.navigate(PatientSettings1View.class)
                 )
         );
     }
@@ -92,7 +91,7 @@ public class PatientSetting2 extends HorizontalLayout{
         cancelButton.getElement().getStyle().set("margin-right", "auto");
         cancelButton.addClickListener(e ->
                 cancelButton.getUI().ifPresent(ui ->
-                        ui.navigate(PatientSetting1.class)
+                        ui.navigate(PatientSettings1View.class)
                 )
         );
     }

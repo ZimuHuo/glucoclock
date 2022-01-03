@@ -2,24 +2,20 @@ package com.glucoclock.views;
 
 import com.glucoclock.security.SecurityService;
 import com.glucoclock.views.doctor.DoctorNotificationView;
-import com.glucoclock.views.doctor.DoctorSetting1;
+import com.glucoclock.views.doctor.DoctorSettings1View;
 import com.glucoclock.views.doctor.DoctorStartView;
 import com.glucoclock.views.patient.*;
-import com.glucoclock.views.researcher.ResearcherSetting1;
-import com.glucoclock.views.researcher.ResearcherStart;
-import com.vaadin.flow.component.Component;
+import com.glucoclock.views.researcher.ResearcherSettings1View;
+import com.glucoclock.views.researcher.ResearcherStartView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.Tabs;
 
 public class MenuBar extends AppLayout {
     private Icon cog = new Icon(VaadinIcon.COG_O);
@@ -108,7 +104,7 @@ public class MenuBar extends AppLayout {
         else if (pageType == "RNS"){
             home.addClickListener(e ->
                     home.getUI().ifPresent(ui ->
-                            ui.navigate(ResearcherStart.class)
+                            ui.navigate(ResearcherStartView.class)
                     )
             );
         }
@@ -125,7 +121,7 @@ public class MenuBar extends AppLayout {
             hl.add(notification,history,qn,settings,logout);
             settings.addClickListener(e ->
                     settings.getUI().ifPresent(ui ->
-                            ui.navigate(PatientSetting1.class)
+                            ui.navigate(PatientSettings1View.class)
                     )
             );
             notification.addClickListener(e ->
@@ -139,7 +135,7 @@ public class MenuBar extends AppLayout {
             hl.add(notification,settings,logout);
             settings.addClickListener(e ->
                     settings.getUI().ifPresent(ui ->
-                            ui.navigate(DoctorSetting1.class)
+                            ui.navigate(DoctorSettings1View.class)
                     )
             );
             notification.addClickListener(e ->
@@ -153,7 +149,7 @@ public class MenuBar extends AppLayout {
             hl.add(settings,logout);
             settings.addClickListener(e ->
                     settings.getUI().ifPresent(ui ->
-                            ui.navigate(ResearcherSetting1.class)
+                            ui.navigate(ResearcherSettings1View.class)
                     )
                     );}
 

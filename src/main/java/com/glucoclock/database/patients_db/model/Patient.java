@@ -4,7 +4,6 @@ package com.glucoclock.database.patients_db.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -16,10 +15,7 @@ public class Patient implements Serializable,Comparable<Patient>{
 	private long id;
 
 	//Columns of the database and variables:
-//// Patient id
-//	@Column(name="Patientid")
-//	private Long patientid;
-	//	UID
+// 	UID
 	@Column(name = "UID")
 	private UUID uid;
 

@@ -3,7 +3,7 @@ package com.glucoclock.views.doctor;
 import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.patient.DownloadPage;
+import com.glucoclock.views.patient.PatientDownloadView;
 import com.glucoclock.views.patient.PersonData;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -27,7 +27,7 @@ import java.util.UUID;
 
 @PageTitle("View Patients Data History")
 @Route(value = "doctor/view-patient-history")
-public class ViewPatientsData extends VerticalLayout {
+public class PatientDataView extends VerticalLayout {
     private String PatientName="(PatientName)";
     private Grid<PersonData> Historylist=new Grid<>(PersonData.class,false);
     private LocalDate today=LocalDate.now();
@@ -43,7 +43,7 @@ public class ViewPatientsData extends VerticalLayout {
     private Button downloadBut = new Button(download);
     private Image graph = new Image("images/bgl.png","Blood Glucose Graph");
 
-    public ViewPatientsData(LogService log_db){
+    public PatientDataView(LogService log_db){
         this.log_db = log_db;
         log_db.bulkcreate();
 
@@ -61,7 +61,7 @@ public class ViewPatientsData extends VerticalLayout {
         downloadBut.setWidth("60px");
         downloadBut.addClickListener(e ->
                 downloadBut.getUI().ifPresent(ui ->
-                        ui.navigate(DownloadPage.class)
+                        ui.navigate(PatientDownloadView.class)
                 )
         );
 

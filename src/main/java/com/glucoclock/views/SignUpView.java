@@ -1,34 +1,24 @@
 package com.glucoclock.views;
 
-import com.glucoclock.database.patients_db.service.PatientService;
-import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.doctor.DoctorSignUp1;
-import com.glucoclock.views.patient.PatientSetting1;
-import com.glucoclock.views.patient.PatientSignUp1;
-import com.glucoclock.views.patient.PatientStart;
-import com.glucoclock.views.researcher.ResearcherSignUp1;
+import com.glucoclock.views.doctor.DoctorSignUp1View;
+import com.glucoclock.views.patient.PatientSignUp1View;
+import com.glucoclock.views.researcher.ResearcherSignUp1View;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
-
-import javax.print.Doc;
 
 @PageTitle("Sign Up | Choose Account Type")
 @Route(value = "sign-up")
-public class SignUp extends VerticalLayout{
+public class SignUpView extends VerticalLayout{
     private Button PatientButton;
     private Button DoctorButton;
     private Button ResButton;
     private H2 Header ;
     private MenuBar menu = new MenuBar("NS");
-    public SignUp(){
+    public SignUpView(){
         add (menu);
         Header = new H2("Choose your account type:");
         PatientButton = new Button("Patient");
@@ -38,7 +28,7 @@ public class SignUp extends VerticalLayout{
         PatientButton.addClickListener(e ->{
             //VaadinSession.getCurrent().setAttribute( "Role","PATIENT");
             PatientButton.getUI().ifPresent(ui ->
-                    ui.navigate(PatientSignUp1.class)
+                    ui.navigate(PatientSignUp1View.class)
             );
         }
 
@@ -50,7 +40,7 @@ public class SignUp extends VerticalLayout{
         DoctorButton.addClickListener(e ->{
             //VaadinSession.getCurrent().setAttribute( "Role","DOCTOR");
             DoctorButton.getUI().ifPresent(ui ->
-                    ui.navigate(DoctorSignUp1.class)
+                    ui.navigate(DoctorSignUp1View.class)
             );
         }
 
@@ -62,7 +52,7 @@ public class SignUp extends VerticalLayout{
         ResButton.addClickListener(e ->{
             //VaadinSession.getCurrent().setAttribute( "Role","RESEARCHER");
             ResButton.getUI().ifPresent(ui ->
-                    ui.navigate(ResearcherSignUp1.class)
+                    ui.navigate(ResearcherSignUp1View.class)
             );
         }
 

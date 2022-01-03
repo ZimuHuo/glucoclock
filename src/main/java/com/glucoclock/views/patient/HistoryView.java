@@ -59,7 +59,7 @@ public class HistoryView extends VerticalLayout {
         downloadBut.setWidth("60px");
         downloadBut.addClickListener(e ->
                 downloadBut.getUI().ifPresent(ui ->
-                        ui.navigate(DownloadPage.class)
+                        ui.navigate(PatientDownloadView.class)
                 )
         );
         hl.add(title,downloadBut);

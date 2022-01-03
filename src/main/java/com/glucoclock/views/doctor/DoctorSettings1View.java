@@ -8,7 +8,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -25,7 +24,7 @@ import java.time.ZoneId;
 @PageTitle("Settings")
 @Route(value = "/doctor/settings")
 
-public class DoctorSetting1 extends HorizontalLayout {
+public class DoctorSettings1View extends HorizontalLayout {
 
 
     //    All variables
@@ -53,7 +52,7 @@ public class DoctorSetting1 extends HorizontalLayout {
     DoctorService doctorService;
     
     
-    public DoctorSetting1(DoctorService doctorService) {
+    public DoctorSettings1View(DoctorService doctorService) {
 
         //-----------------------------------------
 
@@ -320,7 +319,7 @@ public class DoctorSetting1 extends HorizontalLayout {
         save.getElement().getStyle().set("margin-right", "auto");
         changePassword.addClickListener(e ->
                 changePassword.getUI().ifPresent(ui ->
-                        ui.navigate(DoctorSetting2.class)
+                        ui.navigate(DoctorSettings2View.class)
                 )
         );
     }

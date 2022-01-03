@@ -1,7 +1,6 @@
 package com.glucoclock.security;
 
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import com.glucoclock.views.ErrorPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,15 +9,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -49,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
 
                 // Allow access to some pages for non-logged-in users
-                .authorizeRequests().antMatchers("/login","/sign-up","/patient-sign-up-1","/patient-sign-up-2","/patient-sign-up-3","/doctor-sign-up-1","/doctor-sign-up-2","/researcher-sign-up-1","/doctor-sign-up-2").permitAll()
+                .authorizeRequests().antMatchers("/login","/sign-up","/patient-sign-up-1","/patient-sign-up-2","/patient-sign-up-3","/doctor-sign-up-1","/doctor-sign-up-2","/researcher-sign-up-1","/doctor-sign-up-2","/forgotPassword").permitAll()
 
                 .and().authorizeRequests().antMatchers("/patient/*").hasAuthority("PATIENT")
 

@@ -1,17 +1,16 @@
 package com.glucoclock.security;
 
-import com.glucoclock.views.ErrorPage;
+import com.glucoclock.views.AccessDenialView;
 import com.glucoclock.views.HomeView;
-import com.glucoclock.views.SignUp;
-import com.glucoclock.views.doctor.DoctorSignUp1;
-import com.glucoclock.views.doctor.DoctorSignUp2;
-import com.glucoclock.views.patient.PatientSignUp1;
-import com.glucoclock.views.patient.PatientSignUp2;
-import com.glucoclock.views.patient.PatientSignUp3;
-import com.glucoclock.views.researcher.ResearcherSignUp1;
-import com.glucoclock.views.researcher.ResearcherSignUp2;
+import com.glucoclock.views.SignUpView;
+import com.glucoclock.views.doctor.DoctorSignUp1View;
+import com.glucoclock.views.doctor.DoctorSignUp2View;
+import com.glucoclock.views.patient.PatientSignUp1View;
+import com.glucoclock.views.patient.PatientSignUp2View;
+import com.glucoclock.views.patient.PatientSignUp3View;
+import com.glucoclock.views.researcher.ResearcherSignUp1View;
+import com.glucoclock.views.researcher.ResearcherSignUp2View;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.router.AfterNavigationListener;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
@@ -46,34 +45,34 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
         //if nav target is not home view and user is not logged in
         if (!HomeView.class.equals(event.getNavigationTarget()) && !SecurityUtils.isUserLoggedIn()){
             //allow anonymous access to all sign-up pages
-            if (SignUp.class.equals(event.getNavigationTarget())){
-                event.forwardTo(SignUp.class);
+            if (SignUpView.class.equals(event.getNavigationTarget())){
+                event.forwardTo(SignUpView.class);
             }
-            else if (PatientSignUp1.class.equals(event.getNavigationTarget())){
-                event.forwardTo(PatientSignUp1.class);
+            else if (PatientSignUp1View.class.equals(event.getNavigationTarget())){
+                event.forwardTo(PatientSignUp1View.class);
             }
-            else if (PatientSignUp2.class.equals(event.getNavigationTarget())){
-                event.forwardTo(PatientSignUp2.class);
+            else if (PatientSignUp2View.class.equals(event.getNavigationTarget())){
+                event.forwardTo(PatientSignUp2View.class);
             }
-            else if (PatientSignUp3.class.equals(event.getNavigationTarget())){
-                event.forwardTo(PatientSignUp3.class);
+            else if (PatientSignUp3View.class.equals(event.getNavigationTarget())){
+                event.forwardTo(PatientSignUp3View.class);
             }
-            else if (DoctorSignUp1.class.equals(event.getNavigationTarget())){
-                event.forwardTo(DoctorSignUp1.class);
+            else if (DoctorSignUp1View.class.equals(event.getNavigationTarget())){
+                event.forwardTo(DoctorSignUp1View.class);
             }
-            else if (DoctorSignUp2.class.equals(event.getNavigationTarget())){
-                event.forwardTo(DoctorSignUp2.class);
+            else if (DoctorSignUp2View.class.equals(event.getNavigationTarget())){
+                event.forwardTo(DoctorSignUp2View.class);
             }
-            else if (ResearcherSignUp1.class.equals(event.getNavigationTarget())){
-                event.forwardTo(ResearcherSignUp1.class);
+            else if (ResearcherSignUp1View.class.equals(event.getNavigationTarget())){
+                event.forwardTo(ResearcherSignUp1View.class);
             }
-            else if (ResearcherSignUp2.class.equals(event.getNavigationTarget())){
-                event.forwardTo(ResearcherSignUp2.class);
+            else if (ResearcherSignUp2View.class.equals(event.getNavigationTarget())){
+                event.forwardTo(ResearcherSignUp2View.class);
             }
-            else if (ErrorPage.class.equals(event.getNavigationTarget())){
-                event.forwardTo(ErrorPage.class);
+            else if (AccessDenialView.class.equals(event.getNavigationTarget())){
+                event.forwardTo(AccessDenialView.class);
             }
-            //else{event.rerouteTo(HomeView.class);}
+            else{event.rerouteTo(HomeView.class);}
 
         }
 

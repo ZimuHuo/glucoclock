@@ -1,14 +1,12 @@
-package com.glucoclock.views.researcher;
+package com.glucoclock.views.doctor;
 
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.doctor.DoctorSignUp2;
 import com.glucoclock.views.util.SendMail;
 import com.glucoclock.views.util.verificationCode;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -16,7 +14,6 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -25,9 +22,9 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
 
-@PageTitle("Researcher Sign Up")
-@Route(value = "researcher-sign-up-1")
-public class ResearcherSignUp1 extends HorizontalLayout {
+@PageTitle("Doctor Sign Up")
+@Route(value = "doctor-sign-up-1")
+public class DoctorSignUp1View extends HorizontalLayout {
     TextField firstName;
     TextField lastName;
     EmailField emailField;
@@ -35,15 +32,19 @@ public class ResearcherSignUp1 extends HorizontalLayout {
     PasswordField confirmPassword;
     FormLayout formLayout;
     Button submitButton;
-    Select<String> institution;
     VerticalLayout mainLayout;
     private MenuBar menu = new MenuBar("NS");
-UserService userService;
+private UserService userService;
+    private H2 gap = new H2("  ");
+    private H2 title = new H2("Set up your account");
 Button codeButton;
 TextField code;
-    public ResearcherSignUp1(UserService userService) {
+    public DoctorSignUp1View(UserService userService) {
         this.userService = userService;
         add(menu);
+
+
+
 
         this.codeButton = new Button("send code");
         this.code = new TextField();
@@ -63,10 +64,15 @@ TextField code;
                 }
 
         );
+
+
+
+
+
         init();
         this.setJustifyContentMode(JustifyContentMode.CENTER);
-
-        mainLayout.add(new H2("Set up your account"));
+        mainLayout.add(gap);
+        mainLayout.add(title);
         mainLayout.add(formLayout);
         mainLayout.add(submitButton);
 
@@ -81,8 +87,8 @@ TextField code;
         submitButton.getElement().getStyle().set("margin-left", "auto");
 
         submitButton.addClickListener(e -> {
-            if(firstName.isEmpty() || lastName.isEmpty() || emailField.isEmpty() || emailField.isInvalid() || password.isEmpty() || !password.getValue().equals(confirmPassword.getValue()) || institution.isEmpty()) {
-                //Show the error messages
+            if(firstName.isEmpty() || lastName.isEmpty() || emailField.isEmpty() || emailField.isInvalid() || password.isEmpty() || !password.getValue().equals(confirmPassword.getValue())) {
+            //Show the error messages
                 if (firstName.isEmpty())
                     Notification.show("You must enter your first name", 3000, Notification.Position.TOP_CENTER);
 
@@ -98,12 +104,10 @@ TextField code;
                 if (!password.getValue().equals(confirmPassword.getValue()))
                     Notification.show("You must enter the same password twice", 3000, Notification.Position.TOP_CENTER);
 
-                if (institution.isEmpty())
-                    Notification.show("You must select you institution",3000, Notification.Position.TOP_CENTER);
             } else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
                 Notification notification = Notification.show("Please choose another email address");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            }else if(!VaadinSession.getCurrent().getAttribute("code").equals(code.getValue())){
+            }else if (!VaadinSession.getCurrent().getAttribute("code").equals(code.getValue())){
                 Notification notification = Notification.show("Wrong code");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }else {
@@ -112,10 +116,9 @@ TextField code;
                 VaadinSession.getCurrent().setAttribute( "LastName",lastName.getValue());
                 VaadinSession.getCurrent().setAttribute( "Email",emailField.getValue());
                 VaadinSession.getCurrent().setAttribute( "Password",password.getValue());
-                VaadinSession.getCurrent().setAttribute("Institution",institution.getValue());
 
                 submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(ResearcherSignUp2.class)
+                        ui.navigate(DoctorSignUp2View.class)
                 );
             }
         });
@@ -126,7 +129,6 @@ TextField code;
         formLayout.add(
                 firstName, lastName,
                 emailField,
-                institution,
                 password, confirmPassword,
                 code, codeButton
         );
@@ -139,7 +141,6 @@ TextField code;
         formLayout.setColspan(firstName,1);
         formLayout.setColspan(lastName, 1);
         formLayout.setColspan(emailField, 2);
-        formLayout.setColspan(institution, 2);
         formLayout.setColspan(password, 1);
         formLayout.setColspan(confirmPassword, 1);
     }
@@ -152,7 +153,6 @@ TextField code;
         confirmPasswordSetUp();
         passwordSetUp();
         submitButtonSetUp();
-        institutionSetUp();
         formLayoutSetUp();
     }
 
@@ -187,7 +187,7 @@ TextField code;
         //Change the input format of 'confirmPassword' when user changes the input in 'password'
         password.addValueChangeListener(e ->
                 confirmPassword.setPattern(password.getValue())
-        );
+                );
 
         if (VaadinSession.getCurrent().getAttribute("Password")!= null){
             password.setValue((String)VaadinSession.getCurrent().getAttribute("Password"));
@@ -216,12 +216,5 @@ TextField code;
         }
     }
 
-    private void institutionSetUp() {
-        institution = new Select<String>("Imperial College London");
-        institution.setLabel("Institution");
-        if (VaadinSession.getCurrent().getAttribute("Institution")!= null){
-            institution.setValue((String)VaadinSession.getCurrent().getAttribute("Institution"));
-        }
-    }
 
 }
