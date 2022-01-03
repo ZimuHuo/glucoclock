@@ -6,6 +6,7 @@ import com.glucoclock.security.db.Authorities;
 import com.glucoclock.security.db.AuthoritiesService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
+import com.glucoclock.views.Control;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -251,9 +252,12 @@ public class ResearcherSignUp2View extends HorizontalLayout {
 //                Set the authority of the user as researcher
                 Authorities authorities = new Authorities((String)VaadinSession.getCurrent().getAttribute("Email"),"RESEARCHER");
                 authoritiesService.getRepository().save(authorities);
-
+                Authentication authentication = new UsernamePasswordAuthenticationToken( (String)VaadinSession.getCurrent().getAttribute("Email"), (String)VaadinSession.getCurrent().getAttribute("Password"),
+                        AuthorityUtils.createAuthorityList("RESEARCHER"));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(ResearcherStartView.class)
+                        ui.navigate(Control.class)
                 );
             }
         });
