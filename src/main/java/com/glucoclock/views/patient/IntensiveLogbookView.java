@@ -1,7 +1,11 @@
 package com.glucoclock.views.patient;
 
+import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.intensiveLogBook_db.model.IntensiveLogBook;
 import com.glucoclock.database.intensiveLogBook_db.service.IntensiveLogBookService;
+import com.glucoclock.database.notifications_db.NotificationService;
+import com.glucoclock.database.notifications_db.Notifications;
+import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
@@ -19,6 +23,7 @@ import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -44,10 +49,16 @@ public class IntensiveLogbookView extends Div {
 
     private final UserService userService;
     private final IntensiveLogBookService intensiveLogBookService;
+    private final NotificationService notificationService;
+    private final PatientService patientService;
+    private final DoctorPatientService doctorPatientService;
 
-    public IntensiveLogbookView(UserService userService, IntensiveLogBookService intensiveLogBookService) {
+    public IntensiveLogbookView(UserService userService, IntensiveLogBookService intensiveLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService) {
         this.userService = userService;
         this.intensiveLogBookService = intensiveLogBookService;
+        this.notificationService = notificationService;
+        this.patientService = patientService;
+        this.doctorPatientService = doctorPatientService;
         init();
         add(menu);
         //add(menuBar());
@@ -104,6 +115,20 @@ public class IntensiveLogbookView extends Div {
                         ketones.getValue()
 
                 );
+
+                // Create and save a new notification
+                UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
+                Notifications n = new Notifications(
+                        patientService,
+                        patientUID,
+                        doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
+                        "Alarm"
+                );
+                n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
+                n.setCompleteMessage("something");
+                notificationService.getRepository().save(n);
+
+
 //UUID PatientUid, LocalDate Date, LocalTime Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons
                 intensiveLogBookService.getRepository().save(intensiveLogBook);
 

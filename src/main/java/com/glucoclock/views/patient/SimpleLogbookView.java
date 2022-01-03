@@ -1,5 +1,7 @@
 package com.glucoclock.views.patient;
 
+import com.glucoclock.database.doctorpatient_db.model.DoctorPatient;
+import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.notifications_db.NotificationService;
 import com.glucoclock.database.notifications_db.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
@@ -43,13 +45,16 @@ public class SimpleLogbookView extends Div {
     private final SimpleLogBookService simpleLogBookService;
     private final NotificationService notificationService;
     private final PatientService patientService;
+    private final DoctorPatientService doctorPatientService;
 
-    public SimpleLogbookView(UserService userService, SimpleLogBookService simpleLogBookService, NotificationService notificationService, PatientService patientService){
+    public SimpleLogbookView(UserService userService, SimpleLogBookService simpleLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService){
 
         this.userService = userService;
         this.simpleLogBookService = simpleLogBookService;
         this.notificationService = notificationService;
         this.patientService = patientService;
+        this.doctorPatientService = doctorPatientService;
+
 
         init();
         add(menu);
@@ -98,14 +103,15 @@ public class SimpleLogbookView extends Div {
                             Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
                         }
 
-//                        Create new notification
+//                        Create and save a new notification
+                        UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
                         Notifications n = new Notifications(
                                 patientService,
-                                userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(), //Current patient uid
-                                UUID.randomUUID(),
+                                patientUID,
+                                doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
                                 "Alarm"
                         );
-                        n.setShortMessage("Blood glucose level " + bg + " units");
+                        n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
                         n.setCompleteMessage("something");
                         notificationService.getRepository().save(n);
 
