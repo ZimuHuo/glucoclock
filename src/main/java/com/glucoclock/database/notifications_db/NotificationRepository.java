@@ -1,22 +1,21 @@
 package com.glucoclock.database.notifications_db;
 
-import com.glucoclock.database.patients_db.model.Patient;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface NotificationRepository extends CrudRepository<Notification, Long> {
+public interface NotificationRepository extends CrudRepository<Notifications, Long> {
 
 //    Search for a patient's all notifications
-    List<Notification> getNotificationByPatientuid(UUID uid);
+    List<Notifications> getNotificationByPatientuid(UUID uid);
 
 //    Search for a doctor's all notifications
-    List<Notification> getNotificationByDoctoruid(UUID uid);
+    List<Notifications> getNotificationByDoctoruid(UUID uid);
 
 //    Search for a single notification
-    Notification getNotificationById(long id);
+    Notifications getNotificationById(long id);
 
     @Override
-    <S extends Notification> S save(S s);
+    <S extends Notifications> S save(S s);
 }

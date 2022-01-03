@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Notification_db")
-public class Notification implements Serializable {
+public class Notifications implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +25,12 @@ public class Notification implements Serializable {
 
     @Column(name = "DoctorUID")
     private UUID doctoruid;
+
+    @Column(name = "PatientFirstName")
+    private String patientFirstName;
+
+    @Column(name = "PatientLastName")
+    private String patientLastName;
 
 //    Date and time of request
     @Column(name = "Date")
@@ -45,11 +51,14 @@ public class Notification implements Serializable {
 
 
 //    Constructor of a new notification
-    public Notification(
+    public Notifications(
+            PatientService patientService,
             UUID patientuid,
             UUID doctoruid,
             String requestType){
         this.patientuid = patientuid;
+        this.patientFirstName = patientService.getRepository().getPatientByUid(patientuid).getFirstName();
+        this.patientLastName = patientService.getRepository().getPatientByUid(patientuid).getLastName();
         this.doctoruid = doctoruid;
         this.date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         this.requesttype = requestType;
@@ -84,7 +93,7 @@ public class Notification implements Serializable {
         }
     }
 
-    public Notification(){}
+    public Notifications(){}
 
 
 
@@ -101,12 +110,16 @@ public class Notification implements Serializable {
         return doctoruid;
     }
 
+    public String getPatientFirstName() {return patientFirstName;}
+    public void setPatientFirstName(String patientFirstName) {this.patientFirstName = patientFirstName;}
+
+    public String getPatientLastName() {return patientLastName;}
+    public void setPatientLastName(String patientLastName) {this.patientLastName = patientLastName;}
+
     public LocalDateTime getDate() {
         return date;
     }
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
+    public void setDate(LocalDateTime date) {this.date = date;}
 
     public String getRequestType() {
         return requesttype;
