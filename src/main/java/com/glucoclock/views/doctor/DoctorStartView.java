@@ -72,7 +72,6 @@ public class DoctorStartView extends VerticalLayout {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         String username = authentication.getName();//return email
-        System.out.println(authentication.getName());
         User user=userService.getRepository().findByUsername(username); //return user
         doctoruid=user.getUid();
 
