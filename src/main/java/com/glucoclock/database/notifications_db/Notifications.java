@@ -64,33 +64,7 @@ public class Notifications implements Serializable {
         this.requesttype = requestType;
         this.status = "Unresolved";
 
-//        Set the message
-//        High glucose alarm message
-        if (requesttype.equals("Alarm") ) {
-            shortmessage = "Blood glucose level " + /*Get value here*/  " units";
-            completemessage = "something";
-        }
-
-//        questionnaire message
-        else if (requesttype.equals("Questionnaire")) {
-            shortmessage = "something";
-            completemessage = "something";
-//            set a max length of short message
-            if (shortmessage.length() > 10 /*exact number need to be determined*/) {
-                shortmessage = shortmessage.substring(0, 9) + "...";
-            }
-        }
-
-//        add patient request message
-        else if (requesttype.equals("Adding Patient")) {
-            shortmessage = "something";
-            completemessage = "something";
-        }
-
-//        reply message to alarm
-        else if (requesttype.equals("Re:Alarm")) {
-
-        }
+//        Message is set in frontend classes
     }
 
     public Notifications(){}
