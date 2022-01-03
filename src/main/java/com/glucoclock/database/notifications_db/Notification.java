@@ -75,7 +75,7 @@ public class Notification implements Serializable {
             shortmessage = "something";
             completemessage = "something";
 //            set a max length of short message
-            if (shortmessage.length() >= 10 /*exact number need to be determined*/) {
+            if (shortmessage.length() > 10 /*exact number need to be determined*/) {
                 shortmessage = shortmessage.substring(0, 9) + "...";
             }
         }
