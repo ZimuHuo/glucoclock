@@ -72,7 +72,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
             else if (AccessDenialView.class.equals(event.getNavigationTarget())){
                 event.forwardTo(AccessDenialView.class);
             }
-            //else{event.rerouteTo(HomeView.class);}
+            else{event.rerouteTo(HomeView.class);}
 
         }
 
