@@ -8,6 +8,8 @@ import com.vaadin.flow.component.html.Span;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Entity
@@ -24,15 +26,9 @@ public class Notification implements Serializable {
     @Column(name = "DoctorUID")
     private UUID doctoruid;
 
-    @Column(name = "PatientFirstName")
-    private String patientfirstname;
-
-    @Column(name = "PatientLastName")
-    private String patientlastname;
-
-//    Date of request
+//    Date and time of request
     @Column(name = "Date")
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Column(name = "RequestType")
     private String requesttype;
@@ -50,16 +46,12 @@ public class Notification implements Serializable {
 
 //    Constructor of a new notification
     public Notification(
-            PatientService patientService,
             UUID patientuid,
             UUID doctoruid,
-            LocalDate date,
             String requestType){
         this.patientuid = patientuid;
         this.doctoruid = doctoruid;
-        this.patientfirstname = patientService.getRepository().getPatientByUid(patientuid).getFirstName();
-        this.patientlastname = patientService.getRepository().getPatientByUid(patientuid).getLastName();
-        this.date = date;
+        this.date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         this.requesttype = requestType;
         this.status = "Unresolved";
 
@@ -90,13 +82,9 @@ public class Notification implements Serializable {
         else if (requesttype.equals("Re:Alarm")) {
 
         }
-
-
     }
 
-    public Notification(){
-
-    }
+    public Notification(){}
 
 
 
@@ -108,35 +96,15 @@ public class Notification implements Serializable {
     public UUID getPatientUid() {
         return patientuid;
     }
-    public void setPatientUid(UUID patientuid) {
-        this.patientuid = patientuid;
-    }
 
     public UUID getDoctorUid() {
         return doctoruid;
     }
-    public void setDoctorUid(UUID doctoruid) {
-        this.doctoruid = doctoruid;
-    }
 
-    public String getPatientFirstName() {
-        return patientfirstname;
-    }
-    public void setPatientFirstName(String patientFirstName) {
-        this.patientfirstname = patientFirstName;
-    }
-
-    public String getPatientLastName() {
-        return patientlastname;
-    }
-    public void setPatientLastName(String patientLastName) {
-        this.patientlastname = patientLastName;
-    }
-
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

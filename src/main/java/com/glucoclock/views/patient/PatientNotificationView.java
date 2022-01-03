@@ -16,6 +16,7 @@ import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -78,11 +79,11 @@ public class PatientNotificationView extends VerticalLayout {
 
     private List<Notification> getNotifications() {
         return Arrays.asList(
-                createNotification( LocalDate.of(2021,12,29), "Questionnaire","Unresolved"),
-                createNotification(LocalDate.of(2021,12,12), "Questionnaire","Resolved"));
+                createNotification( LocalDateTime.of(2021,12,29,9,30), "Questionnaire","Unresolved"),
+                createNotification(LocalDateTime.of(2021,12,12,10,30), "Questionnaire","Resolved"));
     }
 
-    private Notification createNotification(LocalDate date, String requestType, String status) {
+    private Notification createNotification(LocalDateTime date, String requestType, String status) {
         Notification n = new Notification();
         n.setDate(date);
         n.setRequestType(requestType);

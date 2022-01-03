@@ -1,8 +1,10 @@
 package com.glucoclock.views.patient;
 
+import com.glucoclock.database.notifications_db.NotificationService;
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
 import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
+import com.glucoclock.security.db.AuthoritiesService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
@@ -44,11 +46,13 @@ public class SimpleLogBookView extends Div {
 
     private final UserService userService;
     private final SimpleLogBookService simpleLogBookService;
+    private final NotificationService notificationService;
 
 
-    public SimpleLogBookView(UserService userService, SimpleLogBookService simpleLogBookService){
+    public SimpleLogBookView(UserService userService, SimpleLogBookService simpleLogBookService, NotificationService notificationService){
         this.userService = userService;
         this.simpleLogBookService = simpleLogBookService;
+        this.notificationService = notificationService;
 
         init();
         add(menu);
@@ -96,6 +100,13 @@ public class SimpleLogBookView extends Div {
 //                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
                             Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
                         }
+
+//                        Create new notification
+                        Notification n = new Notification(
+                                AuthoritiesService
+                        );
+
+
                         //save to database
                         UUID uid = userService.getRepository().findAll().get(0).getUid();
                         SimpleLogBook simpleLogBook = new SimpleLogBook(
