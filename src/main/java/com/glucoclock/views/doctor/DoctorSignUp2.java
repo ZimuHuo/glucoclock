@@ -8,6 +8,7 @@ import com.glucoclock.security.db.Authorities;
 import com.glucoclock.security.db.AuthoritiesService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
+import com.glucoclock.views.Control;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.PatientSignUp1;
 import com.glucoclock.views.patient.PatientSignUp3;
@@ -29,6 +30,10 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -259,9 +264,11 @@ public class DoctorSignUp2 extends HorizontalLayout {
 //                Set the authority of the user as doctor
                 Authorities authorities = new Authorities((String)VaadinSession.getCurrent().getAttribute("Email"),"DOCTOR");
                 authoritiesService.getRepository().save(authorities);
-
+                Authentication authentication = new UsernamePasswordAuthenticationToken( (String)VaadinSession.getCurrent().getAttribute("Email"), (String)VaadinSession.getCurrent().getAttribute("Password"),
+                        AuthorityUtils.createAuthorityList("DOCTOR"));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
                 submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(DoctorStartView.class)
+                        ui.navigate(Control.class)
                 );
             }
 

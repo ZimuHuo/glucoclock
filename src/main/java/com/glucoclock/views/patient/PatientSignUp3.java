@@ -25,6 +25,10 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -189,7 +193,9 @@ public class PatientSignUp3 extends Div {
 
 //                Send a confirmation email
                 SendMail.sendMail("Congratulations!","Thank you for choosing our app!",(String)VaadinSession.getCurrent().getAttribute("Email"));
-
+                Authentication authentication = new UsernamePasswordAuthenticationToken( (String)VaadinSession.getCurrent().getAttribute("Email"), (String)VaadinSession.getCurrent().getAttribute("Password"),
+                        AuthorityUtils.createAuthorityList("PATIENT"));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
 //                Direct to patient home page
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(PatientStart.class)

@@ -29,6 +29,10 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -256,7 +260,9 @@ public class ResearcherSignUp2 extends HorizontalLayout {
 //                Set the authority of the user as researcher
                 Authorities authorities = new Authorities((String)VaadinSession.getCurrent().getAttribute("Email"),"RESEARCHER");
                 authoritiesService.getRepository().save(authorities);
-
+                Authentication authentication = new UsernamePasswordAuthenticationToken( (String)VaadinSession.getCurrent().getAttribute("Email"), (String)VaadinSession.getCurrent().getAttribute("Password"),
+                        AuthorityUtils.createAuthorityList("RESEARCHER"));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(ResearcherStart.class)
                 );
