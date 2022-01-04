@@ -120,7 +120,6 @@ public class PatientService  {
 //    Methods to change patient info in database
 //    Change the last name
     public void updatePatientLastName(long id, String LName) {
-
         Patient patient = repository.getPatientById(id);
         patient.setLastName(LName);
         repository.save(patient);

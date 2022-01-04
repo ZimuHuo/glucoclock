@@ -14,17 +14,17 @@ class PatientTest {
             true,true,true,true,"tyu");
 
     @Test
-    void testgetFirstName() {
+    void testGetFirstName() {
         assertEquals("ZImu",p.getFirstName());
     }
 
     @Test
-    void testgetLastName() {
+    void testGetLastName() {
         assertEquals("Huo",p.getLastName());
     }
 
     @Test
-    void getEmail() {
+    void testGetEmail() {
         assertEquals("zimuhuo@outlook.com",p.getEmail());
     }
 
