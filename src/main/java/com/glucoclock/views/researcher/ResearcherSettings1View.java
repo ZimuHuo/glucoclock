@@ -256,39 +256,72 @@ public class ResearcherSettings1View extends HorizontalLayout {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.getElement().getStyle().set("margin-left", "1em");
         save.addClickListener(e -> {
-            FName = firstName.getValue();
-            LName = lastName.getValue();
-            Email = emailField.getValue();
-            AddressL1 = homeAddressL1.getValue();
-            AddressL2 = homeAddressL2.getValue();
-            PostCode = postcode.getValue();
-            City = cityField.getValue();
-            Phone = contactNumber.getValue();
-            Birth = birthSelect.getValue();
-            Gender = genderSelect.getValue();
-            Institution = institutionSelect.getValue();
+            if(firstName.isEmpty() || lastName.isEmpty() || emailField.isEmpty() || emailField.isInvalid() || genderSelect.isEmpty() || homeAddressL1.isEmpty() || postcode.isEmpty() || cityField.isEmpty() || contactNumber.isEmpty() || birthSelect.isEmpty()) {
+                //Show the error messages
+                if (firstName.isEmpty())
+                    Notification.show("You must enter your first name", 3000, Notification.Position.TOP_CENTER);
+
+                if (lastName.isEmpty())
+                    Notification.show("You must enter your last name", 3000, Notification.Position.TOP_CENTER);
+
+                if (emailField.isEmpty() || emailField.isInvalid())
+                    Notification.show("You must enter a valid email address", 3000, Notification.Position.TOP_CENTER);
+
+                if (genderSelect.isEmpty())
+                    Notification.show("You must select your gender", 3000, Notification.Position.TOP_CENTER);
+
+                if (homeAddressL1.isEmpty())
+                    Notification.show("You must enter your address", 3000, Notification.Position.TOP_CENTER);
+
+                if (postcode.isEmpty())
+                    Notification.show("You must enter your postcode", 3000, Notification.Position.TOP_CENTER);
+
+                if (cityField.isEmpty())
+                    Notification.show("You must enter the city", 3000, Notification.Position.TOP_CENTER);
+
+                if (contactNumber.isEmpty())
+                    Notification.show("You must enter your phone number", 3000, Notification.Position.TOP_CENTER);
+
+                if (birthSelect.isEmpty())
+                    Notification.show("You must enter your birthday", 3000, Notification.Position.TOP_CENTER);
+
+            } else {
+
+                FName = firstName.getValue();
+                LName = lastName.getValue();
+                Email = emailField.getValue();
+                AddressL1 = homeAddressL1.getValue();
+                AddressL2 = homeAddressL2.getValue();
+                PostCode = postcode.getValue();
+                City = cityField.getValue();
+                Phone = contactNumber.getValue();
+                Birth = birthSelect.getValue();
+                Gender = genderSelect.getValue();
+                Institution = institutionSelect.getValue();
 
 //            update any changes to the database
-            researcherService.updateResearcherFirstName(id,FName);
-            researcherService.updateResearcherLastName(id, LName);
-            researcherService.updateResearcherEmail(id, Email);
-            researcherService.updateResearcherAddressL1(id, AddressL1);
-            researcherService.updateResearcherAddressL2(id, AddressL2);
-            researcherService.updateResearcherPostCode(id, PostCode);
-            researcherService.updateResearcherCity(id, City);
-            researcherService.updateResearcherPhone(id, Phone);
-            researcherService.updateResearcherBirthday(id, Birth);
-            researcherService.updateResearcherGender(id, Gender);
-            researcherService.updateResearcherInstitution(id, Institution);
+                researcherService.updateResearcherFirstName(id,FName);
+                researcherService.updateResearcherLastName(id, LName);
+                researcherService.updateResearcherEmail(id, Email);
+                researcherService.updateResearcherAddressL1(id, AddressL1);
+                researcherService.updateResearcherAddressL2(id, AddressL2);
+                researcherService.updateResearcherPostCode(id, PostCode);
+                researcherService.updateResearcherCity(id, City);
+                researcherService.updateResearcherPhone(id, Phone);
+                researcherService.updateResearcherBirthday(id, Birth);
+                researcherService.updateResearcherGender(id, Gender);
+                researcherService.updateResearcherInstitution(id, Institution);
 
 //            Change the accessibility and appearance when saved
-            allSetReadOnly(true);
-            changeSetting.setVisible(true);
-            changePassword.setVisible(true);
-            save.setVisible(false);
-            cancel.setVisible(false);
+                allSetReadOnly(true);
+                changeSetting.setVisible(true);
+                changePassword.setVisible(true);
+                save.setVisible(false);
+                cancel.setVisible(false);
 
-            Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
+                Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
+            }
+
         });
     }
 
