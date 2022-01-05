@@ -95,7 +95,7 @@ public class ComprehensiveLogbookView extends Div {
                                     patientService,
                                     patientUID,
                                     doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
-                                    "Alarm"
+                                    "Blood Glucose Alarm"
                             );
                             n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
                             n.setCompleteMessage(
