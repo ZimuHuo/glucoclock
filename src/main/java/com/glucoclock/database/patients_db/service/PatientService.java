@@ -119,88 +119,88 @@ public class PatientService  {
 
 //    Methods to change patient info in database
 //    Change the last name
-    public void updatePatientLastName(long id, String LName) {
+    public void updatePatientLastName(UUID uid, String LName) {
 
-        Patient patient = repository.getPatientById(id);
+        Patient patient = repository.getPatientByUid(uid);
         patient.setLastName(LName);
         repository.save(patient);
    }
 
 //   Change the first name
-   public void updatePatientFirstName(long id, String FName){
-        Patient patient = repository.getPatientById(id);
+   public void updatePatientFirstName(UUID uid, String FName){
+        Patient patient = repository.getPatientByUid(uid);
         patient.setFirstName(FName);
         repository.save(patient);
    }
 
 //   Change the email
-    public void updatePatientEmail(long id, String email){
-        Patient patient = repository.getPatientById(id);
+    public void updatePatientEmail(UUID uid, String email){
+        Patient patient = repository.getPatientByUid(uid);
         patient.setEmail(email);
         repository.save(patient);
     }
 
 
 //    Change the postcode
-    public void updatePatientPostCode(long id, String postCode){
-        Patient patient = repository.getPatientById(id);
+    public void updatePatientPostCode(UUID uid, String postCode){
+        Patient patient = repository.getPatientByUid(uid);
         patient.setPostCode(postCode);
         repository.save(patient);
     }
 
 
 //    Change address line 1
-    public void updatePatientAddressL1(long id, String newHomeAddressL1) {
-        Patient patient = repository.getPatientById(id);
+    public void updatePatientAddressL1(UUID uid, String newHomeAddressL1) {
+        Patient patient = repository.getPatientByUid(uid);
         patient.setHomeAddressL1(newHomeAddressL1);
         repository.save(patient);
     }
 
 //    Change address line 2
-    public void updatePatientAddressL2(long id, String newHomeAddressL2) {
-        Patient patient = repository.getPatientById(id);
+    public void updatePatientAddressL2(UUID uid, String newHomeAddressL2) {
+        Patient patient = repository.getPatientByUid(uid);
         patient.setHomeAddressL2(newHomeAddressL2);
         repository.save(patient);
     }
 
 //    Change the city
-    public void updatePatientCity(long id, String newCity) {
-        Patient patient = repository.getPatientById(id);
+    public void updatePatientCity(UUID uid, String newCity) {
+        Patient patient = repository.getPatientByUid(uid);
         patient.setCity(newCity);
         repository.save(patient);
     }
 
 //    Change the phone number
-    public void updatePatientPhone(long id, String newPhoneNum) {
-        Patient patient = repository.getPatientById(id);
+    public void updatePatientPhone(UUID uid, String newPhoneNum) {
+        Patient patient = repository.getPatientByUid(uid);
         patient.setPhone(newPhoneNum);
         repository.save(patient);
     }
 
 //    Change the gender
-    public void updatePatientGender(long id, String newGender) {
-        Patient patient = repository.getPatientById(id);
+    public void updatePatientGender(UUID uid, String newGender) {
+        Patient patient = repository.getPatientByUid(uid);
         patient.setGender(newGender);
         repository.save(patient);
     }
 
 //    Change the birthday
-    public void updatePatientBirthday(long id, LocalDate newBirthday) {
-        Patient patient = repository.getPatientById(id);
+    public void updatePatientBirthday(UUID uid, LocalDate newBirthday) {
+        Patient patient = repository.getPatientByUid(uid);
         patient.setBirthday(newBirthday);
         repository.save(patient);
     }
 
 //    Change the type of diabetes
-    public void updateDiabetesType(long id, String newDiabetesType) {
-        Patient patient = repository.getPatientById(id);
+    public void updateDiabetesType(UUID uid, String newDiabetesType) {
+        Patient patient = repository.getPatientByUid(uid);
         patient.setDiabetesType(newDiabetesType);
         repository.save(patient);
     }
 
 //    Change the type of insulin
-    public void updateInsulinType(long id, boolean rapidInsulin, boolean shortInsulin, boolean intermediateInsulin, boolean longInsulin) {
-        Patient patient = repository.getPatientById(id);
+    public void updateInsulinType(UUID uid, boolean rapidInsulin, boolean shortInsulin, boolean intermediateInsulin, boolean longInsulin) {
+        Patient patient = repository.getPatientByUid(uid);
         patient.setRapidInsulin(rapidInsulin);
         patient.setShortInsulin(shortInsulin);
         patient.setIntermediateInsulin(intermediateInsulin);
@@ -209,8 +209,8 @@ public class PatientService  {
     }
 
 //    Change the injection method of insulin
-    public void updateInjectionMethod(long id, String injectionMethod) {
-        Patient patient = repository.getPatientById(id);
+    public void updateInjectionMethod(UUID uid, String injectionMethod) {
+        Patient patient = repository.getPatientByUid(uid);
         patient.setInjectionMethod(injectionMethod);
         repository.save(patient);
     }
