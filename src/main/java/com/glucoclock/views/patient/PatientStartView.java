@@ -59,8 +59,10 @@ public class PatientStartView extends VerticalLayout{
         LBtype = new ComboBox<>();
         LBtype.setLabel("Logbook Type");
         LBtype.setItems("Simple","Comprehensive","Intensive");
-        LBtype.addCustomValueSetListener(
-                event -> LBtype.setValue(event.getDetail()));
+        String lbType = patientService.getRepository().getPatientByUid(uid).getLogbooktype();
+        LBtype.setValue(lbType);
+//        LBtype.addCustomValueSetListener(
+//                event -> LBtype.setValue(event.getDetail()));
 
         datePicker = new DatePicker("Date");
         Locale finnishLocale = new Locale("fi", "FI");
@@ -75,34 +77,31 @@ public class PatientStartView extends VerticalLayout{
         updateButton.setHeight("120px");
 
         //Set default logbook type to suggested logbook type
-        LBtype.setValue(patientService.getRepository().getPatientByUid(uid).getLogbooktype());
         Span suggestedLb = new Span("Suggested Logbook Type: "+patientService.getRepository().getPatientByUid(uid).getLogbooktype());
         suggestedLb.getElement().getThemeList().add("badge success");
 
-        LBtype.addValueChangeListener(event -> {
+        updateButton.addClickListener(e ->{
             VaadinSession.getCurrent().setAttribute( "date",datePicker.getValue());
-            if (event.getValue() == "Simple") {
-                updateButton.addClickListener(e ->
+            if (LBtype.getValue().equals("Simple")) {
                         updateButton.getUI().ifPresent(ui ->
                                 ui.navigate(SimpleLogbookView.class)
-                        )
-                );
-            } else if (event.getValue() == "Comprehensive"){
-                updateButton.addClickListener(e ->
+                        );
+            } else if (LBtype.getValue().equals("Comprehensive")){
                         updateButton.getUI().ifPresent(ui ->
                                 ui.navigate(ComprehensiveLogbookView.class)
-                        )
-                );
+                        );
             }
-            else if (event.getValue() == "Intensive"){
-                updateButton.addClickListener(e ->
+            else if (LBtype.getValue().equals("Intensive")){
                         updateButton.getUI().ifPresent(ui ->
                                 ui.navigate(IntensiveLogbookView.class)
-                        )
-                );
+                        );
             }
-        });
-        //setMargin(true);
+
+                }
+        );
+
+//
+
         setAlignItems(Alignment.CENTER);
         add(title,suggestedLb,LBtype,datePicker,updateButton);
         if (VaadinSession.getCurrent().getAttribute("Error")!=null){

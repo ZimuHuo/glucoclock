@@ -21,6 +21,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -36,8 +37,8 @@ public class SimpleLogbookView extends Div {
     private H3 title = new H3("Add Simple Logbook Entry");
     ComboBox<String> prepost;
     ComboBox<String> meal;
-    TextField bloodGlucose;
-    TextField carbohydrate;
+    NumberField bloodGlucose;
+    NumberField carbohydrate;
     Button submitButton = new Button("Upload");
     private MenuBar menu = new MenuBar("PNS");
 
@@ -65,11 +66,19 @@ public class SimpleLogbookView extends Div {
     private void init() {
         prepost = new ComboBox<>("Pre/Post");
         meal = new ComboBox<>("Meal");
-        bloodGlucose = new TextField("Blood Glucose");
-        carbohydrate = new TextField("Carbohydrate");
+        bloodGlucose = new NumberField("Blood Glucose");
+        carbohydrate = new NumberField("Carbohydrate");
 
-        bloodGlucose.setHelperText("unit");
-        carbohydrate.setHelperText("unit");
+        Div bloodGlucoseUnit = new Div();
+        bloodGlucoseUnit.setText("mmol/L");
+        bloodGlucose.setSuffixComponent(bloodGlucoseUnit);
+
+        Div carbsUnit = new Div();
+        carbsUnit.setText("g");
+        bloodGlucose.setSuffixComponent(carbsUnit);
+
+//        bloodGlucose.setHelperText("unit");
+//        carbohydrate.setHelperText("unit");
 
         prepost.setItems("Pre","Post");
         meal.setItems("Breakfast","Lunch","Dinner");
@@ -87,42 +96,39 @@ public class SimpleLogbookView extends Div {
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("320px", 2)
         );
+
         formLayout.setColspan(bloodGlucose, 2);
         formLayout.setColspan(carbohydrate,2 );
         submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.addClickListener(e -> {
-                    //check input validity
-                    try{
-                        float bg = Integer.parseInt(bloodGlucose.getValue());
-                        float ci = Integer.parseInt(carbohydrate.getValue());
-                        //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
-                        if(bg>140){
+                    //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
+                    if(bloodGlucose.getValue()>140){
 //                    SendMail sendMail = new SendMail();
 //                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
-                            Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
+                        Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
 
 
 //                        Create and save a new notification
-                            UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
-                            Notifications n = new Notifications(
-                                    patientService,
-                                    patientUID,
-                                    doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
-                                    "Blood Glucose Alarm"
-                            );
-                            n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
-                            n.setCompleteMessage(
-                                    n.getPatientFirstName() +" "+ n.getPatientLastName() +" is experiencing abnormal blood glucose levels.\n" +
-                                            "\n" +
-                                            "Date: " + n.getDate().toLocalDate() + "\n" +
-                                            "Time: " + n.getDate().toLocalTime() + "\n" +
-                                            "Blood glucose level: " + bloodGlucose.getValue() + " units."
-                            );
-                            notificationService.getRepository().save(n);
+                        UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
+                        Notifications n = new Notifications(
+                                patientService,
+                                patientUID,
+                                doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
+                                "Blood Glucose Alarm"
+                        );
+                        n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
+                        n.setCompleteMessage(
+                                n.getPatientFirstName() +" "+ n.getPatientLastName() +" is experiencing abnormal blood glucose levels.\n" +
+                                        "\n" +
+                                        "Date: " + n.getDate().toLocalDate() + "\n" +
+                                        "Time: " + n.getDate().toLocalTime() + "\n" +
+                                        "Blood glucose level: " + bloodGlucose.getValue() + " units."
+                        );
+                        notificationService.getRepository().save(n);
 
 
-                        }
+                    }
 
 
 
@@ -132,8 +138,8 @@ public class SimpleLogbookView extends Div {
                                 uid,
                                 (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
                                 prepost.getValue()+meal.getValue(),
-                                bloodGlucose.getValue(),
-                                carbohydrate.getValue()
+                                bloodGlucose.getValue().toString(),
+                                carbohydrate.getValue().toString()
                         );
                         simpleLogBookService.getRepository().save(simpleLogBook);
 
@@ -141,12 +147,6 @@ public class SimpleLogbookView extends Div {
                         submitButton.getUI().ifPresent(ui ->
                                 ui.navigate(ConfirmationView.class)
                         );
-                    }
-                    catch (NumberFormatException ex){
-                        ex.printStackTrace();
-                        Notification.show("Invalid input(s), please re-enter");
-                    }
-
 
                 }
 
