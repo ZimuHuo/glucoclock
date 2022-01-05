@@ -56,7 +56,7 @@ public class Doctor implements Serializable {
 
     //	UID
     @Column(name = "UID")
-    private UUID UID;
+    private UUID uid;
 
 
 //    Constructor of a doctor object
@@ -83,7 +83,7 @@ public class Doctor implements Serializable {
         this.Phone = phone;
         this.Gender = gender;
         this.Birthday =  birthday;
-        this.UID = uid;
+        this.uid = uid;
     }
 
     public Doctor(){
@@ -185,10 +185,10 @@ public class Doctor implements Serializable {
     }
 
     public UUID getUID() {
-        return UID;
+        return uid;
     }
 
     public void setUID(UUID UID) {
-        this.UID = UID;
+        this.uid = UID;
     }
 }
