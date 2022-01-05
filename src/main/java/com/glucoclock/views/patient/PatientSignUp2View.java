@@ -23,14 +23,6 @@ import com.vaadin.flow.server.VaadinSession;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-/*
-for(Component c : myLayout) {
-    if(c instanceof Field) {
-        Field f = (Field) c;
-        doSomethingWith(f.getValue());
-    }
-}
- */
 
 @PageTitle("Patient Sign Up")
 @Route(value = "patient-sign-up-2")
