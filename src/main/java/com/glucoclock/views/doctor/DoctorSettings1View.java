@@ -2,6 +2,7 @@ package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.doctors_db.model.Doctor;
 import com.glucoclock.database.doctors_db.service.DoctorService;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.PatientStart;
 import com.vaadin.flow.component.button.Button;
@@ -17,9 +18,11 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.UUID;
 
 @PageTitle("Settings")
 @Route(value = "/doctor/settings")
@@ -49,23 +52,20 @@ public class DoctorSettings1View extends HorizontalLayout {
     HorizontalLayout buttons;
     private MenuBar menu = new MenuBar("DNS");
 
-    DoctorService doctorService;
+    private final DoctorService doctorService;
+    private final UserService userService;
     
     
-    public DoctorSettings1View(DoctorService doctorService) {
-
-        //-----------------------------------------
+    public DoctorSettings1View(DoctorService doctorService, UserService userService) {
 
         this.doctorService = doctorService;
-//        doctorService.bulkcreate();
-        long id = doctorService.getRepository().findAll().get(0).getId();
-        Doctor doctor = doctorService.getRepository().getDoctorById(id);
+        this.userService = userService;
+
+//        The uid of current user
+        UUID uid = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid();
 
 
-        //-----------------------------------------
-        
-
-        init(doctor);
+        init(doctorService.getRepository().getDoctorByUid(uid));
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         FormLayout formLayout = new FormLayout();
@@ -135,7 +135,7 @@ public class DoctorSettings1View extends HorizontalLayout {
         contactNumberInit();
         genderSelectInit();
         changeSettingInit();
-        saveInit(doctor.getId());
+        saveInit(doctor.getUID());
         cancelInit();
         changePasswordInit();
         toHomeSetUp();
@@ -247,7 +247,7 @@ public class DoctorSettings1View extends HorizontalLayout {
 
     }
 
-    private void saveInit(long id) {
+    private void saveInit(UUID uid) {
         save = new Button("Save");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -295,16 +295,16 @@ public class DoctorSettings1View extends HorizontalLayout {
                 Gender = genderSelect.getValue();
 
 //            update any changes to the database
-                doctorService.updateDoctorFirstName(id,FName);
-                doctorService.updateDoctorLastName(id, LName);
-                doctorService.updateDoctorEmail(id, Email);
-                doctorService.updateDoctorAddressL1(id, AddressL1);
-                doctorService.updateDoctorAddressL2(id, AddressL2);
-                doctorService.updateDoctorPostCode(id, PostCode);
-                doctorService.updateDoctorCity(id, City);
-                doctorService.updateDoctorPhone(id, Phone);
-                doctorService.updateDoctorBirthday(id, Birth);
-                doctorService.updateDoctorGender(id, Gender);
+                doctorService.updateDoctorFirstName(uid,FName);
+                doctorService.updateDoctorLastName(uid, LName);
+                doctorService.updateDoctorEmail(uid, Email);
+                doctorService.updateDoctorAddressL1(uid, AddressL1);
+                doctorService.updateDoctorAddressL2(uid, AddressL2);
+                doctorService.updateDoctorPostCode(uid, PostCode);
+                doctorService.updateDoctorCity(uid, City);
+                doctorService.updateDoctorPhone(uid, Phone);
+                doctorService.updateDoctorBirthday(uid, Birth);
+                doctorService.updateDoctorGender(uid, Gender);
 
 //            Change the accessibility and appearance when saved
                 allSetReadOnly(true);
@@ -362,7 +362,7 @@ public class DoctorSettings1View extends HorizontalLayout {
         toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         toHome.addClickListener(e -> {
             toHome.getUI().ifPresent(ui ->
-                    ui.navigate(PatientStart.class)
+                    ui.navigate(DoctorStartView.class)
             );
         });
     }

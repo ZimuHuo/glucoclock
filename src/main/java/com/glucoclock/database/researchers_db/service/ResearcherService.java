@@ -12,18 +12,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class ResearcherService  {
     @Autowired
     ResearcherRepository repository;
 
-//    public String bulkcreate(){
-//        // save a single Researcher
-//        repository.save(new Researcher("ZImu","Huo","zimuhuo@outlook.com","flat1","SW& $AX","12345","Male", LocalDate.of(2001,1,1),"Imperial College London"));
-//        repository.save(new Researcher("ZImu2","Huo2","zimuhuo@outlook.com","flat2","SW& $AX2","12345","Male", LocalDate.of(2001,1,1),"Imperial College London"));
-//        return "Researcher created";
-//    }
 
 
     public String search(long id){
@@ -38,67 +33,67 @@ public class ResearcherService  {
         return repository;
     }
 
-    public void updateResearcherLastName(long id, String LName) {
-        Researcher researcher = repository.getResearcherById(id);
+    public void updateResearcherLastName(UUID uid, String LName) {
+        Researcher researcher = repository.getResearcherByUid(uid);
         researcher.setLastName(LName);
         repository.save(researcher);
     }
 
-    public void updateResearcherFirstName(long id, String FName){
-        Researcher researcher = repository.getResearcherById(id);
+    public void updateResearcherFirstName(UUID uid, String FName){
+        Researcher researcher = repository.getResearcherByUid(uid);
         researcher.setFirstName(FName);
         repository.save(researcher);
     }
-    public void updateResearcherEmail(long id, String email){
-        Researcher researcher = repository.getResearcherById(id);
+    public void updateResearcherEmail(UUID uid, String email){
+        Researcher researcher = repository.getResearcherByUid(uid);
         researcher.setEmail(email);
         repository.save(researcher);
     }
 
-    public void updateResearcherPostCode(long id, String postCode){
-        Researcher researcher = repository.getResearcherById(id);
+    public void updateResearcherPostCode(UUID uid, String postCode){
+        Researcher researcher = repository.getResearcherByUid(uid);
         researcher.setPostCode(postCode);
         repository.save(researcher);
     }
 
-    public void updateResearcherAddressL1(long id, String newHomeAddressL1) {
-        Researcher researcher = repository.getResearcherById(id);
+    public void updateResearcherAddressL1(UUID uid, String newHomeAddressL1) {
+        Researcher researcher = repository.getResearcherByUid(uid);
         researcher.setHomeAddressL1(newHomeAddressL1);
         repository.save(researcher);
     }
 
-    public void updateResearcherAddressL2(long id, String newHomeAddressL2) {
-        Researcher researcher = repository.getResearcherById(id);
+    public void updateResearcherAddressL2(UUID uid, String newHomeAddressL2) {
+        Researcher researcher = repository.getResearcherByUid(uid);
         researcher.setHomeAddressL2(newHomeAddressL2);
         repository.save(researcher);
     }
 
-    public void updateResearcherCity(long id, String city) {
-        Researcher researcher = repository.getResearcherById(id);
+    public void updateResearcherCity(UUID uid, String city) {
+        Researcher researcher = repository.getResearcherByUid(uid);
         researcher.setCity(city);
         repository.save(researcher);
     }
 
-    public void updateResearcherPhone(long id, String newPhoneNum) {
-        Researcher researcher = repository.getResearcherById(id);
+    public void updateResearcherPhone(UUID uid, String newPhoneNum) {
+        Researcher researcher = repository.getResearcherByUid(uid);
         researcher.setPhone(newPhoneNum);
         repository.save(researcher);
     }
 
-    public void updateResearcherGender(long id, String newGender) {
-        Researcher researcher = repository.getResearcherById(id);
+    public void updateResearcherGender(UUID uid, String newGender) {
+        Researcher researcher = repository.getResearcherByUid(uid);
         researcher.setGender(newGender);
         repository.save(researcher);
     }
 
-    public void updateResearcherBirthday(long id, LocalDate newBirthday) {
-        Researcher researcher = repository.getResearcherById(id);
+    public void updateResearcherBirthday(UUID uid, LocalDate newBirthday) {
+        Researcher researcher = repository.getResearcherByUid(uid);
         researcher.setBirthday(newBirthday);
         repository.save(researcher);
     }
 
-    public void updateResearcherInstitution(long id, String newInstitution) {
-        Researcher researcher = repository.getResearcherById(id);
+    public void updateResearcherInstitution(UUID uid, String newInstitution) {
+        Researcher researcher = repository.getResearcherByUid(uid);
         researcher.setInstitution(newInstitution);
         repository.save(researcher);
     }

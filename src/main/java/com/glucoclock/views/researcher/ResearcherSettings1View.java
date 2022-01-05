@@ -1,6 +1,7 @@
 package com.glucoclock.views.researcher;
 import com.glucoclock.database.researchers_db.model.Researcher;
 import com.glucoclock.database.researchers_db.service.ResearcherService;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.patient.PatientStart;
 import com.vaadin.flow.component.button.Button;
@@ -16,9 +17,11 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.UUID;
 
 @PageTitle("Settings")
 @Route(value = "researcher/settings")
@@ -51,20 +54,19 @@ public class ResearcherSettings1View extends HorizontalLayout {
     HorizontalLayout buttons;
     private MenuBar menu = new MenuBar("RNS");
 
-    ResearcherService researcherService;
+    private final ResearcherService researcherService;
+    private final UserService userService;
 
-    public ResearcherSettings1View(ResearcherService researcherService) {
-        //-----------------------------------------
+    public ResearcherSettings1View(UserService userService, ResearcherService researcherService) {
 
+        this.userService = userService;
         this.researcherService = researcherService;
-//        researcherService.bulkcreate();
-        long id = researcherService.getRepository().findAll().get(0).getId();
-        Researcher researcher = researcherService.getRepository().getResearcherById(id);
 
+//        The uid of current user
+        UUID uid = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid();
 
-        //-----------------------------------------
         
-        init(researcher);
+        init(researcherService.getRepository().getResearcherByUid(uid));
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         FormLayout formLayout = new FormLayout();
@@ -137,7 +139,7 @@ public class ResearcherSettings1View extends HorizontalLayout {
         contactNumberInit();
         genderSelectInit();
         changeSettingInit();
-        saveInit(researcher.getId());
+        saveInit(researcher.getUID());
         cancelInit();
         changePasswordInit();
         institutionSelectInit();
@@ -250,7 +252,7 @@ public class ResearcherSettings1View extends HorizontalLayout {
 
     }
 
-    private void saveInit(long id) {
+    private void saveInit(UUID uid) {
         save = new Button("Save");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -300,17 +302,17 @@ public class ResearcherSettings1View extends HorizontalLayout {
                 Institution = institutionSelect.getValue();
 
 //            update any changes to the database
-                researcherService.updateResearcherFirstName(id,FName);
-                researcherService.updateResearcherLastName(id, LName);
-                researcherService.updateResearcherEmail(id, Email);
-                researcherService.updateResearcherAddressL1(id, AddressL1);
-                researcherService.updateResearcherAddressL2(id, AddressL2);
-                researcherService.updateResearcherPostCode(id, PostCode);
-                researcherService.updateResearcherCity(id, City);
-                researcherService.updateResearcherPhone(id, Phone);
-                researcherService.updateResearcherBirthday(id, Birth);
-                researcherService.updateResearcherGender(id, Gender);
-                researcherService.updateResearcherInstitution(id, Institution);
+                researcherService.updateResearcherFirstName(uid,FName);
+                researcherService.updateResearcherLastName(uid, LName);
+                researcherService.updateResearcherEmail(uid, Email);
+                researcherService.updateResearcherAddressL1(uid, AddressL1);
+                researcherService.updateResearcherAddressL2(uid, AddressL2);
+                researcherService.updateResearcherPostCode(uid, PostCode);
+                researcherService.updateResearcherCity(uid, City);
+                researcherService.updateResearcherPhone(uid, Phone);
+                researcherService.updateResearcherBirthday(uid, Birth);
+                researcherService.updateResearcherGender(uid, Gender);
+                researcherService.updateResearcherInstitution(uid, Institution);
 
 //            Change the accessibility and appearance when saved
                 allSetReadOnly(true);
@@ -374,7 +376,7 @@ public class ResearcherSettings1View extends HorizontalLayout {
         toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         toHome.addClickListener(e -> {
             toHome.getUI().ifPresent(ui ->
-                    ui.navigate(PatientStart.class)
+                    ui.navigate(ResearcherStartView.class)
             );
         });
     }

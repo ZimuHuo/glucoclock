@@ -4,6 +4,7 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -22,9 +23,11 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.UUID;
 
 
 @PageTitle("Settings")
@@ -74,23 +77,21 @@ public class PatientSettings1View extends HorizontalLayout {
     HorizontalLayout Buttons = new HorizontalLayout();
 
     private final PatientService patientService;
+    private final UserService userService;
 
 
 
 
-    public PatientSettings1View(PatientService patientService) {
+    public PatientSettings1View(UserService userService, PatientService patientService) {
 
-        //-----------------------------------------
         this.patientService = patientService;
-//        patientService.bulkcreate();
-        //long id = patientService.getRepository().findAll().get(0).getId();
-        //long id=1l;
-//        patientService.bulkcreate();
-        long id = patientService.getRepository().findAll().get(0).getId();
-        Patient patient = patientService.getRepository().getPatientById(id);
-        //-----------------------------------------
+        this.userService = userService;
 
-        init(patient); // initialize the components on the page
+//        The uid of current user
+        UUID uid = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid();
+
+
+        init(patientService.getRepository().getPatientByUid(uid)); // initialize the components on the page
 
 
 //        Setting the layout of the page
@@ -198,7 +199,7 @@ public class PatientSettings1View extends HorizontalLayout {
         insulinSelectSetUp();
         injectionSelectSetUp();
         changeSettingSetUp();
-        saveSetUp(patient.getId());
+        saveSetUp(patient.getUid());
         cancelSetUp();
         changePasswordSetUp();
         toHomeSetUp();
@@ -352,7 +353,7 @@ public class PatientSettings1View extends HorizontalLayout {
     }
 
 //    button to save changes
-    private void saveSetUp(long id) {
+    private void saveSetUp(UUID uid) {
         save = new Button("Save");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -417,19 +418,19 @@ public class PatientSettings1View extends HorizontalLayout {
                 injection = injectionSelect.getValue();
 
 //            update any changes to the database
-                patientService.updatePatientFirstName(id,FName);
-                patientService.updatePatientLastName(id, LName);
-                patientService.updatePatientEmail(id, Email);
-                patientService.updatePatientAddressL1(id, AddressL1);
-                patientService.updatePatientAddressL2(id, AddressL2);
-                patientService.updatePatientPostCode(id, PostCode);
-                patientService.updatePatientCity(id, City);
-                patientService.updatePatientPhone(id, Phone);
-                patientService.updatePatientBirthday(id, Birth);
-                patientService.updatePatientGender(id, Gender);
-                patientService.updateInsulinType(id, rapidInsulin, shortInsulin, intermediateInsulin, longInsulin);
-                patientService.updateDiabetesType(id, Diabetes);
-                patientService.updateInjectionMethod(id, injection);
+                patientService.updatePatientFirstName(uid,FName);
+                patientService.updatePatientLastName(uid, LName);
+                patientService.updatePatientEmail(uid, Email);
+                patientService.updatePatientAddressL1(uid, AddressL1);
+                patientService.updatePatientAddressL2(uid, AddressL2);
+                patientService.updatePatientPostCode(uid, PostCode);
+                patientService.updatePatientCity(uid, City);
+                patientService.updatePatientPhone(uid, Phone);
+                patientService.updatePatientBirthday(uid, Birth);
+                patientService.updatePatientGender(uid, Gender);
+                patientService.updateInsulinType(uid, rapidInsulin, shortInsulin, intermediateInsulin, longInsulin);
+                patientService.updateDiabetesType(uid, Diabetes);
+                patientService.updateInjectionMethod(uid, injection);
 
 //            Change the accessibility and appearance when saved
                 allSetReadOnly(true);
