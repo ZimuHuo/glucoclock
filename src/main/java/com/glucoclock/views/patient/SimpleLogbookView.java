@@ -1,5 +1,10 @@
 package com.glucoclock.views.patient;
 
+import com.glucoclock.database.doctorpatient_db.model.DoctorPatient;
+import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
+import com.glucoclock.database.notifications_db.NotificationService;
+import com.glucoclock.database.notifications_db.Notifications;
+import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
 import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
 import com.glucoclock.security.db.UserService;
@@ -20,6 +25,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -37,11 +43,18 @@ public class SimpleLogbookView extends Div {
 
     private final UserService userService;
     private final SimpleLogBookService simpleLogBookService;
+    private final NotificationService notificationService;
+    private final PatientService patientService;
+    private final DoctorPatientService doctorPatientService;
 
+    public SimpleLogbookView(UserService userService, SimpleLogBookService simpleLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService){
 
-    public SimpleLogbookView(UserService userService, SimpleLogBookService simpleLogBookService){
         this.userService = userService;
         this.simpleLogBookService = simpleLogBookService;
+        this.notificationService = notificationService;
+        this.patientService = patientService;
+        this.doctorPatientService = doctorPatientService;
+
 
         init();
         add(menu);
@@ -88,7 +101,31 @@ public class SimpleLogbookView extends Div {
 //                    SendMail sendMail = new SendMail();
 //                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
                             Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
+
+
+//                        Create and save a new notification
+                            UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
+                            Notifications n = new Notifications(
+                                    patientService,
+                                    patientUID,
+                                    doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
+                                    "Blood Glucose Alarm"
+                            );
+                            n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
+                            n.setCompleteMessage(
+                                    n.getPatientFirstName() +" "+ n.getPatientLastName() +" is experiencing abnormal blood glucose levels.\n" +
+                                            "\n" +
+                                            "Date: " + n.getDate().toLocalDate() + "\n" +
+                                            "Time: " + n.getDate().toLocalTime() + "\n" +
+                                            "Blood glucose level: " + bloodGlucose.getValue() + " units."
+                            );
+                            notificationService.getRepository().save(n);
+
+
                         }
+
+
+
                         //save to database
                         UUID uid = userService.getRepository().findAll().get(0).getUid();
                         SimpleLogBook simpleLogBook = new SimpleLogBook(

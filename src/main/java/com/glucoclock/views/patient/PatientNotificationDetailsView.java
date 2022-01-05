@@ -1,16 +1,16 @@
-package com.glucoclock.views.doctor;
+package com.glucoclock.views.patient;
 
-import com.glucoclock.database.doctors_db.model.Doctor;
+import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.notifications_db.NotificationService;
 import com.glucoclock.database.notifications_db.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.doctor.DoctorNotificationView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -22,30 +22,32 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
 @PageTitle("Notification Details")
-@Route(value = "doctor/notification-details")
-public class DoctorNotificationDetailsView extends Div {
+@Route(value = "patient/notification-details")
+public class PatientNotificationDetailsView extends Div {
     private H3 title = new H3();
     private TextArea msg = new TextArea("Message:");
     private TextArea replyMsg = new TextArea();
-    private Button sendBut = new Button("Send");
+    private Button agreeBut = new Button("Agree");
     private Button backBut = new Button("Back");
-    private MenuBar menu = new MenuBar("DNS");
+    private MenuBar menu = new MenuBar("PNS");
 
 
     private final NotificationService notificationService;
     private final PatientService patientService;
     private final DoctorService doctorService;
+    private final DoctorPatientService doctorPatientService;
 
-    public DoctorNotificationDetailsView(NotificationService notificationService, PatientService patientService, DoctorService doctorService){
+    public PatientNotificationDetailsView(DoctorPatientService doctorPatientService, NotificationService notificationService, PatientService patientService, DoctorService doctorService){
         this.notificationService = notificationService;
         this.patientService = patientService;
         this.doctorService = doctorService;
-        Notifications thisNotification = notificationService.getRepository().getNotificationById((long)VaadinSession.getCurrent().getAttribute("NotificationID")); // current notification
+        this.doctorPatientService = doctorPatientService;
+        Notifications thisNotification = notificationService.getRepository().getNotificationById((long) VaadinSession.getCurrent().getAttribute("NotificationID")); // current notification
 
         setStyles(thisNotification);
-        setNavigation(notificationService, thisNotification);
+        setNavigation(doctorPatientService, notificationService, thisNotification);
 
-        HorizontalLayout buttons = new HorizontalLayout(sendBut,backBut);
+        HorizontalLayout buttons = new HorizontalLayout(agreeBut,backBut);
 
         VerticalLayout vl = new VerticalLayout(msg, replyMsg, buttons);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
@@ -55,8 +57,8 @@ public class DoctorNotificationDetailsView extends Div {
     }
 
     private void setStyles(Notifications thisNotification){
-        sendBut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        sendBut.setVisible(false);
+        agreeBut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        agreeBut.setVisible(false);
         backBut.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         msg.setValue(thisNotification.getCompleteMessage());
         msg.setReadOnly(true);
@@ -67,30 +69,29 @@ public class DoctorNotificationDetailsView extends Div {
         replyMsg.setMinHeight("80%");
         replyMsg.setMaxHeight("300px");
 
-//        Doctor cannot reply if it is an add patient request
+//        Patient can only reply to add patient request
         if (thisNotification.getRequestType().equals("Add Patient Request")) {
 
+//            Allow the patient to reply to the request
             if (thisNotification.getStatus().equals("Unresolved")) {
                 replyMsg.setVisible(false);
+                agreeBut.setVisible(true);
 
+//            Show the reply
             } else {
-                replyMsg.setLabel("Reply from patient");
+                replyMsg.setLabel("Your reply:");
                 replyMsg.setValue(thisNotification.getReplymessage());
                 replyMsg.setReadOnly(true);
             }
 
-//        Let the doctor reply or view his reply
         } else {
 
-//        allow the user to reply if the request is unresolved
             if (thisNotification.getStatus().equals("Unresolved")){
-                replyMsg.setLabel("Reply Here:");
-                replyMsg.setClearButtonVisible(true);
-                sendBut.setVisible(true);
+                replyMsg.setVisible(false);
 
-//            Show the replied message if the request is resolved
+//                Let the patient view the reply if resolved
             } else {
-                replyMsg.setLabel("Your reply");
+                replyMsg.setLabel("Reply from doctor:");
                 replyMsg.setValue(thisNotification.getReplymessage());
                 replyMsg.setReadOnly(true);
             }
@@ -99,26 +100,27 @@ public class DoctorNotificationDetailsView extends Div {
 
     }
 
-    private void setNavigation(NotificationService notificationService, Notifications thisNotification){
-        sendBut.addClickListener(e->{
+    private void setNavigation(DoctorPatientService doctorPatientService, NotificationService notificationService, Notifications thisNotification){
+        agreeBut.addClickListener(e->{
             Notification.show("Reply sent").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
-//            Set the reply message
-            notificationService.reply((long)VaadinSession.getCurrent().getAttribute("NotificationID"),replyMsg.getValue());
+            //add to doctor patient database
+            doctorPatientService.create(thisNotification.getPatientUid(),thisNotification.getDoctorUid());
 
 //            Resolve the request
             notificationService.resolveRequest((long)VaadinSession.getCurrent().getAttribute("NotificationID"));
 
+//            Set the reply message
+            notificationService.reply((long)VaadinSession.getCurrent().getAttribute("NotificationID"), thisNotification.getPatientFirstName() + " " + thisNotification.getPatientLastName() + " has agreed the add patient request.");
 
 
-
-                    sendBut.getUI().ifPresent(ui ->
-                            ui.navigate(DoctorNotificationView.class)
-                    );
+            agreeBut.getUI().ifPresent(ui ->
+                    ui.navigate(PatientNotificationView.class)
+            );
         });
         backBut.addClickListener(e->
                 backBut.getUI().ifPresent(ui ->
-                        ui.navigate(DoctorNotificationView.class)
+                        ui.navigate(PatientNotificationView.class)
                 ));
     }
 }

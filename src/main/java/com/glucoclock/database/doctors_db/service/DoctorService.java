@@ -36,71 +36,71 @@ public class DoctorService  {
 
     //    Methods to change doctor info in database
     //    Change the last name
-    public void updateDoctorLastName(long id, String LName) {
-        Doctor doctor = repository.getDoctorById(id);
+    public void updateDoctorLastName(UUID uid, String LName) {
+        Doctor doctor = repository.getDoctorByUid(uid);
         doctor.setLastName(LName);
         repository.save(doctor);
     }
 
 //    Change first name
-    public void updateDoctorFirstName(long id, String FName){
-        Doctor doctor = repository.getDoctorById(id);
+    public void updateDoctorFirstName(UUID uid, String FName){
+        Doctor doctor = repository.getDoctorByUid(uid);
         doctor.setFirstName(FName);
         repository.save(doctor);
     }
 
 //    Change email
-    public void updateDoctorEmail(long id, String email){
-        Doctor doctor = repository.getDoctorById(id);
+    public void updateDoctorEmail(UUID uid, String email){
+        Doctor doctor = repository.getDoctorByUid(uid);
         doctor.setEmail(email);
         repository.save(doctor);
     }
 
 //    change postcode
-    public void updateDoctorPostCode(long id, String postCode){
-        Doctor doctor = repository.getDoctorById(id);
+    public void updateDoctorPostCode(UUID uid, String postCode){
+        Doctor doctor = repository.getDoctorByUid(uid);
         doctor.setPostCode(postCode);
         repository.save(doctor);
     }
 
 //    change Address line 1
-    public void updateDoctorAddressL1(long id, String newAddressL1) {
-        Doctor doctor = repository.getDoctorById(id);
+    public void updateDoctorAddressL1(UUID uid, String newAddressL1) {
+        Doctor doctor = repository.getDoctorByUid(uid);
         doctor.setHomeAddressL1(newAddressL1);
         repository.save(doctor);
     }
 
 //    change address line 2
-    public void updateDoctorAddressL2(long id, String newAddressL2) {
-        Doctor doctor = repository.getDoctorById(id);
+    public void updateDoctorAddressL2(UUID uid, String newAddressL2) {
+        Doctor doctor = repository.getDoctorByUid(uid);
         doctor.setHomeAddressL2(newAddressL2);
         repository.save(doctor);
     }
 
 //    Change city
-    public void updateDoctorCity(long id, String city) {
-        Doctor doctor = repository.getDoctorById(id);
+    public void updateDoctorCity(UUID uid, String city) {
+        Doctor doctor = repository.getDoctorByUid(uid);
         doctor.setCity(city);
         repository.save(doctor);
     }
 
 //    Change phone number
-    public void updateDoctorPhone(long id, String newPhoneNum) {
-        Doctor doctor = repository.getDoctorById(id);
+    public void updateDoctorPhone(UUID uid, String newPhoneNum) {
+        Doctor doctor = repository.getDoctorByUid(uid);
         doctor.setPhone(newPhoneNum);
         repository.save(doctor);
     }
 
 //    Change gender
-    public void updateDoctorGender(long id, String newGender) {
-        Doctor doctor = repository.getDoctorById(id);
+    public void updateDoctorGender(UUID uid, String newGender) {
+        Doctor doctor = repository.getDoctorByUid(uid);
         doctor.setGender(newGender);
         repository.save(doctor);
     }
 
 //    Change birthday
-    public void updateDoctorBirthday(long id, LocalDate newBirthday) {
-        Doctor doctor = repository.getDoctorById(id);
+    public void updateDoctorBirthday(UUID uid, LocalDate newBirthday) {
+        Doctor doctor = repository.getDoctorByUid(uid);
         doctor.setBirthday(newBirthday);
         repository.save(doctor);
     }

@@ -104,7 +104,7 @@ TextField code;
                 if (!password.getValue().equals(confirmPassword.getValue()))
                     Notification.show("You must enter the same password twice", 3000, Notification.Position.TOP_CENTER);
 
-            } else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
+            }else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
                 Notification notification = Notification.show("Please choose another email address");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }else if (!VaadinSession.getCurrent().getAttribute("code").equals(code.getValue())){

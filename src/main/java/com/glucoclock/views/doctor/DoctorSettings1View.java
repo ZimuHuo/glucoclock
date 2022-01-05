@@ -2,8 +2,8 @@ package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.doctors_db.model.Doctor;
 import com.glucoclock.database.doctors_db.service.DoctorService;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.patient.PatientStart;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -17,9 +17,11 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.UUID;
 
 @PageTitle("Settings")
 @Route(value = "/doctor/settings")
@@ -49,23 +51,20 @@ public class DoctorSettings1View extends HorizontalLayout {
     HorizontalLayout buttons;
     private MenuBar menu = new MenuBar("DNS");
 
-    DoctorService doctorService;
+    private final DoctorService doctorService;
+    private final UserService userService;
     
     
-    public DoctorSettings1View(DoctorService doctorService) {
-
-        //-----------------------------------------
+    public DoctorSettings1View(DoctorService doctorService, UserService userService) {
 
         this.doctorService = doctorService;
-//        doctorService.bulkcreate();
-        long id = doctorService.getRepository().findAll().get(0).getId();
-        Doctor doctor = doctorService.getRepository().getDoctorById(id);
+        this.userService = userService;
+
+//        The uid of current user
+        UUID uid = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid();
 
 
-        //-----------------------------------------
-        
-
-        init(doctor);
+        init(doctorService.getRepository().getDoctorByUid(uid));
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         FormLayout formLayout = new FormLayout();
@@ -135,7 +134,7 @@ public class DoctorSettings1View extends HorizontalLayout {
         contactNumberInit();
         genderSelectInit();
         changeSettingInit();
-        saveInit(doctor.getId());
+        saveInit(doctor.getUID());
         cancelInit();
         changePasswordInit();
         toHomeSetUp();
@@ -247,44 +246,76 @@ public class DoctorSettings1View extends HorizontalLayout {
 
     }
 
-    private void saveInit(long id) {
+    private void saveInit(UUID uid) {
         save = new Button("Save");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.getElement().getStyle().set("margin-left", "1em");
         save.addClickListener(e -> {
-            FName = firstName.getValue();
-            LName = lastName.getValue();
-            Email = emailField.getValue();
-            AddressL1 = homeAddressL1.getValue();
-            AddressL2 = homeAddressL2.getValue();
-            PostCode = postcode.getValue();
-            City = cityField.getValue();
-            Phone = contactNumber.getValue();
-            Birth = birthSelect.getValue();
-            Gender = genderSelect.getValue();
+            if(firstName.isEmpty() || lastName.isEmpty() || emailField.isEmpty() || emailField.isInvalid() || genderSelect.isEmpty() || homeAddressL1.isEmpty() || postcode.isEmpty() || cityField.isEmpty() || contactNumber.isEmpty() || birthSelect.isEmpty()) {
+                //Show the error messages
+                if (firstName.isEmpty())
+                    Notification.show("You must enter your first name", 3000, Notification.Position.TOP_CENTER);
+
+                if (lastName.isEmpty())
+                    Notification.show("You must enter your last name", 3000, Notification.Position.TOP_CENTER);
+
+                if (emailField.isEmpty() || emailField.isInvalid())
+                    Notification.show("You must enter a valid email address", 3000, Notification.Position.TOP_CENTER);
+
+                if (genderSelect.isEmpty())
+                    Notification.show("You must select your gender", 3000, Notification.Position.TOP_CENTER);
+
+                if (homeAddressL1.isEmpty())
+                    Notification.show("You must enter your address", 3000, Notification.Position.TOP_CENTER);
+
+                if (postcode.isEmpty())
+                    Notification.show("You must enter your postcode", 3000, Notification.Position.TOP_CENTER);
+
+                if (cityField.isEmpty())
+                    Notification.show("You must enter the city", 3000, Notification.Position.TOP_CENTER);
+
+                if (contactNumber.isEmpty())
+                    Notification.show("You must enter your phone number", 3000, Notification.Position.TOP_CENTER);
+
+                if (birthSelect.isEmpty())
+                    Notification.show("You must enter your birthday", 3000, Notification.Position.TOP_CENTER);
+
+            } else {
+                FName = firstName.getValue();
+                LName = lastName.getValue();
+                Email = emailField.getValue();
+                AddressL1 = homeAddressL1.getValue();
+                AddressL2 = homeAddressL2.getValue();
+                PostCode = postcode.getValue();
+                City = cityField.getValue();
+                Phone = contactNumber.getValue();
+                Birth = birthSelect.getValue();
+                Gender = genderSelect.getValue();
 
 //            update any changes to the database
-            doctorService.updateDoctorFirstName(id,FName);
-            doctorService.updateDoctorLastName(id, LName);
-            doctorService.updateDoctorEmail(id, Email);
-            doctorService.updateDoctorAddressL1(id, AddressL1);
-            doctorService.updateDoctorAddressL2(id, AddressL2);
-            doctorService.updateDoctorPostCode(id, PostCode);
-            doctorService.updateDoctorCity(id, City);
-            doctorService.updateDoctorPhone(id, Phone);
-            doctorService.updateDoctorBirthday(id, Birth);
-            doctorService.updateDoctorGender(id, Gender);
+                doctorService.updateDoctorFirstName(uid,FName);
+                doctorService.updateDoctorLastName(uid, LName);
+                doctorService.updateDoctorEmail(uid, Email);
+                doctorService.updateDoctorAddressL1(uid, AddressL1);
+                doctorService.updateDoctorAddressL2(uid, AddressL2);
+                doctorService.updateDoctorPostCode(uid, PostCode);
+                doctorService.updateDoctorCity(uid, City);
+                doctorService.updateDoctorPhone(uid, Phone);
+                doctorService.updateDoctorBirthday(uid, Birth);
+                doctorService.updateDoctorGender(uid, Gender);
 
 //            Change the accessibility and appearance when saved
-            allSetReadOnly(true);
-            changeSetting.setVisible(true);
-            changePassword.setVisible(true);
-            save.setVisible(false);
-            cancel.setVisible(false);
+                allSetReadOnly(true);
+                changeSetting.setVisible(true);
+                changePassword.setVisible(true);
+                save.setVisible(false);
+                cancel.setVisible(false);
 
 
-            Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
+                Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
+            }
+
         });
     }
 
@@ -330,7 +361,7 @@ public class DoctorSettings1View extends HorizontalLayout {
         toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         toHome.addClickListener(e -> {
             toHome.getUI().ifPresent(ui ->
-                    ui.navigate(PatientStart.class)
+                    ui.navigate(DoctorStartView.class)
             );
         });
     }

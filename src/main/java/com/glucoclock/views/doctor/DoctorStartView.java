@@ -41,6 +41,7 @@ public class DoctorStartView extends VerticalLayout {
     private Grid.Column<PatientInfo> lastNameColumn;
     private Grid.Column<PatientInfo> emailColumn;
     private Grid.Column<PatientInfo> logbookColumn;
+    private Grid.Column<PatientInfo> editLogbookColumn;
     private Grid.Column<PatientInfo> buttonColumn;
 
     private MenuBar menu = new MenuBar("DStart");
@@ -58,8 +59,6 @@ public class DoctorStartView extends VerticalLayout {
 
     //need to connect to session
     private UUID doctoruid;
-
-
 
 
     public DoctorStartView(UserService userService, DoctorPatientService doctorpatientService, PatientService patientService, DoctorService doctorService) {
@@ -97,7 +96,7 @@ public class DoctorStartView extends VerticalLayout {
                 addBut.getUI().ifPresent(ui ->
                 ui.navigate(AddPatientView.class))
         );
-        //hl.setSpacing(false);
+
         //Create grid
         setSizeFull();
         createGrid();
@@ -137,7 +136,8 @@ public class DoctorStartView extends VerticalLayout {
         firstNameColumn = grid.addColumn(PatientInfo::getFirstName, "FirstName").setHeader("First Name").setWidth("17%").setFlexGrow(0);
         lastNameColumn = grid.addColumn(PatientInfo::getLastName, "LastName").setHeader("Last Name").setWidth("17%").setFlexGrow(0);
         emailColumn = grid.addColumn(PatientInfo::getEmail, "Email").setHeader("Email").setWidth("28%").setFlexGrow(0);
-        logbookColumn = grid.addComponentColumn(PatientInfo::buildLogbookMenu).setHeader("Suggested Logbook Type").setWidth("18%").setFlexGrow(0);
+        logbookColumn = grid.addColumn(PatientInfo::getSuggestedLbType).setHeader("Suggested Logbook Type").setWidth("18%").setFlexGrow(0);
+        editLogbookColumn = grid.addComponentColumn(PatientInfo::buildEditLbTypeButton).setWidth("6%").setFlexGrow(0);
         buttonColumn = grid.addComponentColumn(PatientInfo::buildViewButton).setWidth("14%").setFlexGrow(0);
     }
 
@@ -187,7 +187,10 @@ public class DoctorStartView extends VerticalLayout {
         for(DoctorPatient thispatient:patientList){
             PatientInfo p = new PatientInfo(patientService.searchByuid(thispatient.getPatientuid()).getFirstName(),
                     patientService.searchByuid(thispatient.getPatientuid()).getLastName(),
-                    patientService.searchByuid(thispatient.getPatientuid()).getEmail());
+                    patientService.searchByuid(thispatient.getPatientuid()).getEmail(),
+                    patientService.searchByuid(thispatient.getPatientuid()).getLogbooktype(),
+                    thispatient.getPatientuid()
+            );
             patientList_final.add(p);
         }
 

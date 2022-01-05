@@ -60,7 +60,7 @@ public class Researcher implements Serializable {
 
     //	UID
     @Column(name = "UID")
-    private UUID UID;
+    private UUID uid;
 
 
     public Researcher(
@@ -87,7 +87,7 @@ public class Researcher implements Serializable {
         this.Phone = phone;
         this.Gender = gender;
         this.Birthday =  birthday;
-        this.UID = uid;
+        this.uid = uid;
         this.Institution = institution;
     }
 
@@ -198,10 +198,10 @@ public class Researcher implements Serializable {
     }
 
     public UUID getUID() {
-        return UID;
+        return uid;
     }
 
     public void setUID(UUID UID) {
-        this.UID = UID;
+        this.uid = UID;
     }
 }

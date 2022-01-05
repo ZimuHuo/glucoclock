@@ -83,6 +83,8 @@ public class Patient implements Serializable,Comparable<Patient>{
 	@Column(name = "InjectionMethod")
 	private String injectionmethod;
 
+	@Column(name = "logbooktype")
+	private String logbooktype;
 
 
 
@@ -122,10 +124,20 @@ public class Patient implements Serializable,Comparable<Patient>{
 		this.longinsulin = longInsulin;
 		this.injectionmethod = injectionMethod;
 		this.uid = uid;
+		this.logbooktype = "Simple";
+
 	}
 
 	public Patient() {
 
+	}
+
+	public String getLogbooktype() {
+		return logbooktype;
+	}
+
+	public void setLogbooktype(String logbooktype) {
+		this.logbooktype = logbooktype;
 	}
 
 	@Override

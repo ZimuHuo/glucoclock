@@ -3,22 +3,28 @@ package com.glucoclock.database.notifications_db;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 public class NotificationService {
     @Autowired
     NotificationRepository repository;
 
+//    Get repository
     public NotificationRepository getRepository() {
         return repository;
     }
 
 
 //    Change the status of request
-    public void updateStatus(long id, String status) {
-        Notification n = repository.getNotificationById(id);
-        n.setStatus(status);
+    public void resolveRequest(long id) {
+        Notifications n = repository.getNotificationById(id);
+        n.setStatus("Resolved");
+        repository.save(n);
+    }
+
+//  Set the reply message
+    public void reply(long id, String msg) {
+        Notifications n = repository.getNotificationById(id);
+        n.setReplymessage(msg);
         repository.save(n);
     }
 

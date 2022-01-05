@@ -1,8 +1,8 @@
 package com.glucoclock.views.researcher;
 import com.glucoclock.database.researchers_db.model.Researcher;
 import com.glucoclock.database.researchers_db.service.ResearcherService;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.patient.PatientStart;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -16,9 +16,11 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.UUID;
 
 @PageTitle("Settings")
 @Route(value = "researcher/settings")
@@ -51,20 +53,19 @@ public class ResearcherSettings1View extends HorizontalLayout {
     HorizontalLayout buttons;
     private MenuBar menu = new MenuBar("RNS");
 
-    ResearcherService researcherService;
+    private final ResearcherService researcherService;
+    private final UserService userService;
 
-    public ResearcherSettings1View(ResearcherService researcherService) {
-        //-----------------------------------------
+    public ResearcherSettings1View(UserService userService, ResearcherService researcherService) {
 
+        this.userService = userService;
         this.researcherService = researcherService;
-//        researcherService.bulkcreate();
-        long id = researcherService.getRepository().findAll().get(0).getId();
-        Researcher researcher = researcherService.getRepository().getResearcherById(id);
 
+//        The uid of current user
+        UUID uid = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid();
 
-        //-----------------------------------------
         
-        init(researcher);
+        init(researcherService.getRepository().getResearcherByUid(uid));
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         FormLayout formLayout = new FormLayout();
@@ -137,7 +138,7 @@ public class ResearcherSettings1View extends HorizontalLayout {
         contactNumberInit();
         genderSelectInit();
         changeSettingInit();
-        saveInit(researcher.getId());
+        saveInit(researcher.getUID());
         cancelInit();
         changePasswordInit();
         institutionSelectInit();
@@ -250,45 +251,78 @@ public class ResearcherSettings1View extends HorizontalLayout {
 
     }
 
-    private void saveInit(long id) {
+    private void saveInit(UUID uid) {
         save = new Button("Save");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.getElement().getStyle().set("margin-left", "1em");
         save.addClickListener(e -> {
-            FName = firstName.getValue();
-            LName = lastName.getValue();
-            Email = emailField.getValue();
-            AddressL1 = homeAddressL1.getValue();
-            AddressL2 = homeAddressL2.getValue();
-            PostCode = postcode.getValue();
-            City = cityField.getValue();
-            Phone = contactNumber.getValue();
-            Birth = birthSelect.getValue();
-            Gender = genderSelect.getValue();
-            Institution = institutionSelect.getValue();
+            if(firstName.isEmpty() || lastName.isEmpty() || emailField.isEmpty() || emailField.isInvalid() || genderSelect.isEmpty() || homeAddressL1.isEmpty() || postcode.isEmpty() || cityField.isEmpty() || contactNumber.isEmpty() || birthSelect.isEmpty()) {
+                //Show the error messages
+                if (firstName.isEmpty())
+                    Notification.show("You must enter your first name", 3000, Notification.Position.TOP_CENTER);
+
+                if (lastName.isEmpty())
+                    Notification.show("You must enter your last name", 3000, Notification.Position.TOP_CENTER);
+
+                if (emailField.isEmpty() || emailField.isInvalid())
+                    Notification.show("You must enter a valid email address", 3000, Notification.Position.TOP_CENTER);
+
+                if (genderSelect.isEmpty())
+                    Notification.show("You must select your gender", 3000, Notification.Position.TOP_CENTER);
+
+                if (homeAddressL1.isEmpty())
+                    Notification.show("You must enter your address", 3000, Notification.Position.TOP_CENTER);
+
+                if (postcode.isEmpty())
+                    Notification.show("You must enter your postcode", 3000, Notification.Position.TOP_CENTER);
+
+                if (cityField.isEmpty())
+                    Notification.show("You must enter the city", 3000, Notification.Position.TOP_CENTER);
+
+                if (contactNumber.isEmpty())
+                    Notification.show("You must enter your phone number", 3000, Notification.Position.TOP_CENTER);
+
+                if (birthSelect.isEmpty())
+                    Notification.show("You must enter your birthday", 3000, Notification.Position.TOP_CENTER);
+
+            } else {
+
+                FName = firstName.getValue();
+                LName = lastName.getValue();
+                Email = emailField.getValue();
+                AddressL1 = homeAddressL1.getValue();
+                AddressL2 = homeAddressL2.getValue();
+                PostCode = postcode.getValue();
+                City = cityField.getValue();
+                Phone = contactNumber.getValue();
+                Birth = birthSelect.getValue();
+                Gender = genderSelect.getValue();
+                Institution = institutionSelect.getValue();
 
 //            update any changes to the database
-            researcherService.updateResearcherFirstName(id,FName);
-            researcherService.updateResearcherLastName(id, LName);
-            researcherService.updateResearcherEmail(id, Email);
-            researcherService.updateResearcherAddressL1(id, AddressL1);
-            researcherService.updateResearcherAddressL2(id, AddressL2);
-            researcherService.updateResearcherPostCode(id, PostCode);
-            researcherService.updateResearcherCity(id, City);
-            researcherService.updateResearcherPhone(id, Phone);
-            researcherService.updateResearcherBirthday(id, Birth);
-            researcherService.updateResearcherGender(id, Gender);
-            researcherService.updateResearcherInstitution(id, Institution);
+                researcherService.updateResearcherFirstName(uid,FName);
+                researcherService.updateResearcherLastName(uid, LName);
+                researcherService.updateResearcherEmail(uid, Email);
+                researcherService.updateResearcherAddressL1(uid, AddressL1);
+                researcherService.updateResearcherAddressL2(uid, AddressL2);
+                researcherService.updateResearcherPostCode(uid, PostCode);
+                researcherService.updateResearcherCity(uid, City);
+                researcherService.updateResearcherPhone(uid, Phone);
+                researcherService.updateResearcherBirthday(uid, Birth);
+                researcherService.updateResearcherGender(uid, Gender);
+                researcherService.updateResearcherInstitution(uid, Institution);
 
 //            Change the accessibility and appearance when saved
-            allSetReadOnly(true);
-            changeSetting.setVisible(true);
-            changePassword.setVisible(true);
-            save.setVisible(false);
-            cancel.setVisible(false);
+                allSetReadOnly(true);
+                changeSetting.setVisible(true);
+                changePassword.setVisible(true);
+                save.setVisible(false);
+                cancel.setVisible(false);
 
-            Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
+                Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
+            }
+
         });
     }
 
@@ -341,7 +375,7 @@ public class ResearcherSettings1View extends HorizontalLayout {
         toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         toHome.addClickListener(e -> {
             toHome.getUI().ifPresent(ui ->
-                    ui.navigate(PatientStart.class)
+                    ui.navigate(ResearcherStartView.class)
             );
         });
     }

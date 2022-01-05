@@ -1,6 +1,10 @@
 package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
+import com.glucoclock.database.doctors_db.model.Doctor;
+import com.glucoclock.database.doctors_db.service.DoctorService;
+import com.glucoclock.database.notifications_db.NotificationService;
+import com.glucoclock.database.notifications_db.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
@@ -39,6 +43,8 @@ public class AddPatientView extends Div {
     private final DoctorPatientService doctorpatientService;
     private final PatientService patientService;
     private final UserService userService;
+    private final NotificationService notificationService;
+    private final DoctorService doctorService;
 
     private UUID patientuid;
     private String searchEmail;
@@ -48,10 +54,12 @@ public class AddPatientView extends Div {
 
 
 
-    public AddPatientView (DoctorPatientService doctorpatientService, PatientService patientService, UserService userService){
+    public AddPatientView (DoctorService doctorService, DoctorPatientService doctorpatientService, PatientService patientService, UserService userService, NotificationService notificationService){
         this.doctorpatientService = doctorpatientService;
         this.patientService = patientService;
         this.userService = userService;
+        this.notificationService = notificationService;
+        this.doctorService = doctorService;
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
@@ -72,40 +80,46 @@ public class AddPatientView extends Div {
         search.addClickListener(e->{
             //get the value in the textfield when click search button
             searchEmail=patientEmail.getValue();
-            System.out.println(searchEmail+","+status);
-            //get uid of this email
             patientuid=patientService.searchPatientuid(searchEmail);
-            if(patientuid==null)status=3; //(this patient do not have an account)
-            else {
-                List<UUID> uidList = new ArrayList<>();
-                //check if this email already exist in this doctor's patient list
-                uidList = doctorpatientService.getPatientidlist(doctoruid);
-                    //if the doctor do not have patient
-                if(uidList==null){
-                    status=2;
-                }
-                else {
-                    //doctor have patients before
-                    for (UUID thisid : uidList) {
-                        if (thisid.equals(patientuid)) status = 1; //(this id is already exist in the database)
-                        else status = 2;   //(this id not exist in current list)
-                    }
+
+            //check if patient user exist
+            if(patientuid ==null){
+                Notification.show("Patient Already Exist").addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }else{
+                // patient already has a doctor
+                if(doctorpatientService.exist(patientuid)){
+                    Notification.show("Patient already got a doctor, please contact your patient").addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }else{
+                    //patient exist and without a doctor, therefore can be added
+                    Notification.show("Patient found").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    add.setEnabled(true);
                 }
             }
-            //notifications
-            if(status==1)Notification.show("Patient Already Exist").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            if(status==2)Notification.show("Patient Found").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            if(status==3)Notification.show("Patient Not Exist").addThemeVariants(NotificationVariant.LUMO_ERROR);
-            //enable the add button, when the patient can be added
-            if(status==2) add.setEnabled(true);
         });
-
 
         //Add--Click add to go back to home page
         add.addClickListener(e->{
-            //add to database
-            doctorpatientService.create(patientuid,doctoruid);
-            Notification.show("Successfully Added").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            Notification.show("Add request sent").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+
+
+            // Create and save a new notification to notify patient
+            UUID doctorUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // doctor uid
+            Doctor doctor = doctorService.getRepository().getDoctorByUid(doctorUID);
+            Notifications n = new Notifications(
+                    patientService,
+                    patientuid,
+                    doctorUID, // Doctor uid
+                    "Add Patient Request"
+            );
+            n.setShortMessage(doctor.getFirstName() + " " + doctor.getLastName() + " wants to add you into patient list");
+            n.setCompleteMessage(
+                    "Doctor " + doctor.getFirstName() + " " + doctor.getLastName() +" wants to add you into patient list.\n" +
+                            "\n" +
+                            "Date: " + n.getDate().toLocalDate() + "\n" +
+                            "Time: " + n.getDate().toLocalTime() + "\n"
+            );
+            notificationService.getRepository().save(n);
+
             //navigate to Patient start page
             add.getUI().ifPresent(ui ->
                             ui.navigate(DoctorStartView.class));

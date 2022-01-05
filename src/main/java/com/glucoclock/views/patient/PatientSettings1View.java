@@ -4,6 +4,7 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -21,9 +22,11 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.UUID;
 
 
 @PageTitle("Settings")
@@ -73,23 +76,21 @@ public class PatientSettings1View extends HorizontalLayout {
     HorizontalLayout Buttons = new HorizontalLayout();
 
     private final PatientService patientService;
+    private final UserService userService;
 
 
 
 
-    public PatientSettings1View(PatientService patientService) {
+    public PatientSettings1View(UserService userService, PatientService patientService) {
 
-        //-----------------------------------------
         this.patientService = patientService;
-//        patientService.bulkcreate();
-        //long id = patientService.getRepository().findAll().get(0).getId();
-        //long id=1l;
-//        patientService.bulkcreate();
-        long id = patientService.getRepository().findAll().get(0).getId();
-        Patient patient = patientService.getRepository().getPatientById(id);
-        //-----------------------------------------
+        this.userService = userService;
 
-        init(patient); // initialize the components on the page
+//        The uid of current user
+        UUID uid = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid();
+
+
+        init(patientService.getRepository().getPatientByUid(uid)); // initialize the components on the page
 
 
 //        Setting the layout of the page
@@ -197,7 +198,7 @@ public class PatientSettings1View extends HorizontalLayout {
         insulinSelectSetUp();
         injectionSelectSetUp();
         changeSettingSetUp();
-        saveSetUp(patient.getId());
+        saveSetUp(patient.getUid());
         cancelSetUp();
         changePasswordSetUp();
         toHomeSetUp();
@@ -351,55 +352,95 @@ public class PatientSettings1View extends HorizontalLayout {
     }
 
 //    button to save changes
-    private void saveSetUp(long id) {
+    private void saveSetUp(UUID uid) {
         save = new Button("Save");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.getElement().getStyle().set("margin-left", "1em");
 
         save.addClickListener(e -> {
+            if(firstName.isEmpty() || lastName.isEmpty() || emailField.isEmpty() || emailField.isInvalid() || genderSelect.isEmpty() || homeAddressL1.isEmpty() || postcode.isEmpty() || cityField.isEmpty() || contactNumber.isEmpty() || datePicker.isEmpty() || diabetesSelect.isEmpty() || insulinSelect.isEmpty() || injectionSelect.isEmpty()) {
+                //Show the error messages
+                if (firstName.isEmpty())
+                    Notification.show("You must enter your first name", 3000, Notification.Position.TOP_CENTER);
+
+                if (lastName.isEmpty())
+                    Notification.show("You must enter your last name", 3000, Notification.Position.TOP_CENTER);
+
+                if (emailField.isEmpty() || emailField.isInvalid())
+                    Notification.show("You must enter a valid email address", 3000, Notification.Position.TOP_CENTER);
+
+                if (genderSelect.isEmpty())
+                    Notification.show("You must select your gender", 3000, Notification.Position.TOP_CENTER);
+
+                if (homeAddressL1.isEmpty())
+                    Notification.show("You must enter your address", 3000, Notification.Position.TOP_CENTER);
+
+                if (postcode.isEmpty())
+                    Notification.show("You must enter your postcode", 3000, Notification.Position.TOP_CENTER);
+
+                if (cityField.isEmpty())
+                    Notification.show("You must enter the city", 3000, Notification.Position.TOP_CENTER);
+
+                if (contactNumber.isEmpty())
+                    Notification.show("You must enter your phone number", 3000, Notification.Position.TOP_CENTER);
+
+                if (datePicker.isEmpty())
+                    Notification.show("You must enter your birthday", 3000, Notification.Position.TOP_CENTER);
+
+                if (diabetesSelect.isEmpty())
+                    Notification.show("You must select your diabetes type", 3000, Notification.Position.TOP_CENTER);
+
+                if (insulinSelect.isEmpty())
+                    Notification.show("You must select your insulin type", 3000, Notification.Position.TOP_CENTER);
+
+                if (injectionSelect.isEmpty())
+                    Notification.show("You must select your injection method", 3000, Notification.Position.TOP_CENTER);
+
+            } else {
 //            update the values of the variables
-            FName = firstName.getValue();
-            LName = lastName.getValue();
-            Email = emailField.getValue();
-            AddressL1 = homeAddressL1.getValue();
-            AddressL2 = homeAddressL2.getValue();
-            PostCode = postcode.getValue();
-            City = cityField.getValue();
-            Phone = contactNumber.getValue();
-            Birth = datePicker.getValue();
-            Gender = genderSelect.getValue();
-            Diabetes = diabetesSelect.getValue();
-            rapidInsulin = insulinSelect.isSelected("Rapid-acting insulin");
-            shortInsulin = insulinSelect.isSelected("Short-acting insulin");
-            intermediateInsulin = insulinSelect.isSelected("Intermediate-acting insulin");
-            longInsulin = insulinSelect.isSelected("Long-acting insulin");
-            injection = injectionSelect.getValue();
+                FName = firstName.getValue();
+                LName = lastName.getValue();
+                Email = emailField.getValue();
+                AddressL1 = homeAddressL1.getValue();
+                AddressL2 = homeAddressL2.getValue();
+                PostCode = postcode.getValue();
+                City = cityField.getValue();
+                Phone = contactNumber.getValue();
+                Birth = datePicker.getValue();
+                Gender = genderSelect.getValue();
+                Diabetes = diabetesSelect.getValue();
+                rapidInsulin = insulinSelect.isSelected("Rapid-acting insulin");
+                shortInsulin = insulinSelect.isSelected("Short-acting insulin");
+                intermediateInsulin = insulinSelect.isSelected("Intermediate-acting insulin");
+                longInsulin = insulinSelect.isSelected("Long-acting insulin");
+                injection = injectionSelect.getValue();
 
 //            update any changes to the database
-            patientService.updatePatientFirstName(id,FName);
-            patientService.updatePatientLastName(id, LName);
-            patientService.updatePatientEmail(id, Email);
-            patientService.updatePatientAddressL1(id, AddressL1);
-            patientService.updatePatientAddressL2(id, AddressL2);
-            patientService.updatePatientPostCode(id, PostCode);
-            patientService.updatePatientCity(id, City);
-            patientService.updatePatientPhone(id, Phone);
-            patientService.updatePatientBirthday(id, Birth);
-            patientService.updatePatientGender(id, Gender);
-            patientService.updateInsulinType(id, rapidInsulin, shortInsulin, intermediateInsulin, longInsulin);
-            patientService.updateDiabetesType(id, Diabetes);
-            patientService.updateInjectionMethod(id, injection);
+                patientService.updatePatientFirstName(uid,FName);
+                patientService.updatePatientLastName(uid, LName);
+                patientService.updatePatientEmail(uid, Email);
+                patientService.updatePatientAddressL1(uid, AddressL1);
+                patientService.updatePatientAddressL2(uid, AddressL2);
+                patientService.updatePatientPostCode(uid, PostCode);
+                patientService.updatePatientCity(uid, City);
+                patientService.updatePatientPhone(uid, Phone);
+                patientService.updatePatientBirthday(uid, Birth);
+                patientService.updatePatientGender(uid, Gender);
+                patientService.updateInsulinType(uid, rapidInsulin, shortInsulin, intermediateInsulin, longInsulin);
+                patientService.updateDiabetesType(uid, Diabetes);
+                patientService.updateInjectionMethod(uid, injection);
 
 //            Change the accessibility and appearance when saved
-            allSetReadOnly(true);
-            changeSetting.setVisible(true);
-            changePassword.setVisible(true);
-            save.setVisible(false);
-            cancel.setVisible(false);
+                allSetReadOnly(true);
+                changeSetting.setVisible(true);
+                changePassword.setVisible(true);
+                save.setVisible(false);
+                cancel.setVisible(false);
 
 
-            Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
+                Notification.show("Changes saved",2000, Notification.Position.TOP_CENTER);
+            }
         });
     }
 
@@ -461,7 +502,7 @@ public class PatientSettings1View extends HorizontalLayout {
         toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         toHome.addClickListener(e -> {
             toHome.getUI().ifPresent(ui ->
-                    ui.navigate(PatientStart.class)
+                    ui.navigate(PatientStartView.class)
             );
         });
     }

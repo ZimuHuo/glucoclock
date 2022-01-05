@@ -1,5 +1,8 @@
 package com.glucoclock.views.patient;
 
+import com.glucoclock.database.patients_db.service.PatientService;
+import com.glucoclock.security.db.User;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -21,24 +24,30 @@ import javax.annotation.security.RolesAllowed;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Locale;
+import java.util.UUID;
 
 @PageTitle("Start Page")
 @Route(value = "/patient/start-page")
 @RolesAllowed("PATIENT")
-public class PatientStart extends VerticalLayout{
-    private ComboBox<String> LBtybe;
+public class PatientStartView extends VerticalLayout{
+    private ComboBox<String> LBtype;
     private DatePicker datePicker;
     private Icon update;
     private Button updateButton;
     private MenuBar menu = new MenuBar("PStart");
     private H2 title = new H2("Upload Logbook Entry");
-    public PatientStart(){
+
+    private final PatientService patientService;
+    private final UserService userService;
+    public PatientStartView(PatientService patientService, UserService userService){
+        this.patientService = patientService;
+        this.userService = userService;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         authentication.getName();
-        System.out.print(authentication.getName()); // here it gets the username. absolutely fantastic
-        //way easier than what im expected how cool is that!
+        System.out.print(authentication.getName());
 
+        UUID uid = userService.getRepository().findByUsername(authentication.getName()).getUid();
         String Logbook;
         add(menu);
 
@@ -46,11 +55,11 @@ public class PatientStart extends VerticalLayout{
 
 
 
-        LBtybe = new ComboBox<>();
-        LBtybe.setLabel("Logbook\nType");
-        LBtybe.setItems("Simple","Comprehensive","Intensive");
-        LBtybe.addCustomValueSetListener(
-                event -> LBtybe.setValue(event.getDetail()));
+        LBtype = new ComboBox<>();
+        LBtype.setLabel("Logbook\nType");
+        LBtype.setItems("Simple","Comprehensive","Intensive");
+        LBtype.addCustomValueSetListener(
+                event -> LBtype.setValue(event.getDetail()));
 
         datePicker = new DatePicker("Date");
         Locale finnishLocale = new Locale("fi", "FI");
@@ -64,7 +73,8 @@ public class PatientStart extends VerticalLayout{
         updateButton.setWidth("120px");
         updateButton.setHeight("120px");
 
-        LBtybe.addValueChangeListener(event -> {
+        LBtype.setValue(patientService.getRepository().getPatientByUid(uid).getLogbooktype());
+        LBtype.addValueChangeListener(event -> {
             VaadinSession.getCurrent().setAttribute( "date",datePicker.getValue());
             if (event.getValue() == "Simple") {
                 updateButton.addClickListener(e ->
@@ -86,12 +96,11 @@ public class PatientStart extends VerticalLayout{
                         )
                 );
             }
-            //System.out.println(event.getValue());;
         });
         //setMargin(true);
-        setHorizontalComponentAlignment(Alignment.CENTER,title,LBtybe,datePicker,updateButton);
+        setHorizontalComponentAlignment(Alignment.CENTER,title,LBtype,datePicker,updateButton);
 
-        add(title,LBtybe,datePicker,updateButton);
+        add(title,LBtype,datePicker,updateButton);
         if (VaadinSession.getCurrent().getAttribute("Error")!=null){
             com.vaadin.flow.component.notification.Notification notification = Notification.show("WRONG URL"+VaadinSession.getCurrent().getAttribute("Error"));
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
