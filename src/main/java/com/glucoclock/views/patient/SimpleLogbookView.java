@@ -75,10 +75,8 @@ public class SimpleLogbookView extends Div {
 
         Div carbsUnit = new Div();
         carbsUnit.setText("g");
-        bloodGlucose.setSuffixComponent(carbsUnit);
+        carbohydrate.setSuffixComponent(carbsUnit);
 
-//        bloodGlucose.setHelperText("unit");
-//        carbohydrate.setHelperText("unit");
 
         prepost.setItems("Pre","Post");
         meal.setItems("Breakfast","Lunch","Dinner");
