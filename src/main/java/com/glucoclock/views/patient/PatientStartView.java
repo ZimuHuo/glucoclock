@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -56,7 +57,7 @@ public class PatientStartView extends VerticalLayout{
 
 
         LBtype = new ComboBox<>();
-        LBtype.setLabel("Logbook\nType");
+        LBtype.setLabel("Logbook Type");
         LBtype.setItems("Simple","Comprehensive","Intensive");
         LBtype.addCustomValueSetListener(
                 event -> LBtype.setValue(event.getDetail()));
@@ -73,7 +74,11 @@ public class PatientStartView extends VerticalLayout{
         updateButton.setWidth("120px");
         updateButton.setHeight("120px");
 
+        //Set default logbook type to suggested logbook type
         LBtype.setValue(patientService.getRepository().getPatientByUid(uid).getLogbooktype());
+        Span suggestedLb = new Span("Suggested Logbook Type: "+patientService.getRepository().getPatientByUid(uid).getLogbooktype());
+        suggestedLb.getElement().getThemeList().add("badge success");
+
         LBtype.addValueChangeListener(event -> {
             VaadinSession.getCurrent().setAttribute( "date",datePicker.getValue());
             if (event.getValue() == "Simple") {
@@ -98,9 +103,8 @@ public class PatientStartView extends VerticalLayout{
             }
         });
         //setMargin(true);
-        setHorizontalComponentAlignment(Alignment.CENTER,title,LBtype,datePicker,updateButton);
-
-        add(title,LBtype,datePicker,updateButton);
+        setAlignItems(Alignment.CENTER);
+        add(title,suggestedLb,LBtype,datePicker,updateButton);
         if (VaadinSession.getCurrent().getAttribute("Error")!=null){
             com.vaadin.flow.component.notification.Notification notification = Notification.show("WRONG URL"+VaadinSession.getCurrent().getAttribute("Error"));
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
