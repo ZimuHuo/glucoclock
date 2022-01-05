@@ -4,6 +4,7 @@ import com.glucoclock.database.patients_db.service.PatientService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -56,13 +57,21 @@ public class Notifications implements Serializable {
             UUID patientuid,
             UUID doctoruid,
             String requestType){
+        Notification.show("5",1000, Notification.Position.TOP_CENTER);
         this.patientuid = patientuid;
+        Notification.show("6",1000, Notification.Position.TOP_CENTER);
         this.patientFirstName = patientService.getRepository().getPatientByUid(patientuid).getFirstName();
+        Notification.show("7",1000, Notification.Position.TOP_CENTER);
         this.patientLastName = patientService.getRepository().getPatientByUid(patientuid).getLastName();
+        Notification.show("8",1000, Notification.Position.TOP_CENTER);
         this.doctoruid = doctoruid;
+        Notification.show("9",1000, Notification.Position.TOP_CENTER);
         this.date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        Notification.show("10",1000, Notification.Position.TOP_CENTER);
         this.requesttype = requestType;
+        Notification.show("11",1000, Notification.Position.TOP_CENTER);
         this.status = "Unresolved";
+        Notification.show("12",1000, Notification.Position.TOP_CENTER);
 
 //        Message is set in frontend classes
     }
