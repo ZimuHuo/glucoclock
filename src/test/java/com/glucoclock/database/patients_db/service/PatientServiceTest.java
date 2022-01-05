@@ -25,12 +25,17 @@ import static org.mockito.Mockito.when;
 //@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class PatientServiceTest {
-    @Mock
+
     private PatientRepository patientRepository;
-    @InjectMocks
+
     private  PatientService patientService;
 
+    UUID uid = UUID.randomUUID();
 
+    Patient p = new Patient(uid,"ZImu","Huo","zimuhuo@outlook.com",
+            "flat1","Road","SW& $AX","London","12345","Male",
+            LocalDate.of(2001,1,1),"I",
+            true,true,true,true,"tyu");
 
 
 //    @BeforeEach
@@ -44,17 +49,14 @@ class PatientServiceTest {
     @Test
     void updatesPatientLastName() {
 
-        UUID uid = UUID.randomUUID();
-
-        Patient p = new Patient(uid,"ZImu","Huo","zimuhuo@outlook.com",
-                "flat1","Road","SW& $AX","London","12345","Male",
-                LocalDate.of(2001,1,1),"I",
-                true,true,true,true,"tyu");
-        //when(patientRepository.getPatientByUid(uid)).thenReturn(p);
-
+     Patient p2 = new Patient();
+     p2.setLastName("hhh");
+     p2.setUid(uid);
+     patientRepository.save(p2);
+     patientService.updatePatientLastName(uid,"new");
         //patientService.getRepository().save(p);
-        //assertEquals(patientRepository.getPatientByUid(uid),p);
-        System.out.println(patientRepository.getPatientByUid(uid).getLastName());
+        assertEquals(uid,patientRepository.getPatientByUid(uid));
+        //System.out.println(patientRepository.getPatientByUid(uid).getLastName());
     }
 
 
