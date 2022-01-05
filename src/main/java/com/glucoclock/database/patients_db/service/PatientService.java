@@ -215,4 +215,10 @@ public class PatientService  {
         repository.save(patient);
     }
 
+    public void updateLogbookType(UUID uid, String logbookType) {
+        Patient patient = repository.getPatientByUid(uid);
+        patient.setInjectionMethod(logbookType);
+        repository.save(patient);
+    }
+
 }

@@ -60,8 +60,6 @@ public class DoctorStartView extends VerticalLayout {
     private UUID doctoruid;
 
 
-
-
     public DoctorStartView(UserService userService, DoctorPatientService doctorpatientService, PatientService patientService, DoctorService doctorService) {
         //database
         this.userService = userService;
@@ -97,7 +95,7 @@ public class DoctorStartView extends VerticalLayout {
                 addBut.getUI().ifPresent(ui ->
                 ui.navigate(AddPatientView.class))
         );
-        //hl.setSpacing(false);
+
         //Create grid
         setSizeFull();
         createGrid();
@@ -137,7 +135,7 @@ public class DoctorStartView extends VerticalLayout {
         firstNameColumn = grid.addColumn(PatientInfo::getFirstName, "FirstName").setHeader("First Name").setWidth("17%").setFlexGrow(0);
         lastNameColumn = grid.addColumn(PatientInfo::getLastName, "LastName").setHeader("Last Name").setWidth("17%").setFlexGrow(0);
         emailColumn = grid.addColumn(PatientInfo::getEmail, "Email").setHeader("Email").setWidth("28%").setFlexGrow(0);
-        logbookColumn = grid.addComponentColumn(PatientInfo::buildLogbookMenu).setHeader("Suggested Logbook Type").setWidth("18%").setFlexGrow(0);
+        logbookColumn = grid.addColumn(PatientInfo::getSuggestedLbType).setHeader("Suggested Logbook Type").setWidth("18%").setFlexGrow(0);
         buttonColumn = grid.addComponentColumn(PatientInfo::buildViewButton).setWidth("14%").setFlexGrow(0);
     }
 
@@ -187,7 +185,8 @@ public class DoctorStartView extends VerticalLayout {
         for(DoctorPatient thispatient:patientList){
             PatientInfo p = new PatientInfo(patientService.searchByuid(thispatient.getPatientuid()).getFirstName(),
                     patientService.searchByuid(thispatient.getPatientuid()).getLastName(),
-                    patientService.searchByuid(thispatient.getPatientuid()).getEmail());
+                    patientService.searchByuid(thispatient.getPatientuid()).getEmail(),
+                    patientService.searchByuid(thispatient.getPatientuid()).getLogbooktype());
             patientList_final.add(p);
         }
 

@@ -29,7 +29,7 @@ public class PatientNotificationDetailsView extends Div {
     private TextArea replyMsg = new TextArea();
     private Button agreeBut = new Button("Agree");
     private Button backBut = new Button("Back");
-    private MenuBar menu = new MenuBar("DNS");
+    private MenuBar menu = new MenuBar("PNS");
 
 
     private final NotificationService notificationService;
