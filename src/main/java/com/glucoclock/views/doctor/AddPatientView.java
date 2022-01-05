@@ -1,6 +1,10 @@
 package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
+import com.glucoclock.database.doctors_db.model.Doctor;
+import com.glucoclock.database.doctors_db.service.DoctorService;
+import com.glucoclock.database.notifications_db.NotificationService;
+import com.glucoclock.database.notifications_db.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
@@ -39,6 +43,8 @@ public class AddPatientView extends Div {
     private final DoctorPatientService doctorpatientService;
     private final PatientService patientService;
     private final UserService userService;
+    private final NotificationService notificationService;
+    private final DoctorService doctorService;
 
     private UUID patientuid;
     private String searchEmail;
@@ -48,10 +54,12 @@ public class AddPatientView extends Div {
 
 
 
-    public AddPatientView (DoctorPatientService doctorpatientService, PatientService patientService, UserService userService){
+    public AddPatientView (DoctorService doctorService, DoctorPatientService doctorpatientService, PatientService patientService, UserService userService, NotificationService notificationService){
         this.doctorpatientService = doctorpatientService;
         this.patientService = patientService;
         this.userService = userService;
+        this.notificationService = notificationService;
+        this.doctorService = doctorService;
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
@@ -94,6 +102,26 @@ public class AddPatientView extends Div {
             //add to database
             doctorpatientService.create(patientuid,doctoruid);
             Notification.show("Successfully Added").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+
+
+            // Create and save a new notification to notify patient
+            UUID doctorUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // doctor uid
+            Doctor doctor = doctorService.getRepository().getDoctorByUid(doctorUID);
+            Notifications n = new Notifications(
+                    patientService,
+                    patientuid,
+                    doctorUID, // Doctor uid
+                    "Add patient"
+            );
+            n.setShortMessage(doctor.getFirstName() + " " + doctor.getLastName() + " has added you");
+            n.setCompleteMessage(
+                    "Doctor " + doctor.getFirstName() + " " + doctor.getLastName() +" has added you to his/her patient list.\n" +
+                            "\n" +
+                            "Date: " + n.getDate().toLocalDate() + "\n" +
+                            "Time: " + n.getDate().toLocalTime() + "\n"
+            );
+            notificationService.getRepository().save(n);
+
             //navigate to Patient start page
             add.getUI().ifPresent(ui ->
                             ui.navigate(DoctorStartView.class));

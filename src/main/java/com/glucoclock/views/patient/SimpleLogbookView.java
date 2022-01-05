@@ -104,24 +104,20 @@ public class SimpleLogbookView extends Div {
 
 
 //                        Create and save a new notification
-                            Notification.show("1",1000, Notification.Position.TOP_CENTER);
                             UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
-                            Notification.show("2",1000, Notification.Position.TOP_CENTER);
                             Notifications n = new Notifications(
                                     patientService,
                                     patientUID,
                                     doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
                                     "Alarm"
                             );
-                            Notification.show("3",1000, Notification.Position.TOP_CENTER);
                             n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
-                            Notification.show("4",1000, Notification.Position.TOP_CENTER);
                             n.setCompleteMessage(
                                     n.getPatientFirstName() +" "+ n.getPatientLastName() +" is experiencing abnormal blood glucose levels.\n" +
                                             "\n" +
                                             "Date: " + n.getDate().toLocalDate() + "\n" +
                                             "Time: " + n.getDate().toLocalTime() + "\n" +
-                                            "Blood glucose level: " + bloodGlucose.getValue() + "units."
+                                            "Blood glucose level: " + bloodGlucose.getValue() + " units."
                             );
                             notificationService.getRepository().save(n);
 

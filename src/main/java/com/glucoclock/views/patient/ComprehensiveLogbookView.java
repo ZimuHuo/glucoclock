@@ -87,6 +87,25 @@ public class ComprehensiveLogbookView extends Div {
 //                    SendMail sendMail = new SendMail();
 //                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
                             Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
+
+
+                            // Create and save a new notification
+                            UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
+                            Notifications n = new Notifications(
+                                    patientService,
+                                    patientUID,
+                                    doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
+                                    "Alarm"
+                            );
+                            n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
+                            n.setCompleteMessage(
+                                    n.getPatientFirstName() +" "+ n.getPatientLastName() +" is experiencing abnormal blood glucose levels.\n" +
+                                            "\n" +
+                                            "Date: " + n.getDate().toLocalDate() + "\n" +
+                                            "Time: " + n.getDate().toLocalTime() + "\n" +
+                                            "Blood glucose level: " + bloodGlucose.getValue() + " units."
+                            );
+                            notificationService.getRepository().save(n);
                         }
                         //save to database
                         UUID uid = userService.getRepository().findAll().get(0).getUid();
@@ -102,23 +121,6 @@ public class ComprehensiveLogbookView extends Div {
                         comprehensiveLogBookService.getRepository().save(comprehensiveLogBook);
 
 
-                        // Create and save a new notification
-                        UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
-                        Notifications n = new Notifications(
-                                patientService,
-                                patientUID,
-                                doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
-                                "Alarm"
-                        );
-                        n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
-                        n.setCompleteMessage(
-                                n.getPatientFirstName() +" "+ n.getPatientLastName() +" is experiencing abnormal blood glucose levels.\n" +
-                                        "\n" +
-                                        "Date: " + n.getDate().toLocalDate() + "\n" +
-                                        "Time: " + n.getDate().toLocalTime() + "\n" +
-                                        "Blood glucose level: " + bloodGlucose.getValue() + "units."
-                        );
-                        notificationService.getRepository().save(n);
 
 
                         //Navigation
