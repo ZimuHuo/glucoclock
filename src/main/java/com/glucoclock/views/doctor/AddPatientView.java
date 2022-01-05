@@ -99,9 +99,7 @@ public class AddPatientView extends Div {
 
         //Add--Click add to go back to home page
         add.addClickListener(e->{
-            //add to database
-            doctorpatientService.create(patientuid,doctoruid);
-            Notification.show("Successfully Added").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            Notification.show("Add request sent").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
 
             // Create and save a new notification to notify patient
@@ -111,11 +109,11 @@ public class AddPatientView extends Div {
                     patientService,
                     patientuid,
                     doctorUID, // Doctor uid
-                    "Add patient"
+                    "Add Patient Request"
             );
-            n.setShortMessage(doctor.getFirstName() + " " + doctor.getLastName() + " has added you");
+            n.setShortMessage(doctor.getFirstName() + " " + doctor.getLastName() + " wants to add you into patient list");
             n.setCompleteMessage(
-                    "Doctor " + doctor.getFirstName() + " " + doctor.getLastName() +" has added you to his/her patient list.\n" +
+                    "Doctor " + doctor.getFirstName() + " " + doctor.getLastName() +" wants to add you into patient list.\n" +
                             "\n" +
                             "Date: " + n.getDate().toLocalDate() + "\n" +
                             "Time: " + n.getDate().toLocalTime() + "\n"

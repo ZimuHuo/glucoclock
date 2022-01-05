@@ -80,7 +80,7 @@ public class QuestionnaireView extends Div {
                             patientService,
                             patientUID,
                             doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
-                            "Alarm"
+                            "Questionnaire"
                     );
                     n.setShortMessage(symptoms.getSelectedItems().toString().substring(0,20));
                     n.setCompleteMessage(

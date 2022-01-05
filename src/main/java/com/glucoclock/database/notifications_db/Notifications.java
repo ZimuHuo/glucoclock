@@ -1,10 +1,13 @@
 package com.glucoclock.database.notifications_db;
 
 import com.glucoclock.database.patients_db.service.PatientService;
+import com.glucoclock.views.doctor.DoctorNotificationDetailsView;
+import com.glucoclock.views.patient.PatientNotificationDetailsView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.server.VaadinSession;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -49,6 +52,9 @@ public class Notifications implements Serializable {
 
     @Column(name = "CompleteMessage")
     private String completemessage;
+
+    @Column(name = "ReplyMessage")
+    private String replymessage;
 
 
 //    Constructor of a new notification
@@ -96,6 +102,8 @@ public class Notifications implements Serializable {
     }
     public void setDate(LocalDateTime date) {this.date = date;}
 
+    public LocalDate getDateNoTime() {return date.toLocalDate();}
+
     public String getRequestType() {
         return requesttype;
     }
@@ -124,6 +132,9 @@ public class Notifications implements Serializable {
         this.completemessage = completemessage;
     }
 
+    public String getReplymessage() {return replymessage;}
+    public void setReplymessage(String replymessage) {this.replymessage = replymessage;}
+
     public Span buildStatusBadge(){
         Span statusBadge = new Span(status);
         if (status == "Unresolved"){
@@ -135,13 +146,25 @@ public class Notifications implements Serializable {
         return statusBadge;
     }
 
-    public Button buildViewButton() {
+//   generate the View Details button on doctor page
+    public Button buildDoctorViewButton() {
         Button button = new Button("View Details");
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//        button.addClickListener(click->{
-//            button.getUI().ifPresent(ui->ui.navigate(ViewPatientsData.class)); //change navigation class
-//            com.vaadin.flow.component.notification.Notification.show(patientFirstName+patientLastName+date+requestType+status);
-//        });
+        button.addClickListener(click->{
+            VaadinSession.getCurrent().setAttribute("NotificationID", id);
+            button.getUI().ifPresent(ui->ui.navigate(DoctorNotificationDetailsView.class)); //change navigation class
+        });
+        return button;
+    }
+
+    //   generate the View Details button on patient page
+    public Button buildPatientViewButton() {
+        Button button = new Button("View Details");
+        button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        button.addClickListener(click->{
+            VaadinSession.getCurrent().setAttribute("NotificationID", id);
+            button.getUI().ifPresent(ui->ui.navigate(PatientNotificationDetailsView.class)); //change navigation class
+        });
         return button;
     }
 }

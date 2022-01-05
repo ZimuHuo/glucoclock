@@ -21,6 +21,11 @@ public class NotificationService {
         repository.save(n);
     }
 
-
+//  Set the reply message
+    public void reply(long id, String msg) {
+        Notifications n = repository.getNotificationById(id);
+        n.setReplymessage(msg);
+        repository.save(n);
+    }
 
 }
