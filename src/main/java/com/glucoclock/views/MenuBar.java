@@ -88,7 +88,7 @@ public class MenuBar extends AppLayout {
         if (pageType == "PNS"){
             home.addClickListener(e ->
                     home.getUI().ifPresent(ui ->
-                            ui.navigate(PatientStart.class)
+                            ui.navigate(PatientStartView.class)
                     )
             );
         }
