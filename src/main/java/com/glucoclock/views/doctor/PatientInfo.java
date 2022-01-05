@@ -28,11 +28,12 @@ public class PatientInfo {
 //        this.email = email;
 //    }
 
-    public PatientInfo(String firstName, String lastName, String email, String suggestedLbType) {
+    public PatientInfo(String firstName, String lastName, String email, String suggestedLbType, UUID uid) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.suggestedLbType = suggestedLbType;
+        this.uid = uid;
     }
 
     @Override
@@ -82,13 +83,12 @@ public class PatientInfo {
         return logbookSuggestion;
     }
 
-    public Button editLbTypeButton(){
+    public Button buildEditLbTypeButton(){
         Icon e = new Icon(VaadinIcon.EDIT);
         Button edit = new Button(e);
         edit.addClickListener(click->{
             VaadinSession.getCurrent().setAttribute("PatientUID", uid);
             edit.getUI().ifPresent(ui->ui.navigate(SuggestLogbookTypeView.class));
-            Notification.show(firstName+lastName);
         });
         return edit;
     }

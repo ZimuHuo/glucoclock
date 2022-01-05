@@ -217,7 +217,7 @@ public class PatientService  {
 
     public void updateLogbookType(UUID uid, String logbookType) {
         Patient patient = repository.getPatientByUid(uid);
-        patient.setInjectionMethod(logbookType);
+        patient.setLogbooktype(logbookType);
         repository.save(patient);
     }
 

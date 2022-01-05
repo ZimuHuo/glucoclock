@@ -4,10 +4,13 @@ import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.security.db.UserService;
+import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
@@ -23,6 +26,8 @@ import java.util.UUID;
 public class SuggestLogbookTypeView extends Div {
     private Select<String> logbookSuggestion = new Select<>();
     private Button confirm = new Button("Confirm");
+    private MenuBar menu = new MenuBar("DNS");
+
 
     private final UserService userService;
     private final DoctorPatientService doctorpatientService;
@@ -36,6 +41,10 @@ public class SuggestLogbookTypeView extends Div {
         this.patientService = patientService;
         this.doctorService = doctorService;
 
+        H3 title = new H3("Suggest Logbook Type for " +
+                patientService.getRepository().getPatientByUid((UUID) VaadinSession.getCurrent().getAttribute("PatientUID")).getFirstName()
+        +" "+patientService.getRepository().getPatientByUid((UUID) VaadinSession.getCurrent().getAttribute("PatientUID")).getLastName());
+
         logbookSuggestion.setItems("Simple","Comprehensive","Intensive");
         String suggestedLb = patientService.getRepository().getPatientByUid((UUID) VaadinSession.getCurrent().getAttribute("PatientUID")).getLogbooktype();
         logbookSuggestion.setValue(suggestedLb);
@@ -43,16 +52,16 @@ public class SuggestLogbookTypeView extends Div {
         confirm.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         confirm.addClickListener(e->{
                         patientService.updateLogbookType((UUID) VaadinSession.getCurrent().getAttribute("PatientUID"),logbookSuggestion.getValue());
-                        Notification.show("Suggest Logbook Type Updated!");
+                        Notification.show("Suggested Logbook Type Updated!").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 confirm.getUI().ifPresent(ui->ui.navigate(DoctorStartView.class));}
                 );
 
 
         VerticalLayout vl = new VerticalLayout();
-        vl.add(logbookSuggestion,confirm);
+        vl.add(title,logbookSuggestion,confirm);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        add(vl);
+        add(menu,vl);
 
     }
 }
