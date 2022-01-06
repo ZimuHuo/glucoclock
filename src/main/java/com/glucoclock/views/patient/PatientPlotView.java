@@ -18,6 +18,7 @@ import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.*;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
@@ -38,6 +39,7 @@ import java.util.UUID;
 @PageTitle("View Plots")
 @Route(value = "/patient/plots-view")
 public class PatientPlotView extends Div {
+    private H1 space = new H1("    ");
     private final UserService userService;
     private final PatientService patientService;
     private final LogService logService;
@@ -65,11 +67,10 @@ public class PatientPlotView extends Div {
         User user= this.userService.getRepository().findByUsername(userName); //return user
         patientUid=user.getUid();   //get patient uid
 
-        add(createViewEvents());
+        add(space,createViewEvents(),menu);
     }
 
     private Component createViewEvents() {
-// Header
         //create chart
         DataSeries series = new DataSeries();
 
@@ -142,7 +143,11 @@ public class PatientPlotView extends Div {
         viewEvents.setPadding(false);
         viewEvents.setSpacing(false);
         viewEvents.getElement().getThemeList().add("spacing-l");
-        return viewEvents;
+        HorizontalLayout selectNPlot = new HorizontalLayout(datePicker,plotButton);
+        selectNPlot.setAlignItems(FlexComponent.Alignment.END);
+        VerticalLayout vl = new VerticalLayout(selectNPlot,viewEvents);
+        vl.setAlignItems(FlexComponent.Alignment.CENTER);
+        return vl;
     }
     public static Date convertToDateViaSqlDate(LocalDate dateToConvert) {
         return java.sql.Date.valueOf(dateToConvert);
