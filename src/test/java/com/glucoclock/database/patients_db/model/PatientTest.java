@@ -11,22 +11,25 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PatientTest {
-    /*
-    private Patient p = new Patient(UUID.randomUUID(),"ZImu","Huo","zimuhuo@outlook.com",
-            "flat1","Road","SW& $AX","London","12345","Male",
-            LocalDate.of(2001,1,1),"I",
-            true,true,true,true,"tyu");
 
-
-     */
     private Patient p = new Patient();
-
 
     @BeforeEach
     void createPatient(){
         p.setLastName("Huo");
         p.setFirstName("ZImu");
         p.setEmail("zimuhuo@outlook.com");
+        p.setBirthday(LocalDate.of(2001,1,1));
+        p.setCity("London");
+        p.setDiabetesType("1");
+        p.setGender("Male");
+        p.setHomeAddressL1("Flat1");
+        p.setHomeAddressL2("Road1");
+        p.setInjectionMethod("xxx");
+        p.setLogbooktype("simple");
+        p.setPhone("12345");
+        p.setPostCode("SW& $AX");
+
     }
 
     @Test
@@ -46,37 +49,47 @@ class PatientTest {
 
     @Test
     void getPostCode() {
+        assertEquals("SW& $AX",p.getPostCode());
     }
 
     @Test
     void getHomeAddressL1() {
+        assertEquals("Flat1",p.getHomeAddressL1());
     }
 
     @Test
     void getHomeAddressL2() {
+        assertEquals("Road1",p.getHomeAddressL2());
     }
 
     @Test
     void getCity() {
+        assertEquals("London",p.getCity());
     }
 
     @Test
     void getPhone() {
+        assertEquals("12345",p.getPhone());
     }
 
     @Test
     void getGender() {
+        assertEquals("Male",p.getGender());
     }
 
     @Test
     void getBirthday() {
+        assertEquals(LocalDate.of(2001,1,1),p.getBirthday());
     }
 
     @Test
     void getDiabetesType() {
+        assertEquals("1",p.getDiabetesType());
     }
 
     @Test
     void getInjectionMethod() {
+        assertEquals("xxx",p.getInjectionMethod());
     }
+
 }
