@@ -67,5 +67,10 @@ public class DoctorPatientService {
         return repository.getDoctorPatientByPatientuid(patientuid)!=null;
     }
 
+    //delete
+    public void deletePatient(UUID patientuid){
+        DoctorPatient delete = repository.getDoctorPatientByPatientuid(patientuid);
+        repository.delete(delete);
+    }
 
 }

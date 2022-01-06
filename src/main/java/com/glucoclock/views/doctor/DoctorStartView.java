@@ -43,6 +43,7 @@ public class DoctorStartView extends VerticalLayout {
     private Grid.Column<PatientInfo> logbookColumn;
     private Grid.Column<PatientInfo> editLogbookColumn;
     private Grid.Column<PatientInfo> buttonColumn;
+    private Grid.Column<PatientInfo> buttonDelete;
 
     private MenuBar menu = new MenuBar("DStart");
 
@@ -139,6 +140,7 @@ public class DoctorStartView extends VerticalLayout {
         logbookColumn = grid.addColumn(PatientInfo::getSuggestedLbType).setHeader("Suggested Logbook Type").setWidth("18%").setFlexGrow(0);
         editLogbookColumn = grid.addComponentColumn(PatientInfo::buildEditLbTypeButton).setWidth("6%").setFlexGrow(0);
         buttonColumn = grid.addComponentColumn(PatientInfo::buildViewButton).setWidth("14%").setFlexGrow(0);
+        buttonDelete = grid.addComponentColumn(PatientInfo::deletePatient).setWidth("14%").setFlexGrow(0);
     }
 
 
@@ -189,8 +191,8 @@ public class DoctorStartView extends VerticalLayout {
                     patientService.searchByuid(thispatient.getPatientuid()).getLastName(),
                     patientService.searchByuid(thispatient.getPatientuid()).getEmail(),
                     patientService.searchByuid(thispatient.getPatientuid()).getLogbooktype(),
-                    thispatient.getPatientuid()
-            );
+                    thispatient.getPatientuid(),
+                    doctorpatientService);
             patientList_final.add(p);
         }
 
