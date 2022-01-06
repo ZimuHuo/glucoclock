@@ -74,14 +74,6 @@ public class DoctorStartView extends VerticalLayout {
         User user=userService.getRepository().findByUsername(username); //return user
         doctoruid=user.getUid();
 
-        //UUID doctoruid = userService.getRepository().findAll().get(0).getUid();
-
-        //create testing database
-//        this.patientService.bulkcreate();
-//        this.doctorService.bulkcreate();
-//        this.doctorpatientService.bulkcreate();
-
-
         add.setSize("50px");
         addBut.setWidth("55px");
         addBut.setHeight("55px");

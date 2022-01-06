@@ -124,7 +124,7 @@ public class Patient implements Serializable,Comparable<Patient>{
 		this.longinsulin = longInsulin;
 		this.injectionmethod = injectionMethod;
 		this.uid = uid;
-		this.logbooktype = "Simple";
+		this.logbooktype = "N/A";
 
 	}
 

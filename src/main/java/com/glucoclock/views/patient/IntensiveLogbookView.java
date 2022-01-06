@@ -96,11 +96,7 @@ public class IntensiveLogbookView extends Div {
                 Double bg = bloodGlucose.getValue();
                 //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
                 if(bg>140){
-//                    SendMail sendMail = new SendMail();
-//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
                     Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
-
-
                     // Create and save a new notification
                     UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
                     Notifications n = new Notifications(
