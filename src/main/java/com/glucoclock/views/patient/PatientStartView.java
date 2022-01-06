@@ -24,7 +24,6 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -33,14 +32,14 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import java.time.LocalTime;
+import org.springframework.security.core.parameters.P;
+
 import javax.annotation.security.RolesAllowed;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 @PageTitle("Start Page")
 @Route(value = "/patient/start-page")
@@ -70,9 +69,6 @@ public class PatientStartView extends VerticalLayout{
     //Chart Function
     private ArrayList<String> chartTime=new ArrayList<>();
     private ArrayList<Integer> chartBloodglucose=new ArrayList<>();
-    private ArrayList<String> simpleTime = new ArrayList<>();//set up returned string
-    private ArrayList<String> testX=new ArrayList<>();
-    private ArrayList<Integer> testData=new ArrayList<>();
     private Log PatientData;//create a list store the data fit requirement (from logdata database)
 
 
@@ -86,16 +82,18 @@ public class PatientStartView extends VerticalLayout{
         this.comprehensiveLogBookService = comprehensiveLogBookService;
         this.intensiveLogBookService = intensiveLogBookService;
 
+        //get patient uid
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         userName=authentication.getName();
-        System.out.print(authentication.getName()); // here it gets the username. absolutely fantastic
         User user= this.userService.getRepository().findByUsername(userName); //return user
         patientUid=user.getUid();   //get patient uid
 
         add(menu);
 
         //create testing database
+
+
         newLogBook();//add new logbook function
 
         setHorizontalComponentAlignment(Alignment.CENTER,title,LBtybe,uploaddatePicker,updateButton);
@@ -103,6 +101,7 @@ public class PatientStartView extends VerticalLayout{
         add(createViewEvents(),title,LBtybe,uploaddatePicker,updateButton);
 
     }
+
     private void newLogBook() {
         //Upload Logbook Function
         LBtybe = new ComboBox<>();
@@ -147,19 +146,20 @@ public class PatientStartView extends VerticalLayout{
                 }
         );
     }
+
     private Component createViewEvents() {
 // Header
         //create chart
-        ArrayList<String> chartTime=new ArrayList<>();
-        ArrayList<Integer> chartBloodglucose=new ArrayList<>();
-        Chart chart = new Chart(ChartType.AREA);
+        DataSeries series = new DataSeries();
+
+        Chart chart = new Chart(ChartType.LINE);
         Configuration conf = chart.getConfiguration();
         XAxis xAxis = new XAxis();
+        YAxis yAxis = new YAxis();
         HorizontalLayout header = createHeader("Past Blood Glucose Level", "units");
         plotButton = new Button("Plot");
         chartdatePicker=new DatePicker("view the plot at: ");
         chartdatePicker.setValue(LocalDate.now());
-
         header.add(chartdatePicker,plotButton);
 
 
@@ -168,70 +168,48 @@ public class PatientStartView extends VerticalLayout{
         plotOptions.setPointPlacement(PointPlacement.ON);
         conf.addPlotOptions(plotOptions);
 
-        xAxis.setCategories("Pre Breakfast","Post Breakfast","Pre Lunch","Post Lunch","Pre Dinner","Post Dinner");
-        conf.addxAxis(xAxis);
-
         chartdatePicker.addValueChangeListener(date->{
             charDate=date.getValue();
-            System.out.println(charDate.toString()+" "+patientUid.toString());
             List<Log> patientData= logService.findLogBooksByPatientid(patientUid);
-            int yval = 0;
-            String xval = null;
-            if(PatientData==null)Notification.show("No Data");
+            double yval = 0;
+            double xval = 0;
+            System.out.println("no data"+patientData.toString());
+            if(patientData.isEmpty()){
+                Notification.show("No Data");
+            }
             else {
                 for(Log data: patientData){
                     int type = data.getLogbooktype();
-                    xval = null;
-                    yval = 0;
                     String time = String.valueOf(data.getTime());
                     if(type==1){
-                        SimpleLogBook simpleLogBook = simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,data.getDate());
-                        yval = Integer.valueOf(simpleLogBook.getBloodglucose());
-                        xval = data.getDate().toString();
-                    }else if(type ==2){
-                        ComprehensiveLogBook comprehensiveLogBook = comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,data.getDate());
-                        yval = Integer.valueOf(comprehensiveLogBook.getBloodglucose());
-                        xval = data.getDate().toString();
-                    }else {
-                        LocalTime timefinder = LocalTime.of(data.getTime(), 00, 00);
-                        IntensiveLogBook intensiveLogBook = intensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,timefinder,data.getDate());
-                        yval = Integer.valueOf(intensiveLogBook.getBloodglucose());
-                        xval = data.getDate().toString();
+                        SimpleLogBook simpleLogBook = simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,data.getTime(),data.getDate());
+                        yval = Double.valueOf(simpleLogBook.getBloodglucose());
+                        xval = (double)data.getDate().getDayOfMonth()+(double)1/6*data.getTime();
 
                     }
+                    if(type ==2){
+                        ComprehensiveLogBook comprehensiveLogBook = comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,data.getTime(),data.getDate());
+                        yval = Double.valueOf(comprehensiveLogBook.getBloodglucose());
+                        xval = (double)data.getDate().getDayOfMonth()+(double)1/6*data.getTime();
+                    }
+                    if (type ==3){
+                        LocalTime timefinder = LocalTime.of(data.getTime(), 00, 00);
+                        IntensiveLogBook intensiveLogBook = intensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,timefinder,data.getDate());
+                        yval = Double.valueOf(intensiveLogBook.getBloodglucose());
+                        xval = (double)data.getDate().getDayOfMonth()+(double)1/24*data.getTime();
+                    }
+
+                    series.add(new DataSeriesItem(xval, yval));
                 }
             }
-            chartBloodglucose.add(yval);
-            chartTime.add(xval);
-            System.out.println(patientData.toString());
-            System.out.println(chartBloodglucose);
-            System.out.println(chartTime);
         });
 
+        xAxis.setTickInterval(1);
+        conf.addxAxis(xAxis);
+        conf.getxAxis().setType(AxisType.LINEAR);
 
-        //set X axis
-        //int i;
-        //for (i=0; i<chartTime.size(); i++){
-        //xAxis.addCategory(chartTime.get(i));
-        //}
-
-
-        //Plot Button
         plotButton.addClickListener(e ->{
-
-            if(PatientData!=null) {
-                ListSeries series = new ListSeries();
-
-                int j;
-                series.setName(charDate.toString());
-                for (j = 0; j < chartBloodglucose.size(); j++) {
-                    series.addData(chartBloodglucose.get(j));
-                }
-                //conf.addSeries(new ListSeries("Blood glucose level",32,45));
-                conf.addSeries(series);
-            }
-
-
+            conf.addSeries(series);
         });
 
 
@@ -245,7 +223,9 @@ public class PatientStartView extends VerticalLayout{
         viewEvents.getElement().getThemeList().add("spacing-l");
         return viewEvents;
     }
-
+    public static Date convertToDateViaSqlDate(LocalDate dateToConvert) {
+        return java.sql.Date.valueOf(dateToConvert);
+    }
 
     private HorizontalLayout createHeader(String title, String subtitle) {
         H2 h2 = new H2(title);
@@ -267,4 +247,3 @@ public class PatientStartView extends VerticalLayout{
 
 
 }
-

@@ -16,4 +16,5 @@ public interface IntensiveLogBookRepository extends CrudRepository<IntensiveLogB
     @Override
     <S extends IntensiveLogBook> S save(S s);
     IntensiveLogBook findByPatientuidAndTimeAndDate(UUID patient_uid, LocalTime time, LocalDate date);
+    IntensiveLogBook findByPatientuidAndTimeAndDate(UUID patient_uid, int time, LocalDate date);
 }

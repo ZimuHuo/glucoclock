@@ -14,5 +14,5 @@ public interface ComprehensiveLogBookRepository extends CrudRepository<Comprehen
     List<ComprehensiveLogBook> findByPatientuidAndAndDate(UUID patient_uid,LocalDate Date);
     @Override
     <S extends ComprehensiveLogBook> S save(S s);
-
+    ComprehensiveLogBook findByPatientuidAndTimeAndDate(UUID patient_uid,int Time, LocalDate Date);
 }
