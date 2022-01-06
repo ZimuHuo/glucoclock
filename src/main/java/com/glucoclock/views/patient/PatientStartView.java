@@ -50,17 +50,11 @@ public class PatientStartView extends VerticalLayout{
         UUID uid = userService.getRepository().findByUsername(authentication.getName()).getUid();
         add(menu);
 
-        //create testing database
-
-
-
         LBtype = new ComboBox<>();
         LBtype.setLabel("Logbook Type");
         LBtype.setItems("Simple","Comprehensive","Intensive");
         String lbType = patientService.getRepository().getPatientByUid(uid).getLogbooktype();
         LBtype.setValue(lbType);
-//        LBtype.addCustomValueSetListener(
-//                event -> LBtype.setValue(event.getDetail()));
 
         datePicker = new DatePicker("Date");
         Locale finnishLocale = new Locale("fi", "FI");
@@ -101,7 +95,7 @@ public class PatientStartView extends VerticalLayout{
 //
 
         setAlignItems(Alignment.CENTER);
-        add(title,suggestedLb,LBtype,datePicker,updateButton);
+        add(viewPlotBut,title,suggestedLb,LBtype,datePicker,updateButton);
         if (VaadinSession.getCurrent().getAttribute("Error")!=null){
             com.vaadin.flow.component.notification.Notification notification = Notification.show("WRONG URL"+VaadinSession.getCurrent().getAttribute("Error"));
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
