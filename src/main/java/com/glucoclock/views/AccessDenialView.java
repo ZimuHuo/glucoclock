@@ -25,7 +25,6 @@ public class AccessDenialView extends Div {
                 homeBut.getUI().ifPresent(ui ->
                         ui.navigate(Control.class)
                 )
-
         );
         vl.add(errorMsg,homeBut);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
