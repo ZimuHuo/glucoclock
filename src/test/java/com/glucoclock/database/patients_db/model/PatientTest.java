@@ -13,9 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class PatientTest {
 
     private Patient p = new Patient();
+    UUID uid = UUID.randomUUID();
 
     @BeforeEach
     void createPatient(){
+        p.setUid(uid);
         p.setLastName("Huo");
         p.setFirstName("ZImu");
         p.setEmail("zimuhuo@outlook.com");
@@ -90,6 +92,11 @@ class PatientTest {
     @Test
     void getInjectionMethod() {
         assertEquals("xxx",p.getInjectionMethod());
+    }
+
+    @Test
+    void getUID() {
+        assertEquals(uid,p.getUid());
     }
 
 }
