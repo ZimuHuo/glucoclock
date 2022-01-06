@@ -23,7 +23,7 @@ This project offers a digital diabetic logbook solution in the form of a web app
 - Researchers:
   - Download the anonymised database based on search requirements on age range, gender, diabetes type and insulin type
   
-## Project structure
+## Package organisation
 - `views` package in `src/main/java` contains the frontend views of the application.
 - `database` package in `src/main/java` contains MVC models of data to be stored in the database.
 - `security` package in `src/main/java` contains the security implementations of the application.
