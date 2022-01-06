@@ -4,6 +4,7 @@ import com.vaadin.flow.server.VaadinSession;
 
 import java.util.Random;
 
+//generate a random number string
 public class verificationCode {
     static public String getRandomNum(){
         Random random = new Random();

@@ -14,6 +14,8 @@ public interface DoctorPatientRepository extends CrudRepository<DoctorPatient,Lo
 
     DoctorPatient getDoctorPatientById(long id);
 
+    @Override
+    void delete(DoctorPatient doctorPatient);
 
     @Override
     <S extends DoctorPatient> S save(S s);

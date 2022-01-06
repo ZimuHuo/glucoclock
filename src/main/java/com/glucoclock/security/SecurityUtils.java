@@ -8,12 +8,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.stream.Stream;
-
+/*
+tools for the security
+ */
 public final class SecurityUtils {
     private SecurityUtils() {
         // Util methods only
     }
-
     static boolean isFrameworkInternalRequest(HttpServletRequest request) {
         final String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
         return parameterValue != null

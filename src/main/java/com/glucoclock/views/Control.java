@@ -12,6 +12,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+
+/*
+It is a control hub which reroute the users after sign up and re-route them in case of RouteNotFoundError
+ */
 @Route(value = "")
 @Theme(themeFolder = "glucoclock")
 public class Control extends VerticalLayout implements BeforeEnterObserver {
@@ -26,6 +30,6 @@ public class Control extends VerticalLayout implements BeforeEnterObserver {
         }else{
             event.rerouteTo(HomeView.class);
         }
-        // we need a fully functional error page to deal with all the exceptions
+        //  a fully functional error page to deal with all the exceptions
     }
 }

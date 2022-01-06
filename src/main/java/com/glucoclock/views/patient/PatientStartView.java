@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -45,10 +46,7 @@ public class PatientStartView extends VerticalLayout{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         authentication.getName();
-        System.out.print(authentication.getName());
-
         UUID uid = userService.getRepository().findByUsername(authentication.getName()).getUid();
-        String Logbook;
         add(menu);
 
         //create testing database
@@ -56,10 +54,12 @@ public class PatientStartView extends VerticalLayout{
 
 
         LBtype = new ComboBox<>();
-        LBtype.setLabel("Logbook\nType");
+        LBtype.setLabel("Logbook Type");
         LBtype.setItems("Simple","Comprehensive","Intensive");
-        LBtype.addCustomValueSetListener(
-                event -> LBtype.setValue(event.getDetail()));
+        String lbType = patientService.getRepository().getPatientByUid(uid).getLogbooktype();
+        LBtype.setValue(lbType);
+//        LBtype.addCustomValueSetListener(
+//                event -> LBtype.setValue(event.getDetail()));
 
         datePicker = new DatePicker("Date");
         Locale finnishLocale = new Locale("fi", "FI");
@@ -73,34 +73,34 @@ public class PatientStartView extends VerticalLayout{
         updateButton.setWidth("120px");
         updateButton.setHeight("120px");
 
-        LBtype.setValue(patientService.getRepository().getPatientByUid(uid).getLogbooktype());
-        LBtype.addValueChangeListener(event -> {
+        //Set default logbook type to suggested logbook type
+        Span suggestedLb = new Span("Suggested Logbook Type: "+patientService.getRepository().getPatientByUid(uid).getLogbooktype());
+        suggestedLb.getElement().getThemeList().add("badge success");
+
+        updateButton.addClickListener(e ->{
             VaadinSession.getCurrent().setAttribute( "date",datePicker.getValue());
-            if (event.getValue() == "Simple") {
-                updateButton.addClickListener(e ->
+            if (LBtype.getValue().equals("Simple")) {
                         updateButton.getUI().ifPresent(ui ->
                                 ui.navigate(SimpleLogbookView.class)
-                        )
-                );
-            } else if (event.getValue() == "Comprehensive"){
-                updateButton.addClickListener(e ->
+                        );
+            } else if (LBtype.getValue().equals("Comprehensive")){
                         updateButton.getUI().ifPresent(ui ->
                                 ui.navigate(ComprehensiveLogbookView.class)
-                        )
-                );
+                        );
             }
-            else if (event.getValue() == "Intensive"){
-                updateButton.addClickListener(e ->
+            else if (LBtype.getValue().equals("Intensive")){
                         updateButton.getUI().ifPresent(ui ->
                                 ui.navigate(IntensiveLogbookView.class)
-                        )
-                );
+                        );
             }
-        });
-        //setMargin(true);
-        setHorizontalComponentAlignment(Alignment.CENTER,title,LBtype,datePicker,updateButton);
 
-        add(title,LBtype,datePicker,updateButton);
+                }
+        );
+
+//
+
+        setAlignItems(Alignment.CENTER);
+        add(title,suggestedLb,LBtype,datePicker,updateButton);
         if (VaadinSession.getCurrent().getAttribute("Error")!=null){
             com.vaadin.flow.component.notification.Notification notification = Notification.show("WRONG URL"+VaadinSession.getCurrent().getAttribute("Error"));
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
