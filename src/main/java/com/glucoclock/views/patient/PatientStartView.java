@@ -19,6 +19,7 @@ import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.*;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
@@ -47,7 +48,6 @@ import java.util.*;
 public class PatientStartView extends VerticalLayout{
     private ComboBox<String> LBtybe;
     private DatePicker uploaddatePicker;
-    private DatePicker chartdatePicker;
     private Button plotButton;
     private Icon update;
     private Button updateButton;
@@ -65,13 +65,8 @@ public class PatientStartView extends VerticalLayout{
     private final SimpleLogBookService simpleLogBookService;
     private final ComprehensiveLogBookService comprehensiveLogBookService;
     private final IntensiveLogBookService intensiveLogBookService;
-
+    DatePicker datePicker;
     //Chart Function
-    private ArrayList<String> chartTime=new ArrayList<>();
-    private ArrayList<Integer> chartBloodglucose=new ArrayList<>();
-    private Log PatientData;//create a list store the data fit requirement (from logdata database)
-
-
 
     public PatientStartView(UserService userService, PatientService patientService, LogService logService, SimpleLogBookService simpleLogBookService, ComprehensiveLogBookService comprehensiveLogBookService, IntensiveLogBookService intensiveLogBookService){
         //database
@@ -93,12 +88,19 @@ public class PatientStartView extends VerticalLayout{
 
         //create testing database
 
+        this.datePicker = new DatePicker("Display data in the selected month");
+        add(datePicker);
 
         newLogBook();//add new logbook function
 
-        setHorizontalComponentAlignment(Alignment.CENTER,title,LBtybe,uploaddatePicker,updateButton);
+        FormLayout formLayout = new FormLayout();
+        formLayout.setMaxWidth("600px");
+        plotButton = new Button("Plot");
+        formLayout.add(datePicker,plotButton);
+        setHorizontalComponentAlignment(Alignment.CENTER,formLayout,title,LBtybe,uploaddatePicker,updateButton);
 
-        add(createViewEvents(),title,LBtybe,uploaddatePicker,updateButton);
+        add(createViewEvents(),formLayout,title,LBtybe,uploaddatePicker,updateButton);
+        plotButton.setEnabled(false);
 
     }
 
@@ -157,20 +159,17 @@ public class PatientStartView extends VerticalLayout{
         XAxis xAxis = new XAxis();
         YAxis yAxis = new YAxis();
         HorizontalLayout header = createHeader("Past Blood Glucose Level", "units");
-        plotButton = new Button("Plot");
-        chartdatePicker=new DatePicker("view the plot at: ");
-        chartdatePicker.setValue(LocalDate.now());
-        header.add(chartdatePicker,plotButton);
-
-
         conf.getyAxis().setTitle("Values");
         PlotOptionsArea plotOptions = new PlotOptionsArea();
         plotOptions.setPointPlacement(PointPlacement.ON);
         conf.addPlotOptions(plotOptions);
 
-        chartdatePicker.addValueChangeListener(date->{
+        datePicker.addValueChangeListener(date->{
             charDate=date.getValue();
-            List<Log> patientData= logService.findLogBooksByPatientid(patientUid);
+
+            LocalDate start = charDate.withDayOfMonth(1);
+            LocalDate end = charDate.withDayOfMonth(charDate.lengthOfMonth());
+            List<Log> patientData= logService.findLogBooksBetweenDate(start,end,patientUid);
             double yval = 0;
             double xval = 0;
             System.out.println("no data"+patientData.toString());
@@ -178,6 +177,7 @@ public class PatientStartView extends VerticalLayout{
                 Notification.show("No Data");
             }
             else {
+                plotButton.setEnabled(true);
                 for(Log data: patientData){
                     int type = data.getLogbooktype();
                     String time = String.valueOf(data.getTime());
@@ -207,9 +207,12 @@ public class PatientStartView extends VerticalLayout{
         xAxis.setTickInterval(1);
         conf.addxAxis(xAxis);
         conf.getxAxis().setType(AxisType.LINEAR);
+        plotButton.setEnabled(true);
 
         plotButton.addClickListener(e ->{
             conf.addSeries(series);
+            series.clear();
+            plotButton.setEnabled(false);
         });
 
 
