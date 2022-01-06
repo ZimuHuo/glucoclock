@@ -13,5 +13,4 @@ public interface LogRepository extends CrudRepository<Log, Long> {
     List<Log> findByDateBetweenAndPatientuid(LocalDate startdate, LocalDate enddate, UUID patientuid);
     @Override
     <S extends Log> S save(S s);
-
 }
