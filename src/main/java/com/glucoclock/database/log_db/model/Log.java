@@ -20,18 +20,27 @@ public class Log implements Serializable, Comparable<Log> {
 
     @Column (name="Patient_uid")
     private UUID patientuid;
+    @Column (name="Time")
+    private int time;
 
-    public Log(UUID patientuid,LocalDate date, int logbooktype){
+
+    public Log(UUID patientuid,LocalDate date, int logbooktype, int time){
         this.patientuid=patientuid;
         this.date=date;
         this.logbooktype=logbooktype;
-
+this.time = time;
     }
 
     public Log() {
 
     }
+    public int getTime() {
+        return time;
+    }
 
+    public void setTime(int time) {
+        this.time = time;
+    }
     @Override
     public String toString() {
         return "Log{" +

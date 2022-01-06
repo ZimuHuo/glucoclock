@@ -121,12 +121,15 @@ private final LogService logService;
                     );
                     notificationService.getRepository().save(n);
                 }
+                    LocalTime localTime = timePicker.getValue();
+
+                    LocalTime timefinder = LocalTime.of(localTime.getHour(), 00, 00);
                 //save to database
                 UUID uid = userService.getRepository().findAll().get(0).getUid();
                 IntensiveLogBook intensiveLogBook = new IntensiveLogBook(
                         uid,
                         (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
-                        timePicker.getValue(),
+                        timefinder,
                         bloodGlucose.getValue().toString(),
                         carbohydrateIntake.getValue().toString(),
                         insulinDose.getValue().toString(),
@@ -141,7 +144,7 @@ private final LogService logService;
 
 //UUID PatientUid, LocalDate Date, LocalTime Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons
                 intensiveLogBookService.getRepository().save(intensiveLogBook);
-                    Log log = new Log(uid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),3);
+                    Log log = new Log(uid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),3,timePicker.getValue().getHour());
                     logService.getRepository().save(log);
                 //Navigation
                 submitButton.getUI().ifPresent(ui ->

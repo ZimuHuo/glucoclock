@@ -117,8 +117,16 @@ this.logService = logService;
                                 insulinDose.getValue().toString()
 
                         );
-                        comprehensiveLogBookService.getRepository().save(comprehensiveLogBook);
-            Log log = new Log(uid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),2);
+            String TimeString = prepost.getValue()+meal.getValue();
+            int time = 0;
+            if (TimeString.equals("PreBreakfast")) time =1;
+            else if (TimeString.equals("PostBreakfast")) time =2;
+            else if (TimeString.equals("PreLunch")) time =3;
+            else if (TimeString.equals("PostLunch")) time =4;
+            else if (TimeString.equals("PreDinner")) time =5;
+            else if (TimeString.equals("PostDinner")) time =6;
+            comprehensiveLogBookService.getRepository().save(comprehensiveLogBook);
+            Log log = new Log(uid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),2,time);
             logService.getRepository().save(log);
                         //Navigation
                         submitButton.getUI().ifPresent(ui ->

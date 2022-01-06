@@ -141,8 +141,18 @@ public class SimpleLogbookView extends Div {
                                 bloodGlucose.getValue().toString(),
                                 carbohydrate.getValue().toString()
                         );
-                        simpleLogBookService.getRepository().save(simpleLogBook);
-            Log log = new Log(uid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),1);
+
+            Integer time = 0;
+            String TimeString = prepost.getValue()+meal.getValue();
+            if (TimeString.equals("PreBreakfast")) time =1;
+            else if (TimeString.equals("PostBreakfast")) time =2;
+            else if (TimeString.equals("PreLunch")) time =3;
+            else if (TimeString.equals("PostLunch")) time =4;
+            else if (TimeString.equals("PreDinner")) time =5;
+            else if (TimeString.equals("PostDinner")) time =6;
+
+            simpleLogBookService.getRepository().save(simpleLogBook);
+            Log log = new Log(uid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),1,time);
             logService.getRepository().save(log);
                         //Navigation
                         submitButton.getUI().ifPresent(ui ->
