@@ -48,7 +48,7 @@ import java.util.*;
 public class PatientStartView extends VerticalLayout{
     private ComboBox<String> LBtybe;
     private DatePicker uploaddatePicker;
-    private Button plotButton;
+    private Button viewPlotBut = new Button("View Plot");
     private Icon update;
     private Button updateButton;
     private MenuBar menu = new MenuBar("PStart");
@@ -57,7 +57,7 @@ public class PatientStartView extends VerticalLayout{
     private int logbookType=0;
     private String userName;
     private UUID patientUid;
-    private LocalDate charDate = LocalDate.now();
+    //private LocalDate charDate = LocalDate.now();
 
     private final UserService userService;
     private final PatientService patientService;
@@ -65,7 +65,7 @@ public class PatientStartView extends VerticalLayout{
     private final SimpleLogBookService simpleLogBookService;
     private final ComprehensiveLogBookService comprehensiveLogBookService;
     private final IntensiveLogBookService intensiveLogBookService;
-    DatePicker datePicker;
+
 
     public PatientStartView(UserService userService, PatientService patientService, LogService logService, SimpleLogBookService simpleLogBookService, ComprehensiveLogBookService comprehensiveLogBookService, IntensiveLogBookService intensiveLogBookService){
         //database
@@ -87,19 +87,21 @@ public class PatientStartView extends VerticalLayout{
 
         //create testing database
 
-        this.datePicker = new DatePicker("Display data in the selected month");
-        add(datePicker);
+
 
         newLogBook();//add new logbook function
 
         FormLayout formLayout = new FormLayout();
         formLayout.setMaxWidth("600px");
-        plotButton = new Button("Plot");
-        formLayout.add(datePicker,plotButton);
         setHorizontalComponentAlignment(Alignment.CENTER,formLayout,title,LBtybe,uploaddatePicker,updateButton);
 
-        add(createViewEvents(),formLayout,title,LBtybe,uploaddatePicker,updateButton);
-        plotButton.setEnabled(false);
+        add(formLayout,title,LBtybe,uploaddatePicker,updateButton);
+
+        viewPlotBut.addClickListener(e->
+                viewPlotBut.getUI().ifPresent(ui ->
+                        ui.navigate(PatientPlotView.class))
+                );
+        add(viewPlotBut);
 
     }
 
@@ -146,100 +148,100 @@ public class PatientStartView extends VerticalLayout{
         );
     }
 
-    private Component createViewEvents() {
-// Header
-        //create chart
-        DataSeries series = new DataSeries();
-
-        Chart chart = new Chart(ChartType.LINE);
-        Configuration conf = chart.getConfiguration();
-        XAxis xAxis = new XAxis();
-        YAxis yAxis = new YAxis();
-        HorizontalLayout header = createHeader("Past Blood Glucose Level", "units");
-        conf.getyAxis().setTitle("Values");
-        PlotOptionsArea plotOptions = new PlotOptionsArea();
-        plotOptions.setPointPlacement(PointPlacement.ON);
-        conf.addPlotOptions(plotOptions);
-
-        datePicker.addValueChangeListener(date->{
-            charDate=date.getValue();
-
-            LocalDate start = charDate.withDayOfMonth(1);
-            LocalDate end = charDate.withDayOfMonth(charDate.lengthOfMonth());
-            List<Log> patientData= logService.findLogBooksBetweenDate(start,end,patientUid);
-            double yval = 0;
-            double xval = 0;
-            System.out.println("no data"+patientData.toString());
-            if(patientData.isEmpty()){
-                Notification.show("No Data");
-            }
-            else {
-                plotButton.setEnabled(true);
-                for(Log data: patientData){
-                    int type = data.getLogbooktype();
-                    String time = String.valueOf(data.getTime());
-                    if(type==1){
-                        SimpleLogBook simpleLogBook = simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,data.getTime(),data.getDate());
-                        yval = Double.valueOf(simpleLogBook.getBloodglucose());
-                        xval = (double)data.getDate().getDayOfMonth()+(double)1/6*data.getTime();
-
-                    }
-                    if(type ==2){
-                        ComprehensiveLogBook comprehensiveLogBook = comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,data.getTime(),data.getDate());
-                        yval = Double.valueOf(comprehensiveLogBook.getBloodglucose());
-                        xval = (double)data.getDate().getDayOfMonth()+(double)1/6*data.getTime();
-                    }
-                    if (type ==3){
-                        LocalTime timefinder = LocalTime.of(data.getTime(), 00, 00);
-                        IntensiveLogBook intensiveLogBook = intensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,timefinder,data.getDate());
-                        yval = Double.valueOf(intensiveLogBook.getBloodglucose());
-                        xval = (double)data.getDate().getDayOfMonth()+(double)1/24*data.getTime();
-                    }
-                    series.add(new DataSeriesItem(xval, yval));
-                }
-            }
-        });
-
-        xAxis.setTickInterval(1);
-        conf.addxAxis(xAxis);
-        conf.getxAxis().setType(AxisType.LINEAR);
-        plotButton.setEnabled(true);
-
-        plotButton.addClickListener(e ->{
-            conf.addSeries(series);
-            series.clear();
-            plotButton.setEnabled(false);
-        });
-
-        // Add it all together
-        VerticalLayout viewEvents = new VerticalLayout(header, chart);
-        viewEvents.addClassName("p-l");
-        viewEvents.setPadding(false);
-        viewEvents.setSpacing(false);
-        viewEvents.getElement().getThemeList().add("spacing-l");
-        return viewEvents;
-    }
-    public static Date convertToDateViaSqlDate(LocalDate dateToConvert) {
-        return java.sql.Date.valueOf(dateToConvert);
-    }
-
-    private HorizontalLayout createHeader(String title, String subtitle) {
-        H2 h2 = new H2(title);
-        h2.addClassNames("text-xl", "m-0");
-
-        Span span = new Span(subtitle);
-        span.addClassNames("text-secondary", "text-xs");
-
-        VerticalLayout column = new VerticalLayout(h2, span);
-        column.setPadding(false);
-        column.setSpacing(false);
-
-        HorizontalLayout header = new HorizontalLayout(column);
-        header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
-        header.setSpacing(false);
-        header.setWidthFull();
-        return header;
-    }
+//    private Component createViewEvents() {
+//// Header
+//        //create chart
+//        DataSeries series = new DataSeries();
+//
+//        Chart chart = new Chart(ChartType.LINE);
+//        Configuration conf = chart.getConfiguration();
+//        XAxis xAxis = new XAxis();
+//        YAxis yAxis = new YAxis();
+//        HorizontalLayout header = createHeader("Past Blood Glucose Level", "units");
+//        conf.getyAxis().setTitle("Values");
+//        PlotOptionsArea plotOptions = new PlotOptionsArea();
+//        plotOptions.setPointPlacement(PointPlacement.ON);
+//        conf.addPlotOptions(plotOptions);
+//
+//        datePicker.addValueChangeListener(date->{
+//            charDate=date.getValue();
+//
+//            LocalDate start = charDate.withDayOfMonth(1);
+//            LocalDate end = charDate.withDayOfMonth(charDate.lengthOfMonth());
+//            List<Log> patientData= logService.findLogBooksBetweenDate(start,end,patientUid);
+//            double yval = 0;
+//            double xval = 0;
+//            System.out.println("no data"+patientData.toString());
+//            if(patientData.isEmpty()){
+//                Notification.show("No Data");
+//            }
+//            else {
+//                plotButton.setEnabled(true);
+//                for(Log data: patientData){
+//                    int type = data.getLogbooktype();
+//                    String time = String.valueOf(data.getTime());
+//                    if(type==1){
+//                        SimpleLogBook simpleLogBook = simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,data.getTime(),data.getDate());
+//                        yval = Double.valueOf(simpleLogBook.getBloodglucose());
+//                        xval = (double)data.getDate().getDayOfMonth()+(double)1/6*data.getTime();
+//
+//                    }
+//                    if(type ==2){
+//                        ComprehensiveLogBook comprehensiveLogBook = comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,data.getTime(),data.getDate());
+//                        yval = Double.valueOf(comprehensiveLogBook.getBloodglucose());
+//                        xval = (double)data.getDate().getDayOfMonth()+(double)1/6*data.getTime();
+//                    }
+//                    if (type ==3){
+//                        LocalTime timefinder = LocalTime.of(data.getTime(), 00, 00);
+//                        IntensiveLogBook intensiveLogBook = intensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,timefinder,data.getDate());
+//                        yval = Double.valueOf(intensiveLogBook.getBloodglucose());
+//                        xval = (double)data.getDate().getDayOfMonth()+(double)1/24*data.getTime();
+//                    }
+//                    series.add(new DataSeriesItem(xval, yval));
+//                }
+//            }
+//        });
+//
+//        xAxis.setTickInterval(1);
+//        conf.addxAxis(xAxis);
+//        conf.getxAxis().setType(AxisType.LINEAR);
+//        plotButton.setEnabled(true);
+//
+//        plotButton.addClickListener(e ->{
+//            conf.addSeries(series);
+//            series.clear();
+//            plotButton.setEnabled(false);
+//        });
+//
+//        // Add it all together
+//        VerticalLayout viewEvents = new VerticalLayout(header, chart);
+//        viewEvents.addClassName("p-l");
+//        viewEvents.setPadding(false);
+//        viewEvents.setSpacing(false);
+//        viewEvents.getElement().getThemeList().add("spacing-l");
+//        return viewEvents;
+//    }
+//    public static Date convertToDateViaSqlDate(LocalDate dateToConvert) {
+//        return java.sql.Date.valueOf(dateToConvert);
+//    }
+//
+//    private HorizontalLayout createHeader(String title, String subtitle) {
+//        H2 h2 = new H2(title);
+//        h2.addClassNames("text-xl", "m-0");
+//
+//        Span span = new Span(subtitle);
+//        span.addClassNames("text-secondary", "text-xs");
+//
+//        VerticalLayout column = new VerticalLayout(h2, span);
+//        column.setPadding(false);
+//        column.setSpacing(false);
+//
+//        HorizontalLayout header = new HorizontalLayout(column);
+//        header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+//        header.setSpacing(false);
+//        header.setWidthFull();
+//        return header;
+//    }
 
 
 }
