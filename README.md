@@ -1,5 +1,5 @@
 # Gluco'clock
-This project provides a digital diabetic logbook solution in the form of a web application. 
+This project provides a digital diabetic logbook solution in the form of a web application. By providing a simplistic user interface as well as essential functionalities, the app aims at improving diabetes patient experience, facilitating patient-doctor communications, as well as providing authorised researchers access to the anonymised database for scientific research.
 
 
 ## Project structure
