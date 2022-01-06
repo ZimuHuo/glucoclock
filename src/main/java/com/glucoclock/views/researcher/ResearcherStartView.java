@@ -61,18 +61,11 @@ public class ResearcherStartView extends VerticalLayout {
     public ResearcherStartView(PatientService patientService, SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, LogService logdata) {
         //Databases
         this.patientService = patientService;
-//        patientService.bulkcreate();
-//        simplelogData.bulkcreate();
-//        comprehensivelogData.bulkcreate();
-//        intensivelogData.bulkcreate();
-//        logdata.bulkcreate();
         SimplelogData = simplelogData;
         ComprehensivelogData = comprehensivelogData;
         IntensivelogData = intensivelogData;
         Logdata = logdata;
         add(menu);
-        //Buttons and blanks
-        //Gender filter
         ComboBox<String> Filter_Gender = new ComboBox<>("Gender");
         Filter_Gender.setAllowCustomValue(true);
         Filter_Gender.setItems("Female", "Male", "Any");

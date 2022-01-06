@@ -46,10 +46,7 @@ public class PatientStartView extends VerticalLayout{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         authentication.getName();
-        System.out.print(authentication.getName());
-
         UUID uid = userService.getRepository().findByUsername(authentication.getName()).getUid();
-        String Logbook;
         add(menu);
 
         //create testing database

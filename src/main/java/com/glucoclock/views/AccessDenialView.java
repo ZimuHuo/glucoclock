@@ -21,12 +21,12 @@ public class AccessDenialView extends Div {
         homeBut = new Button("Go back to Start Page");
         homeBut.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         //add navigation based on user role
-//        homeBut.addClickListener(e->
-//                homeBut.getUI().ifPresent(ui ->
-//                        ui.navigate(PatientStart.class)
-//                )
-//
-//        );
+        homeBut.addClickListener(e->
+                homeBut.getUI().ifPresent(ui ->
+                        ui.navigate(Control.class)
+                )
+
+        );
         vl.add(errorMsg,homeBut);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
         add(vl);
