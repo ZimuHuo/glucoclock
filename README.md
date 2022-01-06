@@ -5,5 +5,5 @@ This project offers a digital diabetic logbook solution in the form of a web app
 ## Project structure
 - `views` package in `src/main/java` contains the frontend views of the application.
 - `database` package in `src/main/java` contains MVC models of data to be stored in the database.
-- `security` package in `src/main/java` contains the essential security implementations of the application.
+- `security` package in `src/main/java` contains the security implementations of the application.
 - `themes` folder in `frontend/` contains the custom CSS styles.
