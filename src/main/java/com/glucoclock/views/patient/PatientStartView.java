@@ -66,7 +66,6 @@ public class PatientStartView extends VerticalLayout{
     private final ComprehensiveLogBookService comprehensiveLogBookService;
     private final IntensiveLogBookService intensiveLogBookService;
     DatePicker datePicker;
-    //Chart Function
 
     public PatientStartView(UserService userService, PatientService patientService, LogService logService, SimpleLogBookService simpleLogBookService, ComprehensiveLogBookService comprehensiveLogBookService, IntensiveLogBookService intensiveLogBookService){
         //database
@@ -128,14 +127,12 @@ public class PatientStartView extends VerticalLayout{
             selectDate=date.getValue();
         });
 
-
         //select logbook type
         LBtybe.addValueChangeListener(event -> {
             //VaadinSession.getCurrent().setAttribute( "date",selectDate);
             if (event.getValue() == "Simple") logbookType=1;//simple logbook->1
             else if (event.getValue() == "Comprehensive") logbookType=2;//comprehensive logbook->2
             else if (event.getValue() == "Intensive") logbookType=3;//intensive logbook->3
-            //System.out.println(event.getValue());;
         });
 
         //upload data
@@ -198,7 +195,6 @@ public class PatientStartView extends VerticalLayout{
                         yval = Double.valueOf(intensiveLogBook.getBloodglucose());
                         xval = (double)data.getDate().getDayOfMonth()+(double)1/24*data.getTime();
                     }
-
                     series.add(new DataSeriesItem(xval, yval));
                 }
             }
@@ -214,9 +210,6 @@ public class PatientStartView extends VerticalLayout{
             series.clear();
             plotButton.setEnabled(false);
         });
-
-
-
 
         // Add it all together
         VerticalLayout viewEvents = new VerticalLayout(header, chart);
