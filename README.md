@@ -10,18 +10,18 @@ This project offers a digital diabetic logbook solution in the form of a web app
 
 ## Functionalities
 - Patients:
-  Keep a record of their diabetes type, insulin type and injection method
-  Upload simple/comprehensive/intensive logbook entries
-  View historical data
-  View plots of historical data
-  Fill in questionnaire to learn more about causes to symptoms
+  - Keep a record of their diabetes type, insulin type and injection method
+  - Upload simple/comprehensive/intensive logbook entries
+  - View historical data
+  - View plots of historical data
+  - Fill in questionnaire to learn more about causes to symptoms
   
 - Doctors:
-  Connect to patients and view their data
-  Receive alarms on patients' abnormal blood glucose level via email and on the app
+  - Connect to patients and view their data
+  - Receive alarms on patients' abnormal blood glucose level via email and on the app
   
 - Researchers:
-  Download the anonymised database based on search requirements on age range, gender, diabetes type and insulin type
+  - Download the anonymised database based on search requirements on age range, gender, diabetes type and insulin type
   
 ## Project structure
 - `views` package in `src/main/java` contains the frontend views of the application.
