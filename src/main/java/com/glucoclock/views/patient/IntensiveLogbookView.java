@@ -3,6 +3,8 @@ package com.glucoclock.views.patient;
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.intensiveLogBook_db.model.IntensiveLogBook;
 import com.glucoclock.database.intensiveLogBook_db.service.IntensiveLogBookService;
+import com.glucoclock.database.log_db.model.Log;
+import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.database.notifications_db.NotificationService;
 import com.glucoclock.database.notifications_db.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
@@ -19,7 +21,6 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -53,13 +54,15 @@ public class IntensiveLogbookView extends Div {
     private final NotificationService notificationService;
     private final PatientService patientService;
     private final DoctorPatientService doctorPatientService;
+    private final LogService logService;
 
-    public IntensiveLogbookView(UserService userService, IntensiveLogBookService intensiveLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService) {
+    public IntensiveLogbookView(UserService userService, IntensiveLogBookService intensiveLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService, LogService logService) {
         this.userService = userService;
         this.intensiveLogBookService = intensiveLogBookService;
         this.notificationService = notificationService;
         this.patientService = patientService;
         this.doctorPatientService = doctorPatientService;
+        this.logService = logService;
         init();
         add(menu);
         //add(menuBar());
@@ -91,64 +94,77 @@ public class IntensiveLogbookView extends Div {
         Button submitButton = new Button("Upload");
         submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.addClickListener(e ->{
-            //check input validity
-                Double bg = bloodGlucose.getValue();
-                //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
-                if(bg>140){
+        submitButton.addClickListener(e -> {
+                    if (bloodGlucose.isEmpty()) {
+                        Notification notification = Notification.show("Your glucose level is empty");
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    } else if (timePicker.isEmpty()) {
+                        Notification notification = Notification.show("Please select your time correctly");
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    } else if (carbohydrateIntake.isEmpty() || insulinDose.isEmpty() || carbohydrateIntake.isEmpty() || carbBolus.isEmpty() || highBsBolus.isEmpty() || basalRate.isEmpty() || ketones.isEmpty()) {
+                        Notification notification = Notification.show("Please check your entries");
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    } else {
+                        //check input validity
+                        Double bg = bloodGlucose.getValue();
+                        //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
+                        if (bg > 140) {
 //                    SendMail sendMail = new SendMail();
 //                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
-                    Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
+                            Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
 
 
-                    // Create and save a new notification
-                    UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
-                    Notifications n = new Notifications(
-                            patientService,
-                            patientUID,
-                            doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
-                            "Blood Glucose Alarm"
-                    );
-                    n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
-                    n.setCompleteMessage(
-                            n.getPatientFirstName() +" "+ n.getPatientLastName() +" is experiencing abnormal blood glucose levels.\n" +
-                                    "\n" +
-                                    "Date: " + n.getDate().toLocalDate() + "\n" +
-                                    "Time: " + n.getDate().toLocalTime() + "\n" +
-                                    "Blood glucose level: " + bloodGlucose.getValue() + " units."
-                    );
-                    notificationService.getRepository().save(n);
-                }
-                //save to database
-                UUID uid = userService.getRepository().findAll().get(0).getUid();
-                IntensiveLogBook intensiveLogBook = new IntensiveLogBook(
-                        uid,
-                        (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
-                        timePicker.getValue(),
-                        bloodGlucose.getValue().toString(),
-                        carbohydrateIntake.getValue().toString(),
-                        insulinDose.getValue().toString(),
-                        carbBolus.getValue().toString(),
-                        highBsBolus.getValue().toString(),
-                        basalRate.getValue().toString(),
-                        ketones.getValue().toString()
+                            // Create and save a new notification
+                            UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
+                            Notifications n = new Notifications(
+                                    patientService,
+                                    patientUID,
+                                    doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
+                                    "Blood Glucose Alarm"
+                            );
+                            n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
+                            n.setCompleteMessage(
+                                    n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
+                                            "\n" +
+                                            "Date: " + n.getDate().toLocalDate() + "\n" +
+                                            "Time: " + n.getDate().toLocalTime() + "\n" +
+                                            "Blood glucose level: " + bloodGlucose.getValue() + " units."
+                            );
+                            notificationService.getRepository().save(n);
+                        }
+                        LocalTime localTime = timePicker.getValue();
 
-                );
+                        LocalTime timefinder = LocalTime.of(localTime.getHour(), 00, 00);
+                        //save to database
+                        UUID uid = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
+                        IntensiveLogBook intensiveLogBook = new IntensiveLogBook(
+                                uid,
+                                (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
+                                timefinder,
+                                bloodGlucose.getValue().toString(),
+                                carbohydrateIntake.getValue().toString(),
+                                insulinDose.getValue().toString(),
+                                carbBolus.getValue().toString(),
+                                highBsBolus.getValue().toString(),
+                                basalRate.getValue().toString(),
+                                ketones.getValue().toString()
 
+                        );
 
 
 //UUID PatientUid, LocalDate Date, LocalTime Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons
-                intensiveLogBookService.getRepository().save(intensiveLogBook);
-
-                //Navigation
-                submitButton.getUI().ifPresent(ui ->
-                        ui.navigate(ConfirmationView.class)
-                );
-        }
-
+                        intensiveLogBookService.getRepository().save(intensiveLogBook);
+                        Log log = new Log(uid, (LocalDate) VaadinSession.getCurrent().getAttribute("date"), 3, timePicker.getValue().getHour());
+                        logService.getRepository().save(log);
+                        //Navigation
+                        submitButton.getUI().ifPresent(ui ->
+                                ui.navigate(ConfirmationView.class)
+                        );
+                    }
+                }
         );
         VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER,title,submitButton);
+        verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, title, submitButton);
         verticalLayout.add(title);
         verticalLayout.add(formLayout);
         verticalLayout.add(submitButton);

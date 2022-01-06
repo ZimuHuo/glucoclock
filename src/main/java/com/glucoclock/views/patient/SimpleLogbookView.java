@@ -1,7 +1,9 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.database.doctorpatient_db.model.DoctorPatient;
+import com.glucoclock.database.comprehensiveLogBook_db.service.ComprehensiveLogBookService;
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
+import com.glucoclock.database.log_db.model.Log;
+import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.database.notifications_db.NotificationService;
 import com.glucoclock.database.notifications_db.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
@@ -22,12 +24,12 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.swing.text.StyledEditorKit;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -47,14 +49,18 @@ public class SimpleLogbookView extends Div {
     private final NotificationService notificationService;
     private final PatientService patientService;
     private final DoctorPatientService doctorPatientService;
+    private final LogService logService;
+    private final ComprehensiveLogBookService comprehensiveLogBookService;
 
-    public SimpleLogbookView(UserService userService, SimpleLogBookService simpleLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService){
+    public SimpleLogbookView(UserService userService, SimpleLogBookService simpleLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService, LogService logService, ComprehensiveLogBookService comprehensiveLogBookService){
 
         this.userService = userService;
         this.simpleLogBookService = simpleLogBookService;
         this.notificationService = notificationService;
         this.patientService = patientService;
         this.doctorPatientService = doctorPatientService;
+        this.logService = logService;
+        this.comprehensiveLogBookService = comprehensiveLogBookService;
 
 
         init();
@@ -68,18 +74,71 @@ public class SimpleLogbookView extends Div {
         meal = new ComboBox<>("Meal");
         bloodGlucose = new NumberField("Blood Glucose");
         carbohydrate = new NumberField("Carbohydrate");
-
         Div bloodGlucoseUnit = new Div();
         bloodGlucoseUnit.setText("mmol/L");
         bloodGlucose.setSuffixComponent(bloodGlucoseUnit);
-
         Div carbsUnit = new Div();
         carbsUnit.setText("g");
         carbohydrate.setSuffixComponent(carbsUnit);
-
-
         prepost.setItems("Pre","Post");
         meal.setItems("Breakfast","Lunch","Dinner");
+        prepost.addValueChangeListener(e->{
+            if(!prepost.isEmpty()&& !meal.isEmpty()){
+                Integer time = 0;
+                String TimeString = prepost.getValue()+meal.getValue();
+                if (TimeString.equals("PreBreakfast")) time =1;
+                else if (TimeString.equals("PostBreakfast")) time =2;
+                else if (TimeString.equals("PreLunch")) time =3;
+                else if (TimeString.equals("PostLunch")) time =4;
+                else if (TimeString.equals("PreDinner")) time =5;
+                else if (TimeString.equals("PostDinner")) time =6;
+                UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
+                Integer state = 0;
+                if (simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUID,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
+                    state = 1;
+                }
+                if(comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUID,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
+                    state = 2;
+                }
+                if(state == 1){
+                    Notification notification = Notification.show("You already entered value for this entry. You will override past data");
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
+                if(state == 2){
+                    Notification notification = Notification.show("You already entered value for this entry in comprehensive log book.",5000, Notification.Position.MIDDLE);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
+            }
+        });
+        meal.addValueChangeListener(e->{
+            if(!prepost.isEmpty()&& !meal.isEmpty()){
+                Integer time = 0;
+                String TimeString = prepost.getValue()+meal.getValue();
+                if (TimeString.equals("PreBreakfast")) time =1;
+                else if (TimeString.equals("PostBreakfast")) time =2;
+                else if (TimeString.equals("PreLunch")) time =3;
+                else if (TimeString.equals("PostLunch")) time =4;
+                else if (TimeString.equals("PreDinner")) time =5;
+                else if (TimeString.equals("PostDinner")) time =6;
+                UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
+                Integer state = 0;
+                if (simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUID,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
+                    state = 1;
+                }
+                if(comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUID,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
+                    state = 2;
+                }
+                if(state == 1){
+                    Notification notification = Notification.show("You already entered value for this entry. You will override past data");
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
+                if(state == 2){
+                    Notification notification = Notification.show("You already entered value for this entry in comprehensive log book.",5000, Notification.Position.MIDDLE);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    submitButton.setEnabled(false);
+                }
+            }
+        });
     }
 
 
@@ -100,54 +159,72 @@ public class SimpleLogbookView extends Div {
         submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.addClickListener(e -> {
-                    //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
-                    if(bloodGlucose.getValue()>140){
+                    if (bloodGlucose.isEmpty()) {
+                        Notification notification = Notification.show("Your glucose level is empty");
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    } else if (prepost.isEmpty()) {
+                        Notification notification = Notification.show("Please select your time correctly");
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    } else if (meal.isEmpty()) {
+                        Notification notification = Notification.show("Please select your time correctly");
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    } else {
+                        //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
+                        if (bloodGlucose.getValue() > 140) {
 //                    SendMail sendMail = new SendMail();
 //                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
-                        Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
+                            Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
 
 
 //                        Create and save a new notification
-                        UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
-                        Notifications n = new Notifications(
-                                patientService,
-                                patientUID,
-                                doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
-                                "Blood Glucose Alarm"
-                        );
-                        n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
-                        n.setCompleteMessage(
-                                n.getPatientFirstName() +" "+ n.getPatientLastName() +" is experiencing abnormal blood glucose levels.\n" +
-                                        "\n" +
-                                        "Date: " + n.getDate().toLocalDate() + "\n" +
-                                        "Time: " + n.getDate().toLocalTime() + "\n" +
-                                        "Blood glucose level: " + bloodGlucose.getValue() + " units."
-                        );
-                        notificationService.getRepository().save(n);
+                            UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
+                            Notifications n = new Notifications(
+                                    patientService,
+                                    patientUID,
+                                    doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
+                                    "Blood Glucose Alarm"
+                            );
+                            n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
+                            n.setCompleteMessage(
+                                    n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
+                                            "\n" +
+                                            "Date: " + n.getDate().toLocalDate() + "\n" +
+                                            "Time: " + n.getDate().toLocalTime() + "\n" +
+                                            "Blood glucose level: " + bloodGlucose.getValue() + " units."
+                            );
+                            notificationService.getRepository().save(n);
 
 
-                    }
-
-
-
+                        }
                         //save to database
                         UUID uid = userService.getRepository().findAll().get(0).getUid();
                         SimpleLogBook simpleLogBook = new SimpleLogBook(
                                 uid,
                                 (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
-                                prepost.getValue()+meal.getValue(),
+                                prepost.getValue() + meal.getValue(),
                                 bloodGlucose.getValue().toString(),
                                 carbohydrate.getValue().toString()
                         );
-                        simpleLogBookService.getRepository().save(simpleLogBook);
 
+                        Integer time = 0;
+                        String TimeString = prepost.getValue() + meal.getValue();
+                        if (TimeString.equals("PreBreakfast")) time = 1;
+                        else if (TimeString.equals("PostBreakfast")) time = 2;
+                        else if (TimeString.equals("PreLunch")) time = 3;
+                        else if (TimeString.equals("PostLunch")) time = 4;
+                        else if (TimeString.equals("PreDinner")) time = 5;
+                        else if (TimeString.equals("PostDinner")) time = 6;
+
+                        simpleLogBookService.getRepository().save(simpleLogBook);
+                        Log log = new Log(uid, (LocalDate) VaadinSession.getCurrent().getAttribute("date"), 1, time);
+                        logService.getRepository().save(log);
                         //Navigation
                         submitButton.getUI().ifPresent(ui ->
                                 ui.navigate(ConfirmationView.class)
                         );
 
+                    }
                 }
-
         );
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(title);

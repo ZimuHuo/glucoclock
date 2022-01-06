@@ -45,8 +45,6 @@ public class PatientDataView extends VerticalLayout {
 
     public PatientDataView(LogService log_db){
         this.log_db = log_db;
-        log_db.bulkcreate();
-
         setSizeFull();
         configSearch();
         setupShownData();

@@ -49,17 +49,10 @@ public class PatientStartView extends VerticalLayout{
         UUID uid = userService.getRepository().findByUsername(authentication.getName()).getUid();
         add(menu);
 
-        //create testing database
-
-
-
         LBtype = new ComboBox<>();
         LBtype.setLabel("Logbook Type");
         LBtype.setItems("Simple","Comprehensive","Intensive");
         String lbType = patientService.getRepository().getPatientByUid(uid).getLogbooktype();
-        LBtype.setValue(lbType);
-//        LBtype.addCustomValueSetListener(
-//                event -> LBtype.setValue(event.getDetail()));
 
         datePicker = new DatePicker("Date");
         Locale finnishLocale = new Locale("fi", "FI");
@@ -74,8 +67,14 @@ public class PatientStartView extends VerticalLayout{
         updateButton.setHeight("120px");
 
         //Set default logbook type to suggested logbook type
-        Span suggestedLb = new Span("Suggested Logbook Type: "+patientService.getRepository().getPatientByUid(uid).getLogbooktype());
-        suggestedLb.getElement().getThemeList().add("badge success");
+        add(title);
+        if(!lbType.equals("N/A")){
+            LBtype.setValue(lbType);
+            Span suggestedLb = new Span("Suggested Logbook Type: " + lbType);
+            suggestedLb.getElement().getThemeList().add("badge success");
+            add(suggestedLb);
+        }
+
 
         updateButton.addClickListener(e ->{
             VaadinSession.getCurrent().setAttribute( "date",datePicker.getValue());
@@ -100,7 +99,7 @@ public class PatientStartView extends VerticalLayout{
 //
 
         setAlignItems(Alignment.CENTER);
-        add(title,suggestedLb,LBtype,datePicker,updateButton);
+        add(title,LBtype,datePicker,updateButton);
         if (VaadinSession.getCurrent().getAttribute("Error")!=null){
             com.vaadin.flow.component.notification.Notification notification = Notification.show("WRONG URL"+VaadinSession.getCurrent().getAttribute("Error"));
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
