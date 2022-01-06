@@ -22,10 +22,12 @@ public class MenuBar extends AppLayout {
     private Icon cal = new Icon(VaadinIcon.CALENDAR_CLOCK);
     private Icon signout = new Icon(VaadinIcon.SIGN_OUT);
     private Icon noti = new Icon(VaadinIcon.ENVELOPES);
+    private Icon chart = new Icon(VaadinIcon.LINE_CHART);
     private Button history = new Button(cal);
     private Button settings = new Button(cog);
     private Button logout = new Button(signout);
     private Button notification = new Button(noti);
+    private Button viewChart = new Button(chart);
     private Image logo = new Image("/images/logo_dark.png","logo");
     private Button home = new Button(logo);
     private Icon q = new Icon(VaadinIcon.QUESTION_CIRCLE);
@@ -50,9 +52,20 @@ public class MenuBar extends AppLayout {
         signout.setColor("white");
         q.setSize("45px");
         q.setColor("white");
+        chart.setSize("45px");
+        chart.setColor("white");
+
+        viewChart.setWidth("65px");
+        viewChart.setHeight("65px");
+        viewChart.addClickListener(e ->
+                viewChart.getUI().ifPresent(ui ->
+                        ui.navigate(PatientPlotView.class)
+                )
+        );
 
         notification.setWidth("65px");
         notification.setHeight("65px");
+
 
         history.setWidth("65px");
         history.setHeight("65px");
@@ -118,7 +131,7 @@ public class MenuBar extends AppLayout {
         }
 
         if (pageType == "PStart"){
-            hl.add(notification,history,qn,settings,logout);
+            hl.add(notification,history,viewChart,qn,settings,logout);
             settings.addClickListener(e ->
                     settings.getUI().ifPresent(ui ->
                             ui.navigate(PatientSettings1View.class)
