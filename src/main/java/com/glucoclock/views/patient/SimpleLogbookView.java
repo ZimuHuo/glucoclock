@@ -1,7 +1,8 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.database.doctorpatient_db.model.DoctorPatient;
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
+import com.glucoclock.database.log_db.model.Log;
+import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.database.notifications_db.NotificationService;
 import com.glucoclock.database.notifications_db.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
@@ -22,7 +23,6 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
@@ -47,14 +47,16 @@ public class SimpleLogbookView extends Div {
     private final NotificationService notificationService;
     private final PatientService patientService;
     private final DoctorPatientService doctorPatientService;
+    private final LogService logService;
 
-    public SimpleLogbookView(UserService userService, SimpleLogBookService simpleLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService){
+    public SimpleLogbookView(UserService userService, SimpleLogBookService simpleLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService, LogService logService){
 
         this.userService = userService;
         this.simpleLogBookService = simpleLogBookService;
         this.notificationService = notificationService;
         this.patientService = patientService;
         this.doctorPatientService = doctorPatientService;
+        this.logService = logService;
 
 
         init();
@@ -140,7 +142,8 @@ public class SimpleLogbookView extends Div {
                                 carbohydrate.getValue().toString()
                         );
                         simpleLogBookService.getRepository().save(simpleLogBook);
-
+            Log log = new Log(uid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),1);
+            logService.getRepository().save(log);
                         //Navigation
                         submitButton.getUI().ifPresent(ui ->
                                 ui.navigate(ConfirmationView.class)

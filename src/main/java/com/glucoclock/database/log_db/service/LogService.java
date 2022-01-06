@@ -46,7 +46,9 @@ public class LogService {
         return log;
     }
 
-
+    public LogRepository getRepository() {
+        return repository;
+    }
 
 
 }

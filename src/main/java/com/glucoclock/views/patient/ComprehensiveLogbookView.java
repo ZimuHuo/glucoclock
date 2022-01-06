@@ -3,6 +3,8 @@ package com.glucoclock.views.patient;
 import com.glucoclock.database.comprehensiveLogBook_db.model.ComprehensiveLogBook;
 import com.glucoclock.database.comprehensiveLogBook_db.service.ComprehensiveLogBookService;
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
+import com.glucoclock.database.log_db.model.Log;
+import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.database.notifications_db.NotificationService;
 import com.glucoclock.database.notifications_db.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
@@ -47,15 +49,15 @@ public class ComprehensiveLogbookView extends Div {
     private final NotificationService notificationService;
     private final PatientService patientService;
     private final DoctorPatientService doctorPatientService;
+    private final LogService logService;
 
-
-    public ComprehensiveLogbookView(UserService userService, ComprehensiveLogBookService comprehensiveLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService){
+    public ComprehensiveLogbookView(UserService userService, ComprehensiveLogBookService comprehensiveLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService,LogService logService){
         this.userService = userService;
         this.comprehensiveLogBookService = comprehensiveLogBookService;
         this.notificationService = notificationService;
         this.patientService = patientService;
         this.doctorPatientService = doctorPatientService;
-
+this.logService = logService;
         init();
         add(menu);
         var formLayout = new FormLayout();
@@ -116,7 +118,8 @@ public class ComprehensiveLogbookView extends Div {
 
                         );
                         comprehensiveLogBookService.getRepository().save(comprehensiveLogBook);
-
+            Log log = new Log(uid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),2);
+            logService.getRepository().save(log);
                         //Navigation
                         submitButton.getUI().ifPresent(ui ->
                                 ui.navigate(ConfirmationView.class)
