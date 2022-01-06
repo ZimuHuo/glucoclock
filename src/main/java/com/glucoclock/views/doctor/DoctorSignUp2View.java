@@ -29,11 +29,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-
+/*
+This page is used for doctor sign up part 2.
+It should store the contact information of the doctor.
+ */
 @PageTitle("Doctor Sign Up")
 @Route(value = "doctor-sign-up-2")
 public class DoctorSignUp2View extends HorizontalLayout {
@@ -58,18 +60,18 @@ public class DoctorSignUp2View extends HorizontalLayout {
     private final AuthoritiesService authoritiesService;
 
 
-
+/*
+this sets up the lay out of this page
+ */
     public DoctorSignUp2View(UserService userService, DoctorService doctorService, AuthoritiesService authoritiesService) {
         this.userService = userService;
         this.doctorService = doctorService;
         this.authoritiesService = authoritiesService;
-
         add(menu);
         init();
         formlayout1SetUp();
         formlayout2SetUp();
         formlayout3SetUp();
-
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
         verticalLayout.add(title);
@@ -87,7 +89,10 @@ public class DoctorSignUp2View extends HorizontalLayout {
         setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
 
     }
-
+    /*
+    vaadin will automatically ignore empty components, which will be hard to organize the component (like spacing)
+    So this page is composed of several form layouts instead of just one.
+     */
     private void formlayout3SetUp() {
         this.formLayout3 = new FormLayout();
         formLayout3.add(
@@ -159,8 +164,6 @@ public class DoctorSignUp2View extends HorizontalLayout {
         if (VaadinSession.getCurrent().getAttribute("City")!= null){
             city.setValue((String)VaadinSession.getCurrent().getAttribute("City"));
         }
-
-
         submitButtonInit();
         previousButtonInit();
         sex.setRequired(true);
@@ -197,14 +200,15 @@ public class DoctorSignUp2View extends HorizontalLayout {
             datePicker.setValue((LocalDate)VaadinSession.getCurrent().getAttribute("Date"));
         }
     }
-
+    /*
+        this sets up the submit button action listener. It checks all the input in the current page and store that in the user session
+        After checking all the user input, it will store all the information needed into the database
+        */
     private void submitButtonInit() {
         submitButton = new Button("Sign Up");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left","auto");
         submitButton.addClickListener(e -> {
-
-
             if (sex.isEmpty()) {
                 Notification notification = Notification.show("Check Sex Field");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
@@ -227,9 +231,7 @@ public class DoctorSignUp2View extends HorizontalLayout {
                 Notification notification = Notification.show("Check date");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             } else {
-
                 setSession();
-
 //                Create and save a new user
                 User user = new User(
                         (String)VaadinSession.getCurrent().getAttribute("Email"),
@@ -266,9 +268,6 @@ public class DoctorSignUp2View extends HorizontalLayout {
                         ui.navigate(Control.class)
                 );
             }
-
-
-
         });
     }
 
@@ -281,10 +280,6 @@ public class DoctorSignUp2View extends HorizontalLayout {
             previousButton.getUI().ifPresent(ui ->
                     ui.navigate(DoctorSignUp1View.class)
             );
-
-
-
-
         });
     }
 

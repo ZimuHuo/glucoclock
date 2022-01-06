@@ -22,29 +22,34 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
-
+/*
+This page is used for researcher sign up part 1.
+It should store the essential information of the researcher details.
+ */
 @PageTitle("Researcher Sign Up")
 @Route(value = "researcher-sign-up-1")
 public class ResearcherSignUp1View extends HorizontalLayout {
-    TextField firstName;
-    TextField lastName;
-    EmailField emailField;
-    PasswordField password;
-    PasswordField confirmPassword;
-    FormLayout formLayout;
-    Button submitButton;
-    Select<String> institution;
-    VerticalLayout mainLayout;
+    private TextField firstName;
+    private TextField lastName;
+    private EmailField emailField;
+    private PasswordField password;
+    private PasswordField confirmPassword;
+    private FormLayout formLayout;
+    private Button submitButton;
+    private Select<String> institution;
+    private VerticalLayout mainLayout;
     private MenuBar menu = new MenuBar("NS");
-UserService userService;
-Button codeButton;
-TextField code;
+    private UserService userService;
+    private Button codeButton;
+    private TextField code;
     public ResearcherSignUp1View(UserService userService) {
         this.userService = userService;
         add(menu);
-
         this.codeButton = new Button("send code");
         this.code = new TextField();
+        /*
+         this creates a simple text field and button for getting and sending verification codes
+         */
         code.setRequired(true);
         codeButton.addClickListener(e ->{
                     if(userService.getRepository().findByUsername(emailField.getValue())!=null) {
@@ -59,7 +64,6 @@ TextField code;
                         notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     }
                 }
-
         );
         init();
         this.setJustifyContentMode(JustifyContentMode.CENTER);
@@ -72,7 +76,9 @@ TextField code;
         add(mainLayout);
     }
 
-
+    /*
+          this sets up the submit button action listener. It checks all the input in the current page and store that in the user session
+          */
     private void submitButtonSetUp() {
         this.submitButton = new Button("Next", new Icon(VaadinIcon.ARROW_RIGHT));
         submitButton.setIconAfterText(true);
@@ -119,7 +125,9 @@ TextField code;
             }
         });
     }
-
+/*
+layout of the form
+ */
     private void formLayoutSetUp() {
         this.formLayout = new FormLayout();
         formLayout.add(

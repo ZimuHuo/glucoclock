@@ -23,6 +23,11 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
+/*
+This page is used for patient sign up part 1.
+It should store the essential information of the patient details.
+ */
+
 @PageTitle("Patient Sign Up")
 @Route(value = "patient-sign-up-1")
 public class PatientSignUp1View extends Div {
@@ -58,6 +63,24 @@ public class PatientSignUp1View extends Div {
 
 
     private void init() {
+        getVerification();
+
+        mainLayoutSetUp();
+        firstNameSetUp();
+        lastNameSetUp();
+        emailFieldSetUp();
+        passwordSetUp();
+        confirmPasswordSetUp();
+        submitButtonSetUp();
+        formLayoutSetUp();
+
+
+
+    }
+    /*
+    this creates a simple text field and button for getting and sending verification codes
+     */
+    private void getVerification() {
         this.codeButton = new Button("send code");
         this.code = new TextField();
         code.setRequired(true);
@@ -76,18 +99,6 @@ public class PatientSignUp1View extends Div {
                 }
 
         );
-
-        mainLayoutSetUp();
-        firstNameSetUp();
-        lastNameSetUp();
-        emailFieldSetUp();
-        passwordSetUp();
-        confirmPasswordSetUp();
-        submitButtonSetUp();
-        formLayoutSetUp();
-
-
-
     }
 
     private void mainLayoutSetUp() {

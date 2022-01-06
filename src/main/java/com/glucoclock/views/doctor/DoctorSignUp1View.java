@@ -21,31 +21,46 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
+/*
+This page is used for doctor sign up part 1.
+It should store the essential information of the doctor details.
+ */
 
 @PageTitle("Doctor Sign Up")
 @Route(value = "doctor-sign-up-1")
 public class DoctorSignUp1View extends HorizontalLayout {
-    TextField firstName;
-    TextField lastName;
-    EmailField emailField;
-    PasswordField password;
-    PasswordField confirmPassword;
-    FormLayout formLayout;
-    Button submitButton;
-    VerticalLayout mainLayout;
+    private TextField firstName;
+    private TextField lastName;
+    private EmailField emailField;
+    private PasswordField password;
+    private PasswordField confirmPassword;
+    private FormLayout formLayout;
+    private Button submitButton;
+    private VerticalLayout mainLayout;
     private MenuBar menu = new MenuBar("NS");
-private UserService userService;
+    private UserService userService;
     private H2 gap = new H2("  ");
     private H2 title = new H2("Set up your account");
-Button codeButton;
-TextField code;
+    private Button codeButton;
+    private TextField code;
     public DoctorSignUp1View(UserService userService) {
         this.userService = userService;
         add(menu);
+        getVerificationcode(userService);
+        init();
+        this.setJustifyContentMode(JustifyContentMode.CENTER);
+        mainLayout.add(gap);
+        mainLayout.add(title);
+        mainLayout.add(formLayout);
+        mainLayout.add(submitButton);
 
+        add(mainLayout);
+    }
 
-
-
+    /*
+    this creates a simple text field and button for getting and sending verification codes
+     */
+    private void getVerificationcode(UserService userService) {
         this.codeButton = new Button("send code");
         this.code = new TextField();
         code.setRequired(true);
@@ -62,24 +77,12 @@ TextField code;
                         notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     }
                 }
-
         );
-
-
-
-
-
-        init();
-        this.setJustifyContentMode(JustifyContentMode.CENTER);
-        mainLayout.add(gap);
-        mainLayout.add(title);
-        mainLayout.add(formLayout);
-        mainLayout.add(submitButton);
-
-        add(mainLayout);
     }
 
-
+    /*
+       this sets up the submit button action listener. It checks all the input in the current page and store that in the user session
+       */
     private void submitButtonSetUp() {
         this.submitButton = new Button("Next", new Icon(VaadinIcon.ARROW_RIGHT));
         submitButton.setIconAfterText(true);
@@ -116,14 +119,15 @@ TextField code;
                 VaadinSession.getCurrent().setAttribute( "LastName",lastName.getValue());
                 VaadinSession.getCurrent().setAttribute( "Email",emailField.getValue());
                 VaadinSession.getCurrent().setAttribute( "Password",password.getValue());
-
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(DoctorSignUp2View.class)
                 );
             }
         });
     }
-
+    /*
+       this sets up the main layout of the page
+        */
     private void formLayoutSetUp() {
         this.formLayout = new FormLayout();
         formLayout.add(
@@ -144,7 +148,6 @@ TextField code;
         formLayout.setColspan(password, 1);
         formLayout.setColspan(confirmPassword, 1);
     }
-
     private void init() {
         mainLayoutSetUp();
         firstNameSetUp();
