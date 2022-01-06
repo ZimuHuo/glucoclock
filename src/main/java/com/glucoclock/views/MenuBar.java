@@ -22,10 +22,12 @@ public class MenuBar extends AppLayout {
     private Icon cal = new Icon(VaadinIcon.CALENDAR_CLOCK);
     private Icon signout = new Icon(VaadinIcon.SIGN_OUT);
     private Icon noti = new Icon(VaadinIcon.ENVELOPES);
+    private Icon chart = new Icon(VaadinIcon.LINE_CHART);
     private Button history = new Button(cal);
     private Button settings = new Button(cog);
     private Button logout = new Button(signout);
     private Button notification = new Button(noti);
+    private Button viewChart = new Button(chart);
     private Image logo = new Image("/images/logo_dark.png","logo");
     private Button home = new Button(logo);
     private Icon q = new Icon(VaadinIcon.QUESTION_CIRCLE);
@@ -40,50 +42,28 @@ public class MenuBar extends AppLayout {
         VerticalLayout vlo = new VerticalLayout();
         HorizontalLayout hl2 = new HorizontalLayout();
 
-        cog.setSize("45px");
-        cog.setColor("white");
-        cal.setSize("45px");
-        cal.setColor("white");
-        noti.setSize("45px");
-        noti.setColor("white");
-        signout.setSize("45px");
-        signout.setColor("white");
-        q.setSize("45px");
-        q.setColor("white");
+        setStyles();
 
-        notification.setWidth("65px");
-        notification.setHeight("65px");
 
-        history.setWidth("65px");
-        history.setHeight("65px");
+        viewChart.addClickListener(e ->
+                viewChart.getUI().ifPresent(ui ->
+                        ui.navigate(PatientPlotView.class)
+                )
+        );
         history.addClickListener(e ->
                 history.getUI().ifPresent(ui ->
                         ui.navigate(HistoryView.class)
                 )
         );
-
-        qn.setHeight("65px");
-        qn.setWidth("65px");
         qn.addClickListener(e ->
                 qn.getUI().ifPresent(ui ->
                         ui.navigate(QuestionnaireView.class)
                 )
         );
-
-        settings.setWidth("65px");
-        settings.setHeight("65px");
+        logout.addClickListener(e -> securityService.logout());
 
 
-        logout.setWidth("65px");
-        logout.setHeight("65px");
-        logout.addClickListener(e ->
-                        securityService.logout()
-//                logout.getUI().ifPresent(ui ->
-//                        ui.navigate(HomeView.class)
-//                )
-        );
 
-        logo.setHeight("65px");
         home.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         if (pageType == "PNS"){
             home.addClickListener(e ->
@@ -118,7 +98,7 @@ public class MenuBar extends AppLayout {
         }
 
         if (pageType == "PStart"){
-            hl.add(notification,history,qn,settings,logout);
+            hl.add(notification,history,viewChart,qn,settings,logout);
             settings.addClickListener(e ->
                     settings.getUI().ifPresent(ui ->
                             ui.navigate(PatientSettings1View.class)
@@ -164,8 +144,6 @@ public class MenuBar extends AppLayout {
         vl.setHorizontalComponentAlignment(FlexComponent.Alignment.END,hl);
         vl.setPadding(false);
         hl2.add(vlo,vl);
-//        vl.add(home);
-//        vl.setHorizontalComponentAlignment(FlexComponent.Alignment.START,home);
 
 
         hl2.getStyle().set("height","70px")
@@ -176,6 +154,39 @@ public class MenuBar extends AppLayout {
 
         addToNavbar(hl2);
 
+    }
+
+    public void setStyles(){
+        //Logo
+        logo.setHeight("65px");
+
+        //Icons
+        cog.setSize("45px");
+        cog.setColor("white");
+        cal.setSize("45px");
+        cal.setColor("white");
+        noti.setSize("45px");
+        noti.setColor("white");
+        signout.setSize("45px");
+        signout.setColor("white");
+        q.setSize("45px");
+        q.setColor("white");
+        chart.setSize("45px");
+        chart.setColor("white");
+
+        //Buttons
+        viewChart.setWidth("65px");
+        viewChart.setHeight("65px");
+        notification.setWidth("65px");
+        notification.setHeight("65px");
+        qn.setHeight("65px");
+        qn.setWidth("65px");
+        settings.setWidth("65px");
+        settings.setHeight("65px");
+        logout.setWidth("65px");
+        logout.setHeight("65px");
+        history.setWidth("65px");
+        history.setHeight("65px");
     }
 
 

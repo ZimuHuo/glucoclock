@@ -84,13 +84,13 @@ public class IntensiveLogbookView extends Div {
         );
 
         formLayout.setColspan(timePicker, 1);
-        formLayout.setColspan(bloodGlucose, 1);
-        formLayout.setColspan(carbohydrateIntake, 1);
-        formLayout.setColspan(insulinDose, 1);
-        formLayout.setColspan(carbBolus, 1);
-        formLayout.setColspan(highBsBolus, 1);
-        formLayout.setColspan(basalRate, 1);
-        formLayout.setColspan(ketones, 1);
+        formLayout.setColspan(bloodGlucose,1 );
+        formLayout.setColspan(carbohydrateIntake,1 );
+        formLayout.setColspan(insulinDose,1 );
+        formLayout.setColspan(carbBolus,1 );
+        formLayout.setColspan(highBsBolus,1 );
+        formLayout.setColspan(basalRate,1 );
+        formLayout.setColspan(ketones,1);
         Button submitButton = new Button("Upload");
         submitButton.setWidth("30%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -174,22 +174,7 @@ public class IntensiveLogbookView extends Div {
         horizontalLayout.add(verticalLayout);
         horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         add(horizontalLayout);
-        timePicker.addValueChangeListener(e -> {
-            LocalTime localTime = timePicker.getValue();
-            LocalTime timefinder = LocalTime.of(localTime.getHour(), 00, 00);
-            if (intensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(),timefinder,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
-                Notification notification = Notification.show("You already entered value for this entry. You will override past data");
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            };
-        });
-        LocalTime localTime = timePicker.getValue();
-        LocalTime timefinder = LocalTime.of(localTime.getHour(), 00, 00);
-        if (intensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(),timefinder,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
-            Notification notification = Notification.show("You already entered value for this entry. You will override past data");
-            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        };
     }
-
 
     private void init() {
         this.timePicker = new TimePicker("Time");

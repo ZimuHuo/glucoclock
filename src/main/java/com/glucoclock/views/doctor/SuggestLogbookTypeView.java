@@ -28,7 +28,6 @@ public class SuggestLogbookTypeView extends Div {
     private Button confirm = new Button("Confirm");
     private MenuBar menu = new MenuBar("DNS");
 
-
     private final UserService userService;
     private final DoctorPatientService doctorpatientService;
     private final PatientService patientService;
@@ -47,7 +46,9 @@ public class SuggestLogbookTypeView extends Div {
 
         logbookSuggestion.setItems("Simple","Comprehensive","Intensive");
         String suggestedLb = patientService.getRepository().getPatientByUid((UUID) VaadinSession.getCurrent().getAttribute("PatientUID")).getLogbooktype();
-        logbookSuggestion.setValue(suggestedLb);
+        if(!suggestedLb.equals("N/A")){
+            logbookSuggestion.setValue(suggestedLb);
+        }
 
         confirm.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         confirm.addClickListener(e->{
