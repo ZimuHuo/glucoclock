@@ -39,7 +39,7 @@ public class HistoryView extends VerticalLayout {
     //UI components
     private MenuBar menu = new MenuBar("PNS");
     private H3 space = new H3("   ");
-    private H2 title = new H2("Data History");
+    private H3 title = new H3("Logbook Data History");
     private Icon download = new Icon(VaadinIcon.DOWNLOAD);
     private HorizontalLayout SearchPanel=new HorizontalLayout();
     //DataPicker

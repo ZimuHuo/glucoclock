@@ -37,7 +37,7 @@ public class PatientDataView extends VerticalLayout {
     //UI components
     private MenuBar menu = new MenuBar("DNS");
     private H3 space = new H3(" ");
-    private H2 title;
+    private H3 title;
     private Icon download = new Icon(VaadinIcon.DOWNLOAD);
     private HorizontalLayout SearchPanel=new HorizontalLayout();
     //DatePicker
@@ -62,7 +62,7 @@ public class PatientDataView extends VerticalLayout {
         //get patient id from session
         patientUid=(UUID)VaadinSession.getCurrent().getAttribute("PatientID");
         //set title
-        title= new H2((String)VaadinSession.getCurrent().getAttribute("PatientName")+"'s Logbook Data");
+        title= new H3((String)VaadinSession.getCurrent().getAttribute("PatientName")+"'s Logbook Data");
 
         configSearch();     //configuration of search panel->set search panel functionality
         setupShownData();   //put data into Arraylist HistoryDataShown
