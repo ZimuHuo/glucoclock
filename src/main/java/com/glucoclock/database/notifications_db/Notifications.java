@@ -137,7 +137,7 @@ public class Notifications implements Serializable {
 
     public Span buildStatusBadge(){
         Span statusBadge = new Span(status);
-        if (status == "Unresolved"){
+        if (status.equals("Unresolved")){
             statusBadge.getElement().getThemeList().add("badge error");
         }
         else{
