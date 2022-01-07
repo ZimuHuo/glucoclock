@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -35,6 +36,7 @@ public class PatientDataView extends VerticalLayout {
 
     //UI components
     private MenuBar menu = new MenuBar("DNS");
+    private H3 space = new H3(" ");
     private H2 title;
     private Icon download = new Icon(VaadinIcon.DOWNLOAD);
     private HorizontalLayout SearchPanel=new HorizontalLayout();
@@ -60,7 +62,7 @@ public class PatientDataView extends VerticalLayout {
         //get patient id from session
         patientUid=(UUID)VaadinSession.getCurrent().getAttribute("PatientID");
         //set title
-        title= new H2((String)VaadinSession.getCurrent().getAttribute("PatientName")+"'s History Data");
+        title= new H2((String)VaadinSession.getCurrent().getAttribute("PatientName")+"'s Logbook Data");
 
         configSearch();     //configuration of search panel->set search panel functionality
         setupShownData();   //put data into Arraylist HistoryDataShown
@@ -81,7 +83,7 @@ public class PatientDataView extends VerticalLayout {
         hl.setAlignItems(Alignment.BASELINE);
 
         //Final layout
-        add(
+        add(space,
                 hl,
                 SearchPanel,
                 Historylist);
