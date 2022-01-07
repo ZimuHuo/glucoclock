@@ -1,4 +1,4 @@
-package com.glucoclock.database.notifications_db;
+package com.glucoclock.database.notifications_db.model;
 
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.doctor.DoctorNotificationDetailsView;
@@ -137,7 +137,7 @@ public class Notifications implements Serializable {
 
     public Span buildStatusBadge(){
         Span statusBadge = new Span(status);
-        if (status == "Unresolved"){
+        if (status.equals("Unresolved")){
             statusBadge.getElement().getThemeList().add("badge error");
         }
         else{

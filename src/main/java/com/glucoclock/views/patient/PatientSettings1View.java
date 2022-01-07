@@ -88,10 +88,7 @@ public class PatientSettings1View extends HorizontalLayout {
 
 //        The uid of current user
         UUID uid = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid();
-
-
         init(patientService.getRepository().getPatientByUid(uid)); // initialize the components on the page
-
 
 //        Setting the layout of the page
         FormLayout formLayout = new FormLayout();

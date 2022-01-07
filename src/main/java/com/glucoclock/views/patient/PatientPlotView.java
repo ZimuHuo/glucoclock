@@ -17,10 +17,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.*;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -39,7 +36,7 @@ import java.util.UUID;
 @PageTitle("View Plots")
 @Route(value = "/patient/plots-view")
 public class PatientPlotView extends Div {
-    private H1 space = new H1("    ");
+    private H3 space = new H3("Display data in the selected month ");
     private final UserService userService;
     private final PatientService patientService;
     private final LogService logService;
@@ -68,6 +65,7 @@ public class PatientPlotView extends Div {
         patientUid=user.getUid();   //get patient uid
 
         add(space,createViewEvents(),menu);
+
     }
 
     private Component createViewEvents() {
@@ -79,12 +77,12 @@ public class PatientPlotView extends Div {
         XAxis xAxis = new XAxis();
         YAxis yAxis = new YAxis();
         HorizontalLayout header = createHeader("Past Blood Glucose Level", "units");
-        conf.getyAxis().setTitle("Values");
+        conf.getyAxis().setTitle("Glucose level mmol/L");
+        conf.getxAxis().setTitle("Day on the month");
         PlotOptionsArea plotOptions = new PlotOptionsArea();
         plotOptions.setPointPlacement(PointPlacement.ON);
         conf.addPlotOptions(plotOptions);
-
-        this.datePicker = new DatePicker("Display data in the selected month");
+        this.datePicker = new DatePicker();
         add(datePicker);
         datePicker.addValueChangeListener(date->{
             charDate=date.getValue();
@@ -94,7 +92,6 @@ public class PatientPlotView extends Div {
             List<Log> patientData= logService.findLogBooksBetweenDate(start,end,patientUid);
             double yval = 0;
             double xval = 0;
-            System.out.println("no data"+patientData.toString());
             plotButton.setEnabled(false);
             if(patientData.isEmpty()){
                 Notification.show("No Data");
@@ -102,26 +99,35 @@ public class PatientPlotView extends Div {
             else {
                 plotButton.setEnabled(true);
                 for(Log data: patientData){
+
                     int type = data.getLogbooktype();
-                    String time = String.valueOf(data.getTime());
+
+                    //type of logbook
                     if(type==1){
-                        SimpleLogBook simpleLogBook = simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,data.getTime(),data.getDate());
-                        yval = Double.valueOf(simpleLogBook.getBloodglucose());
-                        xval = (double)data.getDate().getDayOfMonth()+(double)1/6*data.getTime();
+                        List<SimpleLogBook> simpleLog=simpleLogBookService.findLogByDateAndPatientuid(data.getDate(),patientUid);
+                        for(SimpleLogBook simple:simpleLog) {
+                            yval = Double.valueOf(simple.getBloodglucose());
+                            xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * simple.getTime();
+                            series.add(new DataSeriesItem(xval, yval));
+                        }
 
                     }
                     if(type ==2){
-                        ComprehensiveLogBook comprehensiveLogBook = comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,data.getTime(),data.getDate());
-                        yval = Double.valueOf(comprehensiveLogBook.getBloodglucose());
-                        xval = (double)data.getDate().getDayOfMonth()+(double)1/6*data.getTime();
+                        List<ComprehensiveLogBook> compreLog = comprehensiveLogBookService.findLogByDateAndPatientuid(data.getDate(),patientUid);
+                        for(ComprehensiveLogBook compre:compreLog) {
+                            yval = Double.valueOf(compre.getBloodglucose());
+                            xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * compre.getTime();
+                            series.add(new DataSeriesItem(xval, yval));
+                        }
                     }
                     if (type ==3){
-                        LocalTime timefinder = LocalTime.of(data.getTime(), 00, 00);
-                        IntensiveLogBook intensiveLogBook = intensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,timefinder,data.getDate());
-                        yval = Double.valueOf(intensiveLogBook.getBloodglucose());
-                        xval = (double)data.getDate().getDayOfMonth()+(double)1/24*data.getTime();
+                        List<IntensiveLogBook> intenLog = intensiveLogBookService.findLogByDateAndPatientuid(data.getDate(),patientUid);
+                        for(IntensiveLogBook inten:intenLog) {
+                            yval = Double.valueOf(inten.getBloodglucose());
+                            xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 24 * inten.getTime().getHour();
+                            series.add(new DataSeriesItem(xval, yval));
+                        }
                     }
-                    series.add(new DataSeriesItem(xval, yval));
                 }
             }
         });

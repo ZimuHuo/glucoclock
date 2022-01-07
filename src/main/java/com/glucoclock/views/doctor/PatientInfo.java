@@ -1,9 +1,11 @@
 package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
+import com.glucoclock.database.patients_db.service.PatientService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -19,6 +21,7 @@ public class PatientInfo {
     private String suggestedLbType;
     private UUID uid;
     private final DoctorPatientService doctorPatientService;
+    private final PatientService patientService;
 
 
 //    public PatientInfo(String firstName, String lastName, String email) {
@@ -27,13 +30,14 @@ public class PatientInfo {
 //        this.email = email;
 //    }
 
-    public PatientInfo(String firstName, String lastName, String email, String suggestedLbType, UUID uid, DoctorPatientService doctorPatientService) {
+    public PatientInfo(String firstName, String lastName, String email, String suggestedLbType, UUID uid, DoctorPatientService doctorPatientService, PatientService patientService) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.suggestedLbType = suggestedLbType;
         this.uid = uid;
         this.doctorPatientService = doctorPatientService;
+        this.patientService = patientService;
     }
 
     @Override
@@ -85,7 +89,9 @@ public class PatientInfo {
 
     public Button buildEditLbTypeButton(){
         Icon e = new Icon(VaadinIcon.EDIT);
-        Button edit = new Button(e);
+        String lbType = patientService.getRepository().getPatientByUid(uid).getLogbooktype();
+        Button edit = new Button(lbType,e);
+        edit.setIconAfterText(true);
         edit.addClickListener(click->{
             VaadinSession.getCurrent().setAttribute("PatientUID", uid);
             edit.getUI().ifPresent(ui->ui.navigate(SuggestLogbookTypeView.class));
@@ -100,6 +106,7 @@ public class PatientInfo {
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         button.addClickListener(click->{
             VaadinSession.getCurrent().setAttribute("PatientID", uid);
+            VaadinSession.getCurrent().setAttribute("PatientName", firstName+" "+lastName);
             button.getUI().ifPresent(ui->ui.navigate(PatientDataView.class));
             Notification.show(firstName+lastName);
         });
@@ -107,15 +114,21 @@ public class PatientInfo {
     }
 
     public Button deletePatient(){
-        Button deletePatient = new Button("Delete");
-        deletePatient.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
-        deletePatient.addClickListener(click->{
+        Icon cross = new Icon(VaadinIcon.CLOSE_SMALL);
+        Button deletePatient = new Button(cross);
+        ConfirmDialog confirmRemoval = new ConfirmDialog();
+        confirmRemoval.setHeader("Confirm patient removal");
+        confirmRemoval.setText("Are you sure you'd like to remove "+firstName+" "+lastName+" from your patient list?");
+        confirmRemoval.setCancelable(true);
+        confirmRemoval.setConfirmText("Yes");
+        deletePatient.addClickListener(click->
+            confirmRemoval.open()
+        );
+        confirmRemoval.addConfirmListener(e->{
             doctorPatientService.deletePatient(uid);
-            Notification.show("Delete "+firstName+" "+lastName);
+            Notification.show("Removed"+firstName+" "+lastName+" from patient list");
+            UI.getCurrent().getPage().reload();});
 
-            UI.getCurrent().getPage().reload();
-
-        });
         return deletePatient;
     }
 

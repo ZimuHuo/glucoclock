@@ -73,4 +73,13 @@ public class DoctorPatientService {
         repository.delete(delete);
     }
 
+    //search patient
+    public boolean checkPatient(UUID patientuid){
+        boolean returncheck;
+        DoctorPatient check = getRepository().findByPatientuid(patientuid);
+        if (check==null) returncheck=false;
+        else returncheck=true;
+        return returncheck;
+    }
+
 }

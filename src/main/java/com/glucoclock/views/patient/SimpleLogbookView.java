@@ -4,11 +4,12 @@ import com.glucoclock.database.comprehensiveLogBook_db.service.ComprehensiveLogB
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
-import com.glucoclock.database.notifications_db.NotificationService;
-import com.glucoclock.database.notifications_db.Notifications;
+import com.glucoclock.database.notifications_db.service.NotificationService;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
 import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
+import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.Component;
@@ -27,9 +28,9 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.swing.text.StyledEditorKit;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -43,6 +44,8 @@ public class SimpleLogbookView extends Div {
     NumberField carbohydrate;
     Button submitButton = new Button("Upload");
     private MenuBar menu = new MenuBar("PNS");
+
+    private UUID patientUid;
 
     private final UserService userService;
     private final SimpleLogBookService simpleLogBookService;
@@ -62,6 +65,13 @@ public class SimpleLogbookView extends Div {
         this.logService = logService;
         this.comprehensiveLogBookService = comprehensiveLogBookService;
 
+        //get patient uid
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.getAuthorities();
+        String userName=authentication.getName();
+        System.out.print(authentication.getName()); // here it gets the username. absolutely fantastic
+        User user= this.userService.getRepository().findByUsername(userName); //return user
+        patientUid=user.getUid();   //get patient uid
 
         init();
         add(menu);
@@ -92,12 +102,11 @@ public class SimpleLogbookView extends Div {
                 else if (TimeString.equals("PostLunch")) time =4;
                 else if (TimeString.equals("PreDinner")) time =5;
                 else if (TimeString.equals("PostDinner")) time =6;
-                UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
                 Integer state = 0;
-                if (simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUID,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
+                if (simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
                     state = 1;
                 }
-                if(comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUID,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
+                if(comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
                     state = 2;
                 }
                 if(state == 1){
@@ -120,12 +129,12 @@ public class SimpleLogbookView extends Div {
                 else if (TimeString.equals("PostLunch")) time =4;
                 else if (TimeString.equals("PreDinner")) time =5;
                 else if (TimeString.equals("PostDinner")) time =6;
-                UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
+
                 Integer state = 0;
-                if (simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUID,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
+                if (simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
                     state = 1;
                 }
-                if(comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUID,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
+                if(comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
                     state = 2;
                 }
                 if(state == 1){
@@ -171,35 +180,35 @@ public class SimpleLogbookView extends Div {
                     } else {
                         //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
                         if (bloodGlucose.getValue() > 140) {
-//                    SendMail sendMail = new SendMail();
-//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
                             Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
 
+                            //if patient do not have a doctor don't send email
+                            if(doctorPatientService.checkPatient(patientUid)) {
+//                    SendMail sendMail = new SendMail();
+//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
 
 //                        Create and save a new notification
-                            UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
-                            Notifications n = new Notifications(
-                                    patientService,
-                                    patientUID,
-                                    doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
-                                    "Blood Glucose Alarm"
-                            );
-                            n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
-                            n.setCompleteMessage(
-                                    n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
-                                            "\n" +
-                                            "Date: " + n.getDate().toLocalDate() + "\n" +
-                                            "Time: " + n.getDate().toLocalTime() + "\n" +
-                                            "Blood glucose level: " + bloodGlucose.getValue() + " units."
-                            );
-                            notificationService.getRepository().save(n);
-
+                                Notifications n = new Notifications(
+                                        patientService,
+                                        patientUid,
+                                        doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid
+                                        "Blood Glucose Alarm"
+                                );
+                                n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
+                                n.setCompleteMessage(
+                                        n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
+                                                "\n" +
+                                                "Date: " + n.getDate().toLocalDate() + "\n" +
+                                                "Time: " + n.getDate().toLocalTime() + "\n" +
+                                                "Blood glucose level: " + bloodGlucose.getValue() + " units."
+                                );
+                                notificationService.getRepository().save(n);
+                            }
 
                         }
                         //save to database
-                        UUID uid = userService.getRepository().findAll().get(0).getUid();
                         SimpleLogBook simpleLogBook = new SimpleLogBook(
-                                uid,
+                                patientUid,
                                 (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
                                 prepost.getValue() + meal.getValue(),
                                 bloodGlucose.getValue().toString(),
@@ -216,8 +225,10 @@ public class SimpleLogbookView extends Div {
                         else if (TimeString.equals("PostDinner")) time = 6;
 
                         simpleLogBookService.getRepository().save(simpleLogBook);
-                        Log log = new Log(uid, (LocalDate) VaadinSession.getCurrent().getAttribute("date"), 1, time);
-                        logService.getRepository().save(log);
+                        if(logService.findLogBookbyDate((LocalDate) VaadinSession.getCurrent().getAttribute("date"),patientUid)==null) {
+                            Log log = new Log(patientUid, (LocalDate) VaadinSession.getCurrent().getAttribute("date"), 1);
+                            logService.getRepository().save(log);
+                        }
                         //Navigation
                         submitButton.getUI().ifPresent(ui ->
                                 ui.navigate(ConfirmationView.class)

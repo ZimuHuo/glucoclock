@@ -1,5 +1,6 @@
-package com.glucoclock.database.questionnaire_db;
+package com.glucoclock.database.questionnaire_db.repository;
 
+import com.glucoclock.database.questionnaire_db.model.Questionnaire;
 import org.springframework.data.repository.CrudRepository;
 
 

@@ -1,4 +1,4 @@
-package com.glucoclock.database.questionnaire_db;
+package com.glucoclock.database.questionnaire_db.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
