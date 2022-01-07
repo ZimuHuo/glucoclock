@@ -13,7 +13,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @PageTitle("Change Password")
@@ -91,6 +93,10 @@ public class ResearcherSettings2View extends HorizontalLayout{
                     User user = userService.getRepository().findByUsername(authentication.getName());
                     if(user.checkPassword(oldPassword.getValue())){
                         userService.updateUserPassword(authentication.getName(),newPassword.getValue());
+                        userService.updateUserPassword(authentication.getName(),newPassword.getValue());
+                        authentication = new UsernamePasswordAuthenticationToken( user.getUsername(), newPassword.getValue(),
+                                AuthorityUtils.createAuthorityList("RESEARCHER"));
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
                         confirmButton.getUI().ifPresent(ui ->{
                             ui.navigate(ResearcherSettings1View.class);
                         });
