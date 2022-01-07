@@ -45,7 +45,11 @@ public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBo
 
 
 
-    public IntensiveLogBook(UUID PatientUid, LocalDate Date, LocalTime Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons) {
+    public IntensiveLogBook(UUID PatientUid, LocalDate Date,
+                            LocalTime Time, String BloodGlucose,
+                            String CarbIntake, String InsulinDose,
+                            String CarbBolus, String HighBSBolus,
+                            String BasalRate, String Ketons) {
 
         patientuid = PatientUid;
         date = Date;

@@ -1,5 +1,6 @@
 package com.glucoclock.database.notifications_db;
 
+import com.glucoclock.database.patients_db.service.PatientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Bean;
@@ -14,20 +15,8 @@ class NotificationsTest {
     private Notifications n = new Notifications();
     LocalDateTime now = LocalDateTime.now();
 
-    @BeforeEach
-    void createNotificationsTest(){
-        n.setCompleteMessage("ccc");
-        n.setShortMessage("sss");
-        n.setReplymessage("rrr");
-        n.setStatus("s");
-        n.setDate(now);
-        n.setPatientFirstName("fn");
-        n.setPatientLastName("ln");
-        n.setRequestType("1");
 
-    }
-
-
+/*
     @Test
     void getPatientFirstName() {
         assertEquals("fn",n.getPatientFirstName());
@@ -67,4 +56,58 @@ class NotificationsTest {
     void getReplymessage() {
         assertEquals("rrr",n.getReplymessage());
     }
+
+
+ */
+
+
+    @Test
+    void setPatientFirstName() {
+        n.setPatientFirstName("fn");
+        assertEquals("fn",n.getPatientFirstName());
+    }
+
+    @Test
+    void setPatientLastName() {
+        n.setPatientLastName("ln");
+        assertEquals("ln",n.getPatientLastName());
+    }
+
+    @Test
+    void setDate() {
+        n.setDate(now);
+        assertEquals(now,n.getDate());
+    }
+
+    @Test
+    void setRequestType() {
+        n.setRequestType("1");
+        assertEquals("1",n.getRequestType());
+    }
+
+    @Test
+    void setStatus() {
+        n.setStatus("s");
+        assertEquals("s",n.getStatus());
+    }
+
+    @Test
+    void setShortMessage() {
+        n.setShortMessage("sss");
+        assertEquals("sss",n.getShortMessage());
+    }
+
+    @Test
+    void setCompleteMessage() {
+        n.setCompleteMessage("ccc");
+        assertEquals("ccc",n.getCompleteMessage());
+    }
+
+    @Test
+    void setReplymessage() {
+        n.setReplymessage("rrr");
+        assertEquals("rrr",n.getReplymessage());
+    }
+
+
 }

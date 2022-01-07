@@ -10,23 +10,15 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SimpleLogBookTest {
-    private SimpleLogBook s = new SimpleLogBook();
     UUID uid = UUID.randomUUID();
+    private SimpleLogBook s = new SimpleLogBook(uid,
+            LocalDate.of(2000,1,1),
+            "66",
+            "100",
+            "101");
 
-    @BeforeEach
-    void createSimpleLogBook() {
-        s.setBloodglucose("123");
-        s.setCarbintake("120");
-        s.setTime(1);
-        s.setId(1L);
-        s.setPatientuid(uid);
-        s.setDate(LocalDate.now());
-    }
 
-    @Test
-    void getId() {
-        assertEquals(1L,s.getId());
-    }
+
 
     @Test
     void getPatientuid() {
@@ -35,22 +27,47 @@ class SimpleLogBookTest {
 
     @Test
     void getDate() {
-        assertEquals(LocalDate.now(),s.getDate());
-    }
-
-    @Test
-    void getTime() {
-        assertEquals(1,s.getTime());
+        assertEquals(LocalDate.of(2000,1,1),s.getDate());
     }
 
     @Test
     void getBloodglucose() {
-        assertEquals("123",s.getBloodglucose());
+        assertEquals("100",s.getBloodglucose());
     }
 
     @Test
     void getCarbintake() {
-        assertEquals("120",s.getCarbintake());
+        assertEquals("101",s.getCarbintake());
+    }
+
+    @Test
+    void setId() {
+        s.setId(1L);assertEquals(1L,s.getId());
+    }
+
+    @Test
+    void setPatientuid() {
+        s.setPatientuid(uid);assertEquals(uid,s.getPatientuid());
+    }
+
+    @Test
+    void setDate() {
+        s.setDate(LocalDate.now());assertEquals(LocalDate.now(),s.getDate());
+    }
+
+    @Test
+    void setTime() {
+        s.setTime(1);assertEquals(1,s.getTime());
+    }
+
+    @Test
+    void setBloodglucose() {
+        s.setBloodglucose("123");assertEquals("123",s.getBloodglucose());
+    }
+
+    @Test
+    void setCarbintake() {
+        s.setCarbintake("120");assertEquals("120",s.getCarbintake());
     }
 
 

@@ -11,31 +11,31 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class IntensiveLogBookTest {
-    private IntensiveLogBook i = new IntensiveLogBook();
     UUID uid = UUID.randomUUID();
+    private IntensiveLogBook i = new IntensiveLogBook(uid,
+            LocalDate.of(2022,1,1),
+            LocalTime.of(10,00,00),
+            "1","1","1","1","1","1","1"
+            );
 
-    @BeforeEach
-    void createIntensiveLogBook(){
-        i.setBasalrate("1");
-        i.setBloodglucose("123");
-        i.setCarbbolus("1");
-        i.setCarbintake("120");
-        i.setInsulindose("1");
-        i.setHighbsbolus("200");
-        i.setKetons("1");
-        i.setDate(LocalDate.of(2022,1,1));
-        i.setId(1L);
-        i.setPatientuid(uid);
-        i.setTime(LocalTime.of(10,00,00));
-    }
+
 
     @Test
     void getCarbbolus() {
         assertEquals("1",i.getCarbbolus());
     }
-
+    @Test
+    void setCarbbolus() {
+        i.setCarbbolus("2");
+        assertEquals("2",i.getCarbbolus());
+    }
     @Test
     void getHighbsbolus() {
+        assertEquals("1",i.getHighbsbolus());
+    }
+    @Test
+    void setHighbsbolus() {
+        i.setHighbsbolus("200");
         assertEquals("200",i.getHighbsbolus());
     }
 
@@ -43,19 +43,30 @@ class IntensiveLogBookTest {
     void getBasalrate() {
         assertEquals("1",i.getBasalrate());
     }
+    @Test
+    void setBasalrate() {
+        i.setBasalrate("2");
+        assertEquals("2",i.getBasalrate());
+    }
 
     @Test
     void getKetons() {
         assertEquals("1",i.getKetons());
     }
-
     @Test
-    void getInsulindose() {
-        assertEquals("1",i.getInsulindose());
+    void setKetons() {
+        i.setKetons("2");
+        assertEquals("2",i.getKetons());
+    }
+    @Test
+    void setInsulindose() {
+        i.setInsulindose("2");
+        assertEquals("2",i.getInsulindose());
     }
 
     @Test
-    void getId() {
+    void setId() {
+        i.setId(1L);
         assertEquals(1L,i.getId());
     }
 
@@ -68,19 +79,38 @@ class IntensiveLogBookTest {
     void getDate() {
         assertEquals(LocalDate.of(2022,1,1),i.getDate());
     }
+    @Test
+    void setDate() {
+        i.setDate(LocalDate.of(2001,1,1));
+        assertEquals(LocalDate.of(2001,1,1),i.getDate());
+    }
 
     @Test
     void getTime() {
         assertEquals(LocalTime.of(10,00,00),i.getTime());
     }
-
+    @Test
+    void setTime() {
+        i.setTime(LocalTime.of(11,00,00));
+        assertEquals(LocalTime.of(11,00,00),i.getTime());
+    }
     @Test
     void getBloodglucose() {
-        assertEquals("123",i.getBloodglucose());
+        assertEquals("1",i.getBloodglucose());
+    }
+    @Test
+    void setBloodglucose() {
+        i.setBloodglucose("2");
+        assertEquals("2",i.getBloodglucose());
     }
 
     @Test
     void getCarbintake() {
-        assertEquals("120",i.getCarbintake());
+        assertEquals("1",i.getCarbintake());
+    }
+    @Test
+    void setCarbintake() {
+        i.setCarbintake("2");
+        assertEquals("2",i.getCarbintake());
     }
 }

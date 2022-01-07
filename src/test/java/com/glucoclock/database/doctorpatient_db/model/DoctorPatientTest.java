@@ -8,22 +8,31 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DoctorPatientTest {
-    private DoctorPatient dp = new DoctorPatient();
     UUID Doctoruid = UUID.randomUUID();
     UUID Patientuid = UUID.randomUUID();
+    UUID Doctoruid2 = UUID.randomUUID();
+    UUID Patientuid2 = UUID.randomUUID();
+    private DoctorPatient dp = new DoctorPatient(Patientuid,Doctoruid);
 
-    @BeforeEach
-    void createDP () {
-        dp.setDoctoruid(Doctoruid);
-        dp.setPatientuid(Patientuid);
-    }
+
+
     @Test
     void getPatientuid() {
         assertEquals(Patientuid,dp.getPatientuid());
+    }
+    @Test
+    void setPatientuid() {
+        dp.setPatientuid(Patientuid2);
+        assertEquals(Patientuid2,dp.getPatientuid());
     }
 
     @Test
     void getDoctoruid() {
         assertEquals(Doctoruid,dp.getDoctoruid());
+    }
+    @Test
+    void setDoctoruid() {
+        dp.setDoctoruid(Doctoruid2);
+        assertEquals(Doctoruid2,dp.getDoctoruid());
     }
 }
