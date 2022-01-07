@@ -104,6 +104,7 @@ public class PatientSettings2View extends HorizontalLayout{
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                         confirmButton.getUI().ifPresent(ui ->{
                             ui.navigate(PatientSettings1View.class);
+
                         });
 
                     }else{
