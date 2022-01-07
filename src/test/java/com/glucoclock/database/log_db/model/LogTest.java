@@ -17,14 +17,16 @@ class LogTest {
         l.setDate(LocalDate.of(2022,1,1));
         l.setLogbooktype(1);
         l.setId(1L);
-        l.setTime(1);
+        //l.setTime(1);
         l.setPatientuid(uid);
     }
-
+/*
     @Test
     void getTime() {
         assertEquals(1,l.getTime());
     }
+
+ */
 
     @Test
     void getId() {
