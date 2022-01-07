@@ -98,6 +98,7 @@ public class HistoryView extends VerticalLayout {
 
 
     private void configSearch() {
+        SelectbyHand.setMax(LocalDate.now());
         SearchPanel.add(SelectbyHand,ViewData);
         SearchPanel.setAlignItems(Alignment.BASELINE);
         //get date

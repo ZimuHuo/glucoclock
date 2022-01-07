@@ -58,6 +58,7 @@ public class PatientStartView extends VerticalLayout{
         Locale finnishLocale = new Locale("fi", "FI");
         datePicker.setLocale(finnishLocale);
         datePicker.setValue(LocalDate.now(ZoneId.systemDefault()));
+        datePicker.setMax(LocalDate.now());
 
         update = new Icon(VaadinIcon.UPLOAD);
         update.setSize("15%");
