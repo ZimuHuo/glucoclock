@@ -1,14 +1,20 @@
 package com.glucoclock.views.researcher;
 
+import com.glucoclock.security.db.User;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @PageTitle("Change Password")
 @Route(value = "researcher/change-password")
@@ -19,8 +25,9 @@ public class ResearcherSettings2View extends HorizontalLayout{
     Button confirmButton, cancelButton;
     VerticalLayout mainLayout;
     private MenuBar menu = new MenuBar("RNS");
-
-    public ResearcherSettings2View() {
+    private final UserService userService;
+    public ResearcherSettings2View(UserService userService) {
+        this.userService = userService;
         init();
         add(menu);
         setJustifyContentMode(JustifyContentMode.CENTER);
@@ -80,8 +87,19 @@ public class ResearcherSettings2View extends HorizontalLayout{
         confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         confirmButton.getElement().getStyle().set("margin-left", "auto");
         confirmButton.addClickListener(e ->
-                confirmButton.getUI().ifPresent(ui ->
-                        ui.navigate(ResearcherSettings1View.class)
+                confirmButton.getUI().ifPresent(ui ->{
+                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                    User user = userService.getRepository().findByUsername(authentication.getName());
+                    if(user.checkPassword(oldPassword.getValue())){
+                        userService.updateUserPassword(authentication.getName(),newPassword.getValue());
+                        ui.navigate(ResearcherSettings1View.class);
+                    }else{
+                        Notification notification = Notification.show("Wrong password");
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    }
+                        }
+
+
                 )
         );
     }
