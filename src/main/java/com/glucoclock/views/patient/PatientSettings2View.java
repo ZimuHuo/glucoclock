@@ -6,6 +6,7 @@ import com.glucoclock.views.MenuBar;
 import com.glucoclock.views.researcher.ResearcherSettings1View;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -25,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class PatientSettings2View extends HorizontalLayout{
 
+    private H1 space = new H1("  ");
     PasswordField oldPassword, newPassword, confirmPassword;
     Button confirmButton, cancelButton;
     VerticalLayout mainLayout;
@@ -39,7 +41,7 @@ public class PatientSettings2View extends HorizontalLayout{
         init();
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        mainLayout.add(
+        mainLayout.add(space,
             new H2("Change password"),
             oldPassword,
             newPassword,

@@ -17,6 +17,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -133,7 +134,7 @@ public class PatientDownloadView extends VerticalLayout {
 
         //Layout
         HorizontalLayout StartEndDate=new HorizontalLayout(PrintStartDate,PrintEndDate);
-        VerticalLayout downLoadpage_layout=new VerticalLayout(new H2("Download Data"),StartEndDate, buttonWrapper);
+        VerticalLayout downLoadpage_layout=new VerticalLayout(new H3("Download Logbook Data"),StartEndDate, buttonWrapper);
         downLoadpage_layout.setAlignItems(FlexComponent.Alignment.CENTER);
         add(downLoadpage_layout);
     }

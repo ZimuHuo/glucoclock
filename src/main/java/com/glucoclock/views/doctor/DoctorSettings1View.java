@@ -8,6 +8,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -42,11 +43,12 @@ public class DoctorSettings1View extends HorizontalLayout {
     String Gender;
 
     //    All Components on the page
+    private H1 space = new H1(" ");
     TextField firstName, lastName, homeAddressL1, homeAddressL2, postcode, cityField, contactNumber;
     DatePicker birthSelect;
     EmailField emailField;
     Select<String> genderSelect;
-    Button changeSetting, save, cancel, changePassword, toHome;
+    Button changeSetting, save, cancel, changePassword;
     VerticalLayout mainLayout;
     HorizontalLayout buttons;
     private MenuBar menu = new MenuBar("DNS");
@@ -92,13 +94,13 @@ public class DoctorSettings1View extends HorizontalLayout {
 
         buttons.add(changePassword, changeSetting, save, cancel);
 
-        mainLayout.add(
+        mainLayout.add(space,
                 new H2("Settings"),
                 buttons,
                 formLayout,
                 postcode,
-                cityField,
-                toHome
+                cityField
+                //toHome
         );
 
         add(
@@ -137,7 +139,7 @@ public class DoctorSettings1View extends HorizontalLayout {
         saveInit(doctor.getUID());
         cancelInit();
         changePasswordInit();
-        toHomeSetUp();
+        //toHomeSetUp();
     }
 
 //    Each of following methods initialize one component
@@ -355,16 +357,16 @@ public class DoctorSettings1View extends HorizontalLayout {
         );
     }
 
-    private void toHomeSetUp() {
-        toHome = new Button("OK");
-        toHome.getElement().getStyle().set("margin-left", "auto");
-        toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        toHome.addClickListener(e -> {
-            toHome.getUI().ifPresent(ui ->
-                    ui.navigate(DoctorStartView.class)
-            );
-        });
-    }
+//    private void toHomeSetUp() {
+//        toHome = new Button("OK");
+//        toHome.getElement().getStyle().set("margin-left", "auto");
+//        toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+//        toHome.addClickListener(e -> {
+//            toHome.getUI().ifPresent(ui ->
+//                    ui.navigate(DoctorStartView.class)
+//            );
+//        });
+//    }
 
 
     //    Set all the components on the page to be read-only or not

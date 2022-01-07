@@ -15,6 +15,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -42,7 +43,7 @@ public class PatientDataDownloadView extends VerticalLayout {
     private DatePicker PrintStartDate = new DatePicker("Select start date:"); //calendar to choose start date
     private DatePicker PrintEndDate = new DatePicker("Select end date:"); //calendar to choose end date
     //Export Buttons, can export plot or export data
-    private Button ExportPlot=new Button("Export Plot");
+    //private Button ExportPlot=new Button("Export Plot");
     private Button ExportData=new Button("Export Data");
 
     private LocalDate StartDate=LocalDate.now().minusDays(4);
@@ -93,14 +94,14 @@ public class PatientDataDownloadView extends VerticalLayout {
         PrintStartDate.addValueChangeListener(e-> PrintEndDate.setMin(e.getValue()));
         PrintEndDate.addValueChangeListener(e-> EndDate=PrintEndDate.getValue());
 
-        //export buttons set up
-        ExportPlot.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
-        ExportData.addThemeVariants(ButtonVariant.LUMO_PRIMARY,ButtonVariant.LUMO_CONTRAST);
-
-        //Export Plot
-        ExportPlot.addClickListener(click->{
-            Notification.show("Download Plot form "+PrintStartDate.getValue()+" to "+PrintEndDate.getValue());
-        });
+//        //export buttons set up
+//        ExportPlot.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+        ExportData.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+//
+//        //Export Plot
+//        ExportPlot.addClickListener(click->{
+//            Notification.show("Download Plot form "+PrintStartDate.getValue()+" to "+PrintEndDate.getValue());
+//        });
 
         // Export Data
         //set up the button wrapper function
@@ -126,7 +127,7 @@ public class PatientDataDownloadView extends VerticalLayout {
 
         //Layout
         HorizontalLayout StartEndDate=new HorizontalLayout(PrintStartDate,PrintEndDate);
-        VerticalLayout downLoadpage_layout=new VerticalLayout(new H2("Download"),StartEndDate,ExportPlot, buttonWrapper);
+        VerticalLayout downLoadpage_layout=new VerticalLayout(new H3("Download "+patientService.getRepository().getPatientByUid(patientUid).getFirstName()+" "+patientService.getRepository().getPatientByUid(patientUid).getLastName()+"'s Logbook Data"),StartEndDate, buttonWrapper);
         downLoadpage_layout.setAlignItems(FlexComponent.Alignment.CENTER);
         add(downLoadpage_layout);
     }

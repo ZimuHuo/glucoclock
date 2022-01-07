@@ -5,6 +5,7 @@ import com.glucoclock.views.HomeView;
 import com.glucoclock.views.SignUpView;
 import com.glucoclock.views.doctor.DoctorSignUp1View;
 import com.glucoclock.views.doctor.DoctorSignUp2View;
+import com.glucoclock.views.getPassword;
 import com.glucoclock.views.patient.PatientSignUp1View;
 import com.glucoclock.views.patient.PatientSignUp2View;
 import com.glucoclock.views.patient.PatientSignUp3View;
@@ -68,6 +69,9 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
             }
             else if (ResearcherSignUp2View.class.equals(event.getNavigationTarget())){
                 event.forwardTo(ResearcherSignUp2View.class);
+            }
+            else if (getPassword.class.equals(event.getNavigationTarget())){
+                event.forwardTo(getPassword.class);
             }
             else if (AccessDenialView.class.equals(event.getNavigationTarget())){
                 event.forwardTo(AccessDenialView.class);

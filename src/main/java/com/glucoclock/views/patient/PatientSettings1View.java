@@ -12,6 +12,7 @@ import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -35,51 +36,44 @@ public class PatientSettings1View extends HorizontalLayout {
 
 
     //     All variables
-    String FName;
-    String LName;
-    String Email;
-    String AddressL1;
-    String AddressL2;
-    String PostCode;
-    String City;
-    String Phone;
-    LocalDate Birth;
-    String Gender;
-    String Diabetes;
-    boolean rapidInsulin, shortInsulin, intermediateInsulin, longInsulin;;
-    String injection;
-
-
-
+    private String FName;
+    private String LName;
+    private String Email;
+    private String AddressL1;
+    private String AddressL2;
+    private String PostCode;
+    private String City;
+    private String Phone;
+    private LocalDate Birth;
+    private String Gender;
+    private String Diabetes;
+    private boolean rapidInsulin, shortInsulin, intermediateInsulin, longInsulin;;
+    private String injection;
 
 //    All Components on the page
-    TextField firstName;
-    TextField lastName;
-    DatePicker datePicker;
-    EmailField emailField;
-    TextField homeAddressL1;
-    TextField homeAddressL2;
-    TextField postcode;
-    TextField cityField;
-    TextField contactNumber;
-    Select<String> genderSelect;
-    Select<String> diabetesSelect;
-    Select<String> injectionSelect;
-    CheckboxGroup<String> insulinSelect;
+    private H1 space = new H1("  ");
+    private TextField firstName;
+    private TextField lastName;
+    private DatePicker datePicker;
+    private EmailField emailField;
+    private TextField homeAddressL1;
+    private TextField homeAddressL2;
+    private TextField postcode;
+    private TextField cityField;
+    private TextField contactNumber;
+    private Select<String> genderSelect;
+    private Select<String> diabetesSelect;
+    private Select<String> injectionSelect;
+    private CheckboxGroup<String> insulinSelect;
 
-    Button changeSetting, save, cancel, changePassword, toHome;
+    private Button changeSetting, save, cancel, changePassword;
     private MenuBar menu = new MenuBar("PNS");
 
-
-
-    VerticalLayout MainLayout = new VerticalLayout();
-    HorizontalLayout Buttons = new HorizontalLayout();
+    private VerticalLayout MainLayout = new VerticalLayout();
+    private HorizontalLayout Buttons = new HorizontalLayout();
 
     private final PatientService patientService;
     private final UserService userService;
-
-
-
 
     public PatientSettings1View(UserService userService, PatientService patientService) {
 
@@ -115,7 +109,7 @@ public class PatientSettings1View extends HorizontalLayout {
         formLayout.setColspan(genderSelect,1 );
 
         Buttons.setWidth(MainLayout.getWidth());
-        Buttons.add(changePassword, changeSetting, save, cancel);
+        Buttons.add(changePassword,changeSetting, save, cancel);
 
 
 
@@ -129,14 +123,15 @@ public class PatientSettings1View extends HorizontalLayout {
 
 
         MainLayout.add(
+                space,
                 new H2("Settings"),
                 Buttons,
                 formLayout,
                 postcode, cityField,
                 diabetesSelect,
                 insulinSelect,
-                injectionSelect,
-                toHome
+                injectionSelect
+                //toHome
                 //button // ← button for testing
         );
         MainLayout.setMaxWidth("600px");
@@ -150,12 +145,7 @@ public class PatientSettings1View extends HorizontalLayout {
 //        set all components in the middle of the page (horizontally)
         setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
 
-
     }
-
-
-
-
 
 
 //  Initialize the elements in the page
@@ -198,7 +188,7 @@ public class PatientSettings1View extends HorizontalLayout {
         saveSetUp(patient.getUid());
         cancelSetUp();
         changePasswordSetUp();
-        toHomeSetUp();
+        //toHomeSetUp();
 
     }
 
@@ -492,17 +482,17 @@ public class PatientSettings1View extends HorizontalLayout {
         );
     }
 
-//    Button to go back to home page
-    private void toHomeSetUp() {
-        toHome = new Button("OK");
-        toHome.getElement().getStyle().set("margin-left", "auto");
-        toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        toHome.addClickListener(e -> {
-            toHome.getUI().ifPresent(ui ->
-                    ui.navigate(PatientStartView.class)
-            );
-        });
-    }
+////    Button to go back to home page
+//    private void toHomeSetUp() {
+//        toHome = new Button("OK");
+//        toHome.getElement().getStyle().set("margin-left", "auto");
+//        toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+//        toHome.addClickListener(e -> {
+//            toHome.getUI().ifPresent(ui ->
+//                    ui.navigate(PatientStartView.class)
+//            );
+//        });
+//    }
 
 
 //    Set all the components on the page to be read-only or not
@@ -520,6 +510,6 @@ public class PatientSettings1View extends HorizontalLayout {
         diabetesSelect.setReadOnly(Boolean);
         insulinSelect.setReadOnly(Boolean);
         injectionSelect.setReadOnly(Boolean);
-        toHome.setEnabled(Boolean);
+//        toHome.setEnabled(Boolean);
     }
 }
