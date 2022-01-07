@@ -86,21 +86,20 @@ public class ResearcherSettings2View extends HorizontalLayout{
         confirmButton = new Button("Confirm");
         confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         confirmButton.getElement().getStyle().set("margin-left", "auto");
-        confirmButton.addClickListener(e ->
-                confirmButton.getUI().ifPresent(ui ->{
+        confirmButton.addClickListener(e -> {
                     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                     User user = userService.getRepository().findByUsername(authentication.getName());
                     if(user.checkPassword(oldPassword.getValue())){
                         userService.updateUserPassword(authentication.getName(),newPassword.getValue());
-                        ui.navigate(ResearcherSettings1View.class);
+                        confirmButton.getUI().ifPresent(ui ->{
+                            ui.navigate(ResearcherSettings1View.class);
+                        });
+
                     }else{
                         Notification notification = Notification.show("Wrong password");
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     }
-                        }
-
-
-                )
+                }
         );
     }
 
