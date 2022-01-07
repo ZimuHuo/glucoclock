@@ -135,8 +135,8 @@ public class DoctorStartView extends VerticalLayout {
         lastNameColumn = grid.addColumn(PatientInfo::getLastName, "LastName").setHeader("Last Name").setWidth("17%").setFlexGrow(0);
         emailColumn = grid.addColumn(PatientInfo::getEmail, "Email").setHeader("Email").setWidth("28%").setFlexGrow(0);
         logbookColumn = grid.addComponentColumn(PatientInfo::buildEditLbTypeButton).setHeader("Suggested Logbook Type").setWidth("18%").setFlexGrow(0);
-        buttonColumn = grid.addComponentColumn(PatientInfo::buildViewButton).setWidth("14%").setFlexGrow(0);
-        buttonDelete = grid.addComponentColumn(PatientInfo::deletePatient).setWidth("14%").setFlexGrow(0);
+        buttonColumn = grid.addComponentColumn(PatientInfo::buildViewButton).setWidth("11%").setFlexGrow(0);
+        buttonDelete = grid.addComponentColumn(PatientInfo::deletePatient).setWidth("6%").setFlexGrow(0);
     }
 
 
