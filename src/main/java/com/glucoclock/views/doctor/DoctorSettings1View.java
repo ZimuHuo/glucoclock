@@ -8,6 +8,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -42,6 +43,7 @@ public class DoctorSettings1View extends HorizontalLayout {
     String Gender;
 
     //    All Components on the page
+    private H1 space = new H1(" ");
     TextField firstName, lastName, homeAddressL1, homeAddressL2, postcode, cityField, contactNumber;
     DatePicker birthSelect;
     EmailField emailField;
@@ -92,7 +94,7 @@ public class DoctorSettings1View extends HorizontalLayout {
 
         buttons.add(changePassword, changeSetting, save, cancel);
 
-        mainLayout.add(
+        mainLayout.add(space,
                 new H2("Settings"),
                 buttons,
                 formLayout,
