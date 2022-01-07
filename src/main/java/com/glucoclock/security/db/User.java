@@ -43,7 +43,10 @@ public class User implements Serializable {
 
 
     }
-
+    public boolean checkPassword(String oldpassword){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.matches(oldpassword,password);
+    }
     public UUID getUid() {
         return uid;
     }

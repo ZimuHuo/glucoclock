@@ -12,11 +12,13 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
@@ -73,20 +75,31 @@ public class QuestionnaireView extends Div {
 
 //                    Create and save a new notification
                     UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
+
                     Notifications n = new Notifications(
                             patientService,
                             patientUID,
                             doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
                             "Questionnaire"
                     );
-                    n.setShortMessage(symptoms.getSelectedItems().toString().substring(0,20));
-                    n.setCompleteMessage(
+
+                    String selectedSymptoms = symptoms.getSelectedItems().toString();
+                    int length = selectedSymptoms.length();
+
+//                    Add selected symptoms to the message
+                    String completeMsg =
                             n.getPatientFirstName() +" "+ n.getPatientLastName() +" has submitted a questionnaire.\n" +
-                                    "\n" +
-                                    "Date: " + n.getDate().toLocalDate() + "\n" +
-                                    "Time: " + n.getDate().toLocalTime() + "\n" +
-                                    "Symptoms: " + symptoms.getSelectedItems().toString()
-                    );
+                            "\n" +
+                            "Date: " + n.getDate().toLocalDate() + "\n" +
+                            "Time: " + n.getDate().toLocalTime() + "\n" +
+                            "Symptoms: " + selectedSymptoms.substring(1, length - 1);
+
+//                    Add other symptoms if entered
+                    if (!otherSymptoms.isEmpty())
+                        completeMsg = completeMsg + " ," + otherSymptoms.getValue();
+
+                    n.setShortMessage(symptoms.getSelectedItems().toString().substring(0,20));
+                    n.setCompleteMessage(completeMsg);
                     notificationService.getRepository().save(n);
 
 
