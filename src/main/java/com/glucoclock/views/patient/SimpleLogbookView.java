@@ -181,28 +181,30 @@ public class SimpleLogbookView extends Div {
                     } else {
                         //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
                         if (bloodGlucose.getValue() > 140) {
-//                    SendMail sendMail = new SendMail();
-//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
                             Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
 
+                            //if patient do not have a doctor don't send email
+                            if(doctorPatientService.checkPatient(patientUid)) {
+//                    SendMail sendMail = new SendMail();
+//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
 
 //                        Create and save a new notification
-                            Notifications n = new Notifications(
-                                    patientService,
-                                    patientUid,
-                                    doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid
-                                    "Blood Glucose Alarm"
-                            );
-                            n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
-                            n.setCompleteMessage(
-                                    n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
-                                            "\n" +
-                                            "Date: " + n.getDate().toLocalDate() + "\n" +
-                                            "Time: " + n.getDate().toLocalTime() + "\n" +
-                                            "Blood glucose level: " + bloodGlucose.getValue() + " units."
-                            );
-                            notificationService.getRepository().save(n);
-
+                                Notifications n = new Notifications(
+                                        patientService,
+                                        patientUid,
+                                        doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid
+                                        "Blood Glucose Alarm"
+                                );
+                                n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
+                                n.setCompleteMessage(
+                                        n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
+                                                "\n" +
+                                                "Date: " + n.getDate().toLocalDate() + "\n" +
+                                                "Time: " + n.getDate().toLocalTime() + "\n" +
+                                                "Blood glucose level: " + bloodGlucose.getValue() + " units."
+                                );
+                                notificationService.getRepository().save(n);
+                            }
 
                         }
                         //save to database
