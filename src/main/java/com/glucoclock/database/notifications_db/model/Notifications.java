@@ -1,4 +1,4 @@
-package com.glucoclock.database.notifications_db;
+package com.glucoclock.database.notifications_db.model;
 
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.doctor.DoctorNotificationDetailsView;

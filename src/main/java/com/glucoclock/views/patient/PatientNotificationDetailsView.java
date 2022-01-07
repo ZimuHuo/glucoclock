@@ -2,11 +2,10 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.doctors_db.service.DoctorService;
-import com.glucoclock.database.notifications_db.NotificationService;
-import com.glucoclock.database.notifications_db.Notifications;
+import com.glucoclock.database.notifications_db.service.NotificationService;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.doctor.DoctorNotificationView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;

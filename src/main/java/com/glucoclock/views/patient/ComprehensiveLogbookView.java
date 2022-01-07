@@ -5,8 +5,8 @@ import com.glucoclock.database.comprehensiveLogBook_db.service.ComprehensiveLogB
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
-import com.glucoclock.database.notifications_db.NotificationService;
-import com.glucoclock.database.notifications_db.Notifications;
+import com.glucoclock.database.notifications_db.service.NotificationService;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
 import com.glucoclock.security.db.User;

@@ -1,11 +1,11 @@
 package com.glucoclock.views.patient;
 
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
-import com.glucoclock.database.notifications_db.NotificationService;
-import com.glucoclock.database.notifications_db.Notifications;
+import com.glucoclock.database.notifications_db.service.NotificationService;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
-import com.glucoclock.database.questionnaire_db.Questionnaire;
-import com.glucoclock.database.questionnaire_db.QuestionnaireService;
+import com.glucoclock.database.questionnaire_db.model.Questionnaire;
+import com.glucoclock.database.questionnaire_db.service.QuestionnaireService;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;

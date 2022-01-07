@@ -1,5 +1,6 @@
-package com.glucoclock.database.notifications_db;
+package com.glucoclock.database.notifications_db.repository;
 
+import com.glucoclock.database.notifications_db.model.Notifications;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

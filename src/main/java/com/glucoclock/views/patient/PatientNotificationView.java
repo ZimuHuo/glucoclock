@@ -1,8 +1,8 @@
 package com.glucoclock.views.patient;
 
 
-import com.glucoclock.database.notifications_db.NotificationService;
-import com.glucoclock.database.notifications_db.Notifications;
+import com.glucoclock.database.notifications_db.service.NotificationService;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.grid.Grid;
@@ -14,10 +14,6 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
 @PageTitle("Notifications")
 @Route(value = "patient/notifications")

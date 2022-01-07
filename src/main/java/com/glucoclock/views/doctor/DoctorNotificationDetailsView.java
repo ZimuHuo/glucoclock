@@ -1,16 +1,14 @@
 package com.glucoclock.views.doctor;
 
-import com.glucoclock.database.doctors_db.model.Doctor;
 import com.glucoclock.database.doctors_db.service.DoctorService;
-import com.glucoclock.database.notifications_db.NotificationService;
-import com.glucoclock.database.notifications_db.Notifications;
+import com.glucoclock.database.notifications_db.service.NotificationService;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
