@@ -111,6 +111,7 @@ public class PatientPlotView extends Div {
                         for(SimpleLogBook simple:simpleLog) {
                             yval = Double.valueOf(simple.getBloodglucose());
                             xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * simple.getTime();
+                            series.add(new DataSeriesItem(xval, yval));
                         }
 
                     }
@@ -119,6 +120,7 @@ public class PatientPlotView extends Div {
                         for(ComprehensiveLogBook compre:compreLog) {
                             yval = Double.valueOf(compre.getBloodglucose());
                             xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * compre.getTime();
+                            series.add(new DataSeriesItem(xval, yval));
                         }
                     }
                     if (type ==3){
@@ -126,9 +128,9 @@ public class PatientPlotView extends Div {
                         for(IntensiveLogBook inten:intenLog) {
                             yval = Double.valueOf(inten.getBloodglucose());
                             xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 24 * inten.getTime().getHour();
+                            series.add(new DataSeriesItem(xval, yval));
                         }
                     }
-                    series.add(new DataSeriesItem(xval, yval));
                 }
             }
         });
