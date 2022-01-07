@@ -79,13 +79,15 @@ public class QuestionnaireView extends Div {
                             doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
                             "Questionnaire"
                     );
+                    String selectedSymptoms = symptoms.getSelectedItems().toString();
+                    int length = selectedSymptoms.length();
                     n.setShortMessage(symptoms.getSelectedItems().toString().substring(0,20));
                     n.setCompleteMessage(
                             n.getPatientFirstName() +" "+ n.getPatientLastName() +" has submitted a questionnaire.\n" +
                                     "\n" +
                                     "Date: " + n.getDate().toLocalDate() + "\n" +
                                     "Time: " + n.getDate().toLocalTime() + "\n" +
-                                    "Symptoms: " + symptoms.getSelectedItems().toString()
+                                    "Symptoms: " + selectedSymptoms.substring(1, length - 1) + ", " + otherSymptoms.getValue()
                     );
                     notificationService.getRepository().save(n);
 
