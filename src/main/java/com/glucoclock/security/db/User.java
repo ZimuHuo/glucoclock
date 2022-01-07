@@ -45,8 +45,7 @@ public class User implements Serializable {
     }
     public boolean checkPassword(String oldpassword){
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String check1 = encoder.encode(oldpassword);
-        return check1.equals(password);
+        return encoder.matches(oldpassword,password);
     }
     public UUID getUid() {
         return uid;

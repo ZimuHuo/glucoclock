@@ -14,7 +14,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @PageTitle("Change Password")
@@ -93,10 +96,14 @@ public class PatientSettings2View extends HorizontalLayout{
         confirmButton.addClickListener(e -> {
                     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                     User user = userService.getRepository().findByUsername(authentication.getName());
+
                     if(user.checkPassword(oldPassword.getValue())){
                         userService.updateUserPassword(authentication.getName(),newPassword.getValue());
+                        authentication = new UsernamePasswordAuthenticationToken( user.getUsername(), newPassword.getValue(),
+                                AuthorityUtils.createAuthorityList("PATIENT"));
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
                         confirmButton.getUI().ifPresent(ui ->{
-                            ui.navigate(ResearcherSettings1View.class);
+                            ui.navigate(PatientSettings1View.class);
                         });
 
                     }else{
