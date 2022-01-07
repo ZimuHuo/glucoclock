@@ -99,7 +99,7 @@ public class PatientStartView extends VerticalLayout{
 //
 
         setAlignItems(Alignment.CENTER);
-        add(title,LBtype,datePicker,updateButton);
+        add(LBtype,datePicker,updateButton);
         if (VaadinSession.getCurrent().getAttribute("Error")!=null){
             com.vaadin.flow.component.notification.Notification notification = Notification.show("WRONG URL"+VaadinSession.getCurrent().getAttribute("Error"));
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);

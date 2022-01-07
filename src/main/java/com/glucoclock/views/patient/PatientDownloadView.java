@@ -45,7 +45,7 @@ public class PatientDownloadView extends VerticalLayout {
     DatePicker PrintStartDate = new DatePicker("Select start date:"); //calendar to choose start date
     DatePicker PrintEndDate = new DatePicker("Select end date:"); //calendar to choose end date
     //Export Buttons, can export plot or export data
-    Button ExportPlot=new Button("Export Plot");
+//    Button ExportPlot=new Button("Export Plot");
     Button ExportData=new Button("Export Data");
 
     private LocalDate StartDate=LocalDate.now().minusDays(4);
@@ -102,12 +102,12 @@ public class PatientDownloadView extends VerticalLayout {
         PrintEndDate.addValueChangeListener(e-> EndDate=PrintEndDate.getValue());
 
         //export buttons set up
-        ExportPlot.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
-        ExportData.addThemeVariants(ButtonVariant.LUMO_PRIMARY,ButtonVariant.LUMO_CONTRAST);
+        //ExportPlot.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+        ExportData.addThemeVariants(ButtonVariant.LUMO_PRIMARY,ButtonVariant.LUMO_PRIMARY);
 
-        ExportPlot.addClickListener(click->{
-            Notification.show("Download Plot form "+PrintStartDate.getValue()+" to "+PrintEndDate.getValue());
-        });
+//        ExportPlot.addClickListener(click->{
+//            Notification.show("Download Plot form "+PrintStartDate.getValue()+" to "+PrintEndDate.getValue());
+//        });
 
         // Export Data
         //set up the button wrapper function
@@ -133,7 +133,7 @@ public class PatientDownloadView extends VerticalLayout {
 
         //Layout
         HorizontalLayout StartEndDate=new HorizontalLayout(PrintStartDate,PrintEndDate);
-        VerticalLayout downLoadpage_layout=new VerticalLayout(new H2("Download"),StartEndDate,ExportPlot, buttonWrapper);
+        VerticalLayout downLoadpage_layout=new VerticalLayout(new H2("Download Data"),StartEndDate, buttonWrapper);
         downLoadpage_layout.setAlignItems(FlexComponent.Alignment.CENTER);
         add(downLoadpage_layout);
     }

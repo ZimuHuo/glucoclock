@@ -9,7 +9,9 @@ import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -36,6 +38,7 @@ public class HistoryView extends VerticalLayout {
 
     //UI components
     private MenuBar menu = new MenuBar("PNS");
+    private H3 space = new H3("   ");
     private H2 title = new H2("Data History");
     private Icon download = new Icon(VaadinIcon.DOWNLOAD);
     private HorizontalLayout SearchPanel=new HorizontalLayout();
@@ -85,7 +88,7 @@ public class HistoryView extends VerticalLayout {
         hl.setAlignItems(Alignment.BASELINE);
 
         //Final layout
-        add(
+        add(    space,
                 hl,
                 SearchPanel,
                 Historylist);
