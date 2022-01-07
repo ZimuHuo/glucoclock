@@ -20,7 +20,7 @@ public class HomeView extends VerticalLayout implements BeforeEnterObserver {
     public HomeView() {
         //Logo
         Image logo = new Image("images/GC_logo.png","logo");
-        logo.setWidth("50%");
+        logo.setWidth("500px");
         //Log in details
         login.setAction("login");
         login.addForgotPasswordListener(e ->
@@ -35,8 +35,8 @@ public class HomeView extends VerticalLayout implements BeforeEnterObserver {
 //        signInBut.setWidth("30%");
 //        signInBut.setHeight("50px");
         //Sign up button
-        signUpBut = new Button("Sign Up");
-        signUpBut.setWidth("30%");
+        signUpBut = new Button("Sign Me Up!");
+        signUpBut.setWidth("310px");
         signUpBut.setHeight("50px");
         signUpBut.addClickListener(e ->
                 signUpBut.getUI().ifPresent(ui ->
