@@ -1,5 +1,6 @@
 package com.glucoclock.database.notifications_db;
 
+import com.glucoclock.database.notifications_db.model.Notifications;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Bean;

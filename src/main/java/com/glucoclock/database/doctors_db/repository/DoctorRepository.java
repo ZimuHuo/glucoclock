@@ -9,7 +9,7 @@ import java.util.UUID;
 
 // add update delete search
 public interface DoctorRepository extends CrudRepository<Doctor, Long>{
-    List<Doctor> findByFirstName(String FirstName);
+    List<Doctor> findByFirstname(String FirstName);
     List<Doctor> findAll();
     Doctor getDoctorById(Long id);
     Doctor getDoctorByEmail(String email);

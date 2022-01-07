@@ -15,7 +15,7 @@ class ResearcherTest {
 
     @BeforeEach
     void creatResearcher(){
-        r.setUID(uid);
+        r.setUid(uid);
         r.setLastName("Huo");
         r.setFirstName("ZImu");
         r.setEmail("zimuhuo@outlook.com");
@@ -80,7 +80,7 @@ class ResearcherTest {
 
     @Test
     void getUID() {
-        assertEquals(uid,r.getUID());
+        assertEquals(uid,r.getUid());
     }
 
     @Test

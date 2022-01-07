@@ -138,7 +138,7 @@ public class ResearcherSettings1View extends HorizontalLayout {
         contactNumberInit();
         genderSelectInit();
         changeSettingInit();
-        saveInit(researcher.getUID());
+        saveInit(researcher.getUid());
         cancelInit();
         changePasswordInit();
         institutionSelectInit();

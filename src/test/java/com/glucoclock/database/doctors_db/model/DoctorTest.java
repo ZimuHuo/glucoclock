@@ -14,7 +14,7 @@ class DoctorTest {
 
     @BeforeEach
     void creatDoctor(){
-        d.setUID(uid);
+        d.setUid(uid);
         d.setLastName("Huo");
         d.setFirstName("ZImu");
         d.setEmail("zimuhuo@outlook.com");
@@ -78,6 +78,6 @@ class DoctorTest {
 
     @Test
     void getUID() {
-        assertEquals(uid,d.getUID());
+        assertEquals(uid,d.getUid());
     }
 }
