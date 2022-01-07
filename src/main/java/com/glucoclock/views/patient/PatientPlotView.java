@@ -17,10 +17,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.*;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -39,7 +36,7 @@ import java.util.UUID;
 @PageTitle("View Plots")
 @Route(value = "/patient/plots-view")
 public class PatientPlotView extends Div {
-    private H1 space = new H1("    ");
+    private H3 space = new H3("Display data in the selected month ");
     private final UserService userService;
     private final PatientService patientService;
     private final LogService logService;
@@ -68,6 +65,7 @@ public class PatientPlotView extends Div {
         patientUid=user.getUid();   //get patient uid
 
         add(space,createViewEvents(),menu);
+
     }
 
     private Component createViewEvents() {
@@ -79,12 +77,12 @@ public class PatientPlotView extends Div {
         XAxis xAxis = new XAxis();
         YAxis yAxis = new YAxis();
         HorizontalLayout header = createHeader("Past Blood Glucose Level", "units");
-        conf.getyAxis().setTitle("Values");
+        conf.getyAxis().setTitle("Glucose level mmol/L");
+        conf.getxAxis().setTitle("Day on the month");
         PlotOptionsArea plotOptions = new PlotOptionsArea();
         plotOptions.setPointPlacement(PointPlacement.ON);
         conf.addPlotOptions(plotOptions);
-
-        this.datePicker = new DatePicker("Display data in the selected month");
+        this.datePicker = new DatePicker();
         add(datePicker);
         datePicker.addValueChangeListener(date->{
             charDate=date.getValue();
@@ -94,7 +92,6 @@ public class PatientPlotView extends Div {
             List<Log> patientData= logService.findLogBooksBetweenDate(start,end,patientUid);
             double yval = 0;
             double xval = 0;
-            System.out.println("no data"+patientData.toString());
             plotButton.setEnabled(false);
             if(patientData.isEmpty()){
                 Notification.show("No Data");

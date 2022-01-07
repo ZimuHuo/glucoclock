@@ -47,5 +47,4 @@ class LogTest {
     void getPatientuid() {
         assertEquals(uid,l.getPatientuid());
     }
-
 }
