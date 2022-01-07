@@ -48,7 +48,7 @@ public class DoctorSettings1View extends HorizontalLayout {
     DatePicker birthSelect;
     EmailField emailField;
     Select<String> genderSelect;
-    Button changeSetting, save, cancel, changePassword, toHome;
+    Button changeSetting, save, cancel, changePassword;
     VerticalLayout mainLayout;
     HorizontalLayout buttons;
     private MenuBar menu = new MenuBar("DNS");
@@ -99,8 +99,8 @@ public class DoctorSettings1View extends HorizontalLayout {
                 buttons,
                 formLayout,
                 postcode,
-                cityField,
-                toHome
+                cityField
+                //toHome
         );
 
         add(
@@ -139,7 +139,7 @@ public class DoctorSettings1View extends HorizontalLayout {
         saveInit(doctor.getUID());
         cancelInit();
         changePasswordInit();
-        toHomeSetUp();
+        //toHomeSetUp();
     }
 
 //    Each of following methods initialize one component
@@ -357,16 +357,16 @@ public class DoctorSettings1View extends HorizontalLayout {
         );
     }
 
-    private void toHomeSetUp() {
-        toHome = new Button("OK");
-        toHome.getElement().getStyle().set("margin-left", "auto");
-        toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        toHome.addClickListener(e -> {
-            toHome.getUI().ifPresent(ui ->
-                    ui.navigate(DoctorStartView.class)
-            );
-        });
-    }
+//    private void toHomeSetUp() {
+//        toHome = new Button("OK");
+//        toHome.getElement().getStyle().set("margin-left", "auto");
+//        toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+//        toHome.addClickListener(e -> {
+//            toHome.getUI().ifPresent(ui ->
+//                    ui.navigate(DoctorStartView.class)
+//            );
+//        });
+//    }
 
 
     //    Set all the components on the page to be read-only or not
