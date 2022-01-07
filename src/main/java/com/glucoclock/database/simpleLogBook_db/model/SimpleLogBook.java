@@ -1,6 +1,8 @@
 package com.glucoclock.database.simpleLogBook_db.model;
 
 
+import com.glucoclock.database.abstractlog;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -8,13 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Simplelogbook_db")
-public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    @Column(name = "PatientUid")
-    private UUID patientuid;
+public class SimpleLogBook extends abstractlog implements Serializable, Comparable<SimpleLogBook> {
 
     @Column(name = "Date")
     private LocalDate date;
@@ -33,7 +29,7 @@ public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
 
     public SimpleLogBook(UUID PatientUid, LocalDate Date, String TimeString, String BloodGlucose, String CarbIntake) {
 
-        patientuid = PatientUid;
+        super.patientuid = PatientUid;
         date = Date;
         bloodglucose = BloodGlucose;
         carbintake = CarbIntake;
