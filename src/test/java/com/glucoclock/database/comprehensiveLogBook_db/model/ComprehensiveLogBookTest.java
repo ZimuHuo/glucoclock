@@ -31,7 +31,6 @@ class ComprehensiveLogBookTest {
         c.setInsulindose("1");
         assertEquals("1",c.getInsulindose());
     }
-
     @Test
     void getPatientuid() {
         assertEquals(uid,c.getPatientuid());
