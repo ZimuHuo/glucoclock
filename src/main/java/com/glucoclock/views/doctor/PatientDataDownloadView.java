@@ -1,5 +1,4 @@
-package com.glucoclock.views.patient;
-
+package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.comprehensiveLogBook_db.model.ComprehensiveLogBook;
 import com.glucoclock.database.comprehensiveLogBook_db.service.ComprehensiveLogBookService;
@@ -10,7 +9,6 @@ import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
 import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
-import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
@@ -24,8 +22,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.vaadin.flow.server.VaadinSession;
 import org.vaadin.olli.FileDownloadWrapper;
 
 import java.io.ByteArrayInputStream;
@@ -36,24 +33,23 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-@PageTitle("Download Data and Graph")
-@Route(value = "patient/download")
+@PageTitle("Doctor Download Data and Graph")
+@Route(value = "doctor/download")
 
-public class PatientDownloadView extends VerticalLayout {
-    Locale finnishLocale = new Locale("fi", "FI");
-    //use 2 calendar to choose start and end date, when click the export button, export the data between these 2 date
-    DatePicker PrintStartDate = new DatePicker("Select start date:"); //calendar to choose start date
-    DatePicker PrintEndDate = new DatePicker("Select end date:"); //calendar to choose end date
+public class PatientDataDownloadView extends VerticalLayout {
+    private Locale finnishLocale = new Locale("fi", "FI");
+    //use 2 calendars to choose start and end date, when click the export button, export the data between these 2 date
+    private DatePicker PrintStartDate = new DatePicker("Select start date:"); //calendar to choose start date
+    private DatePicker PrintEndDate = new DatePicker("Select end date:"); //calendar to choose end date
     //Export Buttons, can export plot or export data
-    Button ExportPlot=new Button("Export Plot");
-    Button ExportData=new Button("Export Data");
+    private Button ExportPlot=new Button("Export Plot");
+    private Button ExportData=new Button("Export Data");
 
     private LocalDate StartDate=LocalDate.now().minusDays(4);
     private LocalDate EndDate=LocalDate.now();
     private String exportData;
 
     private UUID patientUid;
-
     //include the databases
     private final SimpleLogBookService SimplelogData;
     private final ComprehensiveLogBookService ComprehensivelogData;
@@ -61,25 +57,21 @@ public class PatientDownloadView extends VerticalLayout {
     private final LogService Logdata;
     private final PatientService patientService;
     private final UserService userService;
-    FileDownloadWrapper buttonWrapper;
+    private FileDownloadWrapper buttonWrapper;
     //Menu bar
-    private MenuBar menu = new MenuBar("PNS");
+    private MenuBar menu = new MenuBar("DNS");
 
 
-    public PatientDownloadView(SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, PatientService patientService, LogService logdata, PatientService patientData, UserService userService) {
+    public PatientDataDownloadView(SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, PatientService patientService, LogService logdata, PatientService patientService1, UserService userService) {
         // access the data in the databases
         SimplelogData = simplelogData;
         ComprehensivelogData = comprehensivelogData;
         IntensivelogData = intensivelogData;
         Logdata = logdata;
-        this.patientService = patientService;
+        this.patientService = patientService1;
         this.userService = userService;
 
-        //get patientuid
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getAuthorities();
-        User user= this.userService.getRepository().findByUsername(authentication.getName()); //return user
-        patientUid=user.getUid();   //get patient uid
+        patientUid = (UUID) VaadinSession.getCurrent().getAttribute("PatientID");
 
         //create testing database
 //        SimplelogData.bulkcreate();
@@ -105,6 +97,7 @@ public class PatientDownloadView extends VerticalLayout {
         ExportPlot.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
         ExportData.addThemeVariants(ButtonVariant.LUMO_PRIMARY,ButtonVariant.LUMO_CONTRAST);
 
+        //Export Plot
         ExportPlot.addClickListener(click->{
             Notification.show("Download Plot form "+PrintStartDate.getValue()+" to "+PrintEndDate.getValue());
         });
@@ -114,8 +107,8 @@ public class PatientDownloadView extends VerticalLayout {
         //when click the button, the data between the 2 selected date will be export in csv file
         this.buttonWrapper = new FileDownloadWrapper(
                 //csv file set up
-               new StreamResource("Datafile"+ ".csv", () -> {
-                   //export the data between the 2 date selected
+                new StreamResource("Datafile"+ ".csv", () -> {
+                    //export the data between the 2 date selected
                     //exportData is the returned string from the OutputData method
                     exportData= OutputData();
                     return new ByteArrayInputStream(exportData.getBytes(StandardCharsets.UTF_8));
@@ -126,8 +119,8 @@ public class PatientDownloadView extends VerticalLayout {
         buttonWrapper.wrapComponent(ExportData);
         //each time the export data button is clicked, the startdate and enddate will be renewed
         ExportData.addFocusListener(event -> {
-                        StartDate=PrintStartDate.getValue();
-                        EndDate=PrintEndDate.getValue();
+            StartDate=PrintStartDate.getValue();
+            EndDate=PrintEndDate.getValue();
         });
 
 
@@ -139,20 +132,20 @@ public class PatientDownloadView extends VerticalLayout {
     }
 
     public String OutputData(){
-       //set up the returned string, this is the first 2 lines of the csv file
+        //set up the returned string, this is the first 2 lines of the csv file
         String Finaloutput=
                 "Start date"+","+StartDate.toString()+","+"End date"+","+EndDate.toString()+"\n" +
-                "Patient name"+","+patientService.searchPatientname(patientUid)+"\n"+
-                "LogBook Type" +
-                "," + "Date" +
-                "," + "Time" +
-                "," + "Blood glucose" +
-                "," + "Carb Intake" +
-                "," + "Insulindose"+
-                "," + "Carb bolus" +
-                "," + "High BS Bolus" +
-                "," + "Basal Rate" +
-                "," + "Ketones"+"\n"
+                        "Patient name"+","+patientService.searchPatientname(patientUid)+"\n"+
+                        "LogBook Type" +
+                        "," + "Date" +
+                        "," + "Time" +
+                        "," + "Blood glucose" +
+                        "," + "Carb Intake" +
+                        "," + "Insulindose"+
+                        "," + "Carb bolus" +
+                        "," + "High BS Bolus" +
+                        "," + "Basal Rate" +
+                        "," + "Ketones"+"\n"
                 ;
 
         List<Log> PatientData;//create a list store the data fit requirement (from logdata database)
@@ -179,13 +172,13 @@ public class PatientDownloadView extends VerticalLayout {
                 Finaloutput+=comprehensivestring+"\n";
             }
 
+            //if this data is Intensivelogbook
             if(eachdata.getLogbooktype()==3){
                 //use IntensiveOut method to get the string which contain all the data at that date
                 String intensivestring=IntensiveOut(eachdata.getDate());
                 //add the string to the returned string
                 Finaloutput+=intensivestring+"\n";
             }
-
         }
 
         return Finaloutput;
@@ -214,10 +207,9 @@ public class PatientDownloadView extends VerticalLayout {
         return ComprehensiveoutString;
     }
 
-    //if this data is Intensivelogbook
     public String IntensiveOut(LocalDate checkdate){
         //set up the returned string
-       String IntensiveoutString=new String();
+        String IntensiveoutString=new String();
         //find the data for this patient at checkdate, and stored the data in the intensivedata list
         List<IntensiveLogBook> intensivedata=IntensivelogData.findLogByDateAndPatientuid(checkdate,patientUid);
         for(IntensiveLogBook eachdata:intensivedata) {

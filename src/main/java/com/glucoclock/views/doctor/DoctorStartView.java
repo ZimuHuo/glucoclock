@@ -69,26 +69,28 @@ public class DoctorStartView extends VerticalLayout {
         this.patientService = patientService;
         this.doctorService = doctorService;
 
+        //get doctor id using authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         String username = authentication.getName();//return email
         User user=userService.getRepository().findByUsername(username); //return user
         doctoruid=user.getUid();
 
+        //add button
         add.setSize("50px");
         addBut.setWidth("55px");
         addBut.setHeight("55px");
-        //addBut.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        addBut.addClickListener(e->
+                //navigate to the add patient page
+                addBut.getUI().ifPresent(ui ->
+                        ui.navigate(AddPatientView.class))
+        );
+
         hl.add(title,addBut);
         hl.setHeight("20%");
         hl.setVerticalComponentAlignment(FlexComponent.Alignment.BASELINE,title,addBut);
 
-        //Add button
-        addBut.addClickListener(e->
-                //navigate to the add patient page
-                addBut.getUI().ifPresent(ui ->
-                ui.navigate(AddPatientView.class))
-        );
+
 
         //Create grid
         setSizeFull();
@@ -120,8 +122,10 @@ public class DoctorStartView extends VerticalLayout {
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_COLUMN_BORDERS);
         grid.setHeight("100%");
 
+        //get patient list of this doctor
         dataProvider = new ListDataProvider<>(getPatients());
         grid.setDataProvider(dataProvider);
+        grid.setAllRowsVisible(true);
     }
 
 

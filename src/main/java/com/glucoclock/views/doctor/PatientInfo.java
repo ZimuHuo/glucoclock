@@ -100,6 +100,7 @@ public class PatientInfo {
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         button.addClickListener(click->{
             VaadinSession.getCurrent().setAttribute("PatientID", uid);
+            VaadinSession.getCurrent().setAttribute("PatientName", firstName+" "+lastName);
             button.getUI().ifPresent(ui->ui.navigate(PatientDataView.class));
             Notification.show(firstName+lastName);
         });
