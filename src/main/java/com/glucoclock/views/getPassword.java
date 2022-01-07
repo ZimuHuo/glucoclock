@@ -6,6 +6,7 @@ import com.glucoclock.views.util.verificationCode;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -21,8 +22,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
-@PageTitle("Getpassword")
-@Route(value = "forgotPassword")
+@PageTitle("Forgot Password")
+@Route(value = "forgot-password")
 public class getPassword extends HorizontalLayout {
     private UserService userService;
     EmailField emailField;
@@ -33,6 +34,7 @@ public class getPassword extends HorizontalLayout {
     VerticalLayout mainLayout;
     Button codeButton;
     TextField code;
+    private H1 space = new H1(" ");
     private H2 title = new H2("Reset password");
     private MenuBar menu = new MenuBar("NS");
 
@@ -44,7 +46,7 @@ public class getPassword extends HorizontalLayout {
         init();
         this.setJustifyContentMode(JustifyContentMode.CENTER);
 
-        mainLayout.add(title);
+        mainLayout.add(space,title);
         mainLayout.add(formLayout);
         mainLayout.add(submitButton);
 
