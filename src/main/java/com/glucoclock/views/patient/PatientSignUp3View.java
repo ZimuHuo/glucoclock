@@ -30,9 +30,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import java.time.LocalDate;
 import java.util.Set;
+
+/*
+This page is used for patient sign up part 3.
+It should store the medical information of the patient.
+ */
 
 @PageTitle("Patient Sign Up")
 @Route(value = "patient-sign-up-3")

@@ -30,7 +30,7 @@ public class ConfirmationView extends VerticalLayout{
         OKButton.setHeight("40px");
         OKButton.addClickListener(e ->
                 OKButton.getUI().ifPresent(ui ->
-                        ui.navigate(PatientStart.class)
+                        ui.navigate(PatientStartView.class)
                 )
         );
 

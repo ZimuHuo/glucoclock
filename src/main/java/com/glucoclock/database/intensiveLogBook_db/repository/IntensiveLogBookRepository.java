@@ -4,6 +4,7 @@ import com.glucoclock.database.intensiveLogBook_db.model.IntensiveLogBook;
 import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,5 +15,6 @@ public interface IntensiveLogBookRepository extends CrudRepository<IntensiveLogB
     List<IntensiveLogBook> findByPatientuidAndAndDate(UUID patient_uid,LocalDate Date);
     @Override
     <S extends IntensiveLogBook> S save(S s);
-
+    IntensiveLogBook findByPatientuidAndTimeAndDate(UUID patient_uid, LocalTime time, LocalDate date);
+    IntensiveLogBook findByPatientuidAndTimeAndDate(UUID patient_uid, int time, LocalDate date);
 }

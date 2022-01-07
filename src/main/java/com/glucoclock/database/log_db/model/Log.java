@@ -12,15 +12,21 @@ public class Log implements Serializable, Comparable<Log> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    //Columns of the database and variables
+    //Record date
     @Column (name="Date")
     private LocalDate date;
 
+    //Record logbook type
     @Column (name="LogBookType")
     private int logbooktype;
 
+    //Record patient uid
     @Column (name="Patient_uid")
     private UUID patientuid;
 
+
+//  Constructor
     public Log(UUID patientuid,LocalDate date, int logbooktype){
         this.patientuid=patientuid;
         this.date=date;
@@ -82,6 +88,7 @@ public class Log implements Serializable, Comparable<Log> {
         return returnLogbooktype;
     }
     @Override
+    //Compare record date of logs
     public int compareTo(Log that) {
         return this.date.compareTo(that.date);
     }

@@ -33,7 +33,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-
+/*
+This page is used for researcher sign up part 2.
+It should store the contact information of the researcher.
+ */
 @PageTitle("Researcher Sign Up")
 @Route(value = "researcher-sign-up-2")
 public class ResearcherSignUp2View extends HorizontalLayout {
@@ -50,25 +53,20 @@ public class ResearcherSignUp2View extends HorizontalLayout {
     private Button submitButton, previousButton;
     private H2 title = new H2("Personal information");
     private MenuBar menu = new MenuBar("NS");
-
     //    Variables
     private final UserService userService;
     private final ResearcherService researcherService;
     private final AuthoritiesService authoritiesService;
 
-
-
     public ResearcherSignUp2View(UserService userService, ResearcherService researcherService, AuthoritiesService authoritiesService) {
         this.userService = userService;
         this.researcherService = researcherService;
         this.authoritiesService = authoritiesService;
-
         add(menu);
         init();
         formlayout1SetUp();
         formlayout2SetUp();
         formlayout3SetUp();
-
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
         verticalLayout.add(title);
@@ -84,9 +82,11 @@ public class ResearcherSignUp2View extends HorizontalLayout {
         verticalLayout.setPadding(false);
         add(verticalLayout);
         setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-
     }
-
+    /*
+     vaadin will automatically ignore empty components, which will be hard to organize the component (like spacing)
+     So this page is composed of several form layouts instead of just one.
+      */
     private void formlayout3SetUp() {
         this.formLayout3 = new FormLayout();
         formLayout3.add(

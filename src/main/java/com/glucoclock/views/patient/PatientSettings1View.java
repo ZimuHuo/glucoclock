@@ -14,7 +14,6 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -503,7 +502,7 @@ public class PatientSettings1View extends HorizontalLayout {
         toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         toHome.addClickListener(e -> {
             toHome.getUI().ifPresent(ui ->
-                    ui.navigate(PatientStart.class)
+                    ui.navigate(PatientStartView.class)
             );
         });
     }

@@ -10,6 +10,8 @@ import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
 import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
+import com.glucoclock.security.db.User;
+import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -22,6 +24,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.vaadin.olli.FileDownloadWrapper;
 
 import java.io.ByteArrayInputStream;
@@ -41,33 +45,41 @@ public class PatientDownloadView extends VerticalLayout {
     DatePicker PrintStartDate = new DatePicker("Select start date:"); //calendar to choose start date
     DatePicker PrintEndDate = new DatePicker("Select end date:"); //calendar to choose end date
     //Export Buttons, can export plot or export data
-    Button ExportPlot=new Button("Export Plot");
+//    Button ExportPlot=new Button("Export Plot");
     Button ExportData=new Button("Export Data");
 
     private LocalDate StartDate=LocalDate.now().minusDays(4);
     private LocalDate EndDate=LocalDate.now();
     private String exportData;
 
-    //get the patient id from the session, in order to find the data of that patient
-    UUID patientid=UUID.fromString("113d2815-54fb-4396-94fb-9a071393c336");
+    private UUID patientUid;
+
     //include the databases
     private final SimpleLogBookService SimplelogData;
     private final ComprehensiveLogBookService ComprehensivelogData;
     private final IntensiveLogBookService IntensivelogData;
     private final LogService Logdata;
-    private final PatientService PatientData;
+    private final PatientService patientService;
+    private final UserService userService;
     FileDownloadWrapper buttonWrapper;
     //Menu bar
     private MenuBar menu = new MenuBar("PNS");
 
 
-    public PatientDownloadView(SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, PatientService patientService, LogService logdata, PatientService patientData) {
+    public PatientDownloadView(SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, PatientService patientService, LogService logdata, PatientService patientData, UserService userService) {
         // access the data in the databases
         SimplelogData = simplelogData;
         ComprehensivelogData = comprehensivelogData;
         IntensivelogData = intensivelogData;
         Logdata = logdata;
-        PatientData = patientData;
+        this.patientService = patientService;
+        this.userService = userService;
+
+        //get patientuid
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.getAuthorities();
+        User user= this.userService.getRepository().findByUsername(authentication.getName()); //return user
+        patientUid=user.getUid();   //get patient uid
 
         //create testing database
 //        SimplelogData.bulkcreate();
@@ -90,12 +102,12 @@ public class PatientDownloadView extends VerticalLayout {
         PrintEndDate.addValueChangeListener(e-> EndDate=PrintEndDate.getValue());
 
         //export buttons set up
-        ExportPlot.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
-        ExportData.addThemeVariants(ButtonVariant.LUMO_PRIMARY,ButtonVariant.LUMO_CONTRAST);
+        //ExportPlot.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+        ExportData.addThemeVariants(ButtonVariant.LUMO_PRIMARY,ButtonVariant.LUMO_PRIMARY);
 
-        ExportPlot.addClickListener(click->{
-            Notification.show("Download Plot form "+PrintStartDate.getValue()+" to "+PrintEndDate.getValue());
-        });
+//        ExportPlot.addClickListener(click->{
+//            Notification.show("Download Plot form "+PrintStartDate.getValue()+" to "+PrintEndDate.getValue());
+//        });
 
         // Export Data
         //set up the button wrapper function
@@ -121,7 +133,7 @@ public class PatientDownloadView extends VerticalLayout {
 
         //Layout
         HorizontalLayout StartEndDate=new HorizontalLayout(PrintStartDate,PrintEndDate);
-        VerticalLayout downLoadpage_layout=new VerticalLayout(new H2("Download"),StartEndDate,ExportPlot, buttonWrapper);
+        VerticalLayout downLoadpage_layout=new VerticalLayout(new H2("Download Data"),StartEndDate, buttonWrapper);
         downLoadpage_layout.setAlignItems(FlexComponent.Alignment.CENTER);
         add(downLoadpage_layout);
     }
@@ -130,7 +142,7 @@ public class PatientDownloadView extends VerticalLayout {
        //set up the returned string, this is the first 2 lines of the csv file
         String Finaloutput=
                 "Start date"+","+StartDate.toString()+","+"End date"+","+EndDate.toString()+"\n" +
-                "Patient name"+","+PatientData.searchPatientname(patientid)+"\n"+
+                "Patient name"+","+patientService.searchPatientname(patientUid)+"\n"+
                 "LogBook Type" +
                 "," + "Date" +
                 "," + "Time" +
@@ -146,7 +158,7 @@ public class PatientDownloadView extends VerticalLayout {
         List<Log> PatientData;//create a list store the data fit requirement (from logdata database)
         //find the data of this patient (patient id), between StartDate and EndDate, store them in the PatientData list
         // the list will contain logbook type and date and patient id
-        PatientData=Logdata.findLogBooksBetweenDate(StartDate,EndDate,patientid);
+        PatientData=Logdata.findLogBooksBetweenDate(StartDate,EndDate,patientUid);
 
         // check in corresponding logbook database(find the logbook type from the list) for each data in the PatientData list
         for (Log eachdata:PatientData){
@@ -182,7 +194,7 @@ public class PatientDownloadView extends VerticalLayout {
     public String SimpleOut(LocalDate checkdate){
         String SimpleoutString=new String();//set up returned string
         //find the data for this patient at checkdate, and stored the data in the simpledata list
-        List<SimpleLogBook> simpledata=SimplelogData.findLogByDateAndPatientuid(checkdate,patientid);
+        List<SimpleLogBook> simpledata=SimplelogData.findLogByDateAndPatientuid(checkdate,patientUid);
         for(SimpleLogBook eachdata:simpledata) {
             //get each data in string form, and added to the returned string
             SimpleoutString += eachdata.toString()+"\n";
@@ -194,7 +206,7 @@ public class PatientDownloadView extends VerticalLayout {
         //set up the returned string
         String ComprehensiveoutString=new String();
         //find the data for this patient at checkdate, and stored the data in the comprehensivedata list
-        List<ComprehensiveLogBook> comprehensivedata=ComprehensivelogData.findLogByDateAndPatientuid(checkdate,patientid);
+        List<ComprehensiveLogBook> comprehensivedata=ComprehensivelogData.findLogByDateAndPatientuid(checkdate,patientUid);
         for(ComprehensiveLogBook eachdata:comprehensivedata) {
             //get each data in string form, and added to the returned string
             ComprehensiveoutString += eachdata.toString()+"\n";
@@ -207,7 +219,7 @@ public class PatientDownloadView extends VerticalLayout {
         //set up the returned string
        String IntensiveoutString=new String();
         //find the data for this patient at checkdate, and stored the data in the intensivedata list
-        List<IntensiveLogBook> intensivedata=IntensivelogData.findLogByDateAndPatientuid(checkdate,patientid);
+        List<IntensiveLogBook> intensivedata=IntensivelogData.findLogByDateAndPatientuid(checkdate,patientUid);
         for(IntensiveLogBook eachdata:intensivedata) {
             //get each data in string form, and added to the returned string
             IntensiveoutString += eachdata.toString()+"\n";

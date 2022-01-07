@@ -8,12 +8,9 @@ import com.glucoclock.database.questionnaire_db.Questionnaire;
 import com.glucoclock.database.questionnaire_db.QuestionnaireService;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -94,7 +91,7 @@ public class QuestionnaireView extends Div {
 
 
             submit.getUI().ifPresent(ui ->
-                            ui.navigate(PatientStart.class) //change to feedback page later
+                            ui.navigate(PatientStartView.class) //change to feedback page later
                     );
 
                 }

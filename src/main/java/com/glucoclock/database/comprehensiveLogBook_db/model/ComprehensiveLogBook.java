@@ -13,6 +13,8 @@ public class ComprehensiveLogBook implements Serializable, Comparable<Comprehens
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    //Columns of the database and variables
+    //Patient uid
     @Column(name = "PatientUid")
     private UUID patientuid;
 

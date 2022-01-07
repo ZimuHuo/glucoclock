@@ -16,6 +16,6 @@ public interface SimpleLogBookRepository extends CrudRepository<SimpleLogBook, L
     List<SimpleLogBook> findByPatientuidAndAndDate(UUID patient_uid,LocalDate Date);
     @Override
     <S extends SimpleLogBook> S save(S s);
-
+    SimpleLogBook findByPatientuidAndTimeAndDate(UUID patient_uid,int Time, LocalDate Date);
 
 }

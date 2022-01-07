@@ -42,6 +42,7 @@ public class DoctorStartView extends VerticalLayout {
     private Grid.Column<PatientInfo> emailColumn;
     private Grid.Column<PatientInfo> logbookColumn;
     private Grid.Column<PatientInfo> buttonColumn;
+    private Grid.Column<PatientInfo> buttonDelete;
 
     private MenuBar menu = new MenuBar("DStart");
 
@@ -60,8 +61,6 @@ public class DoctorStartView extends VerticalLayout {
     private UUID doctoruid;
 
 
-
-
     public DoctorStartView(UserService userService, DoctorPatientService doctorpatientService, PatientService patientService, DoctorService doctorService) {
         //database
         this.userService = userService;
@@ -69,38 +68,33 @@ public class DoctorStartView extends VerticalLayout {
         this.patientService = patientService;
         this.doctorService = doctorService;
 
+        //get doctor id using authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         String username = authentication.getName();//return email
         User user=userService.getRepository().findByUsername(username); //return user
         doctoruid=user.getUid();
 
-        //UUID doctoruid = userService.getRepository().findAll().get(0).getUid();
-
-        //create testing database
-//        this.patientService.bulkcreate();
-//        this.doctorService.bulkcreate();
-//        this.doctorpatientService.bulkcreate();
-
-
+        //add button
         add.setSize("50px");
         addBut.setWidth("55px");
         addBut.setHeight("55px");
-        //addBut.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        addBut.addClickListener(e->
+                //navigate to the add patient page
+                addBut.getUI().ifPresent(ui ->
+                        ui.navigate(AddPatientView.class))
+        );
+
         hl.add(title,addBut);
         hl.setHeight("20%");
         hl.setVerticalComponentAlignment(FlexComponent.Alignment.BASELINE,title,addBut);
 
-        //Add button
-        addBut.addClickListener(e->
-                //navigate to the add patient page
-                addBut.getUI().ifPresent(ui ->
-                ui.navigate(AddPatientView.class))
-        );
-        //hl.setSpacing(false);
+
+
         //Create grid
-        setSizeFull();
+        //setSizeFull();
         createGrid();
+
 
         //Layout
         VerticalLayout vl = new VerticalLayout();
@@ -125,11 +119,14 @@ public class DoctorStartView extends VerticalLayout {
 
     private void createGridComponent() {
         grid = new Grid<>();
+        grid.setAllRowsVisible(true);
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_COLUMN_BORDERS);
         grid.setHeight("100%");
 
+        //get patient list of this doctor
         dataProvider = new ListDataProvider<>(getPatients());
         grid.setDataProvider(dataProvider);
+        grid.setAllRowsVisible(true);
     }
 
 
@@ -137,8 +134,9 @@ public class DoctorStartView extends VerticalLayout {
         firstNameColumn = grid.addColumn(PatientInfo::getFirstName, "FirstName").setHeader("First Name").setWidth("17%").setFlexGrow(0);
         lastNameColumn = grid.addColumn(PatientInfo::getLastName, "LastName").setHeader("Last Name").setWidth("17%").setFlexGrow(0);
         emailColumn = grid.addColumn(PatientInfo::getEmail, "Email").setHeader("Email").setWidth("28%").setFlexGrow(0);
-        logbookColumn = grid.addComponentColumn(PatientInfo::buildLogbookMenu).setHeader("Suggested Logbook Type").setWidth("18%").setFlexGrow(0);
-        buttonColumn = grid.addComponentColumn(PatientInfo::buildViewButton).setWidth("14%").setFlexGrow(0);
+        logbookColumn = grid.addComponentColumn(PatientInfo::buildEditLbTypeButton).setHeader("Suggested Logbook Type").setWidth("18%").setFlexGrow(0);
+        buttonColumn = grid.addComponentColumn(PatientInfo::buildViewButton).setWidth("11%").setFlexGrow(0);
+        buttonDelete = grid.addComponentColumn(PatientInfo::deletePatient).setWidth("6%").setFlexGrow(0);
     }
 
 
@@ -187,7 +185,10 @@ public class DoctorStartView extends VerticalLayout {
         for(DoctorPatient thispatient:patientList){
             PatientInfo p = new PatientInfo(patientService.searchByuid(thispatient.getPatientuid()).getFirstName(),
                     patientService.searchByuid(thispatient.getPatientuid()).getLastName(),
-                    patientService.searchByuid(thispatient.getPatientuid()).getEmail());
+                    patientService.searchByuid(thispatient.getPatientuid()).getEmail(),
+                    patientService.searchByuid(thispatient.getPatientuid()).getLogbooktype(),
+                    thispatient.getPatientuid(),
+                    doctorpatientService, patientService);
             patientList_final.add(p);
         }
 

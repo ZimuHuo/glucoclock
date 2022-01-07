@@ -7,13 +7,14 @@ import com.vaadin.flow.router.ErrorParameter;
 import com.vaadin.flow.router.HasErrorParameter;
 import com.vaadin.flow.router.NotFoundException;
 import com.vaadin.flow.server.VaadinSession;
-
 import javax.servlet.http.HttpServletResponse;
 
+/*
+Exception handling when the user entered some random url does not exist
+ */
 @Tag(Tag.DIV)
 public class RouteNotFoundError extends Component
         implements HasErrorParameter<NotFoundException> {
-
     @Override
     public int setErrorParameter(BeforeEnterEvent event,
                                  ErrorParameter<NotFoundException> parameter) {
@@ -21,8 +22,6 @@ public class RouteNotFoundError extends Component
                 + event.getLocation().getPath()
                 + "' Because it does not exist!";
         getElement().setText(text);
-
-
         event.rerouteTo(Control.class);
         VaadinSession.getCurrent().setAttribute("Error",text);
         return HttpServletResponse.SC_NOT_FOUND;

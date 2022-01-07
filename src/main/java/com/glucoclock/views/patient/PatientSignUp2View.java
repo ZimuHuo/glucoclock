@@ -23,7 +23,10 @@ import com.vaadin.flow.server.VaadinSession;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-
+/*
+This page is used for patient sign up part 2.
+It should store the contact information of the patient details.
+ */
 @PageTitle("Patient Sign Up")
 @Route(value = "patient-sign-up-2")
 public class PatientSignUp2View extends Div {
@@ -68,7 +71,10 @@ public class PatientSignUp2View extends Div {
         hl.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         add(hl);
     }
-
+    /*
+     vaadin will automatically ignore empty components, which will be hard to organize the component (like spacing)
+     So this page is composed of several form layouts instead of just one.
+      */
     private void formlayout3SetUp() {
         this.formLayout3 = new FormLayout();
         formLayout3.add(

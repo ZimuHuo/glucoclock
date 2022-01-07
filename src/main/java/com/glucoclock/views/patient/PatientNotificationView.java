@@ -67,6 +67,7 @@ public class PatientNotificationView extends VerticalLayout {
 //        Get the list of notifications
         dataProvider = new ListDataProvider<>(notificationService.getRepository().getNotificationByPatientuid(userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid()));
         grid.setDataProvider(dataProvider);
+        grid.setAllRowsVisible(true);
     }
 
 

@@ -1,7 +1,7 @@
 package com.glucoclock.views;
 
 import com.glucoclock.views.doctor.DoctorStartView;
-import com.glucoclock.views.patient.PatientStart;
+import com.glucoclock.views.patient.PatientStartView;
 import com.glucoclock.views.researcher.ResearcherStartView;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -12,13 +12,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+
+/*
+It is a control hub which reroute the users after sign up and re-route them in case of RouteNotFoundError
+ */
 @Route(value = "")
 @Theme(themeFolder = "glucoclock")
 public class Control extends VerticalLayout implements BeforeEnterObserver {
     public void beforeEnter(BeforeEnterEvent event) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("PATIENT"))){
-            event.forwardTo(PatientStart.class);
+            event.forwardTo(PatientStartView.class);
         }else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("DOCTOR"))){
             event.forwardTo(DoctorStartView.class);
         }else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("RESEARCHER"))){
@@ -26,6 +30,6 @@ public class Control extends VerticalLayout implements BeforeEnterObserver {
         }else{
             event.rerouteTo(HomeView.class);
         }
-        // we need a fully functional error page to deal with all the exceptions
+        //  a fully functional error page to deal with all the exceptions
     }
 }
