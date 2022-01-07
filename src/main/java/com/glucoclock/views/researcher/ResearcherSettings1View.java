@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -44,11 +45,12 @@ public class ResearcherSettings1View extends HorizontalLayout {
     //    --------------------------------------------
 
     //    All Components on the page
+    private H1 space = new H1(" ");
     TextField firstName, lastName, homeAddressL1, homeAddressL2, postcode, cityField, contactNumber;
     DatePicker birthSelect;
     EmailField emailField;
     Select<String> genderSelect, institutionSelect;
-    Button changeSetting, save, cancel, changePassword, toHome;
+    Button changeSetting, save, cancel, changePassword;
     VerticalLayout mainLayout;
     HorizontalLayout buttons;
     private MenuBar menu = new MenuBar("RNS");
@@ -97,11 +99,11 @@ public class ResearcherSettings1View extends HorizontalLayout {
 
         buttons.add(changePassword, changeSetting, save, cancel);
 
-        mainLayout.add(
+        mainLayout.add(space,
                 new H2("Settings"),
                 buttons,
-                formLayout,
-                toHome
+                formLayout
+                //toHome
         );
 
         add(
@@ -142,7 +144,7 @@ public class ResearcherSettings1View extends HorizontalLayout {
         cancelInit();
         changePasswordInit();
         institutionSelectInit();
-        toHomeSetUp();
+        //toHomeSetUp();
     }
 
     //    Each of following methods initialize one component
@@ -369,16 +371,16 @@ public class ResearcherSettings1View extends HorizontalLayout {
         institutionSelect.setLabel("Institution");
     }
 
-    private void toHomeSetUp() {
-        toHome = new Button("OK");
-        toHome.getElement().getStyle().set("margin-left", "auto");
-        toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        toHome.addClickListener(e -> {
-            toHome.getUI().ifPresent(ui ->
-                    ui.navigate(ResearcherStartView.class)
-            );
-        });
-    }
+//    private void toHomeSetUp() {
+//        toHome = new Button("OK");
+//        toHome.getElement().getStyle().set("margin-left", "auto");
+//        toHome.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+//        toHome.addClickListener(e -> {
+//            toHome.getUI().ifPresent(ui ->
+//                    ui.navigate(ResearcherStartView.class)
+//            );
+//        });
+//    }
 
 
     //    Set all the components on the page to be read-only or not
@@ -393,6 +395,6 @@ public class ResearcherSettings1View extends HorizontalLayout {
         cityField.setReadOnly(Boolean);
         contactNumber.setReadOnly(Boolean);
         genderSelect.setReadOnly(Boolean);
-        toHome.setEnabled(Boolean);
+        //toHome.setEnabled(Boolean);
     }
 }

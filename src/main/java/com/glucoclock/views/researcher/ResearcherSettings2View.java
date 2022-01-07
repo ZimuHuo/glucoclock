@@ -5,6 +5,7 @@ import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -22,7 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Route(value = "researcher/change-password")
 
 public class ResearcherSettings2View extends HorizontalLayout{
-
+    private H1 space = new H1(" ");
     PasswordField oldPassword, newPassword, confirmPassword;
     Button confirmButton, cancelButton;
     VerticalLayout mainLayout;
@@ -34,7 +35,7 @@ public class ResearcherSettings2View extends HorizontalLayout{
         add(menu);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        mainLayout.add(
+        mainLayout.add(space,
                 new H2("Change Password"),
                 oldPassword,
                 newPassword,
