@@ -41,7 +41,6 @@ public class DoctorStartView extends VerticalLayout {
     private Grid.Column<PatientInfo> lastNameColumn;
     private Grid.Column<PatientInfo> emailColumn;
     private Grid.Column<PatientInfo> logbookColumn;
-    private Grid.Column<PatientInfo> editLogbookColumn;
     private Grid.Column<PatientInfo> buttonColumn;
     private Grid.Column<PatientInfo> buttonDelete;
 
@@ -69,30 +68,33 @@ public class DoctorStartView extends VerticalLayout {
         this.patientService = patientService;
         this.doctorService = doctorService;
 
+        //get doctor id using authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         String username = authentication.getName();//return email
         User user=userService.getRepository().findByUsername(username); //return user
         doctoruid=user.getUid();
 
+        //add button
         add.setSize("50px");
         addBut.setWidth("55px");
         addBut.setHeight("55px");
-        //addBut.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        addBut.addClickListener(e->
+                //navigate to the add patient page
+                addBut.getUI().ifPresent(ui ->
+                        ui.navigate(AddPatientView.class))
+        );
+
         hl.add(title,addBut);
         hl.setHeight("20%");
         hl.setVerticalComponentAlignment(FlexComponent.Alignment.BASELINE,title,addBut);
 
-        //Add button
-        addBut.addClickListener(e->
-                //navigate to the add patient page
-                addBut.getUI().ifPresent(ui ->
-                ui.navigate(AddPatientView.class))
-        );
+
 
         //Create grid
-        setSizeFull();
+        //setSizeFull();
         createGrid();
+
 
         //Layout
         VerticalLayout vl = new VerticalLayout();
@@ -117,11 +119,14 @@ public class DoctorStartView extends VerticalLayout {
 
     private void createGridComponent() {
         grid = new Grid<>();
+        grid.setAllRowsVisible(true);
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_COLUMN_BORDERS);
         grid.setHeight("100%");
 
+        //get patient list of this doctor
         dataProvider = new ListDataProvider<>(getPatients());
         grid.setDataProvider(dataProvider);
+        grid.setAllRowsVisible(true);
     }
 
 
@@ -129,10 +134,9 @@ public class DoctorStartView extends VerticalLayout {
         firstNameColumn = grid.addColumn(PatientInfo::getFirstName, "FirstName").setHeader("First Name").setWidth("17%").setFlexGrow(0);
         lastNameColumn = grid.addColumn(PatientInfo::getLastName, "LastName").setHeader("Last Name").setWidth("17%").setFlexGrow(0);
         emailColumn = grid.addColumn(PatientInfo::getEmail, "Email").setHeader("Email").setWidth("28%").setFlexGrow(0);
-        logbookColumn = grid.addColumn(PatientInfo::getSuggestedLbType).setHeader("Suggested Logbook Type").setWidth("18%").setFlexGrow(0);
-        editLogbookColumn = grid.addComponentColumn(PatientInfo::buildEditLbTypeButton).setWidth("6%").setFlexGrow(0);
-        buttonColumn = grid.addComponentColumn(PatientInfo::buildViewButton).setWidth("14%").setFlexGrow(0);
-        buttonDelete = grid.addComponentColumn(PatientInfo::deletePatient).setWidth("14%").setFlexGrow(0);
+        logbookColumn = grid.addComponentColumn(PatientInfo::buildEditLbTypeButton).setHeader("Suggested Logbook Type").setWidth("18%").setFlexGrow(0);
+        buttonColumn = grid.addComponentColumn(PatientInfo::buildViewButton).setWidth("11%").setFlexGrow(0);
+        buttonDelete = grid.addComponentColumn(PatientInfo::deletePatient).setWidth("6%").setFlexGrow(0);
     }
 
 
@@ -184,7 +188,7 @@ public class DoctorStartView extends VerticalLayout {
                     patientService.searchByuid(thispatient.getPatientuid()).getEmail(),
                     patientService.searchByuid(thispatient.getPatientuid()).getLogbooktype(),
                     thispatient.getPatientuid(),
-                    doctorpatientService);
+                    doctorpatientService, patientService);
             patientList_final.add(p);
         }
 

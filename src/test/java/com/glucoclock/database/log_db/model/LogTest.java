@@ -14,11 +14,12 @@ class LogTest {
     private Log l = new Log(uid,LocalDate.of(2000,1,1),
             2,2);
 
+
     @Test
     void getTime() {
         assertEquals(2,l.getTime());
     }
-
+/*
     @Test
     void getDate() {
         assertEquals(LocalDate.of(2000,1,1),l.getDate());
@@ -40,6 +41,8 @@ class LogTest {
         l.setTime(1);
         assertEquals(1,l.getTime());
     }
+
+ */
 
     @Test
     void setId() {
@@ -63,5 +66,4 @@ class LogTest {
     void setPatientuid() {
         assertEquals(uid,l.getPatientuid());
     }
-
 }

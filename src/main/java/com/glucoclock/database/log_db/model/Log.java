@@ -12,35 +12,32 @@ public class Log implements Serializable, Comparable<Log> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    //Columns of the database and variables
+    //Record date
     @Column (name="Date")
     private LocalDate date;
 
+    //Record logbook type
     @Column (name="LogBookType")
     private int logbooktype;
 
+    //Record patient uid
     @Column (name="Patient_uid")
     private UUID patientuid;
-    @Column (name="Time")
-    private int time;
 
 
-    public Log(UUID patientuid,LocalDate date, int logbooktype, int time){
+//  Constructor
+    public Log(UUID patientuid,LocalDate date, int logbooktype){
         this.patientuid=patientuid;
         this.date=date;
         this.logbooktype=logbooktype;
-this.time = time;
+
     }
 
     public Log() {
 
     }
-    public int getTime() {
-        return time;
-    }
 
-    public void setTime(int time) {
-        this.time = time;
-    }
     @Override
     public String toString() {
         return "Log{" +
@@ -91,6 +88,7 @@ this.time = time;
         return returnLogbooktype;
     }
     @Override
+    //Compare record date of logs
     public int compareTo(Log that) {
         return this.date.compareTo(that.date);
     }

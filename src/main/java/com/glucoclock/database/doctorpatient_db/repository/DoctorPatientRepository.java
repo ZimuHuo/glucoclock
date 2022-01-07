@@ -12,6 +12,8 @@ public interface DoctorPatientRepository extends CrudRepository<DoctorPatient,Lo
     //find patients of one doctor
     List<DoctorPatient> findByDoctoruid(UUID doctoruid);
 
+    DoctorPatient findByPatientuid(UUID patientuid);
+
     DoctorPatient getDoctorPatientById(long id);
 
     @Override

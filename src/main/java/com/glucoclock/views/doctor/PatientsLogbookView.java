@@ -1,5 +1,4 @@
-package com.glucoclock.views.patient;
-
+package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.comprehensiveLogBook_db.model.ComprehensiveLogBook;
 import com.glucoclock.database.comprehensiveLogBook_db.service.ComprehensiveLogBookService;
@@ -10,13 +9,11 @@ import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.patient.HistoryView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -25,24 +22,20 @@ import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.annotation.security.RolesAllowed;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
-@PageTitle("My Logbook")
-@Route(value = "patient/logbook")
-@RolesAllowed("ADMIN")
-public class LogbookView extends VerticalLayout {
+@PageTitle("View Patients Logbooks")
+@Route(value = "doctor/view-patient-logbook-details")
+public class PatientsLogbookView extends VerticalLayout{
     //this patient id
     private UUID patientUid;         //set to 1 for testing
     private LocalDate SelectDate=LocalDate.now();   //will get from previous page
     private String LogbookType="Simple";
 
     //UI components
-    private MenuBar menu = new MenuBar("PNS");
+    private MenuBar menu = new MenuBar("DNS");
     private Button Back=new Button("Back");
 
     //Database
@@ -54,7 +47,7 @@ public class LogbookView extends VerticalLayout {
 
 
 
-    public LogbookView(SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, UserService userService){
+    public PatientsLogbookView(SimpleLogBookService simplelogData, ComprehensiveLogBookService comprehensivelogData, IntensiveLogBookService intensivelogData, UserService userService){
 
         removeAll();
         add(menu);
@@ -64,11 +57,8 @@ public class LogbookView extends VerticalLayout {
         IntensivelogData = intensivelogData;
         this.userService = userService;
 
-        //get patientuid using authentication
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getAuthorities();
-        User user= this.userService.getRepository().findByUsername(authentication.getName()); //return user
-        patientUid=user.getUid();   //get patient uid
+        //get patientuid using session
+        patientUid = (UUID) VaadinSession.getCurrent().getAttribute("PatientID");
 
         //Session
         //get logbook type
@@ -78,7 +68,7 @@ public class LogbookView extends VerticalLayout {
 
         //Back button
         add(Back);
-        Back.addClickListener(click->Back.getUI().ifPresent(ui->ui.navigate(HistoryView.class)));
+        Back.addClickListener(click->Back.getUI().ifPresent(ui->ui.navigate(PatientDataView.class)));
 
         //display simple log book
         if(LogbookType.equals("Simple")){

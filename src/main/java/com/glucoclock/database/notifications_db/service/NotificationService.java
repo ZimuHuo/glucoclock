@@ -1,5 +1,7 @@
-package com.glucoclock.database.notifications_db;
+package com.glucoclock.database.notifications_db.service;
 
+import com.glucoclock.database.notifications_db.model.Notifications;
+import com.glucoclock.database.notifications_db.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

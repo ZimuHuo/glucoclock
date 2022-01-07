@@ -5,9 +5,10 @@ import com.glucoclock.database.intensiveLogBook_db.model.IntensiveLogBook;
 import com.glucoclock.database.intensiveLogBook_db.service.IntensiveLogBookService;
 import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
-import com.glucoclock.database.notifications_db.NotificationService;
-import com.glucoclock.database.notifications_db.Notifications;
+import com.glucoclock.database.notifications_db.service.NotificationService;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
+import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
@@ -25,6 +26,7 @@ import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.Duration;
@@ -49,6 +51,8 @@ public class IntensiveLogbookView extends Div {
     private H3 title = new H3("Add Intensive Logbook Entry");
     private MenuBar menu = new MenuBar("PNS");
 
+    private UUID patientUid;
+
     private final UserService userService;
     private final IntensiveLogBookService intensiveLogBookService;
     private final NotificationService notificationService;
@@ -63,6 +67,15 @@ public class IntensiveLogbookView extends Div {
         this.patientService = patientService;
         this.doctorPatientService = doctorPatientService;
         this.logService = logService;
+
+        //get patient uid
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.getAuthorities();
+        String userName=authentication.getName();
+        System.out.print(authentication.getName()); // here it gets the username. absolutely fantastic
+        User user= this.userService.getRepository().findByUsername(userName); //return user
+        patientUid=user.getUid();   //get patient uid
+
         init();
         add(menu);
         //add(menuBar());
@@ -109,36 +122,40 @@ public class IntensiveLogbookView extends Div {
                         Double bg = bloodGlucose.getValue();
                         //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
                         if (bg > 140) {
-//                    SendMail sendMail = new SendMail();
-//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
                             Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
 
+                            //if patient do not have a doctor don't send email
+                            if(doctorPatientService.checkPatient(patientUid)) {
 
-                            // Create and save a new notification
-                            UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
-                            Notifications n = new Notifications(
-                                    patientService,
-                                    patientUID,
-                                    doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
-                                    "Blood Glucose Alarm"
-                            );
-                            n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
-                            n.setCompleteMessage(
-                                    n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
-                                            "\n" +
-                                            "Date: " + n.getDate().toLocalDate() + "\n" +
-                                            "Time: " + n.getDate().toLocalTime() + "\n" +
-                                            "Blood glucose level: " + bloodGlucose.getValue() + " units."
-                            );
-                            notificationService.getRepository().save(n);
+//                    SendMail sendMail = new SendMail();
+//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
+
+                                // Create and save a new notification
+                                Notifications n = new Notifications(
+                                        patientService,
+                                        patientUid,
+                                        doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid
+                                        "Blood Glucose Alarm"
+                                );
+                                n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
+                                n.setCompleteMessage(
+                                        n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
+                                                "\n" +
+                                                "Date: " + n.getDate().toLocalDate() + "\n" +
+                                                "Time: " + n.getDate().toLocalTime() + "\n" +
+                                                "Blood glucose level: " + bloodGlucose.getValue() + " units."
+                                );
+                                notificationService.getRepository().save(n);
+                            }
+                            else Notification.show("You do not have a doctor yet!");
                         }
                         LocalTime localTime = timePicker.getValue();
 
                         LocalTime timefinder = LocalTime.of(localTime.getHour(), 00, 00);
                         //save to database
-                        UUID uid = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
+
                         IntensiveLogBook intensiveLogBook = new IntensiveLogBook(
-                                uid,
+                                patientUid,
                                 (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
                                 timefinder,
                                 bloodGlucose.getValue().toString(),
@@ -154,8 +171,11 @@ public class IntensiveLogbookView extends Div {
 
 //UUID PatientUid, LocalDate Date, LocalTime Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons
                         intensiveLogBookService.getRepository().save(intensiveLogBook);
-                        Log log = new Log(uid, (LocalDate) VaadinSession.getCurrent().getAttribute("date"), 3, timePicker.getValue().getHour());
-                        logService.getRepository().save(log);
+
+                        if(logService.findLogBookbyDate((LocalDate) VaadinSession.getCurrent().getAttribute("date"),patientUid)==null) {
+                            Log log = new Log(patientUid, (LocalDate) VaadinSession.getCurrent().getAttribute("date"), 3);
+                            logService.getRepository().save(log);
+                        }
                         //Navigation
                         submitButton.getUI().ifPresent(ui ->
                                 ui.navigate(ConfirmationView.class)
