@@ -12,12 +12,9 @@ class LogTest {
     UUID uid = UUID.randomUUID();
     UUID uid2 = UUID.randomUUID();
     private Log l = new Log(uid,LocalDate.of(2000,1,1),
-            2,2);
+            2);
 
-    @Test
-    void getTime() {
-        assertEquals(2,l.getTime());
-    }
+
 /*
     @Test
     void getDate() {

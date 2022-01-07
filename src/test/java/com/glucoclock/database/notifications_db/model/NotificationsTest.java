@@ -1,4 +1,4 @@
-package com.glucoclock.database.notifications_db;
+package com.glucoclock.database.notifications_db.model;
 
 import com.glucoclock.database.patients_db.service.PatientService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +12,12 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class NotificationsTest {
+
     private Notifications n = new Notifications();
     LocalDateTime now = LocalDateTime.now();
 
 
-/*
+
     @Test
     void getPatientFirstName() {
         assertEquals("fn",n.getPatientFirstName());
@@ -58,7 +59,7 @@ class NotificationsTest {
     }
 
 
- */
+
 
 
     @Test
@@ -108,6 +109,7 @@ class NotificationsTest {
         n.setReplymessage("rrr");
         assertEquals("rrr",n.getReplymessage());
     }
+
 
 
 }

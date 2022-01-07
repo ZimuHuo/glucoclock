@@ -1,4 +1,4 @@
-package com.glucoclock.database.questionnaire_db;
+package com.glucoclock.database.questionnaire_db.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +10,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionnaireTest {
+
     UUID uid = UUID.randomUUID();
     LocalDateTime now = LocalDateTime.now();
     private Questionnaire q = new Questionnaire(uid,now,
@@ -55,4 +56,6 @@ class QuestionnaireTest {
         q.setOtherSymptoms("xxx");
         assertEquals("xxx",q.getOtherSymptoms());
     }
+
+
 }
