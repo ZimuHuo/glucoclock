@@ -102,24 +102,31 @@ public class PatientPlotView extends Div {
             else {
                 plotButton.setEnabled(true);
                 for(Log data: patientData){
+
                     int type = data.getLogbooktype();
-                    String time = String.valueOf(data.getTime());
+
+                    //type of logbook
                     if(type==1){
-                        SimpleLogBook simpleLogBook = simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,data.getTime(),data.getDate());
-                        yval = Double.valueOf(simpleLogBook.getBloodglucose());
-                        xval = (double)data.getDate().getDayOfMonth()+(double)1/6*data.getTime();
+                        List<SimpleLogBook> simpleLog=simpleLogBookService.findLogByDateAndPatientuid(data.getDate(),patientUid);
+                        for(SimpleLogBook simple:simpleLog) {
+                            yval = Double.valueOf(simple.getBloodglucose());
+                            xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * simple.getTime();
+                        }
 
                     }
                     if(type ==2){
-                        ComprehensiveLogBook comprehensiveLogBook = comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,data.getTime(),data.getDate());
-                        yval = Double.valueOf(comprehensiveLogBook.getBloodglucose());
-                        xval = (double)data.getDate().getDayOfMonth()+(double)1/6*data.getTime();
+                        List<ComprehensiveLogBook> compreLog = comprehensiveLogBookService.findLogByDateAndPatientuid(data.getDate(),patientUid);
+                        for(ComprehensiveLogBook compre:compreLog) {
+                            yval = Double.valueOf(compre.getBloodglucose());
+                            xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * compre.getTime();
+                        }
                     }
                     if (type ==3){
-                        LocalTime timefinder = LocalTime.of(data.getTime(), 00, 00);
-                        IntensiveLogBook intensiveLogBook = intensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,timefinder,data.getDate());
-                        yval = Double.valueOf(intensiveLogBook.getBloodglucose());
-                        xval = (double)data.getDate().getDayOfMonth()+(double)1/24*data.getTime();
+                        List<IntensiveLogBook> intenLog = intensiveLogBookService.findLogByDateAndPatientuid(data.getDate(),patientUid);
+                        for(IntensiveLogBook inten:intenLog) {
+                            yval = Double.valueOf(inten.getBloodglucose());
+                            xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 24 * inten.getTime().getHour();
+                        }
                     }
                     series.add(new DataSeriesItem(xval, yval));
                 }
