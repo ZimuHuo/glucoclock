@@ -2,19 +2,23 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
+import com.glucoclock.database.notifications_db.service.NotificationService;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -39,14 +43,17 @@ public class PatientStartView extends VerticalLayout{
     private MenuBar menu = new MenuBar("PStart");
     private H2 title = new H2("Upload Logbook Entry");
     private UUID uid;
+    private Notification notification;
 
     private final PatientService patientService;
     private final UserService userService;
     private final LogService logService;
-    public PatientStartView(PatientService patientService, UserService userService, LogService logService){
+    private final NotificationService notificationService;
+    public PatientStartView(PatientService patientService, UserService userService, LogService logService, NotificationService notificationService){
         this.patientService = patientService;
         this.userService = userService;
         this.logService = logService;
+        this.notificationService = notificationService;
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
@@ -54,8 +61,25 @@ public class PatientStartView extends VerticalLayout{
         uid = userService.getRepository().findByUsername(authentication.getName()).getUid();
         add(menu);
 
-        //suggest logbook type
+        //suggested logbook type
         String lbType = patientService.getRepository().getPatientByUid(uid).getLogbooktype();
+
+        //Get the number of unresolved messages and display if not zero
+        Integer unresolvedN = notificationService.countUnresolvedMsg(uid,"PATIENT");
+        if(unresolvedN!=0){
+            Button close = new Button(new Icon(VaadinIcon.CLOSE_SMALL));
+            Div msg = new Div(new Text("You have "+unresolvedN+" unresolved notification(s)."));
+            HorizontalLayout noti = new HorizontalLayout(new Icon(VaadinIcon.ENVELOPES),msg,close);
+            noti.setAlignItems(Alignment.CENTER);
+            close.addClickListener(e->notification.close());
+            notification = new Notification();
+            notification.add(noti);
+            notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
+            notification.setPosition(Notification.Position.TOP_CENTER);
+            notification.open();
+            notification.setDuration(10000);
+        }
+
 
     //UI components set up
         //Date

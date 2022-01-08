@@ -1,5 +1,6 @@
 package com.glucoclock.database.notifications_db.model;
 
+import com.glucoclock.database.patients_db.model.Patient;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.doctor.DoctorNotificationDetailsView;
 import com.glucoclock.views.patient.PatientNotificationDetailsView;
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Notification_db")
-public class Notifications implements Serializable {
+public class Notifications implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
