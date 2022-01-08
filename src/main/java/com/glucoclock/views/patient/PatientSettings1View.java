@@ -500,7 +500,6 @@ public class PatientSettings1View extends HorizontalLayout {
         firstName.setReadOnly(Boolean);
         lastName.setReadOnly(Boolean);
         datePicker.setReadOnly(Boolean);
-        emailField.setReadOnly(Boolean);
         homeAddressL1.setReadOnly(Boolean);
         homeAddressL2.setReadOnly(Boolean);
         postcode.setReadOnly(Boolean);

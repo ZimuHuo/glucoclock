@@ -388,7 +388,6 @@ public class ResearcherSettings1View extends HorizontalLayout {
         firstName.setReadOnly(Boolean);
         lastName.setReadOnly(Boolean);
         birthSelect.setReadOnly(Boolean);
-        emailField.setReadOnly(Boolean);
         homeAddressL1.setReadOnly(Boolean);
         homeAddressL2.setReadOnly(Boolean);
         postcode.setReadOnly(Boolean);
