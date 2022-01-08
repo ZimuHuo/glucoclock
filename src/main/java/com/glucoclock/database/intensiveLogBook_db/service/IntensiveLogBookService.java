@@ -41,7 +41,7 @@ public class IntensiveLogBookService {
         return IntensiveLogBookObjects;
     }
 
-    //-->list of simple log of one patient
+    //Find list of ALL intensive logs of one patient
     public List<IntensiveLogBook> findLogsByPatientid(UUID patient_uid){
         List<IntensiveLogBook> Intensivelog;
         Intensivelog=repository.findByPatientuid(patient_uid);
@@ -49,10 +49,10 @@ public class IntensiveLogBookService {
         return Intensivelog;
     }
 
-    //find one log--> using date and patient id
+    //Find list of logs for a patient at a specific day
     public List<IntensiveLogBook> findLogByDateAndPatientuid(LocalDate date,UUID patient_uid){
         List<IntensiveLogBook> Intensivelog;
-        Intensivelog=repository.findByPatientuidAndAndDate(patient_uid,date);
+        Intensivelog=repository.findByPatientuidAndDate(patient_uid,date);
         Collections.sort(Intensivelog);
         return Intensivelog;
     }

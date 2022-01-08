@@ -39,7 +39,7 @@ public class ComprehensiveLogBookService {
         return ComprehensiveLogBookObjects;
     }
 
-    //-->list of simple log of one patient
+    //Find list of ALL comprehensive logs of one patient
     public List<ComprehensiveLogBook> findLogsByPatientuid(UUID patient_uid){
         List<ComprehensiveLogBook> Comprehensivelog;
         Comprehensivelog=repository.findByPatientuid(patient_uid);
@@ -47,14 +47,15 @@ public class ComprehensiveLogBookService {
         return Comprehensivelog;
     }
 
-    //find one log--> using date and patient id
+    //Find list of logs for a patient at a specific day
     public List<ComprehensiveLogBook> findLogByDateAndPatientuid(LocalDate date,UUID patient_uid){
         List<ComprehensiveLogBook> Comprehensivelog;
-        Comprehensivelog=repository.findByPatientuidAndAndDate(patient_uid,date);
+        Comprehensivelog=repository.findByPatientuidAndDate(patient_uid,date);
         Collections.sort(Comprehensivelog);
         return Comprehensivelog;
     }
 
+    //Get repository
     public ComprehensiveLogBookRepository getRepository(){
         return repository;
     }

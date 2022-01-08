@@ -13,38 +13,49 @@ public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBo
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    //Columns of the database and variables
+    //Patient uid
     @Column(name = "PatientUid")
     private UUID patientuid;
 
+    //Record date
     @Column(name = "Date")
     private LocalDate date;
 
+    //Record time (1:00,2:00...)
     @Column(name="Time")
     private LocalTime time;
 
+    //Recorded blood glucose
     @Column(name = "BloodGlucose")
     private String bloodglucose;
 
+    //Record carb intake
     @Column(name = "CarbIntake")
     private String carbintake;
 
+    //Record insulin dose
     @Column(name="InsulinDose")
     private String insulindose;
 
+    //Record carb bolus
     @Column (name="CarbBolus")
     private String carbbolus;
 
+    //Record high bs bolus
     @Column (name="HighBSBolus")
     private String highbsbolus;
 
+    //Record basal rate
     @Column (name="BasalRate")
     private String basalrate;
 
+    //Record ketones
     @Column (name="Ketons")
     private String ketons;
 
 
-
+    //  Constructor
     public IntensiveLogBook(UUID PatientUid, LocalDate Date,
                             LocalTime Time, String BloodGlucose,
                             String CarbIntake, String InsulinDose,
@@ -67,6 +78,7 @@ public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBo
 
     }
 
+    //   getter and setter
     public String getCarbbolus() {
         return carbbolus;
     }

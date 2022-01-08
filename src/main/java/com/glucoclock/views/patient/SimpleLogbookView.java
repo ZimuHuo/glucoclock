@@ -38,11 +38,11 @@ import java.util.UUID;
 @Route(value = "patient/addsimplelogbookentry")
 public class SimpleLogbookView extends Div {
     private H3 title = new H3("Add Simple Logbook Entry");
-    ComboBox<String> prepost;
-    ComboBox<String> meal;
-    NumberField bloodGlucose;
-    NumberField carbohydrate;
-    Button submitButton = new Button("Upload");
+    private ComboBox<String> prepost;
+    private ComboBox<String> meal;
+    private NumberField bloodGlucose;
+    private NumberField carbohydrate;
+    private Button submitButton = new Button("Upload");
     private MenuBar menu = new MenuBar("PNS");
 
     private Integer time;

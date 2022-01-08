@@ -74,11 +74,6 @@ public class PatientDataDownloadView extends VerticalLayout {
 
         patientUid = (UUID) VaadinSession.getCurrent().getAttribute("PatientID");
 
-        //create testing database
-//        SimplelogData.bulkcreate();
-//        ComprehensivelogData.bulkcreate();
-//        IntensivelogData.bulkcreate();
-//        Logdata.bulkcreate();
 
         // add menu bar
         add(menu);

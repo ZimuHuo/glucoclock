@@ -13,24 +13,30 @@ public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    //Columns of the database and variables
+    //Patient uid
     @Column(name = "PatientUid")
     private UUID patientuid;
 
+    //Record date
     @Column(name = "Date")
     private LocalDate date;
 
+    //Record time (Pre/Post- Breakfast/Lunch/Dinner)
     @Column(name="Time")
     private int time;
 
+    //Record blood glucose
     @Column(name = "BloodGlucose")
     private String bloodglucose;
 
+    //Record carb intake
     @Column(name = "CarbIntake")
     private String carbintake;
 
 
 
-
+    //  Constructor
     public SimpleLogBook(UUID PatientUid, LocalDate Date, String TimeString, String BloodGlucose, String CarbIntake) {
 
         patientuid = PatientUid;
@@ -50,6 +56,7 @@ public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
 
     }
 
+    //  Getter and setter
     public long getId() {
         return id;
     }
@@ -111,6 +118,7 @@ public class SimpleLogBook implements Serializable, Comparable<SimpleLogBook> {
 
 
     @Override
+    //Compare record time of single logs
     public int compareTo(SimpleLogBook that){
         int returnint=2;
         int thisindex=this.getTime();

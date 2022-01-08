@@ -39,21 +39,22 @@ public class SimpleLogBookService {
         return SimpleLogBookObjects;
     }
 
-    //-->list of simple log of one patient
+    //Find list of ALL simple logs of one patient
     public List<SimpleLogBook> findLogsByPatientid(UUID patient_uid){
         List<SimpleLogBook> SimpleLog;
         SimpleLog=repository.findByPatientuid(patient_uid);
         return SimpleLog;
     }
 
-    //find one log--> using date and patient id
+    //Find list of logs for a patient at a specific day
     public List<SimpleLogBook> findLogByDateAndPatientuid(LocalDate date, UUID patient_uid){
         List<SimpleLogBook> SimpleLog;
-        SimpleLog=repository.findByPatientuidAndAndDate(patient_uid,date);
+        SimpleLog=repository.findByPatientuidAndDate(patient_uid,date);
         Collections.sort(SimpleLog);
         return SimpleLog;
     }
 
+    //Get repository
     public SimpleLogBookRepository getRepository(){
         return repository;
     }

@@ -18,23 +18,28 @@ public class ComprehensiveLogBook implements Serializable, Comparable<Comprehens
     @Column(name = "PatientUid")
     private UUID patientuid;
 
+    //Record Date
     @Column(name = "Date")
     private LocalDate date;
 
+    //Record Time   (Pre/Post- Breakfast/Lunch/Dinner)
     @Column(name="Time")
     private int time;
 
+    //Record Blood glucose
     @Column(name = "BloodGlucose")
     private String bloodglucose;
 
+    //Record Carb intake
     @Column(name = "CarbIntake")
     private String carbintake;
 
+    //Record insulindose
     @Column(name="InsulinDose")
     private String insulindose;
 
 
-
+    //  Constructor
     public ComprehensiveLogBook(UUID PatientUid, LocalDate Date, String TimeString, String BloodGlucose, String CarbIntake, String InsulinDose) {
 
         patientuid = PatientUid;
@@ -55,7 +60,7 @@ public class ComprehensiveLogBook implements Serializable, Comparable<Comprehens
     }
 
 
-
+    //  Getter and Setter
     public String getInsulindose() {
         return insulindose;
     }
@@ -124,6 +129,7 @@ public class ComprehensiveLogBook implements Serializable, Comparable<Comprehens
     }
 
     @Override
+    //Compare record time of logs
     public int compareTo(ComprehensiveLogBook that){
         int returnint=2;
         int thisindex=this.getTime();
