@@ -102,10 +102,9 @@ create chart view
             String check =start.getMonth().toString().substring(0,3)+"."+start.getYear();
             if (patientData.isEmpty()) {
                 Notification.show("No Data");
-            }if(log.contains(check)){
+            }else if(log.contains(check)){
                 Notification.show("Already added",2000, Notification.Position.MIDDLE);
-            }
-            else {
+            } else {
                 plotButton.setEnabled(true);
                 xAxis.setTickInterval(1);
                 conf.addxAxis(xAxis);
