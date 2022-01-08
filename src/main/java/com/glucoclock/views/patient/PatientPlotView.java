@@ -26,13 +26,15 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
+/*
+This page is used for plotting the patient glucose level in a chart.
+It plots the glucose level by month and store each series in the chart configuration
+It allows one user input, which is day. It automatically checks the patient database and display the glucose level within that month
+ */
 @PageTitle("View Plots")
 @Route(value = "/patient/plots-view")
 public class PatientPlotView extends Div {
@@ -69,7 +71,9 @@ public class PatientPlotView extends Div {
         add(space, createViewEvents(), menu);
 
     }
-
+/*
+create chart view
+ */
     private Component createViewEvents() {
         //create chart
         Chart chart = new Chart(ChartType.LINE);
@@ -85,14 +89,11 @@ public class PatientPlotView extends Div {
         this.datePicker = new DatePicker();
         datePicker.setMinWidth("300px");
         datePicker.setLabel("Display data in the selected month");
-        //add(datePicker);
         datePicker.addValueChangeListener(date -> {
             charDate = date.getValue();
             LocalDate start = charDate.withDayOfMonth(1);
             LocalDate end = charDate.withDayOfMonth(charDate.lengthOfMonth());
             List<Log> patientData = logService.findLogBooksBetweenDate(start, end, patientUid);
-            double yval = 0;
-            double xval = 0;
             plotButton.setEnabled(false);
             if (patientData.isEmpty()) {
                 Notification.show("No Data");
@@ -103,7 +104,7 @@ public class PatientPlotView extends Div {
                 conf.getxAxis().setType(AxisType.LINEAR);
             }
         });
-
+//plot the graph and clear the series after plotting it
         plotButton.addClickListener(e -> {
             DataSeries series = getPatientData();
             conf.addSeries(series);
@@ -126,7 +127,9 @@ public class PatientPlotView extends Div {
     public static Date convertToDateViaSqlDate(LocalDate dateToConvert) {
         return java.sql.Date.valueOf(dateToConvert);
     }
-
+/*
+store the patient glucose level in a data series
+ */
     public DataSeries getPatientData() {
         DataSeries series = new DataSeries();
         LocalDate start = charDate.withDayOfMonth(1);
