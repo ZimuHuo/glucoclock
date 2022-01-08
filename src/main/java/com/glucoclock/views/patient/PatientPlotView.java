@@ -24,6 +24,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import java.time.LocalDate;
@@ -97,7 +98,8 @@ create chart view
             plotButton.setEnabled(false);
             if (patientData.isEmpty()) {
                 Notification.show("No Data");
-            } else {
+            }
+            else {
                 plotButton.setEnabled(true);
                 xAxis.setTickInterval(1);
                 conf.addxAxis(xAxis);
@@ -134,11 +136,11 @@ store the patient glucose level in a data series
         DataSeries series = new DataSeries();
         LocalDate start = charDate.withDayOfMonth(1);
         LocalDate end = charDate.withDayOfMonth(charDate.lengthOfMonth());
-        series.setName(start.getMonth().toString());
+        series.setName(start.getYear()+"."+start.getMonth().toString());
         List<Log> patientData = logService.findLogBooksBetweenDate(start, end, patientUid);
         double yval = 0;
         double xval = 0;
-        series.setName(start.getMonth().toString());
+        //series.setName(start.getMonth().toString());
         for (Log data : patientData) {
 
             int type = data.getLogbooktype();
