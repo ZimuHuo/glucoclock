@@ -28,6 +28,7 @@ import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -53,6 +54,7 @@ public class PatientPlotView extends Div {
     private UUID patientUid;
     private LocalDate charDate = LocalDate.now();
     private MenuBar menu = new MenuBar("PNS");
+    ArrayList<String> log = new ArrayList<>();
 
     public PatientPlotView(UserService userService, PatientService patientService, LogService logService, SimpleLogBookService simpleLogBookService, ComprehensiveLogBookService comprehensiveLogBookService, IntensiveLogBookService intensiveLogBookService) {
         this.userService = userService;
@@ -96,8 +98,12 @@ create chart view
             LocalDate end = charDate.withDayOfMonth(charDate.lengthOfMonth());
             List<Log> patientData = logService.findLogBooksBetweenDate(start, end, patientUid);
             plotButton.setEnabled(false);
+
+            String check =start.getMonth().toString().substring(0,3)+"."+start.getYear();
             if (patientData.isEmpty()) {
                 Notification.show("No Data");
+            }if(log.contains(check)){
+                Notification.show("Already added");
             }
             else {
                 plotButton.setEnabled(true);
@@ -126,9 +132,6 @@ create chart view
         return vl;
     }
 
-    public static Date convertToDateViaSqlDate(LocalDate dateToConvert) {
-        return java.sql.Date.valueOf(dateToConvert);
-    }
 /*
 store the patient glucose level in a data series
  */
@@ -136,7 +139,8 @@ store the patient glucose level in a data series
         DataSeries series = new DataSeries();
         LocalDate start = charDate.withDayOfMonth(1);
         LocalDate end = charDate.withDayOfMonth(charDate.lengthOfMonth());
-        series.setName(start.getYear()+"."+start.getMonth().toString());
+        series.setName(start.getMonth().toString().substring(0,3)+"."+start.getYear());
+        log.add(start.getMonth().toString().substring(0,3)+"."+start.getYear());
         List<Log> patientData = logService.findLogBooksBetweenDate(start, end, patientUid);
         double yval = 0;
         double xval = 0;
