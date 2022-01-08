@@ -201,6 +201,8 @@ public class PatientSignUp3View extends Div {
                 Authentication authentication = new UsernamePasswordAuthenticationToken( (String)VaadinSession.getCurrent().getAttribute("Email"), (String)VaadinSession.getCurrent().getAttribute("Password"),
                         AuthorityUtils.createAuthorityList("PATIENT"));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                //Close the session
+                getUI().get().getSession().close();
 //                Direct to patient home page
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(Control.class)
