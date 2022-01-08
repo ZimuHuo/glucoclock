@@ -50,7 +50,8 @@ public class PatientPlotView extends Div {
     private UUID patientUid;
     private LocalDate charDate = LocalDate.now();
     private MenuBar menu = new MenuBar("PNS");
-    public PatientPlotView(UserService userService, PatientService patientService, LogService logService, SimpleLogBookService simpleLogBookService, ComprehensiveLogBookService comprehensiveLogBookService, IntensiveLogBookService intensiveLogBookService){
+
+    public PatientPlotView(UserService userService, PatientService patientService, LogService logService, SimpleLogBookService simpleLogBookService, ComprehensiveLogBookService comprehensiveLogBookService, IntensiveLogBookService intensiveLogBookService) {
         this.userService = userService;
         this.patientService = patientService;
         this.logService = logService;
@@ -61,18 +62,16 @@ public class PatientPlotView extends Div {
         //get patient uid
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
-        userName=authentication.getName();
-        User user= this.userService.getRepository().findByUsername(userName); //return user
-        patientUid=user.getUid();   //get patient uid
+        userName = authentication.getName();
+        User user = this.userService.getRepository().findByUsername(userName); //return user
+        patientUid = user.getUid();   //get patient uid
 
-        add(space,createViewEvents(),menu);
+        add(space, createViewEvents(), menu);
 
     }
 
     private Component createViewEvents() {
         //create chart
-        DataSeries series = new DataSeries();
-
         Chart chart = new Chart(ChartType.LINE);
         Configuration conf = chart.getConfiguration();
         XAxis xAxis = new XAxis();
@@ -87,60 +86,26 @@ public class PatientPlotView extends Div {
         datePicker.setMinWidth("300px");
         datePicker.setLabel("Display data in the selected month");
         //add(datePicker);
-        datePicker.addValueChangeListener(date->{
-            charDate=date.getValue();
-
+        datePicker.addValueChangeListener(date -> {
+            charDate = date.getValue();
             LocalDate start = charDate.withDayOfMonth(1);
             LocalDate end = charDate.withDayOfMonth(charDate.lengthOfMonth());
-            series.setName(start.getMonth().toString());
-            List<Log> patientData= logService.findLogBooksBetweenDate(start,end,patientUid);
+            List<Log> patientData = logService.findLogBooksBetweenDate(start, end, patientUid);
             double yval = 0;
             double xval = 0;
             plotButton.setEnabled(false);
-            if(patientData.isEmpty()){
+            if (patientData.isEmpty()) {
                 Notification.show("No Data");
-            }
-            else {
+            } else {
                 plotButton.setEnabled(true);
-                for(Log data: patientData){
-
-                    int type = data.getLogbooktype();
-
-                    //type of logbook
-                    if(type==1){
-                        List<SimpleLogBook> simpleLog=simpleLogBookService.findLogByDateAndPatientuid(data.getDate(),patientUid);
-                        for(SimpleLogBook simple:simpleLog) {
-                            yval = Double.valueOf(simple.getBloodglucose());
-                            xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * simple.getTime();
-                            series.add(new DataSeriesItem(xval, yval));
-
-                        }
-
-                    }
-                    if(type ==2){
-                        List<ComprehensiveLogBook> compreLog = comprehensiveLogBookService.findLogByDateAndPatientuid(data.getDate(),patientUid);
-                        for(ComprehensiveLogBook compre:compreLog) {
-                            yval = Double.valueOf(compre.getBloodglucose());
-                            xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * compre.getTime();
-                            series.add(new DataSeriesItem(xval, yval));
-                        }
-                    }
-                    if (type ==3){
-                        List<IntensiveLogBook> intenLog = intensiveLogBookService.findLogByDateAndPatientuid(data.getDate(),patientUid);
-                        for(IntensiveLogBook inten:intenLog) {
-                            yval = Double.valueOf(inten.getBloodglucose());
-                            xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 24 * inten.getTime().getHour();
-                            series.add(new DataSeriesItem(xval, yval));
-                        }
-                    }
-                }
+                xAxis.setTickInterval(1);
+                conf.addxAxis(xAxis);
+                conf.getxAxis().setType(AxisType.LINEAR);
             }
         });
-        xAxis.setTickInterval(1);
-        conf.addxAxis(xAxis);
-        conf.getxAxis().setType(AxisType.LINEAR);
-        plotButton.setEnabled(true);
-        plotButton.addClickListener(e ->{
+
+        plotButton.addClickListener(e -> {
+            DataSeries series = getPatientData();
             conf.addSeries(series);
             series.clear();
             plotButton.setEnabled(false);
@@ -151,15 +116,61 @@ public class PatientPlotView extends Div {
         viewEvents.setPadding(false);
         viewEvents.setSpacing(false);
         viewEvents.getElement().getThemeList().add("spacing-l");
-        HorizontalLayout selectNPlot = new HorizontalLayout(datePicker,plotButton);
+        HorizontalLayout selectNPlot = new HorizontalLayout(datePicker, plotButton);
         selectNPlot.setAlignItems(FlexComponent.Alignment.END);
-        VerticalLayout vl = new VerticalLayout(title,selectNPlot,viewEvents);
+        VerticalLayout vl = new VerticalLayout(title, selectNPlot, viewEvents);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
         return vl;
     }
+
     public static Date convertToDateViaSqlDate(LocalDate dateToConvert) {
         return java.sql.Date.valueOf(dateToConvert);
     }
+
+    public DataSeries getPatientData() {
+        DataSeries series = new DataSeries();
+        LocalDate start = charDate.withDayOfMonth(1);
+        LocalDate end = charDate.withDayOfMonth(charDate.lengthOfMonth());
+        series.setName(start.getMonth().toString());
+        List<Log> patientData = logService.findLogBooksBetweenDate(start, end, patientUid);
+        double yval = 0;
+        double xval = 0;
+        series.setName(start.getMonth().toString());
+        for (Log data : patientData) {
+
+            int type = data.getLogbooktype();
+
+            //type of logbook
+            if (type == 1) {
+                List<SimpleLogBook> simpleLog = simpleLogBookService.findLogByDateAndPatientuid(data.getDate(), patientUid);
+                for (SimpleLogBook simple : simpleLog) {
+                    yval = Double.valueOf(simple.getBloodglucose());
+                    xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * simple.getTime();
+                    series.add(new DataSeriesItem(xval, yval));
+
+                }
+
+            }
+            if (type == 2) {
+                List<ComprehensiveLogBook> compreLog = comprehensiveLogBookService.findLogByDateAndPatientuid(data.getDate(), patientUid);
+                for (ComprehensiveLogBook compre : compreLog) {
+                    yval = Double.valueOf(compre.getBloodglucose());
+                    xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * compre.getTime();
+                    series.add(new DataSeriesItem(xval, yval));
+                }
+            }
+            if (type == 3) {
+                List<IntensiveLogBook> intenLog = intensiveLogBookService.findLogByDateAndPatientuid(data.getDate(), patientUid);
+                for (IntensiveLogBook inten : intenLog) {
+                    yval = Double.valueOf(inten.getBloodglucose());
+                    xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 24 * inten.getTime().getHour();
+                    series.add(new DataSeriesItem(xval, yval));
+                }
+            }
+        }
+        return series;
+    }
+
 
     private HorizontalLayout createHeader(String title, String subtitle) {
         H2 h2 = new H2(title);
