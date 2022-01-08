@@ -8,9 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.stream.Stream;
-/*
-tools for the security
- */
+
+//reference: https://vaadin.com/docs/v14/flow/tutorial/login-and-authentication
 public final class SecurityUtils {
     private SecurityUtils() {
         // Util methods only

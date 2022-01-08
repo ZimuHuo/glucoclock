@@ -53,7 +53,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Restrict access to our application.
                 .and().authorizeRequests()
 
-
                // Allow all Vaadin internal requests.
                .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
 
@@ -69,35 +68,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin().defaultSuccessUrl("/", true);
 
 
-
-//
-//                // Configure logout
-//                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
     }
 
 
-    //HARD CODING TO BE CHANGED LATER
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        List<UserDetails> users= new ArrayList<>();
-//        users.add(User.withDefaultPasswordEncoder()
-//                .username("user")
-//                .password("userpass")
-//                .roles("USER")
-//                .build());
-//
-//        return new InMemoryUserDetailsManager(users);
-//    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * Allows access to static resources, bypassing Spring Security.
-     */
+ //Allow access to static resources
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers(
@@ -119,9 +99,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/icons/**",
                 "/images/**",
                 "/styles/**",
-
-//                //sign up page
-//                "/views/all/**",
 
                 // (development mode) H2 debugging console
                 "/h2-console/**");
