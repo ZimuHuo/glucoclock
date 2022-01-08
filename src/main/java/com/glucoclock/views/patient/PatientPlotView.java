@@ -79,7 +79,7 @@ public class PatientPlotView extends Div {
         YAxis yAxis = new YAxis();
         //HorizontalLayout header = createHeader("Monthly Blood Glucose Report", " ");
         conf.getyAxis().setTitle("Blood Glucose (mmol/L)");
-        conf.getxAxis().setTitle("Day on the month");
+        conf.getxAxis().setTitle("Day of the month");
         PlotOptionsArea plotOptions = new PlotOptionsArea();
         plotOptions.setPointPlacement(PointPlacement.ON);
         conf.addPlotOptions(plotOptions);
@@ -136,7 +136,7 @@ public class PatientPlotView extends Div {
                 }
             }
         });
-        xAxis.setTickInterval(10);
+        xAxis.setTickInterval(1);
         conf.addxAxis(xAxis);
         conf.getxAxis().setType(AxisType.LINEAR);
         plotButton.setEnabled(true);
