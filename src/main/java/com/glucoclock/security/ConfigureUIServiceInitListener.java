@@ -39,13 +39,9 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     }
 
     private void authenticateNavigation(BeforeEnterEvent event) {
-//        if (!HomeView.class.equals(event.getNavigationTarget()) //if nav target is not home view
-//                && !SecurityUtils.isUserLoggedIn()) { //and if user is not logged in
-//            event.rerouteTo(HomeView.class);
-//        }
-        //if nav target is not home view and user is not logged in
+        //if navigation target is not home view and user is not logged in
         if (!HomeView.class.equals(event.getNavigationTarget()) && !SecurityUtils.isUserLoggedIn()){
-            //allow anonymous access to all sign-up pages
+            //allow anonymous access to all sign up views, error views, and forgot password view
             if (SignUpView.class.equals(event.getNavigationTarget())){
                 event.forwardTo(SignUpView.class);
             }
@@ -76,6 +72,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
             else if (AccessDenialView.class.equals(event.getNavigationTarget())){
                 event.forwardTo(AccessDenialView.class);
             }
+            //Reroute to home view otherwise
             else{event.rerouteTo(HomeView.class);}
 
         }
