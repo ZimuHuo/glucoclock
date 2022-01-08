@@ -64,43 +64,43 @@ public class IntensiveLogBookService {
     //find using date and patient id
     //the patient can reset blood glucose and carb intake
     // date and patient id should only upload at the time they create a new log
-    public void updateBloodGlucose(UUID patientuid,LocalDate Date,String Time,String BloodGlucose){
+    public void updateBloodGlucose(UUID patientuid,LocalDate Date,LocalTime Time,String BloodGlucose){
         IntensiveLogBook Intensivelog=repository.findByPatientuidAndTimeAndDate(patientuid,Time,Date);
         Intensivelog.setBloodglucose(BloodGlucose);
         repository.save(Intensivelog);
     }
 
-    public void updateCarbIntake(UUID patientuid,LocalDate Date,String Time,String CarbIntake){
+    public void updateCarbIntake(UUID patientuid,LocalDate Date,LocalTime Time,String CarbIntake){
         IntensiveLogBook Intensivelog=repository.findByPatientuidAndTimeAndDate(patientuid,Time,Date);
         Intensivelog.setCarbintake(CarbIntake);
         repository.save(Intensivelog);
     }
 
-    public void updateInsulinDose(UUID patientuid,LocalDate Date,String Time,String InsulinDose){
+    public void updateInsulinDose(UUID patientuid,LocalDate Date,LocalTime Time,String InsulinDose){
         IntensiveLogBook Intensivelog=repository.findByPatientuidAndTimeAndDate(patientuid,Time,Date);
         Intensivelog.setInsulindose(InsulinDose);
         repository.save(Intensivelog);
     }
 
-    public void updateCarbBolus(UUID patientuid,LocalDate Date,String Time,String CarbBolus){
+    public void updateCarbBolus(UUID patientuid,LocalDate Date,LocalTime Time,String CarbBolus){
         IntensiveLogBook Intensivelog=repository.findByPatientuidAndTimeAndDate(patientuid,Time,Date);
         Intensivelog.setCarbbolus(CarbBolus);
         repository.save(Intensivelog);
     }
 
-    public void updateHighBSBolus(UUID patientuid,LocalDate Date,String Time,String HighBSBolus){
+    public void updateHighBSBolus(UUID patientuid,LocalDate Date,LocalTime Time,String HighBSBolus){
         IntensiveLogBook Intensivelog=repository.findByPatientuidAndTimeAndDate(patientuid,Time,Date);
         Intensivelog.setHighbsbolus(HighBSBolus);
         repository.save(Intensivelog);
     }
 
-    public void updateBasalRate(UUID patientuid,LocalDate Date,String Time,String BasalRate){
+    public void updateBasalRate(UUID patientuid,LocalDate Date,LocalTime Time,String BasalRate){
         IntensiveLogBook Intensivelog=repository.findByPatientuidAndTimeAndDate(patientuid,Time,Date);
         Intensivelog.setBasalrate(BasalRate);
         repository.save(Intensivelog);
     }
 
-    public void updateKetones(UUID patientuid,LocalDate Date,String Time,String Ketones){
+    public void updateKetones(UUID patientuid,LocalDate Date,LocalTime Time,String Ketones){
         IntensiveLogBook Intensivelog=repository.findByPatientuidAndTimeAndDate(patientuid,Time,Date);
         Intensivelog.setKetons(Ketones);
         repository.save(Intensivelog);

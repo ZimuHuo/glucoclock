@@ -61,13 +61,13 @@ public class SimpleLogBookService {
 //find using date and patient id
     //the patient can reset blood glucose and carb intake
     // date and patient id should only upload at the time they create a new log
-    public void updateBloodGlucose(UUID patientuid,LocalDate Date,String Time,String BloodGlucose){
+    public void updateBloodGlucose(UUID patientuid,LocalDate Date,int Time,String BloodGlucose){
         SimpleLogBook SimpleLog=repository.findByPatientuidAndTimeAndDate(patientuid,Time,Date);
         SimpleLog.setBloodglucose(BloodGlucose);
         repository.save(SimpleLog);
     }
 
-    public void updateCarbIntake(UUID patientuid,LocalDate Date,String Time,String CarbIntake){
+    public void updateCarbIntake(UUID patientuid,LocalDate Date,int Time,String CarbIntake){
         SimpleLogBook SimpleLog=repository.findByPatientuidAndTimeAndDate(patientuid,Time,Date);
         SimpleLog.setCarbintake(CarbIntake);
         repository.save(SimpleLog);

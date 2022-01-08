@@ -11,6 +11,7 @@ import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -50,6 +51,9 @@ public class IntensiveLogbookView extends Div {
     private int hour;
     private H3 title = new H3("Add Intensive Logbook Entry");
     private MenuBar menu = new MenuBar("PNS");
+    private Button submitButton = new Button("Upload");
+
+    private LocalTime time;
 
     private UUID patientUid;
 
@@ -79,121 +83,7 @@ public class IntensiveLogbookView extends Div {
         init();
         add(menu);
         //add(menuBar());
-        var formLayout = new FormLayout();
-        formLayout.add(
-                timePicker,
-                bloodGlucose,
-                carbohydrateIntake,
-                insulinDose,
-                carbBolus,
-                highBsBolus,
-                basalRate,
-                ketones
-        );
-
-        formLayout.setResponsiveSteps(
-                new FormLayout.ResponsiveStep("0", 1),
-                new FormLayout.ResponsiveStep("320px", 1)
-        );
-
-        formLayout.setColspan(timePicker, 1);
-        formLayout.setColspan(bloodGlucose,1 );
-        formLayout.setColspan(carbohydrateIntake,1 );
-        formLayout.setColspan(insulinDose,1 );
-        formLayout.setColspan(carbBolus,1 );
-        formLayout.setColspan(highBsBolus,1 );
-        formLayout.setColspan(basalRate,1 );
-        formLayout.setColspan(ketones,1);
-        Button submitButton = new Button("Upload");
-        submitButton.setWidth("30%");
-        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        submitButton.addClickListener(e -> {
-                    if (bloodGlucose.isEmpty()) {
-                        Notification notification = Notification.show("Your glucose level is empty");
-                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                    } else if (timePicker.isEmpty()) {
-                        Notification notification = Notification.show("Please select your time correctly");
-                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                    } else if (carbohydrateIntake.isEmpty() || insulinDose.isEmpty() || carbohydrateIntake.isEmpty() || carbBolus.isEmpty() || highBsBolus.isEmpty() || basalRate.isEmpty() || ketones.isEmpty()) {
-                        Notification notification = Notification.show("Please check your entries");
-                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                    } else {
-                        //check input validity
-                        Double bg = bloodGlucose.getValue();
-                        //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
-                        if (bg > 140) {
-                            Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
-
-                            //if patient do not have a doctor don't send email
-                            if(doctorPatientService.checkPatient(patientUid)) {
-
-//                    SendMail sendMail = new SendMail();
-//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
-
-                                // Create and save a new notification
-                                Notifications n = new Notifications(
-                                        patientService,
-                                        patientUid,
-                                        doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid
-                                        "Blood Glucose Alarm"
-                                );
-                                n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
-                                n.setCompleteMessage(
-                                        n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
-                                                "\n" +
-                                                "Date: " + n.getDate().toLocalDate() + "\n" +
-                                                "Time: " + n.getDate().toLocalTime() + "\n" +
-                                                "Blood glucose level: " + bloodGlucose.getValue() + " units."
-                                );
-                                notificationService.getRepository().save(n);
-                            }
-                            else Notification.show("You do not have a doctor yet!");
-                        }
-                        LocalTime localTime = timePicker.getValue();
-
-                        LocalTime timefinder = LocalTime.of(localTime.getHour(), 00, 00);
-                        //save to database
-
-                        IntensiveLogBook intensiveLogBook = new IntensiveLogBook(
-                                patientUid,
-                                (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
-                                timefinder,
-                                bloodGlucose.getValue().toString(),
-                                carbohydrateIntake.getValue().toString(),
-                                insulinDose.getValue().toString(),
-                                carbBolus.getValue().toString(),
-                                highBsBolus.getValue().toString(),
-                                basalRate.getValue().toString(),
-                                ketones.getValue().toString()
-
-                        );
-
-
-//UUID PatientUid, LocalDate Date, LocalTime Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons
-                        intensiveLogBookService.getRepository().save(intensiveLogBook);
-
-                        if(logService.findLogBookbyDate((LocalDate) VaadinSession.getCurrent().getAttribute("date"),patientUid)==null) {
-                            Log log = new Log(patientUid, (LocalDate) VaadinSession.getCurrent().getAttribute("date"), 3);
-                            logService.getRepository().save(log);
-                        }
-                        //Navigation
-                        submitButton.getUI().ifPresent(ui ->
-                                ui.navigate(ConfirmationView.class)
-                        );
-                    }
-                }
-        );
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, title, submitButton);
-        verticalLayout.add(title);
-        verticalLayout.add(formLayout);
-        verticalLayout.add(submitButton);
-        verticalLayout.setMaxWidth("40%");
-        verticalLayout.setMargin(true);
-        var horizontalLayout = new HorizontalLayout();
-        horizontalLayout.add(verticalLayout);
-        horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-        add(horizontalLayout);
+        add(createFields());
     }
 
     private void init() {
@@ -208,6 +98,21 @@ public class IntensiveLogbookView extends Div {
         this.ketones = new NumberField("Ketones");
         setClearButtonVisible();
         setUnits();
+
+        LocalTime localTime = timePicker.getValue();
+        time = LocalTime.of(localTime.getHour(), 00, 00);
+
+        timePicker.addValueChangeListener(e->{
+            LocalTime nowTime = timePicker.getValue();
+            time = LocalTime.of(nowTime.getHour(), 00, 00);
+
+            if(intensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
+                Notification notification = Notification.show("You already entered value for this entry. You will override past data");
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }
+
+        });
+
     }
 
     private void setTimePicker() {
@@ -261,6 +166,140 @@ public class IntensiveLogbookView extends Div {
         highBsBolus.setClearButtonVisible(true);
         basalRate.setClearButtonVisible(true);
         ketones.setClearButtonVisible(true);
+    }
+
+    private Component createFields(){
+        var formLayout = new FormLayout();
+        formLayout.add(
+                timePicker,
+                bloodGlucose,
+                carbohydrateIntake,
+                insulinDose,
+                carbBolus,
+                highBsBolus,
+                basalRate,
+                ketones
+        );
+
+        formLayout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep("320px", 1)
+        );
+
+        formLayout.setColspan(timePicker, 1);
+        formLayout.setColspan(bloodGlucose,1 );
+        formLayout.setColspan(carbohydrateIntake,1 );
+        formLayout.setColspan(insulinDose,1 );
+        formLayout.setColspan(carbBolus,1 );
+        formLayout.setColspan(highBsBolus,1 );
+        formLayout.setColspan(basalRate,1 );
+        formLayout.setColspan(ketones,1);
+
+        submitButton.setWidth("30%");
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        //Submit button
+        submitButton.addClickListener(e -> {
+            //check is there a data at same date and time
+            IntensiveLogBook intensive = intensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"));
+                    if (bloodGlucose.isEmpty()) {
+                        Notification notification = Notification.show("Your glucose level is empty");
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    } else if (timePicker.isEmpty()) {
+                        Notification notification = Notification.show("Please select your time correctly");
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    } else if (carbohydrateIntake.isEmpty() || insulinDose.isEmpty() || carbohydrateIntake.isEmpty() || carbBolus.isEmpty() || highBsBolus.isEmpty() || basalRate.isEmpty() || ketones.isEmpty()) {
+                        Notification notification = Notification.show("Please check your entries");
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    } else {
+                        //if there is no data
+                        //Notification
+                        //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
+                        Double bg = bloodGlucose.getValue();
+                        //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
+                        if (bg > 140) {
+                            Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
+
+                            //if patient do not have a doctor don't send email
+                            if(doctorPatientService.checkPatient(patientUid)) {
+
+//                    SendMail sendMail = new SendMail();
+//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
+
+                                // Create and save a new notification
+                                Notifications n = new Notifications(
+                                        patientService,
+                                        patientUid,
+                                        doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid
+                                        "Blood Glucose Alarm"
+                                );
+                                n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
+                                n.setCompleteMessage(
+                                        n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
+                                                "\n" +
+                                                "Date: " + n.getDate().toLocalDate() + "\n" +
+                                                "Time: " + n.getDate().toLocalTime() + "\n" +
+                                                "Blood glucose level: " + bloodGlucose.getValue() + " units."
+                                );
+                                notificationService.getRepository().save(n);
+                            }
+
+                        }
+
+                        if(intensive == null) {
+                            //no data entered before
+                            //Create a new simple logbook
+                            IntensiveLogBook intensiveLogBook = new IntensiveLogBook(
+                                    patientUid,
+                                    (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
+                                    time,
+                                    bloodGlucose.getValue().toString(),
+                                    carbohydrateIntake.getValue().toString(),
+                                    insulinDose.getValue().toString(),
+                                    carbBolus.getValue().toString(),
+                                    highBsBolus.getValue().toString(),
+                                    basalRate.getValue().toString(),
+                                    ketones.getValue().toString()
+
+                            );
+                            //add intensive log to database
+                            intensiveLogBookService.getRepository().save(intensiveLogBook);
+
+                            //check if this is the first log of the day, add data to logdb
+                            if (logService.findLogBookbyDate((LocalDate) VaadinSession.getCurrent().getAttribute("date"), patientUid) == null) {
+                                Log log = new Log(patientUid, (LocalDate) VaadinSession.getCurrent().getAttribute("date"), 3);
+                                logService.getRepository().save(log);
+                            }
+                        }
+                        else{
+                            //already have data, need to replace
+                            intensiveLogBookService.updateBloodGlucose(patientUid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),time,bloodGlucose.getValue().toString());
+                            intensiveLogBookService.updateCarbIntake(patientUid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),time,carbohydrateIntake.getValue().toString());
+                            intensiveLogBookService.updateInsulinDose(patientUid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),time,insulinDose.getValue().toString());
+                            intensiveLogBookService.updateCarbBolus(patientUid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),time,carbBolus.getValue().toString());
+                            intensiveLogBookService.updateHighBSBolus(patientUid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),time,highBsBolus.getValue().toString());
+                            intensiveLogBookService.updateBasalRate(patientUid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),time,basalRate.getValue().toString());
+                            intensiveLogBookService.updateKetones(patientUid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),time,ketones.getValue().toString());
+                        }
+
+                        //Navigation
+                        submitButton.getUI().ifPresent(ui ->
+                                ui.navigate(ConfirmationView.class)
+                        );
+                    }
+                }
+        );
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, title, submitButton);
+        verticalLayout.add(title);
+        verticalLayout.add(formLayout);
+        verticalLayout.add(submitButton);
+        verticalLayout.setMaxWidth("40%");
+        verticalLayout.setMargin(true);
+        var horizontalLayout = new HorizontalLayout();
+        horizontalLayout.add(verticalLayout);
+        horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+
+        return horizontalLayout;
     }
 
 
