@@ -1,5 +1,7 @@
 package com.glucoclock.database.comprehensiveLogBook_db.model;
 
+import com.glucoclock.database.Logbook;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -8,27 +10,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Comprehensivelogbook_db")
-public class ComprehensiveLogBook implements Comparable<ComprehensiveLogBook>{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+public class ComprehensiveLogBook extends Logbook implements Comparable<ComprehensiveLogBook>{
 
     //Columns of the database and variables
     //Patient uid
-    @Column(name = "PatientUid")
-    private UUID patientuid;
-
-    @Column(name = "Date")
-    private LocalDate date;
-
-    @Column(name="Time")
-    private int time;
-
-    @Column(name = "BloodGlucose")
-    private String bloodglucose;
-
-    @Column(name = "CarbIntake")
-    private String carbintake;
 
     @Column(name="InsulinDose")
     private String insulindose;
@@ -64,53 +49,6 @@ public class ComprehensiveLogBook implements Comparable<ComprehensiveLogBook>{
         this.insulindose = insulindose;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public UUID getPatientuid() {
-        return patientuid;
-    }
-
-    public void setPatientuid(UUID patientuid) {
-        this.patientuid = patientuid;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public int getTime() {
-        return time;
-    }
-
-    public void setTime(int time) {
-        this.time = time;
-    }
-
-    public String getBloodglucose() {
-        return bloodglucose;
-    }
-
-    public void setBloodglucose(String bloodglucose) {
-        this.bloodglucose = bloodglucose;
-    }
-
-    public String getCarbintake() {
-        return carbintake;
-    }
-
-    public void setCarbintake(String carbintake) {
-        this.carbintake = carbintake;
-    }
 
     public String getTimeString(){
         String TimeString= new String();

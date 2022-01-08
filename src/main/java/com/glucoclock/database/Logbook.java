@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @MappedSuperclass
-public class Logbook implements Serializable {
+public abstract class Logbook implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected long id;
