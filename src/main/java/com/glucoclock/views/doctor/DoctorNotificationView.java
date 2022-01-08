@@ -8,6 +8,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
@@ -34,7 +35,7 @@ public class DoctorNotificationView extends VerticalLayout {
     private final UserService userService;
 
     private MenuBar menu = new MenuBar("DNS");
-
+    private H5 space = new H5(" ");
     private H3 title = new H3("Notifications");
 
     public DoctorNotificationView(NotificationService notificationService, UserService userService){
@@ -48,7 +49,7 @@ public class DoctorNotificationView extends VerticalLayout {
         vl.setPadding(true);
         vl.setMargin(true);
         vl.setAlignItems(Alignment.CENTER);
-        add(vl,grid,menu);
+        add(space,vl,grid,menu);
         setPadding(true);
         setMargin(true);
 

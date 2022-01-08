@@ -23,7 +23,7 @@ import com.vaadin.flow.server.VaadinSession;
 @PageTitle("Notification Details")
 @Route(value = "patient/notification-details")
 public class PatientNotificationDetailsView extends Div {
-    private H3 title = new H3();
+    private H3 space = new H3(" ");
     private TextArea msg = new TextArea("Message:");
     private TextArea replyMsg = new TextArea();
     private Button agreeBut = new Button("Accept");
@@ -52,7 +52,7 @@ public class PatientNotificationDetailsView extends Div {
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
         vl.setSpacing(true);
 
-        add(menu,vl);
+        add(menu,space,vl);
     }
 
     private void setStyles(Notifications thisNotification){
