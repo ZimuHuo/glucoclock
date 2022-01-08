@@ -264,6 +264,9 @@ this sets up the lay out of this page
                 Authentication authentication = new UsernamePasswordAuthenticationToken( (String)VaadinSession.getCurrent().getAttribute("Email"), (String)VaadinSession.getCurrent().getAttribute("Password"),
                         AuthorityUtils.createAuthorityList("DOCTOR"));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                //Close the session
+                getUI().get().getSession().close();
+                //Navigation
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(Control.class)
                 );
