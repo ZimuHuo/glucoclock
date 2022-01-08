@@ -153,7 +153,7 @@ store the patient glucose level in a data series
                 List<SimpleLogBook> simpleLog = simpleLogBookService.findLogByDateAndPatientuid(data.getDate(), patientUid);
                 for (SimpleLogBook simple : simpleLog) {
                     yval = Double.valueOf(simple.getBloodglucose());
-                    xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * simple.getTime();
+                    xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 7 * simple.getTime();
                     series.add(new DataSeriesItem(xval, yval));
 
                 }
@@ -163,7 +163,7 @@ store the patient glucose level in a data series
                 List<ComprehensiveLogBook> compreLog = comprehensiveLogBookService.findLogByDateAndPatientuid(data.getDate(), patientUid);
                 for (ComprehensiveLogBook compre : compreLog) {
                     yval = Double.valueOf(compre.getBloodglucose());
-                    xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * compre.getTime();
+                    xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 7 * compre.getTime();
                     series.add(new DataSeriesItem(xval, yval));
                 }
             }
