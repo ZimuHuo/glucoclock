@@ -12,6 +12,7 @@ import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -41,10 +42,13 @@ public class ComprehensiveLogbookView extends Div {
     private NumberField bloodGlucose;
     private NumberField carbohydrate;
     private NumberField insulinDose;
+    private Button submitButton = new Button("Upload");
     private Button test1 = new Button("Test"); //Menubar test button
     private Button test2 = new Button("Test");
     private H3 title = new H3("Add Comprehensive Logbook Entry");
     private MenuBar menu = new MenuBar("PNS");
+
+    private Integer time;
 
     private UUID patientUid;
 
@@ -76,6 +80,73 @@ public class ComprehensiveLogbookView extends Div {
 
         init();
         add(menu);
+        add(createFields());
+
+    }
+
+    private void init() {
+        this.prepost = new ComboBox<>("Pre/Post");
+        this.meal = new ComboBox<>("Meal");
+        this.bloodGlucose = new NumberField("Blood Glucose");
+        this.carbohydrate = new NumberField("Carbohydrate");
+        this.insulinDose = new NumberField("Insulin Dose");
+
+        Div bloodGlucoseUnit = new Div();
+        bloodGlucoseUnit.setText("mmol/L");
+        bloodGlucose.setSuffixComponent(bloodGlucoseUnit);
+
+        Div carbsUnit = new Div();
+        carbsUnit.setText("g");
+        carbohydrate.setSuffixComponent(carbsUnit);
+
+        Div insulinDoseUnit = new Div();
+        insulinDoseUnit.setText("unit(s)");
+        insulinDose.setSuffixComponent(insulinDoseUnit);
+
+        prepost.setItems("Pre","Post");
+        meal.setItems("Breakfast","Lunch","Dinner");
+
+        prepost.addValueChangeListener(e->{
+            if(!prepost.isEmpty()&& !meal.isEmpty()){
+                time = 0;
+                String TimeString = prepost.getValue()+meal.getValue();
+                if (TimeString.equals("PreBreakfast")) time =1;
+                else if (TimeString.equals("PostBreakfast")) time =2;
+                else if (TimeString.equals("PreLunch")) time =3;
+                else if (TimeString.equals("PostLunch")) time =4;
+                else if (TimeString.equals("PreDinner")) time =5;
+                else if (TimeString.equals("PostDinner")) time =6;
+
+                //inform if the data at this time already been recorded before
+                if(comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
+                    Notification notification = Notification.show("You already entered value for this entry in comprehensive log book.",5000, Notification.Position.MIDDLE);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
+            }
+        });
+        meal.addValueChangeListener(e->{
+            if(!prepost.isEmpty()&& !meal.isEmpty()){
+                time = 0;
+                String TimeString = prepost.getValue()+meal.getValue();
+                if (TimeString.equals("PreBreakfast")) time =1;
+                else if (TimeString.equals("PostBreakfast")) time =2;
+                else if (TimeString.equals("PreLunch")) time =3;
+                else if (TimeString.equals("PostLunch")) time =4;
+                else if (TimeString.equals("PreDinner")) time =5;
+                else if (TimeString.equals("PostDinner")) time =6;
+
+                //inform if the data at this time already been recorded before
+                if(comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
+                    Notification notification = Notification.show("You already entered value for this entry. You will override past data");
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
+
+            }
+        });
+
+    }
+
+    private Component createFields(){
         var formLayout = new FormLayout();
         formLayout.add(
                 prepost, meal,
@@ -92,10 +163,14 @@ public class ComprehensiveLogbookView extends Div {
         formLayout.setColspan(carbohydrate,2);
         formLayout.setColspan(insulinDose,2);
         formLayout.setMaxWidth("40%");
-        Button submitButton = new Button("Upload");
+
         submitButton.setWidth("12%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    //Submit Button
         submitButton.addClickListener(e -> {
+            //check is there a data at same date and time
+            ComprehensiveLogBook compre = comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"));
+
                     if (bloodGlucose.isEmpty()) {
                         Notification notification = Notification.show("Your glucose level is empty");
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -106,7 +181,9 @@ public class ComprehensiveLogbookView extends Div {
                         Notification notification = Notification.show("Please select your time correctly");
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     } else {
-                        //check input validity
+                        //if there is no data
+                        //Notification
+                        //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
                         Double bg = bloodGlucose.getValue();
                         //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
                         if (bg > 140) {
@@ -136,30 +213,35 @@ public class ComprehensiveLogbookView extends Div {
                             }
                         }
 
-                        ComprehensiveLogBook comprehensiveLogBook = new ComprehensiveLogBook(
-                                patientUid,
-                                (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
-                                prepost.getValue() + meal.getValue(),
-                                bloodGlucose.getValue().toString(),
-                                carbohydrate.getValue().toString(),
-                                insulinDose.getValue().toString()
+                        if(compre==null){
+                            //no data entered before
+                            //Create a new simple logbook
+                            ComprehensiveLogBook comprehensiveLogBook = new ComprehensiveLogBook(
+                                    patientUid,
+                                    (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
+                                    prepost.getValue() + meal.getValue(),
+                                    bloodGlucose.getValue().toString(),
+                                    carbohydrate.getValue().toString(),
+                                    insulinDose.getValue().toString()
 
-                        );
-//                        String TimeString = prepost.getValue() + meal.getValue();
-//                        int time = 0;
-//                        if (TimeString.equals("PreBreakfast")) time = 1;
-//                        else if (TimeString.equals("PostBreakfast")) time = 2;
-//                        else if (TimeString.equals("PreLunch")) time = 3;
-//                        else if (TimeString.equals("PostLunch")) time = 4;
-//                        else if (TimeString.equals("PreDinner")) time = 5;
-//                        else if (TimeString.equals("PostDinner")) time = 6;
-                        comprehensiveLogBookService.getRepository().save(comprehensiveLogBook);
+                            );
+                            //Save the comprehensive logbook
+                            comprehensiveLogBookService.getRepository().save(comprehensiveLogBook);
 
-                        //save log in logdb if no logbook entered in this date
-                        if(logService.findLogBookbyDate((LocalDate) VaadinSession.getCurrent().getAttribute("date"),patientUid)==null) {
-                            Log log = new Log(patientUid, (LocalDate) VaadinSession.getCurrent().getAttribute("date"), 2);
-                            logService.getRepository().save(log);
+                            //save log in logdb if no logbook entered in this date
+                            if(logService.findLogBookbyDate((LocalDate) VaadinSession.getCurrent().getAttribute("date"),patientUid)==null) {
+                                Log log = new Log(patientUid, (LocalDate) VaadinSession.getCurrent().getAttribute("date"), 2);
+                                logService.getRepository().save(log);
+                            }
+
                         }
+                        else{
+                            //already have data, need to replace
+                            comprehensiveLogBookService.updateBloodGlucose(patientUid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),time,bloodGlucose.getValue().toString());
+                            comprehensiveLogBookService.updateCarbIntake(patientUid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),time,carbohydrate.getValue().toString());
+                            comprehensiveLogBookService.updateInsulinDose(patientUid,(LocalDate) VaadinSession.getCurrent().getAttribute("date"),time,insulinDose.getValue().toString());
+                        }
+
                         //Navigation
                         submitButton.getUI().ifPresent(ui ->
                                 ui.navigate(ConfirmationView.class)
@@ -177,88 +259,8 @@ public class ComprehensiveLogbookView extends Div {
         var horizontalLayout = new HorizontalLayout();
         horizontalLayout.add(verticalLayout);
         horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-        add(horizontalLayout);
-        prepost.addValueChangeListener(e->{
-            if(!prepost.isEmpty()&& !meal.isEmpty()){
-                Integer time = 0;
-                String TimeString = prepost.getValue()+meal.getValue();
-                if (TimeString.equals("PreBreakfast")) time =1;
-                else if (TimeString.equals("PostBreakfast")) time =2;
-                else if (TimeString.equals("PreLunch")) time =3;
-                else if (TimeString.equals("PostLunch")) time =4;
-                else if (TimeString.equals("PreDinner")) time =5;
-                else if (TimeString.equals("PostDinner")) time =6;
-                UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
-                Integer state = 0;
-                if (this.simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUID,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
-                    state = 1;
-                }
-                if(comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUID,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
-                    state = 2;
-                }
-                if(state == 1){
-                    Notification notification = Notification.show("You already entered value for this entry. You will override past data");
-                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                }
-                if(state == 2){
-                    Notification notification = Notification.show("You already entered value for this entry in comprehensive log book.",5000, Notification.Position.MIDDLE);
-                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                }
-            }
-        });
-        meal.addValueChangeListener(e->{
-            if(!prepost.isEmpty()&& !meal.isEmpty()){
-                Integer time = 0;
-                String TimeString = prepost.getValue()+meal.getValue();
-                if (TimeString.equals("PreBreakfast")) time =1;
-                else if (TimeString.equals("PostBreakfast")) time =2;
-                else if (TimeString.equals("PreLunch")) time =3;
-                else if (TimeString.equals("PostLunch")) time =4;
-                else if (TimeString.equals("PreDinner")) time =5;
-                else if (TimeString.equals("PostDinner")) time =6;
-                UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
-                Integer state = 0;
-                if (this.simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUID,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
-                    state = 1;
-                }
-                if(comprehensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUID,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
-                    state = 2;
-                }
-                if(state == 2){
-                    Notification notification = Notification.show("You already entered value for this entry. You will override past data");
-                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                }
-                if(state == 1){
-                    Notification notification = Notification.show("You already entered value for this entry in Simple log book.",5000, Notification.Position.MIDDLE);
-                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                    submitButton.setEnabled(false);
-                }
-            }
-        });
-    }
 
-
-    private void init() {
-        this.prepost = new ComboBox<>("Pre/Post");
-        this.meal = new ComboBox<>("Meal");
-        this.bloodGlucose = new NumberField("Blood Glucose");
-        this.carbohydrate = new NumberField("Carbohydrate");
-        this.insulinDose = new NumberField("Insulin Dose");
-
-        Div bloodGlucoseUnit = new Div();
-        bloodGlucoseUnit.setText("mmol/L");
-        bloodGlucose.setSuffixComponent(bloodGlucoseUnit);
-
-        Div carbsUnit = new Div();
-        carbsUnit.setText("g");
-        carbohydrate.setSuffixComponent(carbsUnit);
-
-        Div insulinDoseUnit = new Div();
-        insulinDoseUnit.setText("unit(s)");
-        insulinDose.setSuffixComponent(insulinDoseUnit);
-
-        prepost.setItems("Pre","Post");
-        meal.setItems("Breakfast","Lunch","Dinner");
+        return horizontalLayout;
     }
 
 }

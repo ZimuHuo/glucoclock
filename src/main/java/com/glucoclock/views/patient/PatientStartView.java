@@ -1,7 +1,8 @@
 package com.glucoclock.views.patient;
 
+import com.glucoclock.database.log_db.model.Log;
+import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.database.patients_db.service.PatientService;
-import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
@@ -37,29 +38,39 @@ public class PatientStartView extends VerticalLayout{
     private Button updateButton;
     private MenuBar menu = new MenuBar("PStart");
     private H2 title = new H2("Upload Logbook Entry");
+    private UUID uid;
 
     private final PatientService patientService;
     private final UserService userService;
-    public PatientStartView(PatientService patientService, UserService userService){
+    private final LogService logService;
+    public PatientStartView(PatientService patientService, UserService userService, LogService logService){
         this.patientService = patientService;
         this.userService = userService;
+        this.logService = logService;
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         authentication.getName();
-        UUID uid = userService.getRepository().findByUsername(authentication.getName()).getUid();
+        uid = userService.getRepository().findByUsername(authentication.getName()).getUid();
         add(menu);
 
-        LBtype = new ComboBox<>();
-        LBtype.setLabel("Logbook Type");
-        LBtype.setItems("Simple","Comprehensive","Intensive");
+        //suggest logbook type
         String lbType = patientService.getRepository().getPatientByUid(uid).getLogbooktype();
 
+    //UI components set up
+        //Date
         datePicker = new DatePicker("Date");
         Locale finnishLocale = new Locale("fi", "FI");
         datePicker.setLocale(finnishLocale);
         datePicker.setValue(LocalDate.now(ZoneId.systemDefault()));
         datePicker.setMax(LocalDate.now());
+        //Logbook type
+        LBtype = new ComboBox<>();
+        LBtype.setLabel("Logbook Type");
+            //initialise
+        checkCurrentLog(LocalDate.now(),lbType);
 
+        //Upload
         update = new Icon(VaadinIcon.UPLOAD);
         update.setSize("15%");
         updateButton = new Button(update);
@@ -67,16 +78,21 @@ public class PatientStartView extends VerticalLayout{
         updateButton.setWidth("120px");
         updateButton.setHeight("120px");
 
-        //Set default logbook type to suggested logbook type
+        //Check is there already logbook at this date
+        datePicker.addValueChangeListener(click->{
+            checkCurrentLog(datePicker.getValue(),lbType);
+        });
+
+        //show suggested logbook type by doctor
         add(title);
         if(!lbType.equals("N/A")){
-            LBtype.setValue(lbType);
             Span suggestedLb = new Span("Suggested Logbook Type: " + lbType);
             suggestedLb.getElement().getThemeList().add("badge success");
             add(suggestedLb);
         }
 
 
+        //Update Button
         updateButton.addClickListener(e ->{
             VaadinSession.getCurrent().setAttribute( "date",datePicker.getValue());
             if (LBtype.getValue().equals("Simple")) {
@@ -93,18 +109,47 @@ public class PatientStartView extends VerticalLayout{
                                 ui.navigate(IntensiveLogbookView.class)
                         );
             }
-
                 }
         );
 
-//
 
         setAlignItems(Alignment.CENTER);
-        add(LBtype,datePicker,updateButton);
+        add(datePicker,LBtype,updateButton);
         if (VaadinSession.getCurrent().getAttribute("Error")!=null){
             com.vaadin.flow.component.notification.Notification notification = Notification.show("WRONG URL"+VaadinSession.getCurrent().getAttribute("Error"));
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             VaadinSession.getCurrent().setAttribute("Error",null);
+        }
+    }
+
+    //check in the log_db, if there is already a selected logbook type (already entered a data)
+    //display only that logbook type
+    public void checkCurrentLog(LocalDate checkdate, String suggestlog){
+        Log checkLog;
+        //check is there already logbook at this day
+        checkLog=logService.findLogBookbyDate(checkdate,uid);
+
+        if(checkLog==null){
+            //if no logbook entered this day
+            //all options are available
+            LBtype.setItems("Simple","Comprehensive","Intensive");
+            //show doctor suggest log
+            if(!suggestlog.equals("N/A")) LBtype.setValue(suggestlog);
+        }
+        else if(checkLog.getLogbooktype()==1){
+            //simple logbook already entered this day
+            LBtype.setItems("Simple");
+            LBtype.setValue("Simple");
+        }
+        else if(checkLog.getLogbooktype()==2){
+            //comprehensive logbook already entered this day
+            LBtype.setItems("Comprehensive");
+            LBtype.setValue("Comprehensive");
+        }
+        else if(checkLog.getLogbooktype()==3){
+            //intensive logbook already entered this day
+            LBtype.setItems("Intensive");
+            LBtype.setValue("Intensive");
         }
     }
 

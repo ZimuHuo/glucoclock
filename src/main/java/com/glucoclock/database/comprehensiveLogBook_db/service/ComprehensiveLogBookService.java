@@ -62,19 +62,19 @@ public class ComprehensiveLogBookService {
     //find using date and patient id
     //the patient can reset blood glucose and carb intake
     // date and patient id should only upload at the time they create a new log
-    public void updateBloodGlucose(UUID patientuid,LocalDate Date,String Time,String BloodGlucose){
+    public void updateBloodGlucose(UUID patientuid,LocalDate Date,Integer Time,String BloodGlucose){
         ComprehensiveLogBook Comprehensivelog=repository.findByPatientuidAndTimeAndDate(patientuid,Time,Date);
         Comprehensivelog.setBloodglucose(BloodGlucose);
         repository.save(Comprehensivelog);
     }
 
-    public void updateCarbIntake(UUID patientuid,LocalDate Date,String Time,String CarbIntake){
+    public void updateCarbIntake(UUID patientuid,LocalDate Date,Integer Time,String CarbIntake){
         ComprehensiveLogBook Comprehensivelog=repository.findByPatientuidAndTimeAndDate(patientuid,Time,Date);
         Comprehensivelog.setCarbintake(CarbIntake);
         repository.save(Comprehensivelog);
     }
 
-    public void updateInsulinDose(UUID patientuid,LocalDate Date,String Time,String InsulinDose){
+    public void updateInsulinDose(UUID patientuid,LocalDate Date,Integer Time,String InsulinDose){
         ComprehensiveLogBook Comprehensivelog=repository.findByPatientuidAndTimeAndDate(patientuid,Time,Date);
         Comprehensivelog.setInsulindose(InsulinDose);
         repository.save(Comprehensivelog);
