@@ -1,5 +1,7 @@
 package com.glucoclock.database.intensiveLogBook_db.model;
 
+import com.glucoclock.database.Logbook;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -8,25 +10,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Intensivelogbook_db")
-public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBook> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+public class IntensiveLogBook extends Logbook implements Comparable<IntensiveLogBook> {
 
-    @Column(name = "PatientUid")
-    private UUID patientuid;
-
-    @Column(name = "Date")
-    private LocalDate date;
-
-    @Column(name="Time")
-    private LocalTime time;
-
-    @Column(name = "BloodGlucose")
-    private String bloodglucose;
-
-    @Column(name = "CarbIntake")
-    private String carbintake;
 
     @Column(name="InsulinDose")
     private String insulindose;
@@ -45,7 +30,7 @@ public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBo
 
 
 
-    public IntensiveLogBook(UUID PatientUid, LocalDate Date, LocalTime Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons) {
+    public IntensiveLogBook(UUID PatientUid, LocalDate Date, int Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons) {
 
         patientuid = PatientUid;
         date = Date;
@@ -111,45 +96,6 @@ public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBo
         this.id = id;
     }
 
-    public UUID getPatientuid() {
-        return patientuid;
-    }
-
-    public void setPatientuid(UUID patientuid) {
-        this.patientuid = patientuid;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
-    public String getBloodglucose() {
-        return bloodglucose;
-    }
-
-    public void setBloodglucose(String bloodglucose) {
-        this.bloodglucose = bloodglucose;
-    }
-
-    public String getCarbintake() {
-        return carbintake;
-    }
-
-    public void setCarbintake(String carbintake) {
-        this.carbintake = carbintake;
-    }
 
     @Override
     public int compareTo(IntensiveLogBook that){
@@ -160,7 +106,7 @@ public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBo
     public String toString() {
         return "Intensive" +
                 "," + date +
-                "," + time.toString() +
+                "," + time +
                 "," + bloodglucose +
                 "," + carbintake +
                 "," + insulindose +

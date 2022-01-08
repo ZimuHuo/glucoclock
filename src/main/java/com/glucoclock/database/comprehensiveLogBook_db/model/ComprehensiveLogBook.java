@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Comprehensivelogbook_db")
-public class ComprehensiveLogBook implements Serializable, Comparable<ComprehensiveLogBook>{
+public class ComprehensiveLogBook implements Comparable<ComprehensiveLogBook>{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
