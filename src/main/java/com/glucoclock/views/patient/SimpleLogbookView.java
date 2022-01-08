@@ -166,7 +166,6 @@ public class SimpleLogbookView extends Div {
                             //Notification
                             //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
                             if (bloodGlucose.getValue() > 140) {
-                                Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
                                 //if patient do not have a doctor don't send email
                                 if (doctorPatientService.checkPatient(patientUid)) {
 //                    SendMail sendMail = new SendMail();
@@ -185,7 +184,7 @@ public class SimpleLogbookView extends Div {
                                                     "\n" +
                                                     "Date: " + n.getDate().toLocalDate() + "\n" +
                                                     "Time: " + n.getDate().toLocalTime() + "\n" +
-                                                    "Blood glucose level: " + bloodGlucose.getValue() + " units."
+                                                    "Blood glucose level: " + bloodGlucose.getValue() + " mmol/L."
                                     );
                                     notificationService.getRepository().save(n);
                                 }
