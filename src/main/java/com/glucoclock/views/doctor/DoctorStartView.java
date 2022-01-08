@@ -3,14 +3,17 @@ package com.glucoclock.views.doctor;
 import com.glucoclock.database.doctorpatient_db.model.DoctorPatient;
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.doctors_db.service.DoctorService;
+import com.glucoclock.database.notifications_db.service.NotificationService;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.HeaderRow;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -50,23 +53,26 @@ public class DoctorStartView extends VerticalLayout {
     private H3 title = new H3("My Patients");
     private Icon add = new Icon(VaadinIcon.PLUS_CIRCLE);
     private Button addBut = new Button(add);
+    private Notification notification;
 
     //database
     private final UserService userService;
     private final DoctorPatientService doctorpatientService;
     private final PatientService patientService;
     private final DoctorService doctorService;
+    private final NotificationService notificationService;
 
     //need to connect to session
     private UUID doctoruid;
 
 
-    public DoctorStartView(UserService userService, DoctorPatientService doctorpatientService, PatientService patientService, DoctorService doctorService) {
+    public DoctorStartView(UserService userService, DoctorPatientService doctorpatientService, PatientService patientService, DoctorService doctorService, NotificationService notificationService) {
         //database
         this.userService = userService;
         this.doctorpatientService = doctorpatientService;
         this.patientService = patientService;
         this.doctorService = doctorService;
+        this.notificationService = notificationService;
 
         //get doctor id using authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -89,12 +95,8 @@ public class DoctorStartView extends VerticalLayout {
         hl.setHeight("20%");
         hl.setVerticalComponentAlignment(FlexComponent.Alignment.BASELINE,title,addBut);
 
-
-
         //Create grid
-        //setSizeFull();
         createGrid();
-
 
         //Layout
         VerticalLayout vl = new VerticalLayout();
@@ -104,6 +106,23 @@ public class DoctorStartView extends VerticalLayout {
         add(vl,grid,menu);
         setPadding(true);
         setMargin(true);
+
+        //Get the number of unresolved messages and display if not zero
+        Integer unresolvedN = this.notificationService.countUnresolvedMsg(doctoruid,"DOCTOR");
+        if(unresolvedN!=0){
+            Button close = new Button(new Icon(VaadinIcon.CLOSE_SMALL));
+            Div msg = new Div(new Text("You have "+unresolvedN+" unresolved notification(s)."));
+            HorizontalLayout noti = new HorizontalLayout(new Icon(VaadinIcon.ENVELOPES),msg,close);
+            noti.setAlignItems(Alignment.CENTER);
+            close.addClickListener(e->notification.close());
+            notification = new Notification();
+            notification.add(noti);
+            notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
+            notification.setPosition(Notification.Position.TOP_CENTER);
+            notification.open();
+            notification.setDuration(10000);
+        }
+
         if (VaadinSession.getCurrent().getAttribute("Error")!=null){
             com.vaadin.flow.component.notification.Notification notification = Notification.show("WRONG URL"+VaadinSession.getCurrent().getAttribute("Error"));
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
