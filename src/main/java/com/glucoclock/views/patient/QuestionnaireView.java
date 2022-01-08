@@ -32,7 +32,7 @@ public class QuestionnaireView extends Div {
     private H5 text = new H5("To learn more about causes to your symptoms");
     private CheckboxGroup<String> symptoms = new CheckboxGroup<>();
     private TextField otherSymptoms = new TextField("Other Symptoms");
-    private Button submit = new Button("Submit & View Feedback");
+    private Button submit = new Button("Submit");
     private MenuBar menu = new MenuBar("PNS");
 
     private final UserService userService;

@@ -36,7 +36,8 @@ import java.util.UUID;
 @PageTitle("View Plots")
 @Route(value = "/patient/plots-view")
 public class PatientPlotView extends Div {
-    private H3 space = new H3("Display data in the selected month ");
+    private H1 space = new H1(" ");
+    private H3 title = new H3("Monthly Blood Glucose Report");
     private final UserService userService;
     private final PatientService patientService;
     private final LogService logService;
@@ -44,7 +45,7 @@ public class PatientPlotView extends Div {
     private final ComprehensiveLogBookService comprehensiveLogBookService;
     private final IntensiveLogBookService intensiveLogBookService;
     private DatePicker datePicker;
-    private Button plotButton = new Button("Plot");
+    private Button plotButton = new Button("View Graph");
     private String userName;
     private UUID patientUid;
     private LocalDate charDate = LocalDate.now();
@@ -76,14 +77,16 @@ public class PatientPlotView extends Div {
         Configuration conf = chart.getConfiguration();
         XAxis xAxis = new XAxis();
         YAxis yAxis = new YAxis();
-        HorizontalLayout header = createHeader("Past Blood Glucose Level", "units");
-        conf.getyAxis().setTitle("Glucose level mmol/L");
+        //HorizontalLayout header = createHeader("Monthly Blood Glucose Report", " ");
+        conf.getyAxis().setTitle("Blood Glucose (mmol/L)");
         conf.getxAxis().setTitle("Day on the month");
         PlotOptionsArea plotOptions = new PlotOptionsArea();
         plotOptions.setPointPlacement(PointPlacement.ON);
         conf.addPlotOptions(plotOptions);
         this.datePicker = new DatePicker();
-        add(datePicker);
+        datePicker.setMinWidth("300px");
+        datePicker.setLabel("Display data in the selected month");
+        //add(datePicker);
         datePicker.addValueChangeListener(date->{
             charDate=date.getValue();
 
@@ -144,14 +147,14 @@ public class PatientPlotView extends Div {
         });
 
         // Add it all together
-        VerticalLayout viewEvents = new VerticalLayout(header, chart);
+        VerticalLayout viewEvents = new VerticalLayout(chart);
         viewEvents.addClassName("p-l");
         viewEvents.setPadding(false);
         viewEvents.setSpacing(false);
         viewEvents.getElement().getThemeList().add("spacing-l");
         HorizontalLayout selectNPlot = new HorizontalLayout(datePicker,plotButton);
         selectNPlot.setAlignItems(FlexComponent.Alignment.END);
-        VerticalLayout vl = new VerticalLayout(selectNPlot,viewEvents);
+        VerticalLayout vl = new VerticalLayout(title,selectNPlot,viewEvents);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
         return vl;
     }
