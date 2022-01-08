@@ -103,7 +103,7 @@ create chart view
             if (patientData.isEmpty()) {
                 Notification.show("No Data");
             }if(log.contains(check)){
-                Notification.show("Already added");
+                Notification.show("Already added",2000, Notification.Position.MIDDLE);
             }
             else {
                 plotButton.setEnabled(true);
