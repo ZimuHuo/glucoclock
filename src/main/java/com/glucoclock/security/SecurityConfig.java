@@ -40,16 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // Vaadin handles CSRF internally
         http.csrf().disable()
-
                 // Allow access to some pages for non-logged-in users
                 .authorizeRequests().antMatchers("/login","/sign-up","/patient-sign-up-1","/patient-sign-up-2","/patient-sign-up-3","/doctor-sign-up-1","/doctor-sign-up-2","/researcher-sign-up-1","/doctor-sign-up-2","/forgotPassword").permitAll()
-
                 .and().authorizeRequests().antMatchers("/patient/*").hasAuthority("PATIENT")
-
                 .and().authorizeRequests().antMatchers("/doctor/*").hasAuthority("DOCTOR")
-
                 .and().authorizeRequests().antMatchers("/researcher/*").hasAuthority("RESEARCHER")
-
                 .and().exceptionHandling().accessDeniedPage("/error/access-denied")
 
 //                // Register our CustomRequestCache, which saves unauthorized access attempts, so the user is redirected after login.

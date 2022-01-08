@@ -92,6 +92,7 @@ public class PatientPlotView extends Div {
 
             LocalDate start = charDate.withDayOfMonth(1);
             LocalDate end = charDate.withDayOfMonth(charDate.lengthOfMonth());
+            series.setName(start.getMonth().toString());
             List<Log> patientData= logService.findLogBooksBetweenDate(start,end,patientUid);
             double yval = 0;
             double xval = 0;
@@ -112,6 +113,7 @@ public class PatientPlotView extends Div {
                             yval = Double.valueOf(simple.getBloodglucose());
                             xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * simple.getTime();
                             series.add(new DataSeriesItem(xval, yval));
+
                         }
 
                     }
@@ -134,18 +136,15 @@ public class PatientPlotView extends Div {
                 }
             }
         });
-
-        xAxis.setTickInterval(1);
+        xAxis.setTickInterval(10);
         conf.addxAxis(xAxis);
         conf.getxAxis().setType(AxisType.LINEAR);
         plotButton.setEnabled(true);
-
         plotButton.addClickListener(e ->{
             conf.addSeries(series);
             series.clear();
             plotButton.setEnabled(false);
         });
-
         // Add it all together
         VerticalLayout viewEvents = new VerticalLayout(chart);
         viewEvents.addClassName("p-l");

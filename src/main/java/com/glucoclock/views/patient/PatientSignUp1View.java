@@ -129,7 +129,7 @@ public class PatientSignUp1View extends Div {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             }else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
                 Notification notification = Notification.show("Please choose another email address");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if(!VaadinSession.getCurrent().getAttribute("code").equals(code.getValue())){
                 Notification notification = Notification.show("Wrong code");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
