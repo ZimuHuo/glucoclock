@@ -2,14 +2,13 @@ package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.notifications_db.service.NotificationService;
-import com.glucoclock.database.notifications_db.model.Notifications;
+import com.glucoclock.database.notifications_db.model.Notification;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -38,7 +37,7 @@ public class DoctorNotificationDetailsView extends Div {
         this.notificationService = notificationService;
         this.patientService = patientService;
         this.doctorService = doctorService;
-        Notifications thisNotification = notificationService.getRepository().getNotificationById((long)VaadinSession.getCurrent().getAttribute("NotificationID")); // current notification
+        Notification thisNotification = notificationService.getRepository().getNotificationById((long)VaadinSession.getCurrent().getAttribute("NotificationID")); // current notification
 
         setStyles(thisNotification);
         setNavigation(notificationService, thisNotification);
@@ -52,7 +51,7 @@ public class DoctorNotificationDetailsView extends Div {
         add(menu,space,vl);
     }
 
-    private void setStyles(Notifications thisNotification){
+    private void setStyles(Notification thisNotification){
         sendBut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         sendBut.setVisible(false);
         backBut.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
@@ -97,9 +96,9 @@ public class DoctorNotificationDetailsView extends Div {
 
     }
 
-    private void setNavigation(NotificationService notificationService, Notifications thisNotification){
+    private void setNavigation(NotificationService notificationService, Notification thisNotification){
         sendBut.addClickListener(e->{
-            Notification.show("Reply sent").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            com.vaadin.flow.component.notification.Notification.show("Reply sent").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
 //            Set the reply message
             notificationService.reply((long)VaadinSession.getCurrent().getAttribute("NotificationID"),replyMsg.getValue());

@@ -24,7 +24,7 @@ import com.vaadin.flow.server.VaadinSession;
 
 @PageTitle("Forgot Password")
 @Route(value = "forgot-password")
-public class getPassword extends HorizontalLayout {
+public class ForgotPasswordView extends HorizontalLayout {
     private UserService userService;
     EmailField emailField;
     PasswordField password;
@@ -39,7 +39,7 @@ public class getPassword extends HorizontalLayout {
     private MenuBar menu = new MenuBar("NS");
 
 
-    public getPassword(UserService userService){
+    public ForgotPasswordView(UserService userService){
         this.userService = userService;
 
         add(menu);

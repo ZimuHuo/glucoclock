@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Notification_db")
-public class Notifications implements Serializable{
+public class Notification implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,7 +59,7 @@ public class Notifications implements Serializable{
 
 
 //    Constructor of a new notification
-    public Notifications(
+    public Notification(
             PatientService patientService,
             UUID patientuid,
             UUID doctoruid,
@@ -75,7 +75,7 @@ public class Notifications implements Serializable{
 //        Message is set in frontend classes
     }
 
-    public Notifications(){}
+    public Notification(){}
 
 
 

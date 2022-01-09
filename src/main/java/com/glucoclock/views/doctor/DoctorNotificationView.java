@@ -3,7 +3,7 @@ package com.glucoclock.views.doctor;
 import com.glucoclock.database.notifications_db.service.NotificationService;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
-import com.glucoclock.database.notifications_db.model.Notifications;
+import com.glucoclock.database.notifications_db.model.Notification;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.HeaderRow;
@@ -21,15 +21,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @PageTitle("Notifications")
 @Route(value = "doctor/notifications")
 public class DoctorNotificationView extends VerticalLayout {
-    private Grid<Notifications> grid;
-    private ListDataProvider<Notifications> dataProvider;
+    private Grid<Notification> grid;
+    private ListDataProvider<Notification> dataProvider;
 
-    private Grid.Column<Notifications> firstNameColumn;
-    private Grid.Column<Notifications> lastNameColumn;
-    private Grid.Column<Notifications> dateColumn;
-    private Grid.Column<Notifications> requestTypeColumn;
-    private Grid.Column<Notifications> statusColumn;
-    private Grid.Column<Notifications> buttonColumn;
+    private Grid.Column<Notification> firstNameColumn;
+    private Grid.Column<Notification> lastNameColumn;
+    private Grid.Column<Notification> dateColumn;
+    private Grid.Column<Notification> requestTypeColumn;
+    private Grid.Column<Notification> statusColumn;
+    private Grid.Column<Notification> buttonColumn;
 
     private final NotificationService notificationService;
     private final UserService userService;
@@ -74,12 +74,12 @@ public class DoctorNotificationView extends VerticalLayout {
 
 
     private void addColumnsToGrid() {
-        firstNameColumn = grid.addColumn(Notifications::getPatientFirstName, "FirstName").setHeader("Patient First Name").setWidth("18%").setFlexGrow(0);
-        lastNameColumn = grid.addColumn(Notifications::getPatientLastName, "LastName").setHeader("Patient Last Name").setWidth("18%").setFlexGrow(0);
-        dateColumn = grid.addColumn(Notifications::getDateNoTime, "Date").setHeader("Date").setWidth("18%").setFlexGrow(0);
-        requestTypeColumn = grid.addColumn(Notifications::getRequestType,"RequestType").setHeader("Request Type").setWidth("18%").setFlexGrow(0);
-        statusColumn = grid.addComponentColumn(Notifications::buildStatusBadge).setHeader("Status").setWidth("18%").setFlexGrow(0);
-        buttonColumn = grid.addComponentColumn(Notifications::buildDoctorViewButton).setWidth("15%").setFlexGrow(0);
+        firstNameColumn = grid.addColumn(Notification::getPatientFirstName, "FirstName").setHeader("Patient First Name").setWidth("18%").setFlexGrow(0);
+        lastNameColumn = grid.addColumn(Notification::getPatientLastName, "LastName").setHeader("Patient Last Name").setWidth("18%").setFlexGrow(0);
+        dateColumn = grid.addColumn(Notification::getDateNoTime, "Date").setHeader("Date").setWidth("18%").setFlexGrow(0);
+        requestTypeColumn = grid.addColumn(Notification::getRequestType,"RequestType").setHeader("Request Type").setWidth("18%").setFlexGrow(0);
+        statusColumn = grid.addComponentColumn(Notification::buildStatusBadge).setHeader("Status").setWidth("18%").setFlexGrow(0);
+        buttonColumn = grid.addComponentColumn(Notification::buildDoctorViewButton).setWidth("15%").setFlexGrow(0);
     }
 
 

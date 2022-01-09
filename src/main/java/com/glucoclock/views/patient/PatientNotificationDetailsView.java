@@ -3,14 +3,13 @@ package com.glucoclock.views.patient;
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.notifications_db.service.NotificationService;
-import com.glucoclock.database.notifications_db.model.Notifications;
+import com.glucoclock.database.notifications_db.model.Notification;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -41,7 +40,7 @@ public class PatientNotificationDetailsView extends Div {
         this.patientService = patientService;
         this.doctorService = doctorService;
         this.doctorPatientService = doctorPatientService;
-        Notifications thisNotification = notificationService.getRepository().getNotificationById((long) VaadinSession.getCurrent().getAttribute("NotificationID")); // current notification
+        Notification thisNotification = notificationService.getRepository().getNotificationById((long) VaadinSession.getCurrent().getAttribute("NotificationID")); // current notification
 
         setStyles(thisNotification);
         setNavigation(doctorPatientService, notificationService, thisNotification);
@@ -55,7 +54,7 @@ public class PatientNotificationDetailsView extends Div {
         add(menu,space,vl);
     }
 
-    private void setStyles(Notifications thisNotification){
+    private void setStyles(Notification thisNotification){
         agreeBut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         agreeBut.setVisible(false);
         backBut.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
@@ -99,9 +98,9 @@ public class PatientNotificationDetailsView extends Div {
 
     }
 
-    private void setNavigation(DoctorPatientService doctorPatientService, NotificationService notificationService, Notifications thisNotification){
+    private void setNavigation(DoctorPatientService doctorPatientService, NotificationService notificationService, Notification thisNotification){
         agreeBut.addClickListener(e->{
-            Notification.show("Reply sent").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            com.vaadin.flow.component.notification.Notification.show("Reply sent").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
             //add to doctor patient database
             doctorPatientService.create(thisNotification.getPatientUid(),thisNotification.getDoctorUid());

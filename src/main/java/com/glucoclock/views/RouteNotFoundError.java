@@ -20,7 +20,7 @@ public class RouteNotFoundError extends Component
                                  ErrorParameter<NotFoundException> parameter) {
         String text = " Could not navigate to '"
                 + event.getLocation().getPath()
-                + "' Because it does not exist!";
+                + "'. This URL does not exist!";
         getElement().setText(text);
         event.rerouteTo(Control.class);
         VaadinSession.getCurrent().setAttribute("Error",text);

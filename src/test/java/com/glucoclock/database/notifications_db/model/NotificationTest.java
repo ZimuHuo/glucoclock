@@ -1,20 +1,14 @@
 package com.glucoclock.database.notifications_db.model;
 
-import com.glucoclock.database.notifications_db.model.Notifications;
-import com.glucoclock.database.patients_db.service.PatientService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.annotation.Bean;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class NotificationsTest {
+class NotificationTest {
 
-    private Notifications n = new Notifications();
+    private Notification n = new Notification();
     LocalDateTime now = LocalDateTime.now();
 
 

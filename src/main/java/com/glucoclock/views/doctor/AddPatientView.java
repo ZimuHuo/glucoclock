@@ -4,7 +4,7 @@ import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.doctors_db.model.Doctor;
 import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.notifications_db.service.NotificationService;
-import com.glucoclock.database.notifications_db.model.Notifications;
+import com.glucoclock.database.notifications_db.model.Notification;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
@@ -15,7 +15,6 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -82,19 +81,19 @@ public class AddPatientView extends Div {
 
             //check if patient user exist
             if(patientuid ==null){
-                Notification.show("Patient Already Exist").addThemeVariants(NotificationVariant.LUMO_ERROR);
+                com.vaadin.flow.component.notification.Notification.show("Patient Already Exist").addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else{
                 // patient already has a doctor
                 if(doctorpatientService.exist(patientuid)){
                     if(doctorpatientService.getRepository().findByPatientuid(patientuid).getDoctoruid()==doctoruid){
-                        Notification.show("Already added").addThemeVariants(NotificationVariant.LUMO_ERROR);
+                        com.vaadin.flow.component.notification.Notification.show("Already added").addThemeVariants(NotificationVariant.LUMO_ERROR);
 
                     }else{
-                        Notification.show("Patient is already connected to a doctor, please contact your patient").addThemeVariants(NotificationVariant.LUMO_ERROR);
+                        com.vaadin.flow.component.notification.Notification.show("Patient is already connected to a doctor, please contact your patient").addThemeVariants(NotificationVariant.LUMO_ERROR);
                     }
                     }else{
                     //patient exist and without a doctor, therefore can be added
-                    Notification.show("Patient found").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    com.vaadin.flow.component.notification.Notification.show("Patient found").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     add.setEnabled(true);
                 }
             }
@@ -102,13 +101,13 @@ public class AddPatientView extends Div {
 
         //Add--Click add to go back to home page
         add.addClickListener(e->{
-            Notification.show("Request sent").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            com.vaadin.flow.component.notification.Notification.show("Request sent").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
 
             // Create and save a new notification to notify patient
             UUID doctorUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // doctor uid
             Doctor doctor = doctorService.getRepository().getDoctorByUid(doctorUID);
-            Notifications n = new Notifications(
+            Notification n = new Notification(
                     patientService,
                     patientuid,
                     doctorUID, // Doctor uid

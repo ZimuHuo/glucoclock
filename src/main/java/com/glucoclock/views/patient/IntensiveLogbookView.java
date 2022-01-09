@@ -7,7 +7,7 @@ import com.glucoclock.database.intensiveLogBook_db.service.IntensiveLogBookServi
 import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.database.notifications_db.service.NotificationService;
-import com.glucoclock.database.notifications_db.model.Notifications;
+import com.glucoclock.database.notifications_db.model.Notification;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
@@ -19,7 +19,6 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -111,7 +110,7 @@ public class IntensiveLogbookView extends Div {
             time = LocalTime.of(nowTime.getHour(), 00, 00);
 
             if(intensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
-                Notification notification = Notification.show("You already entered value for this entry. You will override past data");
+                com.vaadin.flow.component.notification.Notification notification = com.vaadin.flow.component.notification.Notification.show("You already entered value for this entry. You will override past data");
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
 
@@ -206,13 +205,13 @@ public class IntensiveLogbookView extends Div {
             //check is there a data at same date and time
             IntensiveLogBook intensive = intensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"));
                     if (bloodGlucose.isEmpty()) {
-                        Notification notification = Notification.show("Your glucose level is empty");
+                        com.vaadin.flow.component.notification.Notification notification = com.vaadin.flow.component.notification.Notification.show("Your glucose level is empty");
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     } else if (timePicker.isEmpty()) {
-                        Notification notification = Notification.show("Please select your time correctly");
+                        com.vaadin.flow.component.notification.Notification notification = com.vaadin.flow.component.notification.Notification.show("Please select your time correctly");
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     } else if (carbohydrateIntake.isEmpty() || insulinDose.isEmpty() || carbohydrateIntake.isEmpty() || carbBolus.isEmpty() || highBsBolus.isEmpty() || basalRate.isEmpty() || ketones.isEmpty()) {
-                        Notification notification = Notification.show("Please check your entries");
+                        com.vaadin.flow.component.notification.Notification notification = com.vaadin.flow.component.notification.Notification.show("Please check your entries");
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     } else {
                         //if there is no data
@@ -221,11 +220,11 @@ public class IntensiveLogbookView extends Div {
                         Double bg = bloodGlucose.getValue();
                         //if blood glucose level is higher than the normal range, notify doctor via in-app notification and email
                         if (bg > 140) {
-                            Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
+                            com.vaadin.flow.component.notification.Notification.show("Abnormal Blood Glucose Level").addThemeVariants(NotificationVariant.LUMO_ERROR);//change to save to notification db later
 
                             //if patient do not have a doctor don't send email
                             if(doctorPatientService.checkPatient(patientUid)) {
-                                Notifications n = new Notifications(
+                                Notification n = new Notification(
                                         patientService,
                                         patientUid,
                                         doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid

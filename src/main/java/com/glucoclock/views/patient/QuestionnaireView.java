@@ -2,7 +2,7 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.notifications_db.service.NotificationService;
-import com.glucoclock.database.notifications_db.model.Notifications;
+import com.glucoclock.database.notifications_db.model.Notification;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.database.questionnaire_db.model.Questionnaire;
 import com.glucoclock.database.questionnaire_db.service.QuestionnaireService;
@@ -12,13 +12,11 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
@@ -68,7 +66,7 @@ public class QuestionnaireView extends Div {
 
         //if patient do not have a doctor
         if(doctorPatientService.checkPatient(patientUid)==false) {
-            Notification.show("You need to have a doctor to submit questionnaire!");
+            com.vaadin.flow.component.notification.Notification.show("You need to have a doctor to submit questionnaire!");
             //disable the submit button
             submit.setEnabled(false);
         }
@@ -84,7 +82,7 @@ public class QuestionnaireView extends Div {
 
 //                    Create and save a new notification
 
-                Notifications n = new Notifications(
+                Notification n = new Notification(
                         patientService,
                         patientUid,
                         doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid

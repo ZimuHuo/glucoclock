@@ -6,7 +6,7 @@ import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.database.notifications_db.service.NotificationService;
-import com.glucoclock.database.notifications_db.model.Notifications;
+import com.glucoclock.database.notifications_db.model.Notification;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.database.simpleLogBook_db.model.SimpleLogBook;
 import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
@@ -21,7 +21,6 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -111,7 +110,7 @@ public class SimpleLogbookView extends Div {
                 else if (TimeString.equals("PostDinner")) time =6;
 
                 if (simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
-                    Notification notification = Notification.show("You already entered value for this entry. You will override past data");
+                    com.vaadin.flow.component.notification.Notification notification = com.vaadin.flow.component.notification.Notification.show("You already entered value for this entry. You will override past data");
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 }
             }
@@ -128,7 +127,7 @@ public class SimpleLogbookView extends Div {
                 else if (TimeString.equals("PostDinner")) time =6;
 
                 if (simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
-                    Notification notification = Notification.show("You already entered value for this entry. You will override past data");
+                    com.vaadin.flow.component.notification.Notification notification = com.vaadin.flow.component.notification.Notification.show("You already entered value for this entry. You will override past data");
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 }
             }
@@ -157,13 +156,13 @@ public class SimpleLogbookView extends Div {
                     //check is there a data at same date and time
                     SimpleLogBook simple = simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid, time, (LocalDate) VaadinSession.getCurrent().getAttribute("date"));
                         if (bloodGlucose.isEmpty()) {
-                            Notification notification = Notification.show("Your glucose level is empty");
+                            com.vaadin.flow.component.notification.Notification notification = com.vaadin.flow.component.notification.Notification.show("Your glucose level is empty");
                             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                         } else if (prepost.isEmpty()) {
-                            Notification notification = Notification.show("Please select your time correctly");
+                            com.vaadin.flow.component.notification.Notification notification = com.vaadin.flow.component.notification.Notification.show("Please select your time correctly");
                             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                         } else if (meal.isEmpty()) {
-                            Notification notification = Notification.show("Please select your time correctly");
+                            com.vaadin.flow.component.notification.Notification notification = com.vaadin.flow.component.notification.Notification.show("Please select your time correctly");
                             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                         } else{
                             //if there is no data
@@ -172,7 +171,7 @@ public class SimpleLogbookView extends Div {
                             if (bloodGlucose.getValue() > 140) {
                                 //if patient do not have a doctor don't send email
                                 if (doctorPatientService.checkPatient(patientUid)) {
-                                    Notifications n = new Notifications(
+                                    Notification n = new Notification(
                                             patientService,
                                             patientUid,
                                             doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid
