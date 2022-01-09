@@ -150,11 +150,12 @@ public class DoctorStartView extends VerticalLayout {
 
 
     private void addColumnsToGrid() {
-        firstNameColumn = grid.addColumn(PatientInfo::getFirstName, "FirstName").setHeader("First Name").setWidth("17%").setFlexGrow(0);
-        lastNameColumn = grid.addColumn(PatientInfo::getLastName, "LastName").setHeader("Last Name").setWidth("17%").setFlexGrow(0);
+        firstNameColumn = grid.addColumn(PatientInfo::getFirstName, "FirstName").setHeader("First Name").setWidth("15%").setFlexGrow(0);
+        lastNameColumn = grid.addColumn(PatientInfo::getLastName, "LastName").setHeader("Last Name").setWidth("15%").setFlexGrow(0);
         emailColumn = grid.addColumn(PatientInfo::getEmail, "Email").setHeader("Email").setWidth("28%").setFlexGrow(0);
         logbookColumn = grid.addComponentColumn(PatientInfo::buildEditLbTypeButton).setHeader("Suggested Logbook Type").setWidth("18%").setFlexGrow(0);
-        buttonColumn = grid.addComponentColumn(PatientInfo::buildViewButton).setWidth("11%").setFlexGrow(0);
+        buttonColumn = grid.addComponentColumn(PatientInfo::buildViewButton).setWidth("13%").setFlexGrow(0);
+        buttonColumn = grid.addComponentColumn(PatientInfo::buildNewPlotButton).setWidth("13%").setFlexGrow(0);
         buttonDelete = grid.addComponentColumn(PatientInfo::deletePatient).setWidth("6%").setFlexGrow(0);
     }
 
