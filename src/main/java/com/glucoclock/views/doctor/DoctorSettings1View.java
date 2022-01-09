@@ -136,7 +136,7 @@ public class DoctorSettings1View extends HorizontalLayout {
         contactNumberInit();
         genderSelectInit();
         changeSettingInit();
-        saveInit(doctor.getUID());
+        saveInit(doctor.getUid());
         cancelInit();
         changePasswordInit();
         //toHomeSetUp();

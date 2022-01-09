@@ -1,5 +1,7 @@
 package com.glucoclock.database.intensiveLogBook_db.model;
 
+import com.glucoclock.database.Logbook;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -8,31 +10,12 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Intensivelogbook_db")
-public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBook> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+public class IntensiveLogBook extends Logbook implements Comparable<IntensiveLogBook> {
 
     //Columns of the database and variables
-    //Patient uid
-    @Column(name = "PatientUid")
-    private UUID patientuid;
-
-    //Record date
-    @Column(name = "Date")
-    private LocalDate date;
-
     //Record time (1:00,2:00...)
     @Column(name="Time")
     private LocalTime time;
-
-    //Recorded blood glucose
-    @Column(name = "BloodGlucose")
-    private String bloodglucose;
-
-    //Record carb intake
-    @Column(name = "CarbIntake")
-    private String carbintake;
 
     //Record insulin dose
     @Column(name="InsulinDose")
@@ -77,8 +60,15 @@ public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBo
     public IntensiveLogBook() {
 
     }
-
     //   getter and setter
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
     public String getCarbbolus() {
         return carbbolus;
     }
@@ -127,45 +117,6 @@ public class IntensiveLogBook implements Serializable, Comparable<IntensiveLogBo
         this.id = id;
     }
 
-    public UUID getPatientuid() {
-        return patientuid;
-    }
-
-    public void setPatientuid(UUID patientuid) {
-        this.patientuid = patientuid;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
-    public String getBloodglucose() {
-        return bloodglucose;
-    }
-
-    public void setBloodglucose(String bloodglucose) {
-        this.bloodglucose = bloodglucose;
-    }
-
-    public String getCarbintake() {
-        return carbintake;
-    }
-
-    public void setCarbintake(String carbintake) {
-        this.carbintake = carbintake;
-    }
 
     @Override
     public int compareTo(IntensiveLogBook that){

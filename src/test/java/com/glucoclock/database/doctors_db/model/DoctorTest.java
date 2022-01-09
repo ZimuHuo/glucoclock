@@ -113,7 +113,7 @@ class DoctorTest {
     }
     @Test
     void getUID() {
-        assertEquals(uid,d.getUID());
+        assertEquals(uid,d.getUid());
     }
     @Test
     void setUID() {

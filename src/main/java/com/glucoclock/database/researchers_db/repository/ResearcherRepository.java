@@ -10,7 +10,7 @@ import java.util.UUID;
 
 // add update delete search
 public interface ResearcherRepository extends CrudRepository<Researcher, Long>{
-    List<Researcher> findByFirstName(String FirstName);
+    List<Researcher> findByFirstname(String FirstName);
     List<Researcher> findAll();
     Researcher getResearcherById(Long id);
     Researcher getResearcherByEmail(String email);

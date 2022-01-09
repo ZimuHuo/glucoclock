@@ -1,5 +1,6 @@
 package com.glucoclock.database.notifications_db.model;
 
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,5 +1,7 @@
 package com.glucoclock.database.comprehensiveLogBook_db.model;
 
+import com.glucoclock.database.Logbook;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -8,15 +10,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Comprehensivelogbook_db")
-public class ComprehensiveLogBook implements Serializable, Comparable<ComprehensiveLogBook>{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+public class ComprehensiveLogBook extends Logbook implements Comparable<ComprehensiveLogBook>{
 
     //Columns of the database and variables
     //Patient uid
-    @Column(name = "PatientUid")
-    private UUID patientuid;
 
     //Record Date
     @Column(name = "Date")
@@ -59,40 +56,7 @@ public class ComprehensiveLogBook implements Serializable, Comparable<Comprehens
 
     }
 
-
     //  Getter and Setter
-    public String getInsulindose() {
-        return insulindose;
-    }
-
-    public void setInsulindose(String insulindose) {
-        this.insulindose = insulindose;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public UUID getPatientuid() {
-        return patientuid;
-    }
-
-    public void setPatientuid(UUID patientuid) {
-        this.patientuid = patientuid;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
     public int getTime() {
         return time;
     }
@@ -101,21 +65,14 @@ public class ComprehensiveLogBook implements Serializable, Comparable<Comprehens
         this.time = time;
     }
 
-    public String getBloodglucose() {
-        return bloodglucose;
+    public String getInsulindose() {
+        return insulindose;
     }
 
-    public void setBloodglucose(String bloodglucose) {
-        this.bloodglucose = bloodglucose;
+    public void setInsulindose(String insulindose) {
+        this.insulindose = insulindose;
     }
 
-    public String getCarbintake() {
-        return carbintake;
-    }
-
-    public void setCarbintake(String carbintake) {
-        this.carbintake = carbintake;
-    }
 
     public String getTimeString(){
         String TimeString= new String();

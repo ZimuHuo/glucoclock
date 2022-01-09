@@ -1,5 +1,6 @@
 package com.glucoclock.database.questionnaire_db.model;
 
+import com.glucoclock.database.questionnaire_db.model.Questionnaire;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
