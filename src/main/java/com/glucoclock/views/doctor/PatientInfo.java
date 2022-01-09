@@ -105,8 +105,10 @@ public class PatientInfo {
         Button button = new Button("View Data");
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         button.addClickListener(click->{
+            //save patient id and name in session
             VaadinSession.getCurrent().setAttribute("PatientID", uid);
             VaadinSession.getCurrent().setAttribute("PatientName", firstName+" "+lastName);
+            //view this patient's data
             button.getUI().ifPresent(ui->ui.navigate(PatientDataView.class));
             Notification.show(firstName+lastName);
         });
@@ -115,8 +117,11 @@ public class PatientInfo {
 
     public Button deletePatient(){
         Icon cross = new Icon(VaadinIcon.CLOSE_SMALL);
+        //Delete Button
         Button deletePatient = new Button(cross);
+        //Dialog to confirm the delete action
         ConfirmDialog confirmRemoval = new ConfirmDialog();
+
         confirmRemoval.setHeader("Confirm patient removal");
         confirmRemoval.setText("Are you sure you'd like to remove "+firstName+" "+lastName+" from your patient list?");
         confirmRemoval.setCancelable(true);
@@ -125,9 +130,11 @@ public class PatientInfo {
             confirmRemoval.open()
         );
         confirmRemoval.addConfirmListener(e->{
+            //if confirm delete
             doctorPatientService.deletePatient(uid);
             Notification.show("Removed"+firstName+" "+lastName+" from patient list");
-            UI.getCurrent().getPage().reload();});
+            UI.getCurrent().getPage().reload();}
+        );
 
         return deletePatient;
     }

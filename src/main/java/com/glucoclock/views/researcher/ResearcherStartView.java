@@ -38,16 +38,16 @@ import java.util.UUID;
 @PageTitle("Search for and Download Anonymised Data")
 @Route(value = "researcher/data-searcher-and-download")
 public class ResearcherStartView extends VerticalLayout {
-    double F_AgeMin;
-    double F_AgeMax;
-    LocalDate F_AgeMin_date;
-    LocalDate F_AgeMax_date;
-    String F_Gender;
-    String F_Insulin;
-    String F_Diabetes;
-    String F_Result;
+    private double F_AgeMin;
+    private double F_AgeMax;
+    private LocalDate F_AgeMin_date;
+    private LocalDate F_AgeMax_date;
+    private String F_Gender;
+    private String F_Insulin;
+    private String F_Diabetes;
+    private String F_Result;
 
-    FileDownloadWrapper buttonWrapper;
+    private FileDownloadWrapper buttonWrapper;
 
     private final PatientService patientService;
     private final SimpleLogBookService SimplelogData;
@@ -74,6 +74,7 @@ public class ResearcherStartView extends VerticalLayout {
             F_Gender = gender.getValue();
         });
 
+    //Filters
         //Age filter
         NumberField Filter_LowLim = new NumberField("Age from");
         NumberField Filter_HighLIm = new NumberField(" to ");
@@ -107,18 +108,21 @@ public class ResearcherStartView extends VerticalLayout {
             Notification.show(diabetes.getValue());
             F_Diabetes = diabetes.getValue();
         });
+
         //Button apply filter
         Button Filter_apply = new Button("Apply Filter");
         Filter_apply.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
         //Download button
         Icon Filter_download = new Icon(VaadinIcon.DOWNLOAD);
         Filter_download.setSize("80px");
         Button download = new Button(Filter_download);
         download.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         download.setHeight("100px");
-
+//apply filter
         //Click listener of the Filter_apply
         Filter_apply.addClickListener(click->{
+            //show how many data met researcher's requirement
             String notification=CheckOutputNum();
             Notification.show(notification);
         });
@@ -140,7 +144,7 @@ public class ResearcherStartView extends VerticalLayout {
         //add button wrapper to the Download data
         this.buttonWrapper.wrapComponent(download);
 
-        //Layout
+    //Layout
         FormLayout ResearchFilter = new FormLayout();
         ResearchFilter.add(Filter_Gender, Filter_LowLim, Filter_HighLIm);
         ResearchFilter.setResponsiveSteps(
@@ -166,6 +170,7 @@ public class ResearcherStartView extends VerticalLayout {
         }
     }
 
+    //Check how many data meet requirements
     public String CheckOutputNum(){
         String returnString="There are ";
         List<Patient> patientList;
@@ -174,6 +179,7 @@ public class ResearcherStartView extends VerticalLayout {
         return returnString;
     }
 
+    //set up output data
     public String OutputData() {
         int patientNumber = 1;
         List<Patient> patientList;
@@ -191,10 +197,7 @@ public class ResearcherStartView extends VerticalLayout {
                         "," + "Basal Rate" +
                         "," + "Ketones"+"\n";
 
-        System.out.println(F_AgeMin_date);
-        System.out.println(F_AgeMax_date);
         patientList = patientService.researcherSearch(F_AgeMax_date, F_AgeMin_date, F_Gender, F_Diabetes, F_Insulin);
-        //System.out.println(patientList);
 
         for (Patient thispatient : patientList) {
             UUID patientuid;
@@ -234,13 +237,12 @@ public class ResearcherStartView extends VerticalLayout {
                 }
 
             }
-                System.out.println(patientuid);
-
             patientNumber+=1;
             }
 
             return Finaloutput;
     }
+
     public String SimpleOut (LocalDate checkdate, UUID patientuid){
         String SimpleoutString = new String();//set up returned string
         //find the data for this patient at checkdate, and stored the data in the simpledata list

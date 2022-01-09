@@ -48,6 +48,7 @@ public class PatientStartView extends VerticalLayout{
         this.userService = userService;
         this.logService = logService;
 
+        //get patient uid
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         authentication.getName();
