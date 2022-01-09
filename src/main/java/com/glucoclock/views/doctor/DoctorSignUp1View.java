@@ -70,7 +70,7 @@ public class DoctorSignUp1View extends HorizontalLayout {
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     }else {
                         String code = verificationCode.getRandomNum();
-                        String email = "Your code is: "+code;
+                        String email = "Your one time verification code is: "+code;
                         VaadinSession.getCurrent().setAttribute("code",code);
                         SendMail.sendMail("Verification code",email,emailField.getValue());
                         Notification notification = Notification.show("You should receive an email by now. In case you dont "+email);
