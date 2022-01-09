@@ -143,13 +143,13 @@ public class PatientSignUp3View extends Div {
 //      Check if all fields have been filled in
             if (injectionSelect.isEmpty()) {
                 Notification notification = Notification.show("Check Injection");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (insulinSelect.isEmpty()) {
                 Notification notification = Notification.show("Check Insulin");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (diabetesSelect.isEmpty()) {
                 Notification notification = Notification.show("Check DiabetesSelect");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
 
                 VaadinSession.getCurrent().setAttribute( "Insulin",insulinSelect.getValue());

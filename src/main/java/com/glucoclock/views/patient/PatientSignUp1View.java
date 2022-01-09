@@ -117,22 +117,22 @@ public class PatientSignUp1View extends Div {
 
             if (emailField.isInvalid()) {
                 Notification notification = Notification.show("Check Emailfield");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if (!password.getValue().equals(confirmPassword.getValue())){
                 Notification notification = Notification.show("Check Password");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if(firstName.isEmpty()){
                 Notification notification = Notification.show("Check First name");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if(lastName.isEmpty()){
                 Notification notification = Notification.show("Check last name");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
                 Notification notification = Notification.show("Please choose another email address");
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if(!VaadinSession.getCurrent().getAttribute("code").equals(code.getValue())){
                 Notification notification = Notification.show("Wrong code");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
 
                 VaadinSession.getCurrent().setAttribute( "FirstName",firstName.getValue());

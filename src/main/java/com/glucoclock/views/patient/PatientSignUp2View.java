@@ -193,25 +193,25 @@ public class PatientSignUp2View extends Div {
 
             if (sex.isEmpty()) {
                 Notification notification = Notification.show("Check Sex Field");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (AddressL1.isEmpty()) {
                 Notification notification = Notification.show("Check apartment address");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (AddressL2.isEmpty()) {
                 Notification notification = Notification.show("Check street address");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (postcode.isEmpty()) {
                 Notification notification = Notification.show("Check post code");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (city.isEmpty()) {
                 Notification notification = Notification.show("Check city");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (contactNumber.isEmpty()) {
                 Notification notification = Notification.show("Check contact number");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (datePicker.isEmpty()) {
                 Notification notification = Notification.show("Check date");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
 
                 setSession();
