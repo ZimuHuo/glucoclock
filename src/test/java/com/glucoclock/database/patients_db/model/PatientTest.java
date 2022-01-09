@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//Unit Test
 class PatientTest {
 
     private Patient p;
@@ -17,41 +18,39 @@ class PatientTest {
 
     @BeforeEach
     void createPatient(){
-        p= new Patient(uid,"Jiaxin","Huang","hjx@outlook.com",
+        p= new Patient(uid,"FN","LN","abc@outlook.com",
                 "flat0","road0","W1J 8FX","London","123456","Female",
                 LocalDate.of(2000,1,1),"II",
                 false,false,false,false,"xxx");
-
     }
-
     @Test
     void testGetFirstName() {
-        assertEquals("Jiaxin",p.getFirstName());
+        assertEquals("FN",p.getFirstName());
     }
 
     @Test
     void testSetFirstName(){
-        p.setFirstName("Good");
-        assertEquals("Good",p.getFirstName());
+        p.setFirstName("New_FN");
+        assertEquals("New_FN",p.getFirstName());
     }
 
     @Test
     void testGetLastName() {
-        assertEquals("Huang",p.getLastName());
+        assertEquals("LN",p.getLastName());
     }
     @Test
     void testSetLastName() {
-        p.setLastName("Huo");
-        assertEquals("Huo",p.getLastName());
+        p.setLastName("New_LN");
+        assertEquals("New_LN",p.getLastName());
     }
     @Test
     void testGetEmail() {
-        assertEquals("hjx@outlook.com",p.getEmail());
+        assertEquals("abc@outlook.com",p.getEmail());
     }
     @Test
     void testSetEmail() {
-        p.setEmail("zimuhuo@outlook.com");
-        assertEquals("zimuhuo@outlook.com", p.getEmail());
+        p.setEmail("hh@outlook.com");
+        assertEquals("hh@outlook.com", p.getEmail());
     }
     @Test
     void getPostCode() {
