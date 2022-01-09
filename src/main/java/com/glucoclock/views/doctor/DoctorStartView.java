@@ -45,6 +45,7 @@ public class DoctorStartView extends VerticalLayout {
     private Grid.Column<PatientInfo> emailColumn;
     private Grid.Column<PatientInfo> logbookColumn;
     private Grid.Column<PatientInfo> buttonColumn;
+    private Grid.Column<PatientInfo> buttonPlot;
     private Grid.Column<PatientInfo> buttonDelete;
 
     private MenuBar menu = new MenuBar("DStart");
@@ -155,7 +156,7 @@ public class DoctorStartView extends VerticalLayout {
         emailColumn = grid.addColumn(PatientInfo::getEmail, "Email").setHeader("Email").setWidth("28%").setFlexGrow(0);
         logbookColumn = grid.addComponentColumn(PatientInfo::buildEditLbTypeButton).setHeader("Suggested Logbook Type").setWidth("18%").setFlexGrow(0);
         buttonColumn = grid.addComponentColumn(PatientInfo::buildViewButton).setWidth("13%").setFlexGrow(0);
-        buttonColumn = grid.addComponentColumn(PatientInfo::buildNewPlotButton).setWidth("13%").setFlexGrow(0);
+        buttonPlot = grid.addComponentColumn(PatientInfo::buildNewPlotButton).setWidth("13%").setFlexGrow(0);
         buttonDelete = grid.addComponentColumn(PatientInfo::deletePatient).setWidth("6%").setFlexGrow(0);
     }
 
