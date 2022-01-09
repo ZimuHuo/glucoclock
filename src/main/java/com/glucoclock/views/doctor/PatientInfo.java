@@ -119,6 +119,11 @@ public class PatientInfo {
         Button button = new Button("View Plot");
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         button.addClickListener(click->{
+            //save patient id and name in session
+            VaadinSession.getCurrent().setAttribute("PatientID", uid);
+            VaadinSession.getCurrent().setAttribute("PatientName", firstName+" "+lastName);
+
+            button.getUI().ifPresent(ui->ui.navigate(DoctorPlotView.class));
 
         });
         return button;
