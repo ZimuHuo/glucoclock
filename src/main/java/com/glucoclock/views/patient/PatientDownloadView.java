@@ -41,13 +41,13 @@ import java.util.UUID;
 @Route(value = "patient/download")
 
 public class PatientDownloadView extends VerticalLayout {
-    Locale finnishLocale = new Locale("fi", "FI");
+    private Locale finnishLocale = new Locale("fi", "FI");
     //use 2 calendar to choose start and end date, when click the export button, export the data between these 2 date
-    DatePicker PrintStartDate = new DatePicker("Select start date:"); //calendar to choose start date
-    DatePicker PrintEndDate = new DatePicker("Select end date:"); //calendar to choose end date
+    private DatePicker PrintStartDate = new DatePicker("Select start date:"); //calendar to choose start date
+    private DatePicker PrintEndDate = new DatePicker("Select end date:"); //calendar to choose end date
     //Export Buttons, can export plot or export data
 //    Button ExportPlot=new Button("Export Plot");
-    Button ExportData=new Button("Export Data");
+    private Button ExportData=new Button("Export Data");
 
     private LocalDate StartDate=LocalDate.now().minusDays(4);
     private LocalDate EndDate=LocalDate.now();
@@ -62,7 +62,7 @@ public class PatientDownloadView extends VerticalLayout {
     private final LogService Logdata;
     private final PatientService patientService;
     private final UserService userService;
-    FileDownloadWrapper buttonWrapper;
+    private FileDownloadWrapper buttonWrapper;
     //Menu bar
     private MenuBar menu = new MenuBar("PNS");
 
@@ -82,11 +82,6 @@ public class PatientDownloadView extends VerticalLayout {
         User user= this.userService.getRepository().findByUsername(authentication.getName()); //return user
         patientUid=user.getUid();   //get patient uid
 
-        //create testing database
-//        SimplelogData.bulkcreate();
-//        ComprehensivelogData.bulkcreate();
-//        IntensivelogData.bulkcreate();
-//        Logdata.bulkcreate();
 
         // add menu bar
         add(menu);

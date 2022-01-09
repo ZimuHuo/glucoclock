@@ -31,7 +31,7 @@ import java.util.UUID;
 @PageTitle("Add Patient")
 @Route(value = "doctor/add-patient")
 public class AddPatientView extends Div {
-    private H2 title = new H2("Add Patient");
+    private H2 title = new H2("Send Request");
     private TextField patientEmail = new TextField("Enter Patient Email");
     private Icon searchIcon = new Icon(VaadinIcon.SEARCH);
     private Button search = new Button(searchIcon);
@@ -86,8 +86,13 @@ public class AddPatientView extends Div {
             }else{
                 // patient already has a doctor
                 if(doctorpatientService.exist(patientuid)){
-                    Notification.show("Patient already got a doctor, please contact your patient").addThemeVariants(NotificationVariant.LUMO_ERROR);
-                }else{
+                    if(doctorpatientService.getRepository().findByPatientuid(patientuid).getDoctoruid()==doctoruid){
+                        Notification.show("Already added").addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+                    }else{
+                        Notification.show("Patient is already connected to a doctor, please contact your patient").addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    }
+                    }else{
                     //patient exist and without a doctor, therefore can be added
                     Notification.show("Patient found").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     add.setEnabled(true);
@@ -97,7 +102,7 @@ public class AddPatientView extends Div {
 
         //Add--Click add to go back to home page
         add.addClickListener(e->{
-            Notification.show("Add request sent").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            Notification.show("Request sent").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
 
             // Create and save a new notification to notify patient
@@ -109,9 +114,9 @@ public class AddPatientView extends Div {
                     doctorUID, // Doctor uid
                     "Add Patient Request"
             );
-            n.setShortMessage(doctor.getFirstName() + " " + doctor.getLastName() + " wants to add you into patient list");
+            n.setShortMessage(doctor.getFirstName() + " " + doctor.getLastName() + " would like to connect to your account.");
             n.setCompleteMessage(
-                    "Doctor " + doctor.getFirstName() + " " + doctor.getLastName() +" wants to add you into patient list.\n" +
+                    "Doctor " + doctor.getFirstName() + " " + doctor.getLastName() +" would like to connect to your account.\n\nNote: By accepting the request, you agree to share your name, email and diabetes-related data with the doctor.\n" +
                             "\n" +
                             "Date: " + n.getDate().toLocalDate() + "\n" +
                             "Time: " + n.getDate().toLocalTime() + "\n"

@@ -24,9 +24,11 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -52,6 +54,7 @@ public class PatientPlotView extends Div {
     private UUID patientUid;
     private LocalDate charDate = LocalDate.now();
     private MenuBar menu = new MenuBar("PNS");
+    ArrayList<String> log = new ArrayList<>();
 
     public PatientPlotView(UserService userService, PatientService patientService, LogService logService, SimpleLogBookService simpleLogBookService, ComprehensiveLogBookService comprehensiveLogBookService, IntensiveLogBookService intensiveLogBookService) {
         this.userService = userService;
@@ -95,8 +98,12 @@ create chart view
             LocalDate end = charDate.withDayOfMonth(charDate.lengthOfMonth());
             List<Log> patientData = logService.findLogBooksBetweenDate(start, end, patientUid);
             plotButton.setEnabled(false);
+
+            String check =start.getMonth().toString().substring(0,3)+"."+start.getYear();
             if (patientData.isEmpty()) {
                 Notification.show("No Data");
+            }else if(log.contains(check)){
+                Notification.show("Already added",2000, Notification.Position.MIDDLE);
             } else {
                 plotButton.setEnabled(true);
                 xAxis.setTickInterval(1);
@@ -124,9 +131,6 @@ create chart view
         return vl;
     }
 
-    public static Date convertToDateViaSqlDate(LocalDate dateToConvert) {
-        return java.sql.Date.valueOf(dateToConvert);
-    }
 /*
 store the patient glucose level in a data series
  */
@@ -134,11 +138,12 @@ store the patient glucose level in a data series
         DataSeries series = new DataSeries();
         LocalDate start = charDate.withDayOfMonth(1);
         LocalDate end = charDate.withDayOfMonth(charDate.lengthOfMonth());
-        series.setName(start.getMonth().toString());
+        series.setName(start.getMonth().toString().substring(0,3)+"."+start.getYear());
+        log.add(start.getMonth().toString().substring(0,3)+"."+start.getYear());
         List<Log> patientData = logService.findLogBooksBetweenDate(start, end, patientUid);
         double yval = 0;
         double xval = 0;
-        series.setName(start.getMonth().toString());
+        //series.setName(start.getMonth().toString());
         for (Log data : patientData) {
 
             int type = data.getLogbooktype();
@@ -148,7 +153,7 @@ store the patient glucose level in a data series
                 List<SimpleLogBook> simpleLog = simpleLogBookService.findLogByDateAndPatientuid(data.getDate(), patientUid);
                 for (SimpleLogBook simple : simpleLog) {
                     yval = Double.valueOf(simple.getBloodglucose());
-                    xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * simple.getTime();
+                    xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 7 * simple.getTime();
                     series.add(new DataSeriesItem(xval, yval));
 
                 }
@@ -158,7 +163,7 @@ store the patient glucose level in a data series
                 List<ComprehensiveLogBook> compreLog = comprehensiveLogBookService.findLogByDateAndPatientuid(data.getDate(), patientUid);
                 for (ComprehensiveLogBook compre : compreLog) {
                     yval = Double.valueOf(compre.getBloodglucose());
-                    xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 6 * compre.getTime();
+                    xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 7 * compre.getTime();
                     series.add(new DataSeriesItem(xval, yval));
                 }
             }

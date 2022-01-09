@@ -35,6 +35,7 @@ public class QuestionnaireView extends Div {
     private Button submit = new Button("Submit");
     private MenuBar menu = new MenuBar("PNS");
 
+    private UUID patientUid;
     private final UserService userService;
     private final QuestionnaireService questionnaireService;
     private final NotificationService notificationService;
@@ -49,6 +50,7 @@ public class QuestionnaireView extends Div {
         this.patientService = patientService;
         this.doctorPatientService = doctorPatientService;
 
+        patientUid = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
         symptoms.setLabel("Symptoms (Select all that apply)");
         symptoms.setItems("Frequent urination",
                 "Excessive thirst",
@@ -63,10 +65,17 @@ public class QuestionnaireView extends Div {
         submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submit.setWidth("30%");
         submit.setHeight("50px");
+
+        //if patient do not have a doctor
+        if(doctorPatientService.checkPatient(patientUid)==false) {
+            Notification.show("You need to have a doctor to submit questionnaire!");
+            //disable the submit button
+            submit.setEnabled(false);
+        }
+
         submit.addClickListener(e->{
-            UUID uid = userService.getRepository().findAll().get(0).getUid();
                     Questionnaire questionnaire = new Questionnaire(
-                            uid,
+                            patientUid,
                             LocalDateTime.now(),
                             symptoms.getValue().toString(),
                             otherSymptoms.getValue()
@@ -74,33 +83,32 @@ public class QuestionnaireView extends Div {
                     questionnaireService.getRepository().save(questionnaire);
 
 //                    Create and save a new notification
-                    UUID patientUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // Current patient UID
 
-                    Notifications n = new Notifications(
-                            patientService,
-                            patientUID,
-                            doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUID).getDoctoruid(), // Doctor uid
-                            "Questionnaire"
-                    );
+                Notifications n = new Notifications(
+                        patientService,
+                        patientUid,
+                        doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid
+                        "Questionnaire"
+                );
 
-                    String selectedSymptoms = symptoms.getSelectedItems().toString();
-                    int length = selectedSymptoms.length();
+                String selectedSymptoms = symptoms.getSelectedItems().toString();
+                int length = selectedSymptoms.length();
 
 //                    Add selected symptoms to the message
-                    String completeMsg =
-                            n.getPatientFirstName() +" "+ n.getPatientLastName() +" has submitted a questionnaire.\n" +
-                            "\n" +
-                            "Date: " + n.getDate().toLocalDate() + "\n" +
-                            "Time: " + n.getDate().toLocalTime() + "\n" +
-                            "Symptoms: " + selectedSymptoms.substring(1, length - 1);
+                String completeMsg =
+                        n.getPatientFirstName() + " " + n.getPatientLastName() + " has submitted a questionnaire.\n" +
+                                "\n" +
+                                "Date: " + n.getDate().toLocalDate() + "\n" +
+                                "Time: " + n.getDate().toLocalTime() + "\n" +
+                                "Symptoms: " + selectedSymptoms.substring(1, length - 1);
 
 //                    Add other symptoms if entered
-                    if (!otherSymptoms.isEmpty())
-                        completeMsg = completeMsg + " ," + otherSymptoms.getValue();
+                if (!otherSymptoms.isEmpty())
+                    completeMsg = completeMsg + " ," + otherSymptoms.getValue();
 
-                    n.setShortMessage(symptoms.getSelectedItems().toString().substring(0,20));
-                    n.setCompleteMessage(completeMsg);
-                    notificationService.getRepository().save(n);
+                n.setShortMessage(symptoms.getSelectedItems().toString().substring(0, 20));
+                n.setCompleteMessage(completeMsg);
+                notificationService.getRepository().save(n);
 
 
             submit.getUI().ifPresent(ui ->

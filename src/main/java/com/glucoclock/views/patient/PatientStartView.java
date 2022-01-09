@@ -48,6 +48,7 @@ public class PatientStartView extends VerticalLayout{
         this.userService = userService;
         this.logService = logService;
 
+        //get patient uid
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         authentication.getName();
@@ -78,19 +79,18 @@ public class PatientStartView extends VerticalLayout{
         updateButton.setWidth("120px");
         updateButton.setHeight("120px");
 
-        //Check is there already logbook at this date
+        //Check if there's already data at the date selected
         datePicker.addValueChangeListener(click->{
             checkCurrentLog(datePicker.getValue(),lbType);
         });
 
-        //show suggested logbook type by doctor
+        //show suggested logbook type if it's not N/A
         add(title);
         if(!lbType.equals("N/A")){
             Span suggestedLb = new Span("Suggested Logbook Type: " + lbType);
             suggestedLb.getElement().getThemeList().add("badge success");
             add(suggestedLb);
         }
-
 
         //Update Button
         updateButton.addClickListener(e ->{
