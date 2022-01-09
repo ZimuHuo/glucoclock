@@ -115,6 +115,15 @@ public class PatientInfo {
         return button;
     }
 
+    public Button buildNewPlotButton() {
+        Button button = new Button("View Plot");
+        button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        button.addClickListener(click->{
+
+        });
+        return button;
+    }
+
     public Button deletePatient(){
         Icon cross = new Icon(VaadinIcon.CLOSE_SMALL);
         //Delete Button
