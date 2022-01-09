@@ -17,9 +17,6 @@ public abstract class Logbook implements Serializable {
     @Column(name = "Date")
     protected LocalDate date;
 
-    @Column(name="Time")
-    protected int time;
-
     @Column(name = "BloodGlucose")
     protected String bloodglucose;
 
@@ -49,14 +46,6 @@ public abstract class Logbook implements Serializable {
 
     public void setDate(LocalDate date) {
         this.date = date;
-    }
-
-    public int getTime() {
-        return time;
-    }
-
-    public void setTime(int time) {
-        this.time = time;
     }
 
     public String getBloodglucose() {

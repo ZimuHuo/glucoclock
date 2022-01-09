@@ -13,6 +13,9 @@ import java.util.UUID;
 public class IntensiveLogBook extends Logbook implements Comparable<IntensiveLogBook> {
 
 
+    @Column(name="Time")
+    private LocalTime time;
+
     @Column(name="InsulinDose")
     private String insulindose;
 
@@ -30,7 +33,7 @@ public class IntensiveLogBook extends Logbook implements Comparable<IntensiveLog
 
 
 
-    public IntensiveLogBook(UUID PatientUid, LocalDate Date, int Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons) {
+    public IntensiveLogBook(UUID PatientUid, LocalDate Date, LocalTime Time, String BloodGlucose, String CarbIntake, String InsulinDose, String CarbBolus, String HighBSBolus, String BasalRate, String Ketons) {
 
         patientuid = PatientUid;
         date = Date;
@@ -46,6 +49,14 @@ public class IntensiveLogBook extends Logbook implements Comparable<IntensiveLog
 
     public IntensiveLogBook() {
 
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 
     public String getCarbbolus() {

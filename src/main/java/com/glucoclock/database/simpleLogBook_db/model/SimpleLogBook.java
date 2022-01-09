@@ -13,7 +13,8 @@ import java.util.UUID;
 public class SimpleLogBook extends Logbook implements Comparable<SimpleLogBook> {
 
 
-
+    @Column(name="Time")
+    private int time;
 
 
     public SimpleLogBook(UUID PatientUid, LocalDate Date, String TimeString, String BloodGlucose, String CarbIntake) {

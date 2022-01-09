@@ -15,6 +15,10 @@ public class ComprehensiveLogBook extends Logbook implements Comparable<Comprehe
     //Columns of the database and variables
     //Patient uid
 
+
+    @Column(name="Time")
+    private int time;
+
     @Column(name="InsulinDose")
     private String insulindose;
 
@@ -39,7 +43,13 @@ public class ComprehensiveLogBook extends Logbook implements Comparable<Comprehe
 
     }
 
+    public int getTime() {
+        return time;
+    }
 
+    public void setTime(int time) {
+        this.time = time;
+    }
 
     public String getInsulindose() {
         return insulindose;
