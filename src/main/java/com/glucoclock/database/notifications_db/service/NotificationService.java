@@ -35,9 +35,11 @@ public class NotificationService {
     public Integer countUnresolvedMsg(UUID uid, String role){
         int unresolvedMsgN = 0;
         if(role.equals("PATIENT")){
-            unresolvedMsgN = repository.getNotificationsByPatientuidAndStatus(uid,"Unresolved").size();
+            unresolvedMsgN = repository.getNotificationsByPatientuidAndRequesttypeAndStatus(uid,"Add Patient Request","Unresolved").size();
         }else if(role.equals("DOCTOR")){
-            unresolvedMsgN = repository.getNotificationsByDoctoruidAndStatus(uid,"Unresolved").size();
+            unresolvedMsgN =
+                    repository.getNotificationsByDoctoruidAndRequesttypeAndStatus(uid,"Blood Glucose Alarm","Unresolved").size()
+            +repository.getNotificationsByDoctoruidAndRequesttypeAndStatus(uid,"Questionnaire","Unresolved").size();
         }
         return unresolvedMsgN;
     }

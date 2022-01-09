@@ -14,9 +14,9 @@ public interface NotificationRepository extends CrudRepository<Notifications, Lo
 //    Search for a doctor's all notifications
     List<Notifications> getNotificationByDoctoruid(UUID uid);
 
-    List<Notifications> getNotificationsByPatientuidAndStatus(UUID uid, String status);
+    List<Notifications> getNotificationsByPatientuidAndRequesttypeAndStatus(UUID uid, String requestType, String status);
 
-    List<Notifications> getNotificationsByDoctoruidAndStatus(UUID uid, String status);
+    List<Notifications> getNotificationsByDoctoruidAndRequesttypeAndStatus(UUID uid, String requestType, String status);
 
 //    Search for a single notification
     Notifications getNotificationById(long id);

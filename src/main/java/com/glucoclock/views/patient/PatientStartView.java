@@ -77,7 +77,7 @@ public class PatientStartView extends VerticalLayout{
             notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
             notification.setPosition(Notification.Position.TOP_CENTER);
             notification.open();
-            notification.setDuration(10000);
+            notification.setDuration(5000);
         }
 
 
