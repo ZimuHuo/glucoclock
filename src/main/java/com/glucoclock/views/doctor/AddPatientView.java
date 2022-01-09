@@ -4,7 +4,7 @@ import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.doctors_db.model.Doctor;
 import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.notifications_db.service.NotificationService;
-import com.glucoclock.database.notifications_db.model.Notification;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
@@ -107,7 +107,7 @@ public class AddPatientView extends Div {
             // Create and save a new notification to notify patient
             UUID doctorUID = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid(); // doctor uid
             Doctor doctor = doctorService.getRepository().getDoctorByUid(doctorUID);
-            Notification n = new Notification(
+            Notifications n = new Notifications(
                     patientService,
                     patientuid,
                     doctorUID, // Doctor uid

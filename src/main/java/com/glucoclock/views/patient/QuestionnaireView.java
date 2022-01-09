@@ -2,7 +2,7 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.notifications_db.service.NotificationService;
-import com.glucoclock.database.notifications_db.model.Notification;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.database.questionnaire_db.model.Questionnaire;
 import com.glucoclock.database.questionnaire_db.service.QuestionnaireService;
@@ -82,7 +82,7 @@ public class QuestionnaireView extends Div {
 
 //                    Create and save a new notification
 
-                Notification n = new Notification(
+                Notifications n = new Notifications(
                         patientService,
                         patientUid,
                         doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid

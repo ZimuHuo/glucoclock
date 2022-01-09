@@ -1,12 +1,10 @@
 package com.glucoclock.database.notifications_db.service;
 
-import com.glucoclock.database.notifications_db.model.Notification;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.database.notifications_db.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,14 +21,14 @@ public class NotificationService {
 
 //    Change the status of request
     public void resolveRequest(long id) {
-        Notification n = repository.getNotificationById(id);
+        Notifications n = repository.getNotificationById(id);
         n.setStatus("Resolved");
         repository.save(n);
     }
 
 //  Set the reply message
     public void reply(long id, String msg) {
-        Notification n = repository.getNotificationById(id);
+        Notifications n = repository.getNotificationById(id);
         n.setReplymessage(msg);
         repository.save(n);
     }

@@ -2,7 +2,7 @@ package com.glucoclock.views.patient;
 
 
 import com.glucoclock.database.notifications_db.service.NotificationService;
-import com.glucoclock.database.notifications_db.model.Notification;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.grid.Grid;
@@ -19,13 +19,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @PageTitle("Notifications")
 @Route(value = "patient/notifications")
 public class PatientNotificationView extends VerticalLayout {
-    private Grid<Notification> grid;
-    private ListDataProvider<Notification> dataProvider;
+    private Grid<Notifications> grid;
+    private ListDataProvider<Notifications> dataProvider;
 
-    private Grid.Column<Notification> dateColumn;
-    private Grid.Column<Notification> requestTypeColumn;
-    private Grid.Column<Notification> statusColumn;
-    private Grid.Column<Notification> buttonColumn;
+    private Grid.Column<Notifications> dateColumn;
+    private Grid.Column<Notifications> requestTypeColumn;
+    private Grid.Column<Notifications> statusColumn;
+    private Grid.Column<Notifications> buttonColumn;
 
     private MenuBar menu = new MenuBar("PNS");
     private H5 space = new H5(" ");
@@ -69,10 +69,10 @@ public class PatientNotificationView extends VerticalLayout {
 
 
     private void addColumnsToGrid() {
-        dateColumn = grid.addColumn(Notification::getDateNoTime, "Date").setHeader("Date").setWidth("25%").setFlexGrow(0);
-        requestTypeColumn = grid.addColumn(Notification::getRequestType,"RequestType").setHeader("Request Type").setWidth("30%").setFlexGrow(0);
-        statusColumn = grid.addComponentColumn(Notification::buildStatusBadge).setHeader("Status").setWidth("22%").setFlexGrow(0);
-        buttonColumn = grid.addComponentColumn(Notification::buildPatientViewButton).setWidth("23%").setFlexGrow(0);
+        dateColumn = grid.addColumn(Notifications::getDateNoTime, "Date").setHeader("Date").setWidth("25%").setFlexGrow(0);
+        requestTypeColumn = grid.addColumn(Notifications::getRequestType,"RequestType").setHeader("Request Type").setWidth("30%").setFlexGrow(0);
+        statusColumn = grid.addComponentColumn(Notifications::buildStatusBadge).setHeader("Status").setWidth("22%").setFlexGrow(0);
+        buttonColumn = grid.addComponentColumn(Notifications::buildPatientViewButton).setWidth("23%").setFlexGrow(0);
     }
 
 

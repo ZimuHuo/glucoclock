@@ -2,7 +2,7 @@ package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.notifications_db.service.NotificationService;
-import com.glucoclock.database.notifications_db.model.Notification;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
@@ -37,10 +37,10 @@ public class DoctorNotificationDetailsView extends Div {
         this.notificationService = notificationService;
         this.patientService = patientService;
         this.doctorService = doctorService;
-        Notification thisNotification = notificationService.getRepository().getNotificationById((long)VaadinSession.getCurrent().getAttribute("NotificationID")); // current notification
+        Notifications thisNotifications = notificationService.getRepository().getNotificationById((long)VaadinSession.getCurrent().getAttribute("NotificationID")); // current notification
 
-        setStyles(thisNotification);
-        setNavigation(notificationService, thisNotification);
+        setStyles(thisNotifications);
+        setNavigation(notificationService, thisNotifications);
 
         HorizontalLayout buttons = new HorizontalLayout(sendBut,backBut);
 
@@ -51,11 +51,11 @@ public class DoctorNotificationDetailsView extends Div {
         add(menu,space,vl);
     }
 
-    private void setStyles(Notification thisNotification){
+    private void setStyles(Notifications thisNotifications){
         sendBut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         sendBut.setVisible(false);
         backBut.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-        msg.setValue(thisNotification.getCompleteMessage());
+        msg.setValue(thisNotifications.getCompleteMessage());
         msg.setReadOnly(true);
         msg.setWidth("50%");
         msg.setMinHeight("80%");
@@ -65,14 +65,14 @@ public class DoctorNotificationDetailsView extends Div {
         replyMsg.setMaxHeight("300px");
 
 //        Doctor cannot reply if it is an add patient request
-        if (thisNotification.getRequestType().equals("Add Patient Request")) {
+        if (thisNotifications.getRequestType().equals("Add Patient Request")) {
 
-            if (thisNotification.getStatus().equals("Unresolved")) {
+            if (thisNotifications.getStatus().equals("Unresolved")) {
                 replyMsg.setVisible(false);
 
             } else {
                 replyMsg.setLabel("Reply from patient");
-                replyMsg.setValue(thisNotification.getReplymessage());
+                replyMsg.setValue(thisNotifications.getReplymessage());
                 replyMsg.setReadOnly(true);
             }
 
@@ -80,7 +80,7 @@ public class DoctorNotificationDetailsView extends Div {
         } else {
 
 //        allow the user to reply if the request is unresolved
-            if (thisNotification.getStatus().equals("Unresolved")){
+            if (thisNotifications.getStatus().equals("Unresolved")){
                 replyMsg.setLabel("Reply Here:");
                 replyMsg.setClearButtonVisible(true);
                 sendBut.setVisible(true);
@@ -88,7 +88,7 @@ public class DoctorNotificationDetailsView extends Div {
 //            Show the replied message if the request is resolved
             } else {
                 replyMsg.setLabel("Your reply");
-                replyMsg.setValue(thisNotification.getReplymessage());
+                replyMsg.setValue(thisNotifications.getReplymessage());
                 replyMsg.setReadOnly(true);
             }
         }
@@ -96,7 +96,7 @@ public class DoctorNotificationDetailsView extends Div {
 
     }
 
-    private void setNavigation(NotificationService notificationService, Notification thisNotification){
+    private void setNavigation(NotificationService notificationService, Notifications thisNotifications){
         sendBut.addClickListener(e->{
             com.vaadin.flow.component.notification.Notification.show("Reply sent").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 

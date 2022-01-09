@@ -7,7 +7,7 @@ import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.database.notifications_db.service.NotificationService;
-import com.glucoclock.database.notifications_db.model.Notification;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
 import com.glucoclock.security.db.User;
@@ -194,7 +194,7 @@ public class ComprehensiveLogbookView extends Div {
 
                             //if patient do not have a doctor don't send email
                             if(doctorPatientService.checkPatient(patientUid)) {
-                                Notification n = new Notification(
+                                Notifications n = new Notifications(
                                         patientService,
                                         patientUid,
                                         doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid

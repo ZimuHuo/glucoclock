@@ -3,7 +3,7 @@ package com.glucoclock.views.patient;
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
 import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.notifications_db.service.NotificationService;
-import com.glucoclock.database.notifications_db.model.Notification;
+import com.glucoclock.database.notifications_db.model.Notifications;
 import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.views.MenuBar;
 import com.vaadin.flow.component.button.Button;
@@ -40,10 +40,10 @@ public class PatientNotificationDetailsView extends Div {
         this.patientService = patientService;
         this.doctorService = doctorService;
         this.doctorPatientService = doctorPatientService;
-        Notification thisNotification = notificationService.getRepository().getNotificationById((long) VaadinSession.getCurrent().getAttribute("NotificationID")); // current notification
+        Notifications thisNotifications = notificationService.getRepository().getNotificationById((long) VaadinSession.getCurrent().getAttribute("NotificationID")); // current notification
 
-        setStyles(thisNotification);
-        setNavigation(doctorPatientService, notificationService, thisNotification);
+        setStyles(thisNotifications);
+        setNavigation(doctorPatientService, notificationService, thisNotifications);
 
         HorizontalLayout buttons = new HorizontalLayout(agreeBut,backBut);
 
@@ -54,11 +54,11 @@ public class PatientNotificationDetailsView extends Div {
         add(menu,space,vl);
     }
 
-    private void setStyles(Notification thisNotification){
+    private void setStyles(Notifications thisNotifications){
         agreeBut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         agreeBut.setVisible(false);
         backBut.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-        msg.setValue(thisNotification.getCompleteMessage());
+        msg.setValue(thisNotifications.getCompleteMessage());
         msg.setReadOnly(true);
         msg.setWidth("50%");
         msg.setMinHeight("80%");
@@ -68,29 +68,29 @@ public class PatientNotificationDetailsView extends Div {
         replyMsg.setMaxHeight("300px");
 
 //        Patient can only reply to add patient request
-        if (thisNotification.getRequestType().equals("Add Patient Request")) {
+        if (thisNotifications.getRequestType().equals("Add Patient Request")) {
 
 //            Allow the patient to reply to the request
-            if (thisNotification.getStatus().equals("Unresolved")) {
+            if (thisNotifications.getStatus().equals("Unresolved")) {
                 replyMsg.setVisible(false);
                 agreeBut.setVisible(true);
 
 //            Show the reply
             } else {
                 replyMsg.setLabel("Your reply:");
-                replyMsg.setValue(thisNotification.getReplymessage());
+                replyMsg.setValue(thisNotifications.getReplymessage());
                 replyMsg.setReadOnly(true);
             }
 
         } else {
 
-            if (thisNotification.getStatus().equals("Unresolved")){
+            if (thisNotifications.getStatus().equals("Unresolved")){
                 replyMsg.setVisible(false);
 
 //                Let the patient view the reply if resolved
             } else {
                 replyMsg.setLabel("Reply from doctor:");
-                replyMsg.setValue(thisNotification.getReplymessage());
+                replyMsg.setValue(thisNotifications.getReplymessage());
                 replyMsg.setReadOnly(true);
             }
         }
@@ -98,18 +98,18 @@ public class PatientNotificationDetailsView extends Div {
 
     }
 
-    private void setNavigation(DoctorPatientService doctorPatientService, NotificationService notificationService, Notification thisNotification){
+    private void setNavigation(DoctorPatientService doctorPatientService, NotificationService notificationService, Notifications thisNotifications){
         agreeBut.addClickListener(e->{
             com.vaadin.flow.component.notification.Notification.show("Reply sent").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
             //add to doctor patient database
-            doctorPatientService.create(thisNotification.getPatientUid(),thisNotification.getDoctorUid());
+            doctorPatientService.create(thisNotifications.getPatientUid(), thisNotifications.getDoctorUid());
 
 //            Resolve the request
             notificationService.resolveRequest((long)VaadinSession.getCurrent().getAttribute("NotificationID"));
 
 //            Set the reply message
-            notificationService.reply((long)VaadinSession.getCurrent().getAttribute("NotificationID"), thisNotification.getPatientFirstName() + " " + thisNotification.getPatientLastName() + " has accepted the add patient request.");
+            notificationService.reply((long)VaadinSession.getCurrent().getAttribute("NotificationID"), thisNotifications.getPatientFirstName() + " " + thisNotifications.getPatientLastName() + " has accepted the add patient request.");
 
 
             agreeBut.getUI().ifPresent(ui ->
