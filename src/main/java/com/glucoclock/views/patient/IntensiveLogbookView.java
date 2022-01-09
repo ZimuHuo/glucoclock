@@ -1,6 +1,7 @@
 package com.glucoclock.views.patient;
 
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
+import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.intensiveLogBook_db.model.IntensiveLogBook;
 import com.glucoclock.database.intensiveLogBook_db.service.IntensiveLogBookService;
 import com.glucoclock.database.log_db.model.Log;
@@ -11,6 +12,7 @@ import com.glucoclock.database.patients_db.service.PatientService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.util.SendMail;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -63,14 +65,16 @@ public class IntensiveLogbookView extends Div {
     private final PatientService patientService;
     private final DoctorPatientService doctorPatientService;
     private final LogService logService;
+    private final DoctorService doctorService;
 
-    public IntensiveLogbookView(UserService userService, IntensiveLogBookService intensiveLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService, LogService logService) {
+    public IntensiveLogbookView(UserService userService, IntensiveLogBookService intensiveLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService, LogService logService, DoctorService doctorService) {
         this.userService = userService;
         this.intensiveLogBookService = intensiveLogBookService;
         this.notificationService = notificationService;
         this.patientService = patientService;
         this.doctorPatientService = doctorPatientService;
         this.logService = logService;
+        this.doctorService = doctorService;
 
         //get patient uid
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -221,17 +225,23 @@ public class IntensiveLogbookView extends Div {
 
                             //if patient do not have a doctor don't send email
                             if(doctorPatientService.checkPatient(patientUid)) {
-
-//                    SendMail sendMail = new SendMail();
-//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
-
-                                // Create and save a new notification
                                 Notifications n = new Notifications(
                                         patientService,
                                         patientUid,
                                         doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid
                                         "Blood Glucose Alarm"
                                 );
+                                String doctorEmail = doctorService.getRepository().getDoctorByUid(doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid()).getEmail();
+
+                                SendMail sendMail = new SendMail();
+                                sendMail.sendMail("Act now",n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
+                                        "\n" +
+                                        "Date: " + n.getDate().toLocalDate() + "\n" +
+                                        "Time: " + n.getDate().toLocalTime() + "\n" +
+                                        "Blood glucose level: " + bloodGlucose.getValue() + " mmol/L.",doctorEmail);
+
+
+                                // Create and save a new notification
                                 n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
                                 n.setCompleteMessage(
                                         n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
