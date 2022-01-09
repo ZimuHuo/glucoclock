@@ -71,7 +71,7 @@ public class DoctorNotificationView extends VerticalLayout {
         grid.setHeight("100%");
 
 //        Get the list of notification
-        dataProvider = new ListDataProvider<>(notificationService.getNotificationlist(doctorUid));
+        dataProvider = new ListDataProvider<>(notificationService.getdoctorNotificationlist(doctorUid));
 
         grid.setDataProvider(dataProvider);
         grid.setAllRowsVisible(true);

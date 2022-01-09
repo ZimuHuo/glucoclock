@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Notification_db")
-public class Notifications implements Serializable{
+public class Notifications implements Serializable, Comparable<Notifications>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -168,5 +168,11 @@ public class Notifications implements Serializable{
             button.getUI().ifPresent(ui->ui.navigate(PatientNotificationDetailsView.class)); //change navigation class
         });
         return button;
+    }
+
+    @Override
+    public int compareTo(Notifications that) {
+        //show the nearest notification at front
+        return -1*this.date.compareTo(that.date);
     }
 }

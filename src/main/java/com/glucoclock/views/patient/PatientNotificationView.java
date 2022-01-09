@@ -16,6 +16,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.UUID;
+
 @PageTitle("Notifications")
 @Route(value = "patient/notifications")
 public class PatientNotificationView extends VerticalLayout {
@@ -27,6 +29,8 @@ public class PatientNotificationView extends VerticalLayout {
     private Grid.Column<Notifications> statusColumn;
     private Grid.Column<Notifications> buttonColumn;
 
+    private UUID pateintUid;
+
     private MenuBar menu = new MenuBar("PNS");
     private H5 space = new H5(" ");
     private H3 title = new H3("Notifications");
@@ -37,6 +41,8 @@ public class PatientNotificationView extends VerticalLayout {
     public PatientNotificationView(NotificationService notificationService, UserService userService){
         this.notificationService = notificationService;
         this.userService = userService;
+
+        pateintUid = userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid();
 
         VerticalLayout vl = new VerticalLayout();
         setSizeFull();
@@ -62,7 +68,7 @@ public class PatientNotificationView extends VerticalLayout {
         grid.setAllRowsVisible(true);
 
 //        Get the list of notifications
-        dataProvider = new ListDataProvider<>(notificationService.getRepository().getNotificationByPatientuid(userService.getRepository().findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUid()));
+        dataProvider = new ListDataProvider<>(notificationService.getpatientNotificationlist(pateintUid));
         grid.setDataProvider(dataProvider);
         grid.setAllRowsVisible(true);
     }

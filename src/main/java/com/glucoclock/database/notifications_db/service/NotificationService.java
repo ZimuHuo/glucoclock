@@ -5,6 +5,7 @@ import com.glucoclock.database.notifications_db.repository.NotificationRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,9 +46,19 @@ public class NotificationService {
         return unresolvedMsgN;
     }
 
-    public List<Notifications> getNotificationlist(UUID doctorUid){
+    public List<Notifications> getdoctorNotificationlist(UUID doctorUid){
         List<Notifications> returnNotificationlist;
         returnNotificationlist=repository.getNotificationByDoctoruid(doctorUid);
+        //show the nearest notification at front
+        Collections.sort(returnNotificationlist);
+        return returnNotificationlist;
+    }
+
+    public List<Notifications> getpatientNotificationlist(UUID patientUid){
+        List<Notifications> returnNotificationlist;
+        returnNotificationlist=repository.getNotificationByPatientuid(patientUid);
+        //show the nearest notification at front
+        Collections.sort(returnNotificationlist);
         return returnNotificationlist;
     }
 
