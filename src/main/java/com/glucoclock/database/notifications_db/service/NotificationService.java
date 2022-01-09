@@ -5,6 +5,8 @@ import com.glucoclock.database.notifications_db.repository.NotificationRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class NotificationService {
     @Autowired
@@ -28,6 +30,18 @@ public class NotificationService {
         Notifications n = repository.getNotificationById(id);
         n.setReplymessage(msg);
         repository.save(n);
+    }
+
+    public Integer countUnresolvedMsg(UUID uid, String role){
+        int unresolvedMsgN = 0;
+        if(role.equals("PATIENT")){
+            unresolvedMsgN = repository.getNotificationsByPatientuidAndRequesttypeAndStatus(uid,"Add Patient Request","Unresolved").size();
+        }else if(role.equals("DOCTOR")){
+            unresolvedMsgN =
+                    repository.getNotificationsByDoctoruidAndRequesttypeAndStatus(uid,"Blood Glucose Alarm","Unresolved").size()
+            +repository.getNotificationsByDoctoruidAndRequesttypeAndStatus(uid,"Questionnaire","Unresolved").size();
+        }
+        return unresolvedMsgN;
     }
 
 }
