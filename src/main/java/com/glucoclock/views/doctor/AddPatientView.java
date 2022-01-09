@@ -86,8 +86,13 @@ public class AddPatientView extends Div {
             }else{
                 // patient already has a doctor
                 if(doctorpatientService.exist(patientuid)){
-                    Notification.show("Patient is already connected to a doctor, please contact your patient").addThemeVariants(NotificationVariant.LUMO_ERROR);
-                }else{
+                    if(doctorpatientService.getRepository().findByPatientuid(patientuid).getDoctoruid()==doctoruid){
+                        Notification.show("Already added").addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+                    }else{
+                        Notification.show("Patient is already connected to a doctor, please contact your patient").addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    }
+                    }else{
                     //patient exist and without a doctor, therefore can be added
                     Notification.show("Patient found").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     add.setEnabled(true);
