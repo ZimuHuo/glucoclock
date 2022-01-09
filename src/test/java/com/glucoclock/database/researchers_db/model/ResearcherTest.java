@@ -119,8 +119,8 @@ class ResearcherTest {
     }
     @Test
     void setUID() {
-        d.setUID(uid2);
-        assertEquals(uid2,d.getUID());
+        d.setUid(uid2);
+        assertEquals(uid2,d.getUid());
     }
 
     @Test

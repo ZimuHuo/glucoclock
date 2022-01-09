@@ -38,29 +38,6 @@ public class SimpleLogBook extends Logbook implements Comparable<SimpleLogBook> 
     }
 
     //  Getter and setter
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public UUID getPatientuid() {
-        return patientuid;
-    }
-
-    public void setPatientuid(UUID patientuid) {
-        this.patientuid = patientuid;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
 
     public int getTime() {
         return time;
@@ -68,22 +45,6 @@ public class SimpleLogBook extends Logbook implements Comparable<SimpleLogBook> 
 
     public void setTime(int time) {
         this.time = time;
-    }
-
-    public String getBloodglucose() {
-        return bloodglucose;
-    }
-
-    public void setBloodglucose(String bloodglucose) {
-        this.bloodglucose = bloodglucose;
-    }
-
-    public String getCarbintake() {
-        return carbintake;
-    }
-
-    public void setCarbintake(String carbintake) {
-        this.carbintake = carbintake;
     }
 
     public String getTimeString(){
