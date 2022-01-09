@@ -105,7 +105,7 @@ public class PatientSignUp3View extends Div {
 //  Methods to initialize the components
 //    Selection of diabetes type
     private void diabetesSelectSetUp() {
-        diabetesSelect = new Select<>("Type I", "Type II", "Gestational", "Other");
+        diabetesSelect = new Select<>("Type I", "Type II", "Gestational");
         diabetesSelect.setLabel("Type of diabetes");
         if (VaadinSession.getCurrent().getAttribute("Diabetes")!= null){
             diabetesSelect.setValue(VaadinSession.getCurrent().getAttribute("Diabetes").toString());

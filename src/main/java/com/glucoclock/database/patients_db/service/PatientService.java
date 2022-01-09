@@ -106,9 +106,13 @@ public class PatientService  {
                 patientList = patientList.stream()
                         .filter(patient -> patient.isType1())
                         .collect(Collectors.toList());
-            } else {
+            }else if(diabetestype.equals("Type II")){
                 patientList = patientList.stream()
                         .filter(patient -> patient.isType2())
+                        .collect(Collectors.toList());
+            }else{
+                patientList = patientList.stream()
+                        .filter(patient -> patient.isGestational())
                         .collect(Collectors.toList());
             }
 
