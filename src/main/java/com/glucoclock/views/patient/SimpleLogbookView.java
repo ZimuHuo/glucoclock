@@ -2,6 +2,7 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.database.comprehensiveLogBook_db.service.ComprehensiveLogBookService;
 import com.glucoclock.database.doctorpatient_db.service.DoctorPatientService;
+import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.database.log_db.model.Log;
 import com.glucoclock.database.log_db.service.LogService;
 import com.glucoclock.database.notifications_db.service.NotificationService;
@@ -12,6 +13,7 @@ import com.glucoclock.database.simpleLogBook_db.service.SimpleLogBookService;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.util.SendMail;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -56,8 +58,9 @@ public class SimpleLogbookView extends Div {
     private final DoctorPatientService doctorPatientService;
     private final LogService logService;
     private final ComprehensiveLogBookService comprehensiveLogBookService;
+    private final DoctorService doctorService;
 
-    public SimpleLogbookView(UserService userService, SimpleLogBookService simpleLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService, LogService logService, ComprehensiveLogBookService comprehensiveLogBookService){
+    public SimpleLogbookView(UserService userService, SimpleLogBookService simpleLogBookService, NotificationService notificationService, PatientService patientService, DoctorPatientService doctorPatientService, LogService logService, ComprehensiveLogBookService comprehensiveLogBookService, DoctorService doctorService){
 
         this.userService = userService;
         this.simpleLogBookService = simpleLogBookService;
@@ -66,6 +69,7 @@ public class SimpleLogbookView extends Div {
         this.doctorPatientService = doctorPatientService;
         this.logService = logService;
         this.comprehensiveLogBookService = comprehensiveLogBookService;
+        this.doctorService = doctorService;
 
         //get patient uid
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -168,16 +172,22 @@ public class SimpleLogbookView extends Div {
                             if (bloodGlucose.getValue() > 140) {
                                 //if patient do not have a doctor don't send email
                                 if (doctorPatientService.checkPatient(patientUid)) {
-//                    SendMail sendMail = new SendMail();
-//                    sendMail.sendMail("Act now","Glucose is high","Zimuhuo@outlook.com");
-
-//                        Create and save a new notification
                                     Notifications n = new Notifications(
                                             patientService,
                                             patientUid,
                                             doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid(), // Doctor uid
                                             "Blood Glucose Alarm"
                                     );
+                    SendMail sendMail = new SendMail();
+                    String doctorEmail = doctorService.getRepository().getDoctorByUid(doctorPatientService.getRepository().getDoctorPatientByPatientuid(patientUid).getDoctoruid()).getEmail();
+                    sendMail.sendMail("Act now",n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
+                            "\n" +
+                            "Date: " + n.getDate().toLocalDate() + "\n" +
+                            "Time: " + n.getDate().toLocalTime() + "\n" +
+                            "Blood glucose level: " + bloodGlucose.getValue() + " mmol/L.",doctorEmail);
+
+//                        Create and save a new notification
+
                                     n.setShortMessage("Blood glucose level " + bloodGlucose.getValue() + " units");
                                     n.setCompleteMessage(
                                             n.getPatientFirstName() + " " + n.getPatientLastName() + " is experiencing abnormal blood glucose levels.\n" +
