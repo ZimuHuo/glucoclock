@@ -155,9 +155,7 @@ store the patient glucose level in a data series
                     yval = Double.valueOf(simple.getBloodglucose());
                     xval = (double) data.getDate().getDayOfMonth() + (double) 1 / 7 * simple.getTime();
                     series.add(new DataSeriesItem(xval, yval));
-
                 }
-
             }
             if (type == 2) {
                 List<ComprehensiveLogBook> compreLog = comprehensiveLogBookService.findLogByDateAndPatientuid(data.getDate(), patientUid);
