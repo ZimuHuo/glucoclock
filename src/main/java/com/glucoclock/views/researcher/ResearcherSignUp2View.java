@@ -8,6 +8,7 @@ import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.Control;
 import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.util.SendMail;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -259,6 +260,8 @@ public class ResearcherSignUp2View extends HorizontalLayout {
                 Authentication authentication = new UsernamePasswordAuthenticationToken( (String)VaadinSession.getCurrent().getAttribute("Email"), (String)VaadinSession.getCurrent().getAttribute("Password"),
                         AuthorityUtils.createAuthorityList("RESEARCHER"));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                SendMail.sendMail("Congratulations!","Thank you for choosing our app!",(String)VaadinSession.getCurrent().getAttribute("Email"));
+
                 //Close the session
                 getUI().get().getSession().close();
                 //Navigation

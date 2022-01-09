@@ -218,8 +218,8 @@ public class ResearcherStartView extends VerticalLayout {
                     String simplestring = SimpleOut(eachdata.getDate(), patientuid);
                     //add the string to the returned string
                     Finaloutput += simplestring + "\n";
-
                 }
+
                 //if this data is Comprehensivelogbook
                 if (eachdata.getLogbooktype() == 2) {
                     //use ComprehensiveOut method to get the string which contain all the data at that date

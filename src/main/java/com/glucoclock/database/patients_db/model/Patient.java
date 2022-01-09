@@ -154,6 +154,9 @@ public class Patient extends Person implements Comparable<Patient>{
 	public boolean isType2(){
 		return  this.diabetestype.equals("Type II");
 	}
+	public boolean isGestational(){
+		return this.diabetestype.equals("Gestational");
+	}
 	@Override
 	public int compareTo(Patient that) {
 		return this.birthday.compareTo(that.birthday);
