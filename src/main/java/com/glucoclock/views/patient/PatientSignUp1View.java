@@ -121,7 +121,10 @@ public class PatientSignUp1View extends Div {
             }else if (!password.getValue().equals(confirmPassword.getValue())){
                 Notification notification = Notification.show("Check Password");
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            }else if(firstName.isEmpty()){
+            }else if(password.isInvalid()){
+                Notification notification = Notification.show("Minimum eight characters, at least one letter, one number and one special character");
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else if(firstName.isEmpty()){
                 Notification notification = Notification.show("Check First name");
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if(lastName.isEmpty()){
@@ -188,6 +191,7 @@ public class PatientSignUp1View extends Div {
 
     private void passwordSetUp() {
         password = new PasswordField("Password");
+        password.setPattern("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
         password.setClearButtonVisible(true);
         if (VaadinSession.getCurrent().getAttribute("Password")!= null){
             password.setValue((String)VaadinSession.getCurrent().getAttribute("Password"));

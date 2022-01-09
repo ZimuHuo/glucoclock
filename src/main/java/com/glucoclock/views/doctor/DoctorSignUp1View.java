@@ -107,6 +107,11 @@ public class DoctorSignUp1View extends HorizontalLayout {
                 if (!password.getValue().equals(confirmPassword.getValue()))
                     Notification.show("You must enter the same password twice", 3000, Notification.Position.TOP_CENTER);
 
+                if(password.isInvalid()){
+                    Notification notification = Notification.show("Minimum eight characters, at least one letter, one number and one special character");
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
+
             }else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
                 Notification notification = Notification.show("Please choose another email address");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
@@ -186,7 +191,7 @@ public class DoctorSignUp1View extends HorizontalLayout {
         password = new PasswordField("Password");
         password.setLabel("Password");
         password.setClearButtonVisible(true);
-
+        password.setPattern("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
         //Change the input format of 'confirmPassword' when user changes the input in 'password'
         password.addValueChangeListener(e ->
                 confirmPassword.setPattern(password.getValue())

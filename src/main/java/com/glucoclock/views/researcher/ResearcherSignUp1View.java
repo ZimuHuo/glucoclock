@@ -105,6 +105,10 @@ public class ResearcherSignUp1View extends HorizontalLayout {
 
                 if (institution.isEmpty())
                     Notification.show("You must select you institution",3000, Notification.Position.TOP_CENTER);
+                if(password.isInvalid()){
+                    Notification notification = Notification.show("Minimum eight characters, at least one letter, one number and one special character");
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
             } else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
                 Notification notification = Notification.show("Please choose another email address");
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
@@ -190,7 +194,7 @@ layout of the form
         password = new PasswordField("Password");
         password.setLabel("Password");
         password.setClearButtonVisible(true);
-
+        password.setPattern("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
         //Change the input format of 'confirmPassword' when user changes the input in 'password'
         password.addValueChangeListener(e ->
                 confirmPassword.setPattern(password.getValue())
