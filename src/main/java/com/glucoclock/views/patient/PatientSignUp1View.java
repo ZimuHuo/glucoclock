@@ -116,25 +116,25 @@ public class PatientSignUp1View extends Div {
         submitButton.addClickListener(e -> {
 
             if (emailField.isInvalid()) {
-                Notification notification = Notification.show("Check Emailfield");
+                Notification notification = Notification.show("A valid email is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if (!password.getValue().equals(confirmPassword.getValue())){
-                Notification notification = Notification.show("Check Password");
+                Notification notification = Notification.show("Password is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if(password.isInvalid()){
-                Notification notification = Notification.show("Minimum eight characters, at least one letter, one number and one special character");
+                Notification notification = Notification.show("Password must have at least eight characters,one letter, one number and one special character", 10000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if(firstName.isEmpty()){
-                Notification notification = Notification.show("Check First name");
+                Notification notification = Notification.show("First name is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if(lastName.isEmpty()){
-                Notification notification = Notification.show("Check last name");
+                Notification notification = Notification.show("Last name is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
-                Notification notification = Notification.show("Please choose another email address");
+                Notification notification = Notification.show("This email address is already used. Sign in directly or choose another email address.", 5000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if(!VaadinSession.getCurrent().getAttribute("code").equals(code.getValue())){
-                Notification notification = Notification.show("Wrong code");
+                Notification notification = Notification.show("Wrong code", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
 

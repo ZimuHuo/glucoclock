@@ -142,13 +142,13 @@ public class PatientSignUp3View extends Div {
 
 //      Check if all fields have been filled in
             if (injectionSelect.isEmpty()) {
-                Notification notification = Notification.show("Check Injection");
+                Notification notification = Notification.show("Injection method of insulin is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (insulinSelect.isEmpty()) {
-                Notification notification = Notification.show("Check Insulin");
+                Notification notification = Notification.show("Insulin type is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (diabetesSelect.isEmpty()) {
-                Notification notification = Notification.show("Check DiabetesSelect");
+                Notification notification = Notification.show("Your type of diabetes is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
 

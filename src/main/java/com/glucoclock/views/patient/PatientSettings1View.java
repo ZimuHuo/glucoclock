@@ -15,6 +15,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -348,41 +349,65 @@ public class PatientSettings1View extends HorizontalLayout {
         save.addClickListener(e -> {
             if(firstName.isEmpty() || lastName.isEmpty() || emailField.isEmpty() || emailField.isInvalid() || genderSelect.isEmpty() || homeAddressL1.isEmpty() || postcode.isEmpty() || cityField.isEmpty() || contactNumber.isEmpty() || datePicker.isEmpty() || diabetesSelect.isEmpty() || insulinSelect.isEmpty() || injectionSelect.isEmpty()) {
                 //Show the error messages
-                if (firstName.isEmpty())
-                    Notification.show("You must enter your first name", 3000, Notification.Position.TOP_CENTER);
+                if (firstName.isEmpty()){
+                    Notification notification = Notification.show("First name is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (lastName.isEmpty())
-                    Notification.show("You must enter your last name", 3000, Notification.Position.TOP_CENTER);
+                if (lastName.isEmpty()){
+                    Notification notification = Notification.show("Last name is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (emailField.isEmpty() || emailField.isInvalid())
-                    Notification.show("You must enter a valid email address", 3000, Notification.Position.TOP_CENTER);
+                if (emailField.isEmpty() || emailField.isInvalid()){
+                    Notification notification = Notification.show("A valid email is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (genderSelect.isEmpty())
-                    Notification.show("You must select your gender", 3000, Notification.Position.TOP_CENTER);
+                if (genderSelect.isEmpty()){
+                    Notification notification = Notification.show("Gender is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (homeAddressL1.isEmpty())
-                    Notification.show("You must enter your address", 3000, Notification.Position.TOP_CENTER);
+                if (homeAddressL1.isEmpty()){
+                    Notification notification = Notification.show("Your address is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (postcode.isEmpty())
-                    Notification.show("You must enter your postcode", 3000, Notification.Position.TOP_CENTER);
+                if (postcode.isEmpty()){
+                    Notification notification = Notification.show("Postcode is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (cityField.isEmpty())
-                    Notification.show("You must enter the city", 3000, Notification.Position.TOP_CENTER);
+                if (cityField.isEmpty()){
+                    Notification notification = Notification.show("City is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (contactNumber.isEmpty())
-                    Notification.show("You must enter your phone number", 3000, Notification.Position.TOP_CENTER);
+                if (contactNumber.isEmpty()){
+                    Notification notification = Notification.show("Phone number is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (datePicker.isEmpty())
-                    Notification.show("You must enter your birthday", 3000, Notification.Position.TOP_CENTER);
+                if (datePicker.isEmpty()){
+                    Notification notification = Notification.show("Birthday is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (diabetesSelect.isEmpty())
-                    Notification.show("You must select your diabetes type", 3000, Notification.Position.TOP_CENTER);
+                if (diabetesSelect.isEmpty()){
+                    Notification notification = Notification.show("Your diabetes type is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (insulinSelect.isEmpty())
-                    Notification.show("You must select your insulin type", 3000, Notification.Position.TOP_CENTER);
+                if (insulinSelect.isEmpty()){
+                    Notification notification = Notification.show("Your insulin type is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (injectionSelect.isEmpty())
-                    Notification.show("You must select your injection method", 3000, Notification.Position.TOP_CENTER);
+                if (injectionSelect.isEmpty()){
+                    Notification notification = Notification.show("Your injection method of insulin is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
             } else {
 //            update the values of the variables

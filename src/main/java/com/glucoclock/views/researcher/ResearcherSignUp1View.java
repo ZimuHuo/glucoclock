@@ -122,7 +122,7 @@ public class ResearcherSignUp1View extends HorizontalLayout {
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 }
             } else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
-                Notification notification = Notification.show("Please choose another email address", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("This email address is already used. Sign in directly or choose another email address.", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if(!VaadinSession.getCurrent().getAttribute("code").equals(code.getValue())){
                 Notification notification = Notification.show("Wrong code", 3000, Notification.Position.TOP_CENTER);

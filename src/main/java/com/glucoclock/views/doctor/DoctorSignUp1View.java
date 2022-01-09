@@ -123,10 +123,10 @@ public class DoctorSignUp1View extends HorizontalLayout {
                 }
 
             }else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
-                Notification notification = Notification.show("Please choose another email address");
+                Notification notification = Notification.show("This email address is already used. Sign in directly or choose another email address.", 5000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if (!VaadinSession.getCurrent().getAttribute("code").equals(code.getValue())){
-                Notification notification = Notification.show("Wrong code");
+                Notification notification = Notification.show("Wrong code", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else {
                 //Save current information and move to next page
