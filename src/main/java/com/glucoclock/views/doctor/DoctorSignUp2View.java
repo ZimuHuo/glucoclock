@@ -211,25 +211,22 @@ this sets up the lay out of this page
         submitButton.getElement().getStyle().set("margin-left","auto");
         submitButton.addClickListener(e -> {
             if (sex.isEmpty()) {
-                Notification notification = Notification.show("Check Sex Field");
+                Notification notification = Notification.show("Gender is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (apartmentAddress.isEmpty()) {
-                Notification notification = Notification.show("Check apartment address");
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            }if (streetAddress.isEmpty()) {
-                Notification notification = Notification.show("Check street address");
+                Notification notification = Notification.show("Your address is required",3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (postcode.isEmpty()) {
-                Notification notification = Notification.show("Check post code");
+                Notification notification = Notification.show("Postcode is required",3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (city.isEmpty()) {
-                Notification notification = Notification.show("Check city");
+                Notification notification = Notification.show("City is required",3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (contactNumber.isEmpty()) {
-                Notification notification = Notification.show("Check contact number");
+                Notification notification = Notification.show("Phone number is required",3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }if (datePicker.isEmpty()) {
-                Notification notification = Notification.show("Check date");
+                Notification notification = Notification.show("Birthday is required",3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 setSession();

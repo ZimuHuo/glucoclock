@@ -66,8 +66,8 @@ public class DoctorSignUp1View extends HorizontalLayout {
         code.setRequired(true);
         codeButton.addClickListener(e ->{
                     if(userService.getRepository().findByUsername(emailField.getValue())!=null) {
-                        Notification notification = Notification.show("Please choose another email address");
-                        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                        Notification notification = Notification.show("Please choose another email address", 3000, Notification.Position.TOP_CENTER);
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     }else {
                         String code = verificationCode.getRandomNum();
                         String email = "Your code is: "+code;
@@ -92,32 +92,42 @@ public class DoctorSignUp1View extends HorizontalLayout {
         submitButton.addClickListener(e -> {
             if(firstName.isEmpty() || lastName.isEmpty() || emailField.isEmpty() || emailField.isInvalid() || password.isEmpty() || !password.getValue().equals(confirmPassword.getValue())) {
             //Show the error messages
-                if (firstName.isEmpty())
-                    Notification.show("You must enter your first name", 3000, Notification.Position.TOP_CENTER);
+                if (firstName.isEmpty()){
+                    Notification notification = Notification.show("First name is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (lastName.isEmpty())
-                    Notification.show("You must enter your last name", 3000, Notification.Position.TOP_CENTER);
+                if (lastName.isEmpty()){
+                    Notification notification = Notification.show("Last name is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (emailField.isEmpty() || emailField.isInvalid())
-                    Notification.show("You must enter a valid email address", 3000, Notification.Position.TOP_CENTER);
+                if (emailField.isEmpty() || emailField.isInvalid()){
+                    Notification notification = Notification.show("A valid email is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (password.isEmpty())
-                    Notification.show("You must enter your password", 3000, Notification.Position.TOP_CENTER);
+                if (password.isEmpty()){
+                    Notification notification = Notification.show("Password is required", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
-                if (!password.getValue().equals(confirmPassword.getValue()))
-                    Notification.show("You must enter the same password twice", 3000, Notification.Position.TOP_CENTER);
+                if (!password.getValue().equals(confirmPassword.getValue())){
+                    Notification notification = Notification.show("You have entered different passwords", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
 
                 if(password.isInvalid()){
-                    Notification notification = Notification.show("Minimum eight characters, at least one letter, one number and one special character");
+                    Notification notification = Notification.show("Your password must have at least eight characters, one letter, one number and one special character", 10000, Notification.Position.TOP_CENTER);
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 }
 
             }else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
                 Notification notification = Notification.show("Please choose another email address");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if (!VaadinSession.getCurrent().getAttribute("code").equals(code.getValue())){
                 Notification notification = Notification.show("Wrong code");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else {
                 //Save current information and move to next page
                 VaadinSession.getCurrent().setAttribute( "FirstName",firstName.getValue());
