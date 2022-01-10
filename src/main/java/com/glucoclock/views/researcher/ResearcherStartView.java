@@ -103,7 +103,7 @@ public class ResearcherStartView extends VerticalLayout {
         //Diabetes filter
         ComboBox<String> Filter_Diabetes = new ComboBox<>("Diabetes type ");
         Filter_Diabetes.setAllowCustomValue(true);
-        Filter_Diabetes.setItems("Type I", "Type II", "Any");
+        Filter_Diabetes.setItems("Type I", "Type II", "Gestational","Any");
         Filter_Diabetes.addValueChangeListener(diabetes -> {
             Notification.show(diabetes.getValue());
             F_Diabetes = diabetes.getValue();
@@ -137,7 +137,6 @@ public class ResearcherStartView extends VerticalLayout {
                     //export the data between the 2 date selected
                     //exportData is the returned string from the OutputData method
                     F_Result= OutputData();
-                    System.out.println(F_Result);
                     return new ByteArrayInputStream(F_Result.getBytes(StandardCharsets.UTF_8));
                 })
         );
