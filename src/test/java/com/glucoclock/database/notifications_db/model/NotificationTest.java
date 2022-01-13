@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NotificationTest {
 
-    private Notification n = new Notification();
+    private Notifications n = new Notifications();
     LocalDateTime now = LocalDateTime.now();
 
 
