@@ -95,7 +95,7 @@ public class PatientSignUp1View extends Div {
                 SendMail.sendMail("Verification code",email,emailField.getValue());
                 Notification notification = Notification.show("You should receive an email by now. In case you dont "+email);
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                emailField.setReadOnly(true);
+
             }
                 }
 
