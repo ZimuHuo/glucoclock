@@ -8,9 +8,9 @@ import java.util.Random;
 public class verificationCode {
     static public String getRandomNum(){
         Random random = new Random();
-        String num = random.nextInt(99)+""; //nice trick for conversion in case you are wondering :D
+        String num = random.nextInt(999999)+""; //nice trick for conversion in case you are wondering :D
         StringBuffer buffer = new StringBuffer();
-        for (int i =0; i<2-num.length();i++){
+        for (int i =0; i<6-num.length();i++){
             buffer.append(random.nextInt(9)); //took me a min to figure out this bug :D forced consistency
         }
         num = buffer.toString()+num;
