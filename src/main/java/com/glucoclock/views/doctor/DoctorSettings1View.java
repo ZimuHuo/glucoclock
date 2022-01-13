@@ -3,7 +3,7 @@ package com.glucoclock.views.doctor;
 import com.glucoclock.database.doctors_db.model.Doctor;
 import com.glucoclock.database.doctors_db.service.DoctorService;
 import com.glucoclock.security.db.UserService;
-import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.components.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;

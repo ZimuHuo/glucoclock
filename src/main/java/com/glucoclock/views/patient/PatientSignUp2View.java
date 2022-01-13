@@ -1,6 +1,6 @@
 package com.glucoclock.views.patient;
 
-import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.components.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;

@@ -1,5 +1,6 @@
 package com.glucoclock.views;
 
+import com.glucoclock.views.util.Control;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;

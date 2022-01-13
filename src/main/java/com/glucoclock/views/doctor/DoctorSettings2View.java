@@ -2,8 +2,7 @@ package com.glucoclock.views.doctor;
 
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
-import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.researcher.ResearcherSettings1View;
+import com.glucoclock.views.components.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;

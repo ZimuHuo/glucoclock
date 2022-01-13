@@ -2,7 +2,7 @@ package com.glucoclock.views.doctor;
 
 import com.glucoclock.database.notifications_db.service.NotificationService;
 import com.glucoclock.security.db.UserService;
-import com.glucoclock.views.MenuBar;
+import com.glucoclock.views.components.MenuBar;
 import com.glucoclock.database.notifications_db.model.Notifications;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;

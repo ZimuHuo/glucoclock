@@ -1,5 +1,6 @@
 package com.glucoclock.views;
 
+import com.glucoclock.views.components.MenuBar;
 import com.glucoclock.views.doctor.DoctorSignUp1View;
 import com.glucoclock.views.patient.PatientSignUp1View;
 import com.glucoclock.views.researcher.ResearcherSignUp1View;

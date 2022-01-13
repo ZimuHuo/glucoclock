@@ -1,6 +1,7 @@
-package com.glucoclock.views;
+package com.glucoclock.views.components;
 
 import com.glucoclock.security.SecurityService;
+import com.glucoclock.views.HomeView;
 import com.glucoclock.views.doctor.DoctorNotificationView;
 import com.glucoclock.views.doctor.DoctorSettings1View;
 import com.glucoclock.views.doctor.DoctorStartView;

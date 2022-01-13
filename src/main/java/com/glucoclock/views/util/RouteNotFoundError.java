@@ -1,5 +1,6 @@
-package com.glucoclock.views;
+package com.glucoclock.views.util;
 
+import com.glucoclock.views.util.Control;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.router.BeforeEnterEvent;

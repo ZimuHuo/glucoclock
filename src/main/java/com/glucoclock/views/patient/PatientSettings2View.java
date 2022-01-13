@@ -2,8 +2,7 @@ package com.glucoclock.views.patient;
 
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
-import com.glucoclock.views.MenuBar;
-import com.glucoclock.views.researcher.ResearcherSettings1View;
+import com.glucoclock.views.components.MenuBar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
@@ -15,7 +14,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;

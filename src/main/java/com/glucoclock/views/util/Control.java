@@ -1,5 +1,6 @@
-package com.glucoclock.views;
+package com.glucoclock.views.util;
 
+import com.glucoclock.views.HomeView;
 import com.glucoclock.views.doctor.DoctorStartView;
 import com.glucoclock.views.patient.PatientStartView;
 import com.glucoclock.views.researcher.ResearcherStartView;
