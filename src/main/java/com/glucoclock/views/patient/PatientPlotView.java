@@ -57,6 +57,7 @@ public class PatientPlotView extends Div {
     ArrayList<String> log = new ArrayList<>();
 
     public PatientPlotView(UserService userService, PatientService patientService, LogService logService, SimpleLogBookService simpleLogBookService, ComprehensiveLogBookService comprehensiveLogBookService, IntensiveLogBookService intensiveLogBookService) {
+        log.clear();
         this.userService = userService;
         this.patientService = patientService;
         this.logService = logService;
