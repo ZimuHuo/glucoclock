@@ -75,6 +75,7 @@ public class DoctorSignUp1View extends HorizontalLayout {
                         SendMail.sendMail("Verification code",email,emailField.getValue());
                         Notification notification = Notification.show("You should receive an email by now. In case you dont "+email);
                         notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                        emailField.setReadOnly(true);
                     }
                 }
         );

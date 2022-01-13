@@ -87,7 +87,7 @@ public class PatientSignUp1View extends Div {
         codeButton.addClickListener(e ->{
             if(userService.getRepository().findByUsername(emailField.getValue())!=null) {
                 Notification notification = Notification.show("Please choose another email address");
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else {
                 String code = verificationCode.getRandomNum();
                 String email = "Your one time verification code is: "+code;
@@ -95,6 +95,7 @@ public class PatientSignUp1View extends Div {
                 SendMail.sendMail("Verification code",email,emailField.getValue());
                 Notification notification = Notification.show("You should receive an email by now. In case you dont "+email);
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                emailField.setReadOnly(true);
             }
                 }
 
