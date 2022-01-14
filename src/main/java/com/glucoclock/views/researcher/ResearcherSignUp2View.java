@@ -220,6 +220,9 @@ public class ResearcherSignUp2View extends HorizontalLayout {
             }if (datePicker.isEmpty()) {
                 Notification notification = Notification.show("Birthday is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }if (VaadinSession.getCurrent().getAttribute("FirstName").equals(null)) {
+                Notification notification = Notification.show("Please check your information on previous page",3000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
 
                 setSession();
