@@ -1,5 +1,5 @@
 # Gluco'clock
-Keywords: Digital diabetic logbook, Spring boot, Spring boot security, Vaadin, JPA, Remote database, PostgreSQL
+Keywords: Digital diabetic logbook, Spring boot, Spring boot security, Vaadin, JPA, PostgreSQL
 
 _Tick, tock, Gluco'clock! Time for updating your diabetes logbook!_ 
 
