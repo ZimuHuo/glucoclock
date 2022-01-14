@@ -125,9 +125,6 @@ public class ForgotPasswordView extends HorizontalLayout {
                         ui.navigate(HomeView.class)
                 );
             }
-
-
-
         });
     }
 
