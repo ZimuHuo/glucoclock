@@ -207,7 +207,7 @@ layout of the form
         password = new PasswordField("Password");
         password.setLabel("Password");
         password.setClearButtonVisible(true);
-        password.setPattern("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,}$/");
+        password.setPattern("\"/^(?=.*\\d)(?=.*[a-zA-Z]).{6,20}$/\"");
         password.setErrorMessage("Your password must contain at least 8 characters, including 1 upper case letter, 1 lower case letter , 1 number and 1 special character");
         //Change the input format of 'confirmPassword' when user changes the input in 'password'
         password.addValueChangeListener(e ->
