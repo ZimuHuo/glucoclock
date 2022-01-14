@@ -57,8 +57,8 @@ public class PatientSettings2View extends HorizontalLayout{
     private void init() {
         mainLayoutInit();
         oldPasswordInit();
-        newPasswordInit();
         confirmPasswordInit();
+        newPasswordInit();
         confirmButtonInit();
         cancelButtonInit();
     }
@@ -80,6 +80,11 @@ public class PatientSettings2View extends HorizontalLayout{
     private void newPasswordInit() {
         newPassword = new PasswordField("New password");
         newPassword.setClearButtonVisible(true);
+        newPassword.setPattern("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
+        newPassword.setErrorMessage("Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters");
+        newPassword.addValueChangeListener(e ->
+                confirmPassword.setPattern(newPassword.getValue())
+        );
         //newPassword.setHelperText("Please enter your new password");
     }
 
@@ -98,14 +103,25 @@ public class PatientSettings2View extends HorizontalLayout{
                     User user = userService.getRepository().findByUsername(authentication.getName());
 
                     if(user.checkPassword(oldPassword.getValue())){
-                        userService.updateUserPassword(authentication.getName(),newPassword.getValue());
-                        authentication = new UsernamePasswordAuthenticationToken( user.getUsername(), newPassword.getValue(),
-                                AuthorityUtils.createAuthorityList("PATIENT"));
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                        confirmButton.getUI().ifPresent(ui ->{
-                            ui.navigate(PatientSettings1View.class);
+                        if(!newPassword.isInvalid()) {
+                            if(!confirmPassword.isInvalid()){
+                                userService.updateUserPassword(authentication.getName(),newPassword.getValue());
+                                authentication = new UsernamePasswordAuthenticationToken( user.getUsername(), newPassword.getValue(),
+                                        AuthorityUtils.createAuthorityList("PATIENT"));
+                                SecurityContextHolder.getContext().setAuthentication(authentication);
+                                confirmButton.getUI().ifPresent(ui ->{
+                                    ui.navigate(PatientSettings1View.class);
 
-                        });
+                                });
+                            } else {
+                                Notification notification = Notification.show("You have entered a different password");
+                                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                            }
+
+                        }else {
+                            Notification notification = Notification.show("Invalid password");
+                            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                        }
 
                     }else{
                         Notification notification = Notification.show("Wrong password");
