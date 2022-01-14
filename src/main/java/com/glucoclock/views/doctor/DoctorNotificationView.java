@@ -4,6 +4,7 @@ import com.glucoclock.database.notifications_db.service.NotificationService;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.components.MenuBar;
 import com.glucoclock.database.notifications_db.model.Notifications;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.HeaderRow;
@@ -18,6 +19,7 @@ import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 @PageTitle("Notifications")
@@ -110,14 +112,23 @@ public class DoctorNotificationView extends VerticalLayout {
                 .addFilter(notification -> StringUtils.containsIgnoreCase(notification.getPatientLastName(), lastNameFilter.getValue())));
         filterRow.getCell(lastNameColumn).setComponent(lastNameFilter);
 
-//        Select<String> statusFilter = new Select<>();
-//        statusFilter.setEmptySelectionAllowed(true);
-//        statusFilter.setItems("Unresolved");
-//        statusFilter.setPlaceholder("Filter");
-//        statusFilter.setWidth("100%");
-//        statusFilter.addValueChangeListener(event -> dataProvider
-//                .addFilter(notification -> StringUtils.containsIgnoreCase(notification.getStatus(), statusFilter.getValue())));
-//        if (statusFilter.getValue() == "Unresolved"){filterRow.getCell(statusColumn).setComponent(statusFilter);}
+        ComboBox<String> statusFilter = new ComboBox<>();
+        statusFilter.setItems(Arrays.asList("Unresolved","Resolved"));
+        statusFilter.setPlaceholder("Filter");
+        statusFilter.setClearButtonVisible(true);
+        statusFilter.setWidth("100%");
+        statusFilter.addValueChangeListener(
+                event -> dataProvider.addFilter(notification -> areStatusesEqual(notification.getStatus(), statusFilter)));
+        filterRow.getCell(statusColumn).setComponent(statusFilter);
+
+    }
+
+    private boolean areStatusesEqual(String status, ComboBox<String> statusFilter) {
+        String statusFilterValue = statusFilter.getValue();
+        if (statusFilterValue != null) {
+            return StringUtils.equals(status, statusFilterValue);
+        }
+        return true;
     }
 
 

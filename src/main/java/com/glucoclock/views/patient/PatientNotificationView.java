@@ -83,9 +83,9 @@ public class PatientNotificationView extends VerticalLayout {
 
 
 
-    private void addFiltersToGrid() {
-        HeaderRow filterRow = grid.appendHeaderRow();
-    }
+//    private void addFiltersToGrid() {
+//        HeaderRow filterRow = grid.appendHeaderRow();
+//    }
 
 
 
