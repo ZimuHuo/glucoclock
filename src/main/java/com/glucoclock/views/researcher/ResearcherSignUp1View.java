@@ -60,7 +60,7 @@ public class ResearcherSignUp1View extends HorizontalLayout {
                         String email = "Your one time verification code is: "+code;
                         VaadinSession.getCurrent().setAttribute("code",code);
                         SendMail.sendMail("Verification code",email,emailField.getValue());
-                        Notification notification = Notification.show("You should receive an email by now. In case you dont "+email);
+                        Notification notification = Notification.show("You should receive an email by now. For testing purposes, here's the code: "+email);
                         notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
                     }

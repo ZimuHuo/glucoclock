@@ -102,7 +102,7 @@ create chart view
             if (patientData.isEmpty()) {
                 Notification.show("No Data");
             }else if(log.contains(check)){
-                Notification.show("Already added",2000, Notification.Position.MIDDLE);
+                Notification.show("The selected month is already plotted",2000, Notification.Position.MIDDLE);
             } else {
                 plotButton.setEnabled(true);
                 xAxis.setTickInterval(1);

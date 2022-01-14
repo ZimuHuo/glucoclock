@@ -35,7 +35,17 @@ public class MenuBar extends AppLayout {
     private Button qn = new Button(q);
     private final SecurityService securityService = new SecurityService();
 
-    //pageType: PStart(patient start),DRStart(doctor/researcher start),NS(non-start)
+    /*
+    [pageType notes]
+    NS: sign up views
+    PNS: views that are not patient start views
+    DNS: views that are not doctor start views
+    RNS: views that are not researcher start views
+    PStart: patient start view
+    DStart: doctor start view
+    RStart: researcher start view
+    */
+
     public MenuBar(String pageType){
         VerticalLayout vl = new VerticalLayout();
         HorizontalLayout hl = new HorizontalLayout();
@@ -45,25 +55,8 @@ public class MenuBar extends AppLayout {
 
         setStyles();
 
-
-        viewChart.addClickListener(e ->
-                viewChart.getUI().ifPresent(ui ->
-                        ui.navigate(PatientPlotView.class)
-                )
-        );
-        history.addClickListener(e ->
-                history.getUI().ifPresent(ui ->
-                        ui.navigate(HistoryView.class)
-                )
-        );
-        qn.addClickListener(e ->
-                qn.getUI().ifPresent(ui ->
-                        ui.navigate(QuestionnaireView.class)
-                )
-        );
+        //logout button
         logout.addClickListener(e -> securityService.logout());
-
-
 
         home.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         if (pageType == "PNS"){
@@ -91,15 +84,33 @@ public class MenuBar extends AppLayout {
         }
 
         else if (pageType == "NS"){
-            home.addClickListener(e ->
-                    home.getUI().ifPresent(ui ->
-                            ui.navigate(HomeView.class)
-                    )
+            home.addClickListener(e ->{
+                getUI().get().getSession().close();
+                home.getUI().ifPresent(ui ->
+                        ui.navigate(HomeView.class)
+                );
+                    }
+
             );
         }
 
         if (pageType == "PStart"){
             hl.add(notification,history,viewChart,qn,settings,logout);
+            viewChart.addClickListener(e ->
+                    viewChart.getUI().ifPresent(ui ->
+                            ui.navigate(PatientPlotView.class)
+                    )
+            );
+            history.addClickListener(e ->
+                    history.getUI().ifPresent(ui ->
+                            ui.navigate(HistoryView.class)
+                    )
+            );
+            qn.addClickListener(e ->
+                    qn.getUI().ifPresent(ui ->
+                            ui.navigate(QuestionnaireView.class)
+                    )
+            );
             settings.addClickListener(e ->
                     settings.getUI().ifPresent(ui ->
                             ui.navigate(PatientSettings1View.class)
@@ -132,7 +143,8 @@ public class MenuBar extends AppLayout {
                     settings.getUI().ifPresent(ui ->
                             ui.navigate(ResearcherSettings1View.class)
                     )
-                    );}
+                    );
+        }
 
         hl.setPadding(false);
         hl.setSpacing(false);
@@ -189,6 +201,5 @@ public class MenuBar extends AppLayout {
         history.setWidth("65px");
         history.setHeight("65px");
     }
-
 
 }

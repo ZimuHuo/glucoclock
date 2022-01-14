@@ -110,7 +110,7 @@ public class IntensiveLogbookView extends Div {
             time = LocalTime.of(nowTime.getHour(), 00, 00);
 
             if(intensiveLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
-                com.vaadin.flow.component.notification.Notification notification = com.vaadin.flow.component.notification.Notification.show("You already entered value for this entry. You will override past data");
+                com.vaadin.flow.component.notification.Notification notification = com.vaadin.flow.component.notification.Notification.show("You already entered value for this entry. By submitting, you will override the previously entered entry.");
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
 

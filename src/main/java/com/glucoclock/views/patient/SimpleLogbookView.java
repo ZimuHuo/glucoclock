@@ -110,7 +110,7 @@ public class SimpleLogbookView extends Div {
                 else if (TimeString.equals("PostDinner")) time =6;
 
                 if (simpleLogBookService.getRepository().findByPatientuidAndTimeAndDate(patientUid,time,(LocalDate) VaadinSession.getCurrent().getAttribute("date"))!=null){
-                    com.vaadin.flow.component.notification.Notification notification = com.vaadin.flow.component.notification.Notification.show("You already entered value for this entry. You will override past data");
+                    com.vaadin.flow.component.notification.Notification notification = com.vaadin.flow.component.notification.Notification.show("You already entered value for this entry. By submitting, you will override the previously entered entry.");
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 }
             }
