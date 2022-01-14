@@ -69,8 +69,8 @@ public class PatientSignUp1View extends Div {
         firstNameSetUp();
         lastNameSetUp();
         emailFieldSetUp();
-        passwordSetUp();
         confirmPasswordSetUp();
+        passwordSetUp();
         submitButtonSetUp();
         formLayoutSetUp();
 
@@ -198,6 +198,10 @@ public class PatientSignUp1View extends Div {
         if (VaadinSession.getCurrent().getAttribute("Password")!= null){
             password.setValue((String)VaadinSession.getCurrent().getAttribute("Password"));
         }
+        //Change the input format of 'confirmPassword' when user changes the input in 'password'
+        password.addValueChangeListener(e ->
+                confirmPassword.setPattern(password.getValue())
+        );
     }
 
     private void confirmPasswordSetUp() {

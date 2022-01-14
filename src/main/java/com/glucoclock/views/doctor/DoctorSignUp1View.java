@@ -206,7 +206,7 @@ public class DoctorSignUp1View extends HorizontalLayout {
         //Change the input format of 'confirmPassword' when user changes the input in 'password'
         password.addValueChangeListener(e ->
                 confirmPassword.setPattern(password.getValue())
-                );
+        );
 
         if (VaadinSession.getCurrent().getAttribute("Password")!= null){
             password.setValue((String)VaadinSession.getCurrent().getAttribute("Password"));
