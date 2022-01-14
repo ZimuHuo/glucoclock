@@ -151,8 +151,8 @@ layout of the form
                 firstName, lastName,
                 emailField,
                 institution,
-                code, codeButton,
-                password, confirmPassword
+                password, confirmPassword,
+                code, codeButton
         );
         formLayout.setResponsiveSteps(
                 // Use one column by default
@@ -207,8 +207,8 @@ layout of the form
         password = new PasswordField("Password");
         password.setLabel("Password");
         password.setClearButtonVisible(true);
-        password.setPattern("^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\\d]){1,})(?=(.*[\\W]){1,})(?!.*\\s).{8,}$");
-        password.setErrorMessage("Your password must contain eight characters, at least one letter, one number and one special character");
+        password.setPattern("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,}$/");
+        password.setErrorMessage("Your password must contain at least 8 characters, including 1 letter, 1 number and 1 special character");
         //Change the input format of 'confirmPassword' when user changes the input in 'password'
         password.addValueChangeListener(e ->
                 confirmPassword.setPattern(password.getValue())

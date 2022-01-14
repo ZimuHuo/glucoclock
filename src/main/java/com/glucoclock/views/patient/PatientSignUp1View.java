@@ -73,6 +73,9 @@ public class PatientSignUp1View extends Div {
         passwordSetUp();
         submitButtonSetUp();
         formLayoutSetUp();
+
+
+
     }
     /*
     this creates a simple text field and button for getting and sending verification codes
@@ -85,7 +88,7 @@ public class PatientSignUp1View extends Div {
             if(userService.getRepository().findByUsername(emailField.getValue())!=null) {
                 Notification notification = Notification.show("This email address is already used. Sign in directly or choose another email address.");
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            } else {
+            }else {
                 String code = verificationCode.getRandomNum();
                 String email = "Your one-time verification code is: "+code;
                 VaadinSession.getCurrent().setAttribute("code",code);
@@ -151,8 +154,8 @@ public class PatientSignUp1View extends Div {
         formLayout.add(
                 firstName, lastName,
                 emailField,
-                code,codeButton,
-                password, confirmPassword
+                password, confirmPassword,
+                code,codeButton
         );
         formLayout.setResponsiveSteps(
                 // Use one column by default
@@ -185,8 +188,8 @@ public class PatientSignUp1View extends Div {
 
     private void passwordSetUp() {
         password = new PasswordField("Password");
-        password.setPattern("^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\\d]){1,})(?=(.*[\\W]){1,})(?!.*\\s).{8,}$");
-        password.setErrorMessage("Your password must contain eight characters, at least one letter, one number and one special character");
+        password.setPattern("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,}$/");
+        password.setErrorMessage("Your password must contain Minimum eight characters, at least one letter and one number");
         password.setClearButtonVisible(true);
         if (VaadinSession.getCurrent().getAttribute("Password")!= null){
             password.setValue((String)VaadinSession.getCurrent().getAttribute("Password"));
