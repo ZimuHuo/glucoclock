@@ -107,7 +107,11 @@ public class ForgotPasswordView extends HorizontalLayout {
             if (emailField.isInvalid()) {
                 Notification notification = Notification.show("Check Emailfield");
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            }else if (!password.getValue().equals(confirmPassword.getValue())){
+            }else if(password.isInvalid()){
+                Notification notification = Notification.show("Password pattern in valid");
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }
+            else if (!password.getValue().equals(confirmPassword.getValue())){
                 Notification notification = Notification.show("Check Password");
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if(!VaadinSession.getCurrent().getAttribute("code").equals(code.getValue())){
@@ -147,6 +151,9 @@ public class ForgotPasswordView extends HorizontalLayout {
 
     private void passwordSetUp() {
         password = new PasswordField("New password");
+        password.setPattern("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
+        password.setErrorMessage("Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters");
+        password.setClearButtonVisible(true);
         password.setClearButtonVisible(true);
     }
 
