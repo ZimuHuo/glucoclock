@@ -69,7 +69,6 @@ public class PatientPlotView extends Div {
         userName = authentication.getName();
         User user = this.userService.getRepository().findByUsername(userName); //return user
         patientUid = user.getUid();   //get patient uid
-
         add(space, createViewEvents(), menu);
 
     }
@@ -97,7 +96,6 @@ create chart view
             LocalDate end = charDate.withDayOfMonth(charDate.lengthOfMonth());
             List<Log> patientData = logService.findLogBooksBetweenDate(start, end, patientUid);
             plotButton.setEnabled(false);
-
             String check =start.getMonth().toString().substring(0,3)+"."+start.getYear();
             if (patientData.isEmpty()) {
                 Notification.show("No Data");
