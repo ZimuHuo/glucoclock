@@ -151,8 +151,8 @@ layout of the form
                 firstName, lastName,
                 emailField,
                 institution,
-                password, confirmPassword,
-                code, codeButton
+                code, codeButton,
+                password, confirmPassword
         );
         formLayout.setResponsiveSteps(
                 // Use one column by default

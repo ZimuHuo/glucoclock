@@ -73,9 +73,6 @@ public class PatientSignUp1View extends Div {
         passwordSetUp();
         submitButtonSetUp();
         formLayoutSetUp();
-
-
-
     }
     /*
     this creates a simple text field and button for getting and sending verification codes
@@ -88,7 +85,7 @@ public class PatientSignUp1View extends Div {
             if(userService.getRepository().findByUsername(emailField.getValue())!=null) {
                 Notification notification = Notification.show("This email address is already used. Sign in directly or choose another email address.");
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            }else {
+            } else {
                 String code = verificationCode.getRandomNum();
                 String email = "Your one-time verification code is: "+code;
                 VaadinSession.getCurrent().setAttribute("code",code);
@@ -154,8 +151,8 @@ public class PatientSignUp1View extends Div {
         formLayout.add(
                 firstName, lastName,
                 emailField,
-                password, confirmPassword,
-                code,codeButton
+                code,codeButton,
+                password, confirmPassword
         );
         formLayout.setResponsiveSteps(
                 // Use one column by default
