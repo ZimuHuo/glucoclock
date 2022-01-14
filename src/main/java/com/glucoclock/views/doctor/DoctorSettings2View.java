@@ -3,6 +3,7 @@ package com.glucoclock.views.doctor;
 import com.glucoclock.security.db.User;
 import com.glucoclock.security.db.UserService;
 import com.glucoclock.views.components.MenuBar;
+import com.glucoclock.views.patient.PatientSettings1View;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
@@ -57,8 +58,8 @@ public class DoctorSettings2View extends HorizontalLayout{
     private void init() {
         mainLayoutInit();
         oldPasswordInit();
-        newPasswordInit();
         confirmPasswordInit();
+        newPasswordInit();
         confirmButtonInit();
         cancelButtonInit();
     }
@@ -80,6 +81,11 @@ public class DoctorSettings2View extends HorizontalLayout{
     private void newPasswordInit() {
         newPassword = new PasswordField("New password");
         newPassword.setClearButtonVisible(true);
+        newPassword.setPattern("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
+        newPassword.setErrorMessage("Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters");
+        newPassword.addValueChangeListener(e ->
+                confirmPassword.setPattern(newPassword.getValue())
+        );
         //newPassword.setHelperText("Please enter your new password");
     }
 
@@ -96,15 +102,27 @@ public class DoctorSettings2View extends HorizontalLayout{
         confirmButton.addClickListener(e -> {
                     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                     User user = userService.getRepository().findByUsername(authentication.getName());
+
                     if(user.checkPassword(oldPassword.getValue())){
-                        userService.updateUserPassword(authentication.getName(),newPassword.getValue());
-                        userService.updateUserPassword(authentication.getName(),newPassword.getValue());
-                        authentication = new UsernamePasswordAuthenticationToken( user.getUsername(), newPassword.getValue(),
-                                AuthorityUtils.createAuthorityList("DOCTOR"));
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                        confirmButton.getUI().ifPresent(ui ->{
-                            ui.navigate(DoctorSettings2View.class);
-                        });
+                        if(!newPassword.isInvalid()) {
+                            if(!confirmPassword.isInvalid()){
+                                userService.updateUserPassword(authentication.getName(),newPassword.getValue());
+                                authentication = new UsernamePasswordAuthenticationToken( user.getUsername(), newPassword.getValue(),
+                                        AuthorityUtils.createAuthorityList("DOCTOR"));
+                                SecurityContextHolder.getContext().setAuthentication(authentication);
+                                confirmButton.getUI().ifPresent(ui ->{
+                                    ui.navigate(DoctorSettings1View.class);
+
+                                });
+                            } else {
+                                Notification notification = Notification.show("You have entered a different password");
+                                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                            }
+
+                        }else {
+                            Notification notification = Notification.show("Invalid password");
+                            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                        }
 
                     }else{
                         Notification notification = Notification.show("Wrong password");
