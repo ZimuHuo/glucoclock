@@ -36,7 +36,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @PageTitle("Add Simple Logbook Entry")
-@Route(value = "patient/addsimplelogbookentry")
+@Route(value = "patient/simple-logbook-entry-upload")
 public class SimpleLogbookView extends Div {
     private H3 title = new H3("Add Simple Logbook Entry");
     private ComboBox<String> prepost;

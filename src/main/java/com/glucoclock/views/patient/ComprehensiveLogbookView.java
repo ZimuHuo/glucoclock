@@ -36,7 +36,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @PageTitle("Add Comprehensive Logbook Entry")
-@Route(value = "patient/add-comprehensive-logbook-entry")
+@Route(value = "patient/comprehensive-logbook-entry-upload")
 public class ComprehensiveLogbookView extends Div {
     private ComboBox<String> prepost;
     private ComboBox<String> meal;

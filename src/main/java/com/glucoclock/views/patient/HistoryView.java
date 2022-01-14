@@ -29,7 +29,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @PageTitle("View Data History")
-@Route(value = "patient/view-history")
+@Route(value = "patient/data-history")
 public class HistoryView extends VerticalLayout {
     //patient id
     private UUID patientUid;

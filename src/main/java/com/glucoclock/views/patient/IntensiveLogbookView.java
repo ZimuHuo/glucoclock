@@ -39,7 +39,7 @@ import java.util.UUID;
 
 
 @PageTitle("Add Intensive Logbook Entry")
-@Route(value = "patient/add-intensive-logbook-entry")
+@Route(value = "patient/intensive-logbook-entry-upload")
 public class IntensiveLogbookView extends Div {
     private TimePicker timePicker;
     private NumberField bloodGlucose;

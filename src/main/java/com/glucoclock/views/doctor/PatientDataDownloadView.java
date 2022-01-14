@@ -130,12 +130,12 @@ public class PatientDataDownloadView extends VerticalLayout {
         String Finaloutput=
                 "Start date"+","+StartDate.toString()+","+"End date"+","+EndDate.toString()+"\n" +
                         "Patient name"+","+patientService.searchPatientname(patientUid)+"\n"+
-                        "LogBook Type" +
+                        "Logbook Type" +
                         "," + "Date" +
                         "," + "Time" +
                         "," + "Blood glucose" +
                         "," + "Carb Intake" +
-                        "," + "Insulindose"+
+                        "," + "Insulin Dose"+
                         "," + "Carb bolus" +
                         "," + "High BS Bolus" +
                         "," + "Basal Rate" +

@@ -185,12 +185,12 @@ public class ResearcherStartView extends VerticalLayout {
         String Finaloutput =
                 "Minimum age:" + "," + F_AgeMin + "," + "Maximum age:" + "," + F_AgeMax + "," + "Gender: " + F_Gender + "," + "Insulin type: " + F_Insulin + "," + "Diabetes Type:" + F_Diabetes + "\n\n"+
                         "Patient Number"+
-                        ","+"LogBook Type" +
+                        ","+"Logbook Type" +
                         "," + "Date" +
                         "," + "Time" +
                         "," + "Blood glucose" +
                         "," + "Carb Intake" +
-                        "," + "Insulindose"+
+                        "," + "Insulin Dose"+
                         "," + "Carb bolus" +
                         "," + "High BS Bolus" +
                         "," + "Basal Rate" +

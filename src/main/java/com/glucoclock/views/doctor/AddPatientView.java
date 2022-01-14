@@ -81,7 +81,7 @@ public class AddPatientView extends Div {
 
             //check if patient user exist
             if(patientuid ==null){
-                com.vaadin.flow.component.notification.Notification.show("Patient not Exist").addThemeVariants(NotificationVariant.LUMO_ERROR);
+                com.vaadin.flow.component.notification.Notification.show("Patient does not exist").addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else{
                 // patient already has a doctor
                 if(doctorpatientService.exist(patientuid)){
