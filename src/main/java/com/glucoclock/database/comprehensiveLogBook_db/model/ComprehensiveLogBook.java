@@ -38,7 +38,6 @@ public class ComprehensiveLogBook extends Logbook implements Comparable<Comprehe
 
     //  Constructor
     public ComprehensiveLogBook(UUID PatientUid, LocalDate Date, String TimeString, String BloodGlucose, String CarbIntake, String InsulinDose) {
-
         patientuid = PatientUid;
         date = Date;
         bloodglucose = BloodGlucose;
@@ -63,6 +62,26 @@ public class ComprehensiveLogBook extends Logbook implements Comparable<Comprehe
 
     public void setTime(int time) {
         this.time = time;
+    }
+
+    @Override
+    public String getBloodglucose() {
+        return bloodglucose;
+    }
+
+    @Override
+    public void setBloodglucose(String bloodglucose) {
+        this.bloodglucose = bloodglucose;
+    }
+
+    @Override
+    public String getCarbintake() {
+        return carbintake;
+    }
+
+    @Override
+    public void setCarbintake(String carbintake) {
+        this.carbintake = carbintake;
     }
 
     public String getInsulindose() {

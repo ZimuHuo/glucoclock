@@ -82,7 +82,7 @@ public class LogbookView extends VerticalLayout {
                     Back,
                     new HorizontalLayout(
                             new Paragraph("Date: "+SelectDate.toString()),
-                            new Paragraph(LogbookType+"Log Book"))
+                            new Paragraph(LogbookType+" Logbook"))
             );
             //display data
             SimpleLogBookView(SimplelogData);
@@ -95,7 +95,7 @@ public class LogbookView extends VerticalLayout {
                     Back,
                     new HorizontalLayout(
                             new Paragraph("Date: "+SelectDate.toString()),
-                            new Paragraph(LogbookType+"Log Book"))
+                            new Paragraph(LogbookType+" Logbook"))
             );
             //display data
             CompLogBookView(ComprehensivelogData);
@@ -107,7 +107,7 @@ public class LogbookView extends VerticalLayout {
                     Back,
                     new HorizontalLayout(
                             new Paragraph("Date: "+SelectDate.toString()),
-                            new Paragraph(LogbookType+"Log Book"))
+                            new Paragraph(LogbookType+" Logbook"))
             );
             //display data
             IntensiveLogBookView(IntensivelogData);
@@ -147,6 +147,7 @@ public class LogbookView extends VerticalLayout {
             Span BloodGlucose = new Span("Blood Glucose : "+comprehensive.getBloodglucose()+" mmol/L");
             Span CarbonIntake = new Span("Carb Intake : "+comprehensive.getCarbintake()+" g");
             Span InsulinDose = new Span("Insulin Dose  : "+comprehensive.getInsulindose()+" unit");
+
 
             //add all to a vertical layout
             VerticalLayout CompLog = new VerticalLayout(BloodGlucose, CarbonIntake,InsulinDose);
