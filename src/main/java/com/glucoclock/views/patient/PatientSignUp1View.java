@@ -120,7 +120,7 @@ public class PatientSignUp1View extends Div {
                 Notification notification = Notification.show("Password is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else if(password.isInvalid()){
-                Notification notification = Notification.show("Your password must contain at least 8 characters, including 1 upper case letter, 1 lower case letter , 1 number and 1 special character like'! # @'", 10000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters", 10000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if(firstName.isEmpty()){
                 Notification notification = Notification.show("First name is required", 3000, Notification.Position.TOP_CENTER);
@@ -188,8 +188,8 @@ public class PatientSignUp1View extends Div {
 
     private void passwordSetUp() {
         password = new PasswordField("Password");
-        password.setPattern("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
-        password.setErrorMessage("Your password must contain at least 8 characters, including 1 upper case letter, 1 lower case letter , 1 number and 1 special character like'! # @'");
+        password.setPattern("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
+        password.setErrorMessage("Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters");
         password.setClearButtonVisible(true);
         if (VaadinSession.getCurrent().getAttribute("Password")!= null){
             password.setValue((String)VaadinSession.getCurrent().getAttribute("Password"));
