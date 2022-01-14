@@ -86,11 +86,11 @@ public class PatientSignUp1View extends Div {
         code.setRequired(true);
         codeButton.addClickListener(e ->{
             if(userService.getRepository().findByUsername(emailField.getValue())!=null) {
-                Notification notification = Notification.show("Please choose another email address");
+                Notification notification = Notification.show("This email address is already used. Sign in directly or choose another email address.");
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }else {
                 String code = verificationCode.getRandomNum();
-                String email = "Your one time verification code is: "+code;
+                String email = "Your one-time verification code is: "+code;
                 VaadinSession.getCurrent().setAttribute("code",code);
                 SendMail.sendMail("Verification code",email,emailField.getValue());
                 Notification notification = Notification.show("You should receive an email by now. For testing purposes, here's the code: "+email);
@@ -193,6 +193,7 @@ public class PatientSignUp1View extends Div {
     private void passwordSetUp() {
         password = new PasswordField("Password");
         password.setPattern("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
+        password.setErrorMessage("Your password must contain at least 8 characters, including 1 letter, 1 number and 1 special character");
         password.setClearButtonVisible(true);
         if (VaadinSession.getCurrent().getAttribute("Password")!= null){
             password.setValue((String)VaadinSession.getCurrent().getAttribute("Password"));
@@ -211,7 +212,7 @@ public class PatientSignUp1View extends Div {
         emailField = new EmailField("Email Address");
         emailField.getElement().setAttribute("name", "email");
         emailField.setPlaceholder("username@example.com");
-        emailField.setErrorMessage("Please enter a valid example.com email address");
+        emailField.setErrorMessage("Please enter a valid email address");
         emailField.setClearButtonVisible(true);
         emailField.setPattern("(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
         if (VaadinSession.getCurrent().getAttribute("Email")!= null){
