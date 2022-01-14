@@ -144,11 +144,38 @@ public class PatientSignUp3View extends Div {
             if (injectionSelect.isEmpty()) {
                 Notification notification = Notification.show("Injection method of insulin is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            }if (insulinSelect.isEmpty()) {
+            }else if (insulinSelect.isEmpty()) {
                 Notification notification = Notification.show("Insulin type is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            }if (diabetesSelect.isEmpty()) {
+            }else if (diabetesSelect.isEmpty()) {
                 Notification notification = Notification.show("Your type of diabetes is required", 3000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }else if ((String)VaadinSession.getCurrent().getAttribute("FirstName")==null) {
+                Notification notification = Notification.show("First name is required", 3000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }else if ((String)VaadinSession.getCurrent().getAttribute("LastName")==null) {
+                Notification notification = Notification.show("Last name is required", 3000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }else if ((String)VaadinSession.getCurrent().getAttribute("Email")==null) {
+                Notification notification = Notification.show("Email is required", 3000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }else if ((String)VaadinSession.getCurrent().getAttribute("HomeAddressL1")==null) {
+                Notification notification = Notification.show("Home address is required", 3000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }else if ( (String)VaadinSession.getCurrent().getAttribute("HomeAddressL2")==null) {
+                Notification notification = Notification.show("Home address is required", 3000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }else if ( (String)VaadinSession.getCurrent().getAttribute("Postcode")==null) {
+                Notification notification = Notification.show("Post code is required", 3000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else if ( (String)VaadinSession.getCurrent().getAttribute("City")==null) {
+                Notification notification = Notification.show("City is required", 3000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else if ( (String)VaadinSession.getCurrent().getAttribute("ContactNumber")==null) {
+                Notification notification = Notification.show("Contact number is required", 3000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }else if ( (String)VaadinSession.getCurrent().getAttribute("Sex")==null) {
+                Notification notification = Notification.show("Gender is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
 

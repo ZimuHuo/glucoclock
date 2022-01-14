@@ -95,10 +95,8 @@ public class PatientSignUp1View extends Div {
                 SendMail.sendMail("Verification code",email,emailField.getValue());
                 Notification notification = Notification.show("You should receive an email by now. For testing purposes, here's the code: "+email);
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-
             }
-                }
-
+        }
         );
     }
 
@@ -115,7 +113,6 @@ public class PatientSignUp1View extends Div {
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.getElement().getStyle().set("margin-left", "auto");
         submitButton.addClickListener(e -> {
-
             if (emailField.isInvalid()) {
                 Notification notification = Notification.show("A valid email is required", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -138,7 +135,6 @@ public class PatientSignUp1View extends Div {
                 Notification notification = Notification.show("Wrong code", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
-
                 VaadinSession.getCurrent().setAttribute( "FirstName",firstName.getValue());
                 VaadinSession.getCurrent().setAttribute( "LastName",lastName.getValue());
                 VaadinSession.getCurrent().setAttribute( "Email",emailField.getValue());
@@ -192,8 +188,8 @@ public class PatientSignUp1View extends Div {
 
     private void passwordSetUp() {
         password = new PasswordField("Password");
-        password.setPattern("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
-        password.setErrorMessage("Your password must contain at least 8 characters, including 1 letter, 1 number and 1 special character");
+        password.setPattern("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
+        password.setErrorMessage("Your password must contain Minimum eight characters, at least one letter and one number");
         password.setClearButtonVisible(true);
         if (VaadinSession.getCurrent().getAttribute("Password")!= null){
             password.setValue((String)VaadinSession.getCurrent().getAttribute("Password"));
