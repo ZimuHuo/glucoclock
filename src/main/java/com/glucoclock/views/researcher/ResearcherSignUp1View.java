@@ -150,9 +150,9 @@ layout of the form
         formLayout.add(
                 firstName, lastName,
                 emailField,
+                code, codeButton,
                 institution,
-                password, confirmPassword,
-                code, codeButton
+                password, confirmPassword
         );
         formLayout.setResponsiveSteps(
                 // Use one column by default

@@ -148,8 +148,8 @@ public class DoctorSignUp1View extends HorizontalLayout {
         formLayout.add(
                 firstName, lastName,
                 emailField,
-                password, confirmPassword,
-                code, codeButton
+                code, codeButton,
+                password, confirmPassword
         );
         formLayout.setResponsiveSteps(
                 // Use one column by default

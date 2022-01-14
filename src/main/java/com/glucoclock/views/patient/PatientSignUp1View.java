@@ -154,8 +154,8 @@ public class PatientSignUp1View extends Div {
         formLayout.add(
                 firstName, lastName,
                 emailField,
-                password, confirmPassword,
-                code,codeButton
+                code,codeButton,
+                password, confirmPassword
         );
         formLayout.setResponsiveSteps(
                 // Use one column by default
