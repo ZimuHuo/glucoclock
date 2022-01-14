@@ -119,7 +119,7 @@ public class ResearcherSignUp1View extends HorizontalLayout {
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 }
                 if(password.isInvalid()){
-                    Notification notification = Notification.show("Your password must contain at least 8 characters, including 1 upper case letter, 1 lower case letter , 1 number and 1 special character like'! # @'", 10000, Notification.Position.TOP_CENTER);
+                    Notification notification = Notification.show("Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters", 10000, Notification.Position.TOP_CENTER);
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 }
             } else if(userService.getRepository().findByUsername(emailField.getValue())!=null){
@@ -207,8 +207,8 @@ layout of the form
         password = new PasswordField("Password");
         password.setLabel("Password");
         password.setClearButtonVisible(true);
-        password.setPattern("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
-        password.setErrorMessage("Your password must contain at least 8 characters, including 1 upper case letter, 1 lower case letter , 1 number and 1 special character like'! # @'");
+        password.setPattern("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
+        password.setErrorMessage("Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters");
         //Change the input format of 'confirmPassword' when user changes the input in 'password'
         password.addValueChangeListener(e ->
                 confirmPassword.setPattern(password.getValue())
