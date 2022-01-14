@@ -228,7 +228,10 @@ this sets up the lay out of this page
             }if (datePicker.isEmpty()) {
                 Notification notification = Notification.show("Birthday is required",3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            } else {
+            }if (VaadinSession.getCurrent().getAttribute("FirstName").equals(null)) {
+                Notification notification = Notification.show("Please check your information on previous page",3000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }else {
                 setSession();
 //                Create and save a new user
                 User user = new User(
