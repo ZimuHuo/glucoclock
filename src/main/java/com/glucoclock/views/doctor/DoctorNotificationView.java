@@ -120,14 +120,7 @@ public class DoctorNotificationView extends VerticalLayout {
         statusFilter.addValueChangeListener(
                 event -> dataProvider.addFilter(notification -> areStatusesEqual(notification.getStatus(), statusFilter)));
         filterRow.getCell(statusColumn).setComponent(statusFilter);
-//        Select<String> statusFilter = new Select<>();
-//        statusFilter.setEmptySelectionAllowed(true);
-//        statusFilter.setItems("Unresolved");
-//        statusFilter.setPlaceholder("Filter");
-//        statusFilter.setWidth("100%");
-//        statusFilter.addValueChangeListener(event -> dataProvider
-//                .addFilter(notification -> StringUtils.containsIgnoreCase(notification.getStatus(), statusFilter.getValue())));
-//        if (statusFilter.getValue() == "Unresolved"){filterRow.getCell(statusColumn).setComponent(statusFilter);}
+
     }
 
     private boolean areStatusesEqual(String status, ComboBox<String> statusFilter) {
