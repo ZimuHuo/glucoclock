@@ -189,7 +189,7 @@ public class PatientSignUp1View extends Div {
     private void passwordSetUp() {
         password = new PasswordField("Password");
         password.setPattern("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,}$/");
-        password.setErrorMessage("Your password must contain Minimum eight characters, at least one letter and one number");
+        password.setErrorMessage("Your password must contain at least 8 characters, including 1 upper case letter, 1 lower case letter , 1 number and 1 special character");
         password.setClearButtonVisible(true);
         if (VaadinSession.getCurrent().getAttribute("Password")!= null){
             password.setValue((String)VaadinSession.getCurrent().getAttribute("Password"));
