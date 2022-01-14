@@ -201,8 +201,8 @@ public class DoctorSignUp1View extends HorizontalLayout {
         password = new PasswordField("Password");
         password.setLabel("Password");
         password.setClearButtonVisible(true);
-        password.setPattern("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
-        password.setErrorMessage("Your password must contain at least 8 characters, including 1 letter, 1 number and 1 special character");
+        password.setPattern("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
+        password.setErrorMessage("Your password must contain eight characters, at least one letter and one number");
         //Change the input format of 'confirmPassword' when user changes the input in 'password'
         password.addValueChangeListener(e ->
                 confirmPassword.setPattern(password.getValue())
