@@ -1,14 +1,20 @@
 # Gluco'clock
-Keywords: Digital diabetic logbook, Spring boot, Spring boot security, Vaadin, JPA, PostgreSQL
 
-Note that the patient chart may not work via Heroku since it requires a pro licence from Vaadin. 
+Link to the app: https://glucoclock.herokuapp.com/
 
 _Tick, tock, Gluco'clock! Time for updating your diabetes logbook!_ 
 
 This project offers a digital diabetic logbook solution in the form of a web application. By providing a simplistic user interface and essential functionalities backed up by cloud databases and security configurations, the app aims at improving diabetes patient experience, facilitating patient-doctor communications, as well as providing authorised researchers access to the anonymised database for scientific research.
 
 ## IMPORTANT NOTE
-- Please use Chrome to run the project.
+Please use Chrome to run the project or open the link.
+
+- If you'd like to compile the source code:
+  - Remember to change the spring.datasource.password in the `src/main/resources/application.properties` file to yours.
+  - Components including charts and confirmation dialogs would require Vaadin pro licenses.
+
+- If you'd like to use the app link directly:
+  - Note that the blood glucose charts may not work on Heroku due to storage limitations imposed by the free plan.
 
 ## User roles
 - Patient
@@ -34,4 +40,5 @@ This project offers a digital diabetic logbook solution in the form of a web app
 - `views` package in `src/main/java` contains the frontend views of the application.
 - `database` package in `src/main/java` contains MVC models of data to be stored in the database.
 - `security` package in `src/main/java` contains the security implementations of the application.
+- `test` package in `src` contains the unit testing code for entities.
 - `themes` folder in `frontend/` contains the custom CSS styles.
