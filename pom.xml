@@ -64,7 +64,6 @@
         </dependencies>
     </dependencyManagement>
 
-
     <dependencies>
         <dependency>
             <groupId>com.sun.mail</groupId>
