@@ -40,4 +40,5 @@ Please use Chrome to run the project or open the link.
 - `views` package in `src/main/java` contains the frontend views of the application.
 - `database` package in `src/main/java` contains MVC models of data to be stored in the database.
 - `security` package in `src/main/java` contains the security implementations of the application.
+- `test` package in `src` contains the unit testing code for entities.
 - `themes` folder in `frontend/` contains the custom CSS styles.
